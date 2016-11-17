@@ -85,7 +85,7 @@ func (m *GetCharactersCharacterIDMailMailIDOk) validateLabels(formats strfmt.Reg
 			continue
 		}
 
-		if err := validate.MinimumInt("labels"+"."+strconv.Itoa(i), "body", int64(*m.Labels[i]), 0, false); err != nil {
+		if err := validate.MinimumInt("labels"+"."+strconv.Itoa(i), "body", int64(m.Labels[i]), 0, false); err != nil {
 			return err
 		}
 

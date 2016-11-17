@@ -57,7 +57,7 @@ func (m *PutCharactersCharacterIDMailMailIDContents) validateLabels(formats strf
 			continue
 		}
 
-		if err := validate.MinimumInt("labels"+"."+strconv.Itoa(i), "body", int64(*m.Labels[i]), 0, false); err != nil {
+		if err := validate.MinimumInt("labels"+"."+strconv.Itoa(i), "body", int64(m.Labels[i]), 0, false); err != nil {
 			return err
 		}
 
