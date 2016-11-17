@@ -11,7 +11,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/esiswagger/models"
+	"github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDCorporationhistoryReader is a Reader for the GetCharactersCharacterIDCorporationhistory structure.

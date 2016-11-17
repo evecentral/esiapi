@@ -14,7 +14,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/esiswagger/models"
+	"github.com/evecentral/esiapi/models"
 )
 
 // NewPostUniverseNamesParams creates a new PostUniverseNamesParams object
