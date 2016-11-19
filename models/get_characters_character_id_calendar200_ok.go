@@ -71,10 +71,10 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdCalendar200OkEventResponseDeclined     string = "declined"
-	getCharactersCharacterIdCalendar200OkEventResponseNotResponded string = "not_responded"
-	getCharactersCharacterIdCalendar200OkEventResponseAccepted     string = "accepted"
-	getCharactersCharacterIdCalendar200OkEventResponseTentative    string = "tentative"
+	GetCharactersCharacterIDCalendar200OkEventResponseDeclined     string = "declined"
+	GetCharactersCharacterIDCalendar200OkEventResponseNotResponded string = "not_responded"
+	GetCharactersCharacterIDCalendar200OkEventResponseAccepted     string = "accepted"
+	GetCharactersCharacterIDCalendar200OkEventResponseTentative    string = "tentative"
 )
 
 // prop value enum

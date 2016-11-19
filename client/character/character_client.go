@@ -56,6 +56,7 @@ func (a *Client) GetCharactersCharacterID(params *GetCharactersCharacterIDParams
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -98,6 +99,7 @@ func (a *Client) GetCharactersCharacterIDCorporationhistory(params *GetCharacter
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDCorporationhistoryReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -138,6 +140,7 @@ func (a *Client) GetCharactersCharacterIDPortrait(params *GetCharactersCharacter
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDPortraitReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -180,6 +183,7 @@ func (a *Client) GetCharactersNames(params *GetCharactersNamesParams) (*GetChara
 		Params:             params,
 		Reader:             &GetCharactersNamesReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -219,6 +223,7 @@ func (a *Client) PostCharactersCharacterIDCspa(params *PostCharactersCharacterID
 		Reader:             &PostCharactersCharacterIDCspaReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

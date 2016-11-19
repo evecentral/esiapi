@@ -57,6 +57,7 @@ func (a *Client) GetCharactersCharacterIDLocation(params *GetCharactersCharacter
 		Reader:             &GetCharactersCharacterIDLocationReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -100,6 +101,7 @@ func (a *Client) GetCharactersCharacterIDShip(params *GetCharactersCharacterIDSh
 		Reader:             &GetCharactersCharacterIDShipReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

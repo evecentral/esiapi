@@ -55,6 +55,7 @@ func (a *Client) GetCharactersCharacterIDClones(params *GetCharactersCharacterID
 		Reader:             &GetCharactersCharacterIDClonesReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

@@ -57,6 +57,7 @@ func (a *Client) GetCharactersCharacterIDBookmarks(params *GetCharactersCharacte
 		Reader:             &GetCharactersCharacterIDBookmarksReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -100,6 +101,7 @@ func (a *Client) GetCharactersCharacterIDBookmarksFolders(params *GetCharactersC
 		Reader:             &GetCharactersCharacterIDBookmarksFoldersReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -138,6 +140,7 @@ func (a *Client) GetCorporationsCorporationIDBookmarks(params *GetCorporationsCo
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDBookmarksReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -176,6 +179,7 @@ func (a *Client) GetCorporationsCorporationIDBookmarksFolders(params *GetCorpora
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDBookmarksFoldersReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

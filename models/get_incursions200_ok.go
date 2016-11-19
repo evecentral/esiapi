@@ -182,9 +182,9 @@ func init() {
 }
 
 const (
-	getIncursions200OkStateWithdrawing string = "withdrawing"
-	getIncursions200OkStateMobilizing  string = "mobilizing"
-	getIncursions200OkStateEstablished string = "established"
+	GetIncursions200OkStateWithdrawing string = "withdrawing"
+	GetIncursions200OkStateMobilizing  string = "mobilizing"
+	GetIncursions200OkStateEstablished string = "established"
 )
 
 // prop value enum

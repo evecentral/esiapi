@@ -57,6 +57,7 @@ func (a *Client) GetCharactersCharacterIDKillmailsRecent(params *GetCharactersCh
 		Reader:             &GetCharactersCharacterIDKillmailsRecentReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -99,6 +100,7 @@ func (a *Client) GetKillmailsKillmailIDKillmailHash(params *GetKillmailsKillmail
 		Params:             params,
 		Reader:             &GetKillmailsKillmailIDKillmailHashReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

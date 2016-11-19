@@ -52,6 +52,7 @@ func (a *Client) GetUniversePlanetsPlanetID(params *GetUniversePlanetsPlanetIDPa
 		Params:             params,
 		Reader:             &GetUniversePlanetsPlanetIDReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -94,6 +95,7 @@ func (a *Client) GetUniverseStationsStationID(params *GetUniverseStationsStation
 		Params:             params,
 		Reader:             &GetUniverseStationsStationIDReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -136,6 +138,7 @@ func (a *Client) GetUniverseStructures(params *GetUniverseStructuresParams) (*Ge
 		Params:             params,
 		Reader:             &GetUniverseStructuresReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -175,6 +178,7 @@ func (a *Client) GetUniverseStructuresStructureID(params *GetUniverseStructuresS
 		Reader:             &GetUniverseStructuresStructureIDReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -217,6 +221,7 @@ func (a *Client) GetUniverseSystemsSystemID(params *GetUniverseSystemsSystemIDPa
 		Params:             params,
 		Reader:             &GetUniverseSystemsSystemIDReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -259,6 +264,7 @@ func (a *Client) GetUniverseTypesTypeID(params *GetUniverseTypesTypeIDParams) (*
 		Params:             params,
 		Reader:             &GetUniverseTypesTypeIDReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -295,6 +301,7 @@ func (a *Client) PostUniverseNames(params *PostUniverseNamesParams) (*PostUniver
 		Params:             params,
 		Reader:             &PostUniverseNamesReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

@@ -54,6 +54,7 @@ func (a *Client) GetCorporationsCorporationID(params *GetCorporationsCorporation
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -96,6 +97,7 @@ func (a *Client) GetCorporationsCorporationIDAlliancehistory(params *GetCorporat
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDAlliancehistoryReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -138,6 +140,7 @@ func (a *Client) GetCorporationsCorporationIDIcons(params *GetCorporationsCorpor
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDIconsReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -181,6 +184,7 @@ func (a *Client) GetCorporationsCorporationIDMembers(params *GetCorporationsCorp
 		Reader:             &GetCorporationsCorporationIDMembersReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -224,6 +228,7 @@ func (a *Client) GetCorporationsCorporationIDRoles(params *GetCorporationsCorpor
 		Reader:             &GetCorporationsCorporationIDRolesReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -266,6 +271,7 @@ func (a *Client) GetCorporationsNames(params *GetCorporationsNamesParams) (*GetC
 		Params:             params,
 		Reader:             &GetCorporationsNamesReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

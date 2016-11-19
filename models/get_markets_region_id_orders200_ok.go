@@ -224,18 +224,18 @@ func init() {
 }
 
 const (
-	getMarketsRegionIdOrders200OkRangeStation     string = "station"
-	getMarketsRegionIdOrders200OkRangeRegion      string = "region"
-	getMarketsRegionIdOrders200OkRangeSolarsystem string = "solarsystem"
-	getMarketsRegionIdOrders200OkRangeNr1         string = "1"
-	getMarketsRegionIdOrders200OkRangeNr2         string = "2"
-	getMarketsRegionIdOrders200OkRangeNr3         string = "3"
-	getMarketsRegionIdOrders200OkRangeNr4         string = "4"
-	getMarketsRegionIdOrders200OkRangeNr5         string = "5"
-	getMarketsRegionIdOrders200OkRangeNr10        string = "10"
-	getMarketsRegionIdOrders200OkRangeNr20        string = "20"
-	getMarketsRegionIdOrders200OkRangeNr30        string = "30"
-	getMarketsRegionIdOrders200OkRangeNr40        string = "40"
+	GetMarketsRegionIDOrders200OkRangeStation     string = "station"
+	GetMarketsRegionIDOrders200OkRangeRegion      string = "region"
+	GetMarketsRegionIDOrders200OkRangeSolarsystem string = "solarsystem"
+	GetMarketsRegionIDOrders200OkRangeNr1         string = "1"
+	GetMarketsRegionIDOrders200OkRangeNr2         string = "2"
+	GetMarketsRegionIDOrders200OkRangeNr3         string = "3"
+	GetMarketsRegionIDOrders200OkRangeNr4         string = "4"
+	GetMarketsRegionIDOrders200OkRangeNr5         string = "5"
+	GetMarketsRegionIDOrders200OkRangeNr10        string = "10"
+	GetMarketsRegionIDOrders200OkRangeNr20        string = "20"
+	GetMarketsRegionIDOrders200OkRangeNr30        string = "30"
+	GetMarketsRegionIDOrders200OkRangeNr40        string = "40"
 )
 
 // prop value enum

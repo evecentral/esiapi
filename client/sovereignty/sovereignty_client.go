@@ -56,6 +56,7 @@ func (a *Client) GetSovereigntyCampaigns(params *GetSovereigntyCampaignsParams) 
 		Params:             params,
 		Reader:             &GetSovereigntyCampaignsReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -98,6 +99,7 @@ func (a *Client) GetSovereigntyStructures(params *GetSovereigntyStructuresParams
 		Params:             params,
 		Reader:             &GetSovereigntyStructuresReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

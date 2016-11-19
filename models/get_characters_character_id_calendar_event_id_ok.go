@@ -204,11 +204,11 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdCalendarEventIdOkOwnerTypeEveServer   string = "eve_server"
-	getCharactersCharacterIdCalendarEventIdOkOwnerTypeCorporation string = "corporation"
-	getCharactersCharacterIdCalendarEventIdOkOwnerTypeFaction     string = "faction"
-	getCharactersCharacterIdCalendarEventIdOkOwnerTypeCharacter   string = "character"
-	getCharactersCharacterIdCalendarEventIdOkOwnerTypeAlliance    string = "alliance"
+	GetCharactersCharacterIDCalendarEventIDOkOwnerTypeEveServer   string = "eve_server"
+	GetCharactersCharacterIDCalendarEventIDOkOwnerTypeCorporation string = "corporation"
+	GetCharactersCharacterIDCalendarEventIDOkOwnerTypeFaction     string = "faction"
+	GetCharactersCharacterIDCalendarEventIDOkOwnerTypeCharacter   string = "character"
+	GetCharactersCharacterIDCalendarEventIDOkOwnerTypeAlliance    string = "alliance"
 )
 
 // prop value enum

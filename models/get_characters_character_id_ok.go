@@ -186,8 +186,8 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdOkGenderFemale string = "female"
-	getCharactersCharacterIdOkGenderMale   string = "male"
+	GetCharactersCharacterIDOkGenderFemale string = "female"
+	GetCharactersCharacterIDOkGenderMale   string = "male"
 )
 
 // prop value enum

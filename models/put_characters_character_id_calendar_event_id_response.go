@@ -53,9 +53,9 @@ func init() {
 }
 
 const (
-	putCharactersCharacterIdCalendarEventIdResponseResponseAccepted  string = "accepted"
-	putCharactersCharacterIdCalendarEventIdResponseResponseDeclined  string = "declined"
-	putCharactersCharacterIdCalendarEventIdResponseResponseTentative string = "tentative"
+	PutCharactersCharacterIDCalendarEventIDResponseResponseAccepted  string = "accepted"
+	PutCharactersCharacterIDCalendarEventIDResponseResponseDeclined  string = "declined"
+	PutCharactersCharacterIDCalendarEventIDResponseResponseTentative string = "tentative"
 )
 
 // prop value enum

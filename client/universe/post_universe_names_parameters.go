@@ -4,6 +4,7 @@ package universe
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"net/http"
 	"time"
 
 	"golang.org/x/net/context"
@@ -72,8 +73,9 @@ type PostUniverseNamesParams struct {
 	*/
 	Ids *models.PostUniverseNamesIds
 
-	timeout time.Duration
-	Context context.Context
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
 }
 
 // WithTimeout adds the timeout to the post universe names params

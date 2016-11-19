@@ -61,6 +61,7 @@ func (a *Client) GetCharactersCharacterIDCalendar(params *GetCharactersCharacter
 		Reader:             &GetCharactersCharacterIDCalendarReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -102,6 +103,7 @@ func (a *Client) GetCharactersCharacterIDCalendarEventID(params *GetCharactersCh
 		Reader:             &GetCharactersCharacterIDCalendarEventIDReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -139,6 +141,7 @@ func (a *Client) PutCharactersCharacterIDCalendarEventID(params *PutCharactersCh
 		Reader:             &PutCharactersCharacterIDCalendarEventIDReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

@@ -133,9 +133,9 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdWalletsTransactions200OkClientTypeCharacter   string = "character"
-	getCharactersCharacterIdWalletsTransactions200OkClientTypeCorporation string = "corporation"
-	getCharactersCharacterIdWalletsTransactions200OkClientTypeAlliance    string = "alliance"
+	GetCharactersCharacterIDWalletsTransactions200OkClientTypeCharacter   string = "character"
+	GetCharactersCharacterIDWalletsTransactions200OkClientTypeCorporation string = "corporation"
+	GetCharactersCharacterIDWalletsTransactions200OkClientTypeAlliance    string = "alliance"
 )
 
 // prop value enum
@@ -173,8 +173,8 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdWalletsTransactions200OkLocationTypeStation   string = "station"
-	getCharactersCharacterIdWalletsTransactions200OkLocationTypeStructure string = "structure"
+	GetCharactersCharacterIDWalletsTransactions200OkLocationTypeStation   string = "station"
+	GetCharactersCharacterIDWalletsTransactions200OkLocationTypeStructure string = "structure"
 )
 
 // prop value enum
@@ -221,8 +221,8 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdWalletsTransactions200OkTransactionForPersonal  string = "personal"
-	getCharactersCharacterIdWalletsTransactions200OkTransactionForCorporate string = "corporate"
+	GetCharactersCharacterIDWalletsTransactions200OkTransactionForPersonal  string = "personal"
+	GetCharactersCharacterIDWalletsTransactions200OkTransactionForCorporate string = "corporate"
 )
 
 // prop value enum
@@ -269,8 +269,8 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdWalletsTransactions200OkTransactionTypeBuy  string = "buy"
-	getCharactersCharacterIdWalletsTransactions200OkTransactionTypeSell string = "sell"
+	GetCharactersCharacterIDWalletsTransactions200OkTransactionTypeBuy  string = "buy"
+	GetCharactersCharacterIDWalletsTransactions200OkTransactionTypeSell string = "sell"
 )
 
 // prop value enum

@@ -75,8 +75,8 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdClonesJumpCloneLocationTypeStation   string = "station"
-	getCharactersCharacterIdClonesJumpCloneLocationTypeStructure string = "structure"
+	GetCharactersCharacterIDClonesJumpCloneLocationTypeStation   string = "station"
+	GetCharactersCharacterIDClonesJumpCloneLocationTypeStructure string = "structure"
 )
 
 // prop value enum

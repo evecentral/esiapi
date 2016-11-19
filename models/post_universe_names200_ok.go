@@ -73,14 +73,14 @@ func init() {
 }
 
 const (
-	postUniverseNames200OkCategoryAlliance      string = "alliance"
-	postUniverseNames200OkCategoryCharacter     string = "character"
-	postUniverseNames200OkCategoryConstellation string = "constellation"
-	postUniverseNames200OkCategoryCorporation   string = "corporation"
-	postUniverseNames200OkCategoryInventoryType string = "inventory_type"
-	postUniverseNames200OkCategoryRegion        string = "region"
-	postUniverseNames200OkCategorySolarSystem   string = "solar_system"
-	postUniverseNames200OkCategoryStation       string = "station"
+	PostUniverseNames200OkCategoryAlliance      string = "alliance"
+	PostUniverseNames200OkCategoryCharacter     string = "character"
+	PostUniverseNames200OkCategoryConstellation string = "constellation"
+	PostUniverseNames200OkCategoryCorporation   string = "corporation"
+	PostUniverseNames200OkCategoryInventoryType string = "inventory_type"
+	PostUniverseNames200OkCategoryRegion        string = "region"
+	PostUniverseNames200OkCategorySolarSystem   string = "solar_system"
+	PostUniverseNames200OkCategoryStation       string = "station"
 )
 
 // prop value enum

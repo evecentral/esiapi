@@ -4,6 +4,7 @@ package dummy
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"net/http"
 	"time"
 
 	"golang.org/x/net/context"
@@ -76,8 +77,9 @@ type GetCorporationsCorporationIDWalletsWalletIDTransactionsParams struct {
 	*/
 	WalletID int32
 
-	timeout time.Duration
-	Context context.Context
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
 }
 
 // WithTimeout adds the timeout to the get corporations corporation id wallets wallet id transactions params

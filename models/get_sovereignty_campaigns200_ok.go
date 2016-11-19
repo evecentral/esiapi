@@ -159,10 +159,10 @@ func init() {
 }
 
 const (
-	getSovereigntyCampaigns200OkEventTypeTcuDefense      string = "tcu_defense"
-	getSovereigntyCampaigns200OkEventTypeIhubDefense     string = "ihub_defense"
-	getSovereigntyCampaigns200OkEventTypeStationDefense  string = "station_defense"
-	getSovereigntyCampaigns200OkEventTypeStationFreeport string = "station_freeport"
+	GetSovereigntyCampaigns200OkEventTypeTcuDefense      string = "tcu_defense"
+	GetSovereigntyCampaigns200OkEventTypeIhubDefense     string = "ihub_defense"
+	GetSovereigntyCampaigns200OkEventTypeStationDefense  string = "station_defense"
+	GetSovereigntyCampaigns200OkEventTypeStationFreeport string = "station_freeport"
 )
 
 // prop value enum

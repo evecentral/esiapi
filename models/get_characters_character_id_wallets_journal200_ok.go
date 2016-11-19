@@ -139,9 +139,9 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdWalletsJournal200OkFirstPartyTypeCharacter   string = "character"
-	getCharactersCharacterIdWalletsJournal200OkFirstPartyTypeCorporation string = "corporation"
-	getCharactersCharacterIdWalletsJournal200OkFirstPartyTypeAlliance    string = "alliance"
+	GetCharactersCharacterIDWalletsJournal200OkFirstPartyTypeCharacter   string = "character"
+	GetCharactersCharacterIDWalletsJournal200OkFirstPartyTypeCorporation string = "corporation"
+	GetCharactersCharacterIDWalletsJournal200OkFirstPartyTypeAlliance    string = "alliance"
 )
 
 // prop value enum
@@ -197,9 +197,9 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdWalletsJournal200OkSecondPartyTypeCharacter   string = "character"
-	getCharactersCharacterIdWalletsJournal200OkSecondPartyTypeCorporation string = "corporation"
-	getCharactersCharacterIdWalletsJournal200OkSecondPartyTypeAlliance    string = "alliance"
+	GetCharactersCharacterIDWalletsJournal200OkSecondPartyTypeCharacter   string = "character"
+	GetCharactersCharacterIDWalletsJournal200OkSecondPartyTypeCorporation string = "corporation"
+	GetCharactersCharacterIDWalletsJournal200OkSecondPartyTypeAlliance    string = "alliance"
 )
 
 // prop value enum

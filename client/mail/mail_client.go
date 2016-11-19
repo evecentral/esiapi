@@ -53,6 +53,7 @@ func (a *Client) DeleteCharactersCharacterIDMailMailID(params *DeleteCharactersC
 		Reader:             &DeleteCharactersCharacterIDMailMailIDReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -96,6 +97,7 @@ func (a *Client) GetCharactersCharacterIDMail(params *GetCharactersCharacterIDMa
 		Reader:             &GetCharactersCharacterIDMailReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -137,6 +139,7 @@ func (a *Client) GetCharactersCharacterIDMailLabels(params *GetCharactersCharact
 		Reader:             &GetCharactersCharacterIDMailLabelsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -181,6 +184,7 @@ func (a *Client) GetCharactersCharacterIDMailLists(params *GetCharactersCharacte
 		Reader:             &GetCharactersCharacterIDMailListsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -224,6 +228,7 @@ func (a *Client) GetCharactersCharacterIDMailMailID(params *GetCharactersCharact
 		Reader:             &GetCharactersCharacterIDMailMailIDReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -263,6 +268,7 @@ func (a *Client) PostCharactersCharacterIDMail(params *PostCharactersCharacterID
 		Reader:             &PostCharactersCharacterIDMailReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -302,6 +308,7 @@ func (a *Client) PostCharactersCharacterIDMailLabels(params *PostCharactersChara
 		Reader:             &PostCharactersCharacterIDMailLabelsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -341,6 +348,7 @@ func (a *Client) PutCharactersCharacterIDMailMailID(params *PutCharactersCharact
 		Reader:             &PutCharactersCharacterIDMailMailIDReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

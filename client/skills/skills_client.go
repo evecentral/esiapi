@@ -57,6 +57,7 @@ func (a *Client) GetCharactersCharacterIDSkillqueue(params *GetCharactersCharact
 		Reader:             &GetCharactersCharacterIDSkillqueueReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -98,6 +99,7 @@ func (a *Client) GetCharactersCharacterIDSkills(params *GetCharactersCharacterID
 		Reader:             &GetCharactersCharacterIDSkillsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

@@ -56,6 +56,7 @@ func (a *Client) GetMarketsPrices(params *GetMarketsPricesParams) (*GetMarketsPr
 		Params:             params,
 		Reader:             &GetMarketsPricesReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -98,6 +99,7 @@ func (a *Client) GetMarketsRegionIDHistory(params *GetMarketsRegionIDHistoryPara
 		Params:             params,
 		Reader:             &GetMarketsRegionIDHistoryReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -140,6 +142,7 @@ func (a *Client) GetMarketsRegionIDOrders(params *GetMarketsRegionIDOrdersParams
 		Params:             params,
 		Reader:             &GetMarketsRegionIDOrdersReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

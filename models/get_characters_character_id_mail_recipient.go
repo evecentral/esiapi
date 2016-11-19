@@ -71,10 +71,10 @@ func init() {
 }
 
 const (
-	getCharactersCharacterIdMailRecipientRecipientTypeAlliance    string = "alliance"
-	getCharactersCharacterIdMailRecipientRecipientTypeCharacter   string = "character"
-	getCharactersCharacterIdMailRecipientRecipientTypeCorporation string = "corporation"
-	getCharactersCharacterIdMailRecipientRecipientTypeMailingList string = "mailing_list"
+	GetCharactersCharacterIDMailRecipientRecipientTypeAlliance    string = "alliance"
+	GetCharactersCharacterIDMailRecipientRecipientTypeCharacter   string = "character"
+	GetCharactersCharacterIDMailRecipientRecipientTypeCorporation string = "corporation"
+	GetCharactersCharacterIDMailRecipientRecipientTypeMailingList string = "mailing_list"
 )
 
 // prop value enum

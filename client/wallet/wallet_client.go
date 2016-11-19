@@ -57,6 +57,7 @@ func (a *Client) GetCharactersCharacterIDWallets(params *GetCharactersCharacterI
 		Reader:             &GetCharactersCharacterIDWalletsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -96,6 +97,7 @@ func (a *Client) GetCharactersCharacterIDWalletsJournal(params *GetCharactersCha
 		Reader:             &GetCharactersCharacterIDWalletsJournalReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -135,6 +137,7 @@ func (a *Client) GetCharactersCharacterIDWalletsTransactions(params *GetCharacte
 		Reader:             &GetCharactersCharacterIDWalletsTransactionsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -173,6 +176,7 @@ func (a *Client) GetCorporationsCorporationIDWallets(params *GetCorporationsCorp
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDWalletsReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -211,6 +215,7 @@ func (a *Client) GetCorporationsCorporationIDWalletsWalletIDJournal(params *GetC
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDWalletsWalletIDJournalReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -249,6 +254,7 @@ func (a *Client) GetCorporationsCorporationIDWalletsWalletIDTransactions(params 
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDWalletsWalletIDTransactionsReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

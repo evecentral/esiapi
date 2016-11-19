@@ -56,6 +56,7 @@ func (a *Client) GetAlliances(params *GetAlliancesParams) (*GetAlliancesOK, erro
 		Params:             params,
 		Reader:             &GetAlliancesReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -96,6 +97,7 @@ func (a *Client) GetAlliancesAllianceID(params *GetAlliancesAllianceIDParams) (*
 		Params:             params,
 		Reader:             &GetAlliancesAllianceIDReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -138,6 +140,7 @@ func (a *Client) GetAlliancesAllianceIDCorporations(params *GetAlliancesAlliance
 		Params:             params,
 		Reader:             &GetAlliancesAllianceIDCorporationsReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -180,6 +183,7 @@ func (a *Client) GetAlliancesAllianceIDIcons(params *GetAlliancesAllianceIDIcons
 		Params:             params,
 		Reader:             &GetAlliancesAllianceIDIconsReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -222,6 +226,7 @@ func (a *Client) GetAlliancesNames(params *GetAlliancesNamesParams) (*GetAllianc
 		Params:             params,
 		Reader:             &GetAlliancesNamesReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err

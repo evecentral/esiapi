@@ -51,6 +51,7 @@ func (a *Client) GetCharactersCharacterIDSearch(params *GetCharactersCharacterID
 		Reader:             &GetCharactersCharacterIDSearchReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
@@ -89,6 +90,7 @@ func (a *Client) GetSearch(params *GetSearchParams) (*GetSearchOK, error) {
 		Params:             params,
 		Reader:             &GetSearchReader{formats: a.formats},
 		Context:            params.Context,
+		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
