@@ -28,17 +28,10 @@ func LoadSettings(filename string) (*OAuthSettings, error) {
 
 func NewOAuthOptions(settings *OAuthSettings) (*ooauth2.Options, error) {
 	var endpoint ooauth2.Option
-	if isSisi {
-		endpoint = ooauth2.Endpoint(
-			"https://sisilogin.testeveonline.com/oauth/authorize",
-			"https://sisilogin.testeveonline.com/oauth/token",
-		)
-	} else {
-		endpoint = ooauth2.Endpoint(
-			"https://login.eveonline.com/oauth/authorize",
-			"https://login.eveonline.com/oauth/token",
-		)
-	}
+	endpoint = ooauth2.Endpoint(
+		"https://login.eveonline.com/oauth/authorize",
+		"https://login.eveonline.com/oauth/token",
+	)
 
 	httpClient := &http.Client{}
 	httpClient.Transport = mediate.FixedRetries(3,
