@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"flag"
+	"sync"
 
 	"github.com/go-openapi/strfmt"
 	httptransport "github.com/go-openapi/runtime/client"
@@ -10,7 +11,6 @@ import (
 	"github.com/evecentral/esiapi/helper"
 	"github.com/evecentral/esiapi/client"
 	"github.com/evecentral/esiapi/client/universe"
-	"github.com/evecentral/esiapi/models"
 )
 
 var uploadEndpoint string
@@ -48,15 +48,23 @@ func main() {
 		log.Fatal(err)
 	}
 
+	wg := sync.WaitGroup{}
+	log.Printf("fetching %v entries", len(structureIds.Payload))
+
+	wg.Add(len(structureIds.Payload))
 	for _, structureId := range structureIds.Payload {
-		params := universe.NewPostUniverseNamesParams()
-		params.Ids = &models.PostUniverseNamesIds{Ids: []int32{int32(structureId)}}
-		res, err := client.Universe.PostUniverseNames(params)
-		if err != nil {
-			log.Fatal(err)
-		}
+		go func(structureId int64) {
+			defer wg.Done()
+			params := universe.NewGetUniverseStructuresStructureIDParams()
+			params.StructureID = structureId
 
-		log.Println(res)
-
+			res, err := client.Universe.GetUniverseStructuresStructureID(params, httptransport.PassThroughAuth)
+			if err != nil {
+				log.Println(err)
+				return
+			}
+			log.Printf("structure %s - %d", *res.Payload.Name, *res.Payload.SolarSystemID)
+		}(structureId)
 	}
+	wg.Wait()
 }

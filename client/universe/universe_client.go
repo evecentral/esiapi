@@ -296,7 +296,7 @@ func (a *Client) PostUniverseNames(params *PostUniverseNamesParams) (*PostUniver
 		Method:             "POST",
 		PathPattern:        "/universe/names/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostUniverseNamesReader{formats: a.formats},
