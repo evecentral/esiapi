@@ -1,22 +1,21 @@
 package main
 
 import (
-	"log"
-	"flag"
-	"sync"
-	"fmt"
 	"encoding/json"
+	"flag"
+	"fmt"
+	"log"
+	"sync"
 	"time"
 
-	"github.com/go-openapi/strfmt"
 	httptransport "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/theatrus/mediate"
 
 	"github.com/evecentral/esiapi"
-	"github.com/evecentral/esiapi/helper"
 	"github.com/evecentral/esiapi/client"
 	"github.com/evecentral/esiapi/client/universe"
-
+	"github.com/evecentral/esiapi/helper"
 )
 
 var uploadEndpoint string
@@ -74,7 +73,7 @@ func main() {
 			stationsLock.Lock()
 			defer stationsLock.Unlock()
 			stations = append(stations, &esiapi.Station{Name: *res.Payload.Name,
-				Id: int(structureId),
+				Id:          int(structureId),
 				SolarSystem: int(*res.Payload.SolarSystemID),
 			})
 			log.Printf("structure %s - %d", *res.Payload.Name, *res.Payload.SolarSystemID)

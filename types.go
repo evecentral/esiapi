@@ -6,7 +6,6 @@ import (
 	"time"
 )
 
-
 // An inventory type
 type MarketType struct {
 	Name string
@@ -55,9 +54,9 @@ func newMarketTypes() *MarketTypes {
 
 // A station
 type Station struct {
-	Name string `json:"name"`
-	Id   int `json:"id"`
-	SolarSystem int `json:"solarsystem"`
+	Name        string `json:"name"`
+	Id          int    `json:"id"`
+	SolarSystem int    `json:"solarsystem"`
 }
 
 type MarketOrder struct {
@@ -101,9 +100,9 @@ func (order *MarketOrder) NumericRange() int {
 
 type MarketOrders struct {
 	RegionId int
-	Type    *MarketType
-	Orders  []*MarketOrder
-	Fetched time.Time
+	Type     *MarketType
+	Orders   []*MarketOrder
+	Fetched  time.Time
 }
 
 // Make a new MarketOrders structure

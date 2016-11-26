@@ -1,10 +1,10 @@
 package helper
 
 import (
+	"cloud.google.com/go/datastore"
 	"context"
 	"fmt"
 	"github.com/theatrus/ooauth2"
-	"cloud.google.com/go/datastore"
 )
 
 type cloudDatastoreStore struct {
