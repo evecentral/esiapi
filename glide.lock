@@ -1,0 +1,128 @@
+hash: c19762d46b5f0d3b358fb8b387578b4b27b18ea7fe96dbce69391d5abf22e14e
+updated: 2016-11-26T02:54:43.238938474Z
+imports:
+- name: cloud.google.com/go
+  version: 8c2dc6124f184bbfc2f13949476cb98e12bda2bb
+  subpackages:
+  - compute/metadata
+  - datastore
+  - internal
+- name: github.com/asaskevich/govalidator
+  version: 7b3beb6df3c42abd3509abfc3bcacc0fbfb7c877
+- name: github.com/go-openapi/analysis
+  version: 7222828b8ce19afee3c595aef6643b9e42150120
+- name: github.com/go-openapi/errors
+  version: 49fe8b3a0e0d32a617d8d50c67f856ad6e45b28b
+- name: github.com/go-openapi/jsonpointer
+  version: 8d96a2dc61536b690bd36b2e9df0b3c0b62825b2
+- name: github.com/go-openapi/jsonreference
+  version: 36d33bfe519efae5632669801b180bf1a245da3b
+- name: github.com/go-openapi/loads
+  version: 5861a4879a2866943dce3c644c879af9e59c22a3
+- name: github.com/go-openapi/runtime
+  version: 14b161b40ece9dac8e244ab2fde2d209e108c6f5
+  subpackages:
+  - client
+- name: github.com/go-openapi/spec
+  version: f7ae86df5bc115a2744343016c789a89f065a4bd
+- name: github.com/go-openapi/strfmt
+  version: 34fc3ba7c0f5fb615fda47a2b4fbd4c641b215f2
+- name: github.com/go-openapi/swag
+  version: 3b6d86cd965820f968760d5d419cb4add096bdd7
+- name: github.com/go-openapi/validate
+  version: 027696d4b54399770f1cdcc6c6daa56975f9e14e
+- name: github.com/golang/protobuf
+  version: 8ee79997227bf9b34611aee7946ae64735e6fd93
+  subpackages:
+  - proto
+  - ptypes/any
+  - ptypes/struct
+  - ptypes/timestamp
+  - ptypes/wrappers
+- name: github.com/mailru/easyjson
+  version: 159cdb893c982e3d1bc6450322fedd514f9c9de3
+  subpackages:
+  - buffer
+  - jlexer
+  - jwriter
+- name: github.com/mitchellh/mapstructure
+  version: f3009df150dadf309fdee4a54ed65c124afad715
+- name: github.com/PuerkitoBio/purell
+  version: 0bcb03f4b4d0a9428594752bd2a3b9aa0a9d4bd4
+- name: github.com/PuerkitoBio/urlesc
+  version: 5bd2802263f21d8788851d5305584c82a5c75d7e
+- name: github.com/theatrus/mediate
+  version: 5ef657d6d16033840e66dab2e1e48e233ccf0bc2
+- name: github.com/theatrus/ooauth2
+  version: 4fd926bd391f30152c9e8e21b36aa13fa06b1306
+- name: golang.org/x/net
+  version: 4971afdc2f162e82d185353533d3cf16188a9f4e
+  subpackages:
+  - context
+  - context/ctxhttp
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - lex/httplex
+  - trace
+- name: golang.org/x/oauth2
+  version: d5040cddfc0da40b408c9a1da4728662435176a9
+  subpackages:
+  - google
+  - internal
+  - jws
+  - jwt
+- name: golang.org/x/text
+  version: b01949dc0793a9af5e4cb3fce4d42999e76e8ca1
+  subpackages:
+  - transform
+  - unicode/norm
+  - width
+- name: google.golang.org/api
+  version: c8d75a8ec737f9b8b1ed2676c28feedbe21f543f
+  subpackages:
+  - googleapi/transport
+  - internal
+  - iterator
+  - option
+  - transport
+- name: google.golang.org/appengine
+  version: ca59ef35f409df61fa4a5f8290ff289b37eccfb8
+  subpackages:
+  - internal
+  - internal/app_identity
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/modules
+  - internal/remote_api
+  - internal/socket
+  - internal/urlfetch
+  - socket
+  - urlfetch
+- name: google.golang.org/genproto
+  version: 08f135d1a31b6ba454287638a3ce23a55adace6f
+  subpackages:
+  - googleapis/api/label
+  - googleapis/api/metric
+  - googleapis/api/monitoredres
+  - googleapis/api/serviceconfig
+  - googleapis/datastore/v1
+  - googleapis/type/latlng
+  - protobuf
+- name: google.golang.org/grpc
+  version: eca2ad68af4d7bf894ada6bd263133f069a441d5
+  subpackages:
+  - codes
+  - credentials
+  - credentials/oauth
+  - grpclog
+  - internal
+  - metadata
+  - naming
+  - peer
+  - stats
+  - tap
+  - transport
+testImports: []
