@@ -2,7 +2,7 @@ package helper
 
 import (
 	"context"
-	"flag"
+	"fmt"
 	"github.com/theatrus/ooauth2"
 	"cloud.google.com/go/datastore"
 )

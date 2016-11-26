@@ -3,6 +3,8 @@ package unified
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/evecentral/esiapi"
 )
 
 const (
@@ -44,7 +46,7 @@ type unified struct {
 // SerializeOrdersUnified outputs a JSON representation
 // in the Unified Uploader format convention
 // http://dev.eve-central.com/unifieduploader/start
-func SerializeOrdersUnified(orders *MarketOrders, at time.Time) ([]byte, error) {
+func SerializeOrdersUnified(orders *esiapi.MarketOrders, at time.Time) ([]byte, error) {
 	now := at.UTC().Format(dateFormat)
 
 	out := unified{Rowsets: make([]*rowset, 1),
@@ -53,7 +55,7 @@ func SerializeOrdersUnified(orders *MarketOrders, at time.Time) ([]byte, error) 
 		CurrentTime: now}
 
 	rowset := rowset{GeneratedAt: now,
-		RegionId: orders.Region.Id,
+		RegionId: orders.RegionId,
 		TypeId:   orders.Type.Id,
 		Rows:     make([]interface{}, len(orders.Orders))}
 

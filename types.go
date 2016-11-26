@@ -100,6 +100,7 @@ func (order *MarketOrder) NumericRange() int {
 }
 
 type MarketOrders struct {
+	RegionId int
 	Type    *MarketType
 	Orders  []*MarketOrder
 	Fetched time.Time
