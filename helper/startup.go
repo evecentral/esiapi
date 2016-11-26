@@ -62,7 +62,6 @@ func BackgroundStartup(tokenFile string, settings *OAuthSettings) (http.RoundTri
 
 }
 
-
 // InteractiveStartup performs a console interactive handshake
 // or a simple refresh of tokens and stores
 // tokens gathered in a file called token.json
@@ -70,7 +69,6 @@ func InteractiveStartup(tokenFile string, settings *OAuthSettings) (http.RoundTr
 	store := FileTokenStore{Filename: tokenFile}
 	return InteractiveStartupWithTokenStore(&store, settings)
 }
-
 
 // InteractiveStartup performs a console interactive handshake
 // or a simple refresh of tokens and stores

@@ -18,7 +18,6 @@ func init() {
 	flag.StringVar(&tokenName, "esi.token.name", "default-token", "Name of the token")
 }
 
-
 func main() {
 	flag.Parse()
 
@@ -28,7 +27,7 @@ func main() {
 		return
 	}
 
-	store, err := helper.NewDatastoreTokenStore(project, tokenName, 60 * time.Second)
+	store, err := helper.NewDatastoreTokenStore(project, tokenName, 60*time.Second)
 	if err != nil {
 		fmt.Printf("Can't load datastore %v\n", err)
 		return
