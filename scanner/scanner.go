@@ -4,13 +4,19 @@ import (
 	"log"
 	"flag"
 	"sync"
+	"fmt"
+	"encoding/json"
+	"time"
 
 	"github.com/go-openapi/strfmt"
 	httptransport "github.com/go-openapi/runtime/client"
+	"github.com/theatrus/mediate"
 
+	"github.com/evecentral/esiapi"
 	"github.com/evecentral/esiapi/helper"
 	"github.com/evecentral/esiapi/client"
 	"github.com/evecentral/esiapi/client/universe"
+
 )
 
 var uploadEndpoint string
@@ -38,7 +44,7 @@ func main() {
 	}
 
 	cliTransport := httptransport.New("esi.tech.ccp.is", "/latest", []string{"https"})
-	cliTransport.Transport = transport
+	cliTransport.Transport = mediate.RateLimit(500, 1*time.Second, transport)
 
 	client := client.New(cliTransport, strfmt.Default)
 
@@ -49,9 +55,11 @@ func main() {
 	}
 
 	wg := sync.WaitGroup{}
-	log.Printf("fetching %v entries", len(structureIds.Payload))
-
 	wg.Add(len(structureIds.Payload))
+
+	stationsLock := sync.Mutex{}
+	stations := make([]*esiapi.Station, 0)
+
 	for _, structureId := range structureIds.Payload {
 		go func(structureId int64) {
 			defer wg.Done()
@@ -63,8 +71,17 @@ func main() {
 				log.Println(err)
 				return
 			}
+			stationsLock.Lock()
+			defer stationsLock.Unlock()
+			stations = append(stations, &esiapi.Station{Name: *res.Payload.Name,
+				Id: int(structureId),
+				SolarSystem: int(*res.Payload.SolarSystemID),
+			})
 			log.Printf("structure %s - %d", *res.Payload.Name, *res.Payload.SolarSystemID)
 		}(structureId)
 	}
 	wg.Wait()
+
+	final, _ := json.Marshal(&stations)
+	fmt.Println(string(final))
 }

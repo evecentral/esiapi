@@ -55,8 +55,9 @@ func newMarketTypes() *MarketTypes {
 
 // A station
 type Station struct {
-	Name string
-	Id   int
+	Name string `json:"name"`
+	Id   int `json:"id"`
+	SolarSystem int `json:"solarsystem"`
 }
 
 type MarketOrder struct {
@@ -99,7 +100,6 @@ func (order *MarketOrder) NumericRange() int {
 }
 
 type MarketOrders struct {
-	Region  *Region
 	Type    *MarketType
 	Orders  []*MarketOrder
 	Fetched time.Time
