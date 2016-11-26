@@ -14,6 +14,22 @@ using [Glide](http://glide.sh), a Go package manager. Running `glide
 up && glide install` in this directory will vendor all dependencies
 from upstreams.
 
+# Clients and OAuth2
+
+The clients in this package are built
+with [Go-Swagger](https://github.com/go-swagger/go-swagger) using a
+reduced version of the Swagger client definition from CCP. There is a
+bug in Go-Swagger which refuses to process the current CCP swagger
+definition. See this issue for details
+https://github.com/go-swagger/go-swagger/issues/733
+
+Helpers are provided to navigate the OAuth2 flows, and several CLI
+tools exist to navigate the credentials.
+
+Most of the tools are built with the assumption that you will be using
+Google Cloud Datastore as a backing store, but there is no limitation
+in the API for how credentials and tokens are stored.
+
 ## cli/esi_token_dstool
 
 Provision and refresh the tokens in a Google Cloud Datastore entity. 
