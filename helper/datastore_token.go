@@ -4,52 +4,59 @@ import (
 	"cloud.google.com/go/datastore"
 	"context"
 	"fmt"
+	"time"
 	"github.com/theatrus/ooauth2"
 )
 
 type cloudDatastoreStore struct {
 	client *datastore.Client
 	lastToken *ooauth2.Token
+	expireWindow time.Duration
 	prefix string
 }
 
-func DatastoreToken(project, prefix string) ooauth2.Option {
-	return func(o *ooauth2.Options) error {
+func NewDatastoreTokenStore(project, prefix string, expireWindow time.Duration) (ooauth2.TokenStore, error) {
 		ctx := context.Background()
 
 		client, err := datastore.NewClient(ctx, project)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		t, err := client.NewTransaction(ctx)
 		if err != nil {
-			return fmt.Errorf("datastoredb: could not connect: %v", err)
+			return nil, fmt.Errorf("datastoredb: could not connect: %v", err)
 
 		}
 
 		if err := t.Rollback(); err != nil {
-			return fmt.Errorf("datastoredb: could not connect: %v", err)
+			return nil, fmt.Errorf("datastoredb: could not connect: %v", err)
 
 		}
 
 		ts := &cloudDatastoreStore{
 			prefix: prefix,
 			client: client,
+			expireWindow: expireWindow,
 		}
-		o.TokenStore = ts
-		return nil
-	}
+		return ts, nil
 }
 
 func (o *cloudDatastoreStore) ReadToken() (*ooauth2.Token, error) {
+	if o.lastToken != nil && !o.lastToken.ExpiringWithin(o.expireWindow) {
+		return o.lastToken, nil
+	}
+
 	ctx := context.Background() // TODO context
 	key := datastore.NameKey("oauth2_tokens", o.prefix, nil)
 	// Load the token using the given name and project
 	var t ooauth2.Token
+
 	if err := o.client.Get(ctx, key, &t); err != nil {
 		return nil, err
 	}
+	o.lastToken = &t
+
 	return &t, nil
 }
 
@@ -63,8 +70,7 @@ func (o *cloudDatastoreStore) WriteToken(token *ooauth2.Token) {
 		tx.Put(key, token)
 		return nil
 	})
-	if err := o.client.Get(ctx, key, &t); err != nil {
-		return nil, err
-	}
 
+	o.lastToken = token
+	return
 }

@@ -24,7 +24,7 @@ var onlyRegion int
 
 func init() {
 	flag.StringVar(&uploadEndpoint, "scanner.upload", "http://localhost", "Default upload endpoint")
-	flag.StringVar(&settingsFile, "scanner.settings", "settings.json", "Default settings file")
+	flag.StringVar(&settingsFile, "esi.settings", "settings.json", "Default settings file")
 	flag.IntVar(&onlyRegion, "scanner.region", 0, "Limit to a specific region")
 }
 

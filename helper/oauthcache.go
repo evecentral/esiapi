@@ -11,13 +11,6 @@ type FileTokenStore struct {
 	Filename string
 }
 
-func FileToken(f *FileTokenStore) ooauth2.Option {
-	return func(o *ooauth2.Options) error {
-		o.TokenStore = f
-		return nil
-	}
-}
-
 func (o *FileTokenStore) ReadToken() (*ooauth2.Token, error) {
 	fileContents, err := ioutil.ReadFile(o.Filename)
 	if err != nil {

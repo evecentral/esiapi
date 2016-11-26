@@ -10,7 +10,7 @@ import (
 // Perform an *interactive* *console* handshake. This requires the user
 // opening a URL manually, and then pasting the resultant code back into
 // this application. The other approach is a multi-invocation token-fetcher.
-func InteractiveHandshake(settings *OAuthSettings, store *FileTokenStore) (*ooauth2.Transport, error) {
+func InteractiveHandshake(settings *OAuthSettings, store ooauth2.TokenStore) (*ooauth2.Transport, error) {
 	f, err := NewOAuthOptions(settings)
 	f.TokenStore = store
 	if err != nil {
@@ -62,17 +62,26 @@ func BackgroundStartup(tokenFile string, settings *OAuthSettings) (http.RoundTri
 
 }
 
+
 // InteractiveStartup performs a console interactive handshake
 // or a simple refresh of tokens and stores
 // tokens gathered in a file called token.json
 func InteractiveStartup(tokenFile string, settings *OAuthSettings) (http.RoundTripper, error) {
 	store := FileTokenStore{Filename: tokenFile}
+	return InteractiveStartupWithTokenStore(&store, settings)
+}
+
+
+// InteractiveStartup performs a console interactive handshake
+// or a simple refresh of tokens and stores
+// tokens gathered in a file called token.json
+func InteractiveStartupWithTokenStore(store ooauth2.TokenStore, settings *OAuthSettings) (http.RoundTripper, error) {
 
 	base, err := NewOAuthOptions(settings)
-	t, err := base.NewTransportFromTokenStore(&store)
+	t, err := base.NewTransportFromTokenStore(store)
 	if err != nil {
 		log.Println("Token refresh has failed, requesting new authorization interactively")
-		t, err = InteractiveHandshake(settings, &store)
+		t, err = InteractiveHandshake(settings, store)
 		if err != nil {
 			log.Println("Can't really continue, auth has failed.")
 			return nil, err
