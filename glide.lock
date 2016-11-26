@@ -1,5 +1,5 @@
 hash: c19762d46b5f0d3b358fb8b387578b4b27b18ea7fe96dbce69391d5abf22e14e
-updated: 2016-11-26T02:54:43.238938474Z
+updated: 2016-11-26T04:10:06.668126448Z
 imports:
 - name: cloud.google.com/go
   version: 8c2dc6124f184bbfc2f13949476cb98e12bda2bb
@@ -54,7 +54,7 @@ imports:
 - name: github.com/theatrus/mediate
   version: 5ef657d6d16033840e66dab2e1e48e233ccf0bc2
 - name: github.com/theatrus/ooauth2
-  version: 4fd926bd391f30152c9e8e21b36aa13fa06b1306
+  version: 69d8603ed24330f91b27ca59b193dedab06fe73f
 - name: golang.org/x/net
   version: 4971afdc2f162e82d185353533d3cf16188a9f4e
   subpackages:
