@@ -278,14 +278,6 @@ func (o *GetRouteOriginDestinationParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 
-	valuesConnections := o.Connections
-
-	joinedConnections := swag.JoinByFormat(valuesConnections, "")
-	// query array param connections
-	if err := r.SetQueryParam("connections", joinedConnections...); err != nil {
-		return err
-	}
-
 	if o.Datasource != nil {
 
 		// query param datasource

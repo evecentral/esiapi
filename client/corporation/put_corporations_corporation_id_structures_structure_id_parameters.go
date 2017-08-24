@@ -94,7 +94,7 @@ type PutCorporationsCorporationIDStructuresStructureIDParams struct {
 	  New vulnerability window schedule for the structure
 
 	*/
-	NewSchedule []*PutCorporationsCorporationIDStructuresStructureIDParamsBodyItems0
+	NewSchedule []*interface{}
 	/*StructureID
 	  A structure ID
 
@@ -183,13 +183,13 @@ func (o *PutCorporationsCorporationIDStructuresStructureIDParams) SetDatasource(
 }
 
 // WithNewSchedule adds the newSchedule to the put corporations corporation id structures structure id params
-func (o *PutCorporationsCorporationIDStructuresStructureIDParams) WithNewSchedule(newSchedule []*PutCorporationsCorporationIDStructuresStructureIDParamsBodyItems0) *PutCorporationsCorporationIDStructuresStructureIDParams {
+func (o *PutCorporationsCorporationIDStructuresStructureIDParams) WithNewSchedule(newSchedule []*interface{}) *PutCorporationsCorporationIDStructuresStructureIDParams {
 	o.SetNewSchedule(newSchedule)
 	return o
 }
 
 // SetNewSchedule adds the newSchedule to the put corporations corporation id structures structure id params
-func (o *PutCorporationsCorporationIDStructuresStructureIDParams) SetNewSchedule(newSchedule []*PutCorporationsCorporationIDStructuresStructureIDParamsBodyItems0) {
+func (o *PutCorporationsCorporationIDStructuresStructureIDParams) SetNewSchedule(newSchedule []*interface{}) {
 	o.NewSchedule = newSchedule
 }
 

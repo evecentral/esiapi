@@ -74,7 +74,7 @@ func structureImport(dsClient *datastore.Client, client *client.EVESwaggerInterf
 			defer stationsLock.Unlock()
 			stations = append(stations, stationObject)
 			log.Printf("structure %s - %d", *res.Payload.Name, *res.Payload.SolarSystemID)
-		}(structureId)
+		}(*structureId)
 	}
 	wg.Wait()
 

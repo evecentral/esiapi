@@ -161,7 +161,7 @@ type PostCharactersCharacterIDFittingsBody struct {
 	// Required: true
 	// Max Items: 255
 	// Min Items: 1
-	Items []*ItemsItems0 `json:"items"`
+	Items []*GetCharactersCharacterIDFittingsOKBodyItems0ItemsItems0 `json:"items"`
 
 	// post_characters_character_id_fittings_name
 	//
