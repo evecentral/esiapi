@@ -4,6 +4,8 @@ import:
   version: ^0.23.0
   subpackages:
   - datastore
+- package: github.com/go-openapi/spec
+  version: bcff419492eeeb01f76e77d2ebc714dc97b607f5
 - package: github.com/go-openapi/errors
 - package: github.com/go-openapi/runtime
   subpackages:

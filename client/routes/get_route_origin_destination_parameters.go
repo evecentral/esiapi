@@ -6,6 +6,7 @@ package routes
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -264,9 +265,16 @@ func (o *GetRouteOriginDestinationParams) WriteToRequest(r runtime.ClientRequest
 
 	valuesConnections := o.Connections
 
-	joinedConnections := swag.JoinByFormat(valuesConnections, "")
+	joinedConnections := []string{}
+	//swag.JoinByFormat(valuesConnections, "")
+
+	for _, ov := range valuesConnections {
+		fmt.Sprintf("%v", ov)
+	}
+	joinedAllConnections := swag.JoinByFormat(joinedConnections, "")
+
 	// query array param connections
-	if err := r.SetQueryParam("connections", joinedConnections...); err != nil {
+	if err := r.SetQueryParam("connections", joinedAllConnections...); err != nil {
 		return err
 	}
 

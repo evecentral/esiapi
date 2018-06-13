@@ -1,5 +1,5 @@
-hash: 7635088b255749798a60e5f5d5cc05e79885e9d9c97b3c92066a62ccb0858cc7
-updated: 2018-06-12T19:31:01.070510134-07:00
+hash: 531896204c3db6d40c09de083e919c9afc0fa6addfae640abb62b97e652741be
+updated: 2018-06-12T19:41:44.698792611-07:00
 imports:
 - name: cloud.google.com/go
   version: 0fd7230b2a7505833d5f69b75cbd6c9582401479
@@ -18,9 +18,9 @@ imports:
 - name: github.com/go-openapi/errors
   version: b2b2befaf267d082d779bcef52d682a47c779517
 - name: github.com/go-openapi/jsonpointer
-  version: 46af16f9f7b149af66e5d1bd010e3574dc06de98
+  version: 3a0015ad55fa9873f41605d3e8f28cd279c32ab2
 - name: github.com/go-openapi/jsonreference
-  version: 13c6e3589ad90f49bd3e3bbe2c2cb3d7a4142272
+  version: 3fb327e6747da3043567ee86abd02bb6376b6be2
 - name: github.com/go-openapi/loads
   version: 2a2b323bab96e6b1fdee110e57d959322446e9c9
 - name: github.com/go-openapi/runtime
@@ -34,15 +34,15 @@ imports:
   - middleware/untyped
   - security
 - name: github.com/go-openapi/spec
-  version: 7abd5745472fff5eb3685386d5fb8bf38683154d
+  version: bcff419492eeeb01f76e77d2ebc714dc97b607f5
 - name: github.com/go-openapi/strfmt
   version: 481808443b00a14745fada967cb5eeff0f9b1df2
 - name: github.com/go-openapi/swag
-  version: f3f9494671f93fcff853e3c6e9e948b3eb71e590
+  version: 811b1089cde9dad18d4d0c2d09fbdbf28dbd27a5
 - name: github.com/go-openapi/validate
   version: b0a3ed684d0fdd3e1eda00433382188ce8aa7169
 - name: github.com/golang/protobuf
-  version: 1643683e1b54a9e88ad26d98f81400c8c9d9f4f9
+  version: 5831880292e721c76b58a16ecc60adc27d8e6355
   subpackages:
   - proto
   - protoc-gen-go/descriptor
@@ -55,17 +55,17 @@ imports:
 - name: github.com/googleapis/gax-go
   version: 254b60fe060127b9fd3c420fadd0906bf0382227
 - name: github.com/mailru/easyjson
-  version: 2f5df55504ebc322e4d52d34df6a1f5b503bf26d
+  version: 3fdea8d05856a0c8df22ed4bc71b3219245e4485
   subpackages:
   - buffer
   - jlexer
   - jwriter
 - name: github.com/mitchellh/mapstructure
-  version: 00c29f56e2386353d58c599509e8dc3801b0d716
+  version: bb74f1db0675b241733089d5a1faa5dd8b0ef57b
 - name: github.com/PuerkitoBio/purell
-  version: 8a290539e2e8629dbc4e6bad948158f790ec31f4
+  version: 975f53781597ed779763b7b65566e74c4004d8de
 - name: github.com/PuerkitoBio/urlesc
-  version: 5bd2802263f21d8788851d5305584c82a5c75d7e
+  version: de5bf2ad457846296e2031421a34e2568e304e35
 - name: github.com/theatrus/mediate
   version: 5ef657d6d16033840e66dab2e1e48e233ccf0bc2
 - name: github.com/theatrus/ooauth2
@@ -84,39 +84,33 @@ imports:
   - trace/internal
   - trace/propagation
 - name: golang.org/x/net
-  version: 1c05540f6879653db88113bc4a2b70aec4bd491f
+  version: db08ff08e8622530d9ed3a0e8ac279f6d4c02196
   subpackages:
   - context
   - context/ctxhttp
+  - http/httpguts
   - http2
   - http2/hpack
   - idna
   - internal/timeseries
-  - lex/httplex
   - trace
 - name: golang.org/x/oauth2
-  version: fdc9e635145ae97e6c2cb777c48305600cf515cb
+  version: 1e0a3fa8ba9a5c9eb35c271780101fdaf1b205d7
   subpackages:
   - google
   - internal
   - jws
   - jwt
 - name: golang.org/x/text
-  version: b19bf474d317b857955b12035d2c5acb57ce8b01
+  version: 5c1cf69b5978e5a34c5f9ba09a83e56acc4b7877
   subpackages:
-  - cases
-  - internal
-  - internal/tag
-  - language
-  - runes
   - secure/bidirule
-  - secure/precis
   - transform
   - unicode/bidi
   - unicode/norm
   - width
 - name: google.golang.org/api
-  version: 24928b980e6919be4c72647aacd53ebcbb8c4bab
+  version: 615303b5b813ad1dfe4d9c804d8397610a6c33b9
   subpackages:
   - googleapi
   - googleapi/internal/uritemplates
@@ -125,7 +119,7 @@ imports:
   - option
   - transport/grpc
 - name: google.golang.org/appengine
-  version: 5bee14b453b4c71be47ec1781b0fa61c2ea182db
+  version: b1f26356af11148e710935ed1ac8a7f5702c7612
   subpackages:
   - internal
   - internal/app_identity
@@ -139,7 +133,7 @@ imports:
   - socket
   - urlfetch
 - name: google.golang.org/genproto
-  version: f8c8703595236ae70fdf8789ecb656ea0bcdcf46
+  version: 32ee49c4dd805befd833990acba36cb75042378c
   subpackages:
   - googleapis/api/annotations
   - googleapis/datastore/v1
