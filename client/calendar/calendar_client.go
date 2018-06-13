@@ -27,14 +27,14 @@ type Client struct {
 /*
 GetCharactersCharacterIDCalendar lists calendar event summaries
 
-Get 50 event summaries from the calendar. If no event ID is given, the resource will return the next 50 chronological event summaries from now. If an event ID is specified, it will return the next 50 chronological event summaries from after that event.
+Get 50 event summaries from the calendar. If no from_event ID is given, the resource will return the next 50 chronological event summaries from now. If a from_event ID is specified, it will return the next 50 chronological event summaries from after that event.
 
 ---
-Alternate route: `/v1/characters/{character_id}/calendar/`
+Alternate route: `/dev/characters/{character_id}/calendar/`
 
 Alternate route: `/legacy/characters/{character_id}/calendar/`
 
-Alternate route: `/dev/characters/{character_id}/calendar/`
+Alternate route: `/v1/characters/{character_id}/calendar/`
 
 ---
 This route is cached for up to 5 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDCalendar(params *GetCharactersCharacter
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/calendar/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDCalendarReader{formats: a.formats},
@@ -71,9 +71,9 @@ GetCharactersCharacterIDCalendarEventID gets an event
 Get all the information for a specific event
 
 ---
-Alternate route: `/v3/characters/{character_id}/calendar/{event_id}/`
-
 Alternate route: `/dev/characters/{character_id}/calendar/{event_id}/`
+
+Alternate route: `/v3/characters/{character_id}/calendar/{event_id}/`
 
 ---
 This route is cached for up to 5 seconds
@@ -89,7 +89,7 @@ func (a *Client) GetCharactersCharacterIDCalendarEventID(params *GetCharactersCh
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/calendar/{event_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDCalendarEventIDReader{formats: a.formats},
@@ -105,14 +105,55 @@ func (a *Client) GetCharactersCharacterIDCalendarEventID(params *GetCharactersCh
 }
 
 /*
+GetCharactersCharacterIDCalendarEventIDAttendees gets attendees
+
+Get all invited attendees for a given event
+
+---
+Alternate route: `/dev/characters/{character_id}/calendar/{event_id}/attendees/`
+
+Alternate route: `/legacy/characters/{character_id}/calendar/{event_id}/attendees/`
+
+Alternate route: `/v1/characters/{character_id}/calendar/{event_id}/attendees/`
+
+---
+This route is cached for up to 600 seconds
+*/
+func (a *Client) GetCharactersCharacterIDCalendarEventIDAttendees(params *GetCharactersCharacterIDCalendarEventIDAttendeesParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDCalendarEventIDAttendeesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCharactersCharacterIDCalendarEventIDAttendeesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_characters_character_id_calendar_event_id_attendees",
+		Method:             "GET",
+		PathPattern:        "/characters/{character_id}/calendar/{event_id}/attendees/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCharactersCharacterIDCalendarEventIDAttendeesReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCharactersCharacterIDCalendarEventIDAttendeesOK), nil
+
+}
+
+/*
 PutCharactersCharacterIDCalendarEventID responds to an event
 
 Set your response status to an event
 
 ---
-Alternate route: `/v3/characters/{character_id}/calendar/{event_id}/`
-
 Alternate route: `/dev/characters/{character_id}/calendar/{event_id}/`
+
+Alternate route: `/v3/characters/{character_id}/calendar/{event_id}/`
 
 */
 func (a *Client) PutCharactersCharacterIDCalendarEventID(params *PutCharactersCharacterIDCalendarEventIDParams, authInfo runtime.ClientAuthInfoWriter) (*PutCharactersCharacterIDCalendarEventIDNoContent, error) {
@@ -126,7 +167,7 @@ func (a *Client) PutCharactersCharacterIDCalendarEventID(params *PutCharactersCh
 		Method:             "PUT",
 		PathPattern:        "/characters/{character_id}/calendar/{event_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PutCharactersCharacterIDCalendarEventIDReader{formats: a.formats},

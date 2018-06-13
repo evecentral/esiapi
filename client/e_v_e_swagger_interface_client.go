@@ -51,7 +51,7 @@ var Default = NewHTTPClient(nil)
 const (
 	// DefaultHost is the default Host
 	// found in Meta (info) section of spec file
-	DefaultHost string = "esi.tech.ccp.is"
+	DefaultHost string = "esi.evetech.net"
 	// DefaultBasePath is the default BasePath
 	// found in Meta (info) section of spec file
 	DefaultBasePath string = "/latest"
@@ -69,9 +69,6 @@ func NewHTTPClient(formats strfmt.Registry) *EVESwaggerInterface {
 // using a customizable transport config.
 func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *EVESwaggerInterface {
 	// ensure nullable parameters have default
-	if formats == nil {
-		formats = strfmt.Default
-	}
 	if cfg == nil {
 		cfg = DefaultTransportConfig()
 	}
@@ -83,6 +80,11 @@ func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *EVE
 
 // New creates a new e v e swagger interface client
 func New(transport runtime.ClientTransport, formats strfmt.Registry) *EVESwaggerInterface {
+	// ensure nullable parameters have default
+	if formats == nil {
+		formats = strfmt.Default
+	}
+
 	cli := new(EVESwaggerInterface)
 	cli.Transport = transport
 

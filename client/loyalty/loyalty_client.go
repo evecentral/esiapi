@@ -30,12 +30,14 @@ GetCharactersCharacterIDLoyaltyPoints gets loyalty points
 Return a list of loyalty points for all corporations the character has worked for
 
 ---
-Alternate route: `/v1/characters/{character_id}/loyalty/points/`
+Alternate route: `/dev/characters/{character_id}/loyalty/points/`
 
 Alternate route: `/legacy/characters/{character_id}/loyalty/points/`
 
-Alternate route: `/dev/characters/{character_id}/loyalty/points/`
+Alternate route: `/v1/characters/{character_id}/loyalty/points/`
 
+---
+This route is cached for up to 3600 seconds
 */
 func (a *Client) GetCharactersCharacterIDLoyaltyPoints(params *GetCharactersCharacterIDLoyaltyPointsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDLoyaltyPointsOK, error) {
 	// TODO: Validate the params before sending
@@ -48,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDLoyaltyPoints(params *GetCharactersChar
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/loyalty/points/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDLoyaltyPointsReader{formats: a.formats},
@@ -69,11 +71,11 @@ GetLoyaltyStoresCorporationIDOffers lists loyalty store offers
 Return a list of offers from a specific corporation's loyalty store
 
 ---
-Alternate route: `/v1/loyalty/stores/{corporation_id}/offers/`
+Alternate route: `/dev/loyalty/stores/{corporation_id}/offers/`
 
 Alternate route: `/legacy/loyalty/stores/{corporation_id}/offers/`
 
-Alternate route: `/dev/loyalty/stores/{corporation_id}/offers/`
+Alternate route: `/v1/loyalty/stores/{corporation_id}/offers/`
 
 ---
 This route expires daily at 11:05
@@ -89,7 +91,7 @@ func (a *Client) GetLoyaltyStoresCorporationIDOffers(params *GetLoyaltyStoresCor
 		Method:             "GET",
 		PathPattern:        "/loyalty/stores/{corporation_id}/offers/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetLoyaltyStoresCorporationIDOffersReader{formats: a.formats},

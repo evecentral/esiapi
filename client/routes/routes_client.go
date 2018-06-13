@@ -30,9 +30,9 @@ GetRouteOriginDestination gets route
 Get the systems between origin and destination
 
 ---
-Alternate route: `/legacy/route/{origin}/{destination}/`
-
 Alternate route: `/dev/route/{origin}/{destination}/`
+
+Alternate route: `/legacy/route/{origin}/{destination}/`
 
 Alternate route: `/v1/route/{origin}/{destination}/`
 
@@ -50,7 +50,7 @@ func (a *Client) GetRouteOriginDestination(params *GetRouteOriginDestinationPara
 		Method:             "GET",
 		PathPattern:        "/route/{origin}/{destination}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetRouteOriginDestinationReader{formats: a.formats},

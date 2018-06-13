@@ -75,11 +75,11 @@ for the get universe moons moon id operation typically these are written to a ht
 */
 type GetUniverseMoonsMoonIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -90,11 +90,6 @@ type GetUniverseMoonsMoonIDParams struct {
 
 	*/
 	MoonID int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetUniverseMoonsMoonIDParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get universe moons moon id params
-func (o *GetUniverseMoonsMoonIDParams) WithXUserAgent(xUserAgent *string) *GetUniverseMoonsMoonIDParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get universe moons moon id params
+func (o *GetUniverseMoonsMoonIDParams) WithIfNoneMatch(ifNoneMatch *string) *GetUniverseMoonsMoonIDParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get universe moons moon id params
-func (o *GetUniverseMoonsMoonIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get universe moons moon id params
+func (o *GetUniverseMoonsMoonIDParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithDatasource adds the datasource to the get universe moons moon id params
@@ -167,17 +162,6 @@ func (o *GetUniverseMoonsMoonIDParams) SetMoonID(moonID int32) {
 	o.MoonID = moonID
 }
 
-// WithUserAgent adds the userAgent to the get universe moons moon id params
-func (o *GetUniverseMoonsMoonIDParams) WithUserAgent(userAgent *string) *GetUniverseMoonsMoonIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get universe moons moon id params
-func (o *GetUniverseMoonsMoonIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetUniverseMoonsMoonIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetUniverseMoonsMoonIDParams) WriteToRequest(r runtime.ClientRequest, r
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -214,22 +198,6 @@ func (o *GetUniverseMoonsMoonIDParams) WriteToRequest(r runtime.ClientRequest, r
 	// path param moon_id
 	if err := r.SetPathParam("moon_id", swag.FormatInt32(o.MoonID)); err != nil {
 		return err
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	if len(res) > 0 {

@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetFleetsFleetIDReader is a Reader for the GetFleetsFleetID structure.
@@ -35,6 +32,27 @@ func (o *GetFleetsFleetIDReader) ReadResponse(response runtime.ClientResponse, c
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetFleetsFleetIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetFleetsFleetIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetFleetsFleetIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetFleetsFleetIDForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,8 +67,29 @@ func (o *GetFleetsFleetIDReader) ReadResponse(response runtime.ClientResponse, c
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetFleetsFleetIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetFleetsFleetIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetFleetsFleetIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetFleetsFleetIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -74,6 +113,9 @@ type GetFleetsFleetIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -81,7 +123,7 @@ type GetFleetsFleetIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetFleetsFleetIDOKBody
+	Payload *models.GetFleetsFleetIDOKBody
 }
 
 func (o *GetFleetsFleetIDOK) Error() string {
@@ -93,14 +135,122 @@ func (o *GetFleetsFleetIDOK) readResponse(response runtime.ClientResponse, consu
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetFleetsFleetIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFleetsFleetIDNotModified creates a GetFleetsFleetIDNotModified with default headers values
+func NewGetFleetsFleetIDNotModified() *GetFleetsFleetIDNotModified {
+	return &GetFleetsFleetIDNotModified{}
+}
+
+/*GetFleetsFleetIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetFleetsFleetIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetFleetsFleetIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/][%d] getFleetsFleetIdNotModified ", 304)
+}
+
+func (o *GetFleetsFleetIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetFleetsFleetIDBadRequest creates a GetFleetsFleetIDBadRequest with default headers values
+func NewGetFleetsFleetIDBadRequest() *GetFleetsFleetIDBadRequest {
+	return &GetFleetsFleetIDBadRequest{}
+}
+
+/*GetFleetsFleetIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetFleetsFleetIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetFleetsFleetIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/][%d] getFleetsFleetIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetFleetsFleetIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFleetsFleetIDUnauthorized creates a GetFleetsFleetIDUnauthorized with default headers values
+func NewGetFleetsFleetIDUnauthorized() *GetFleetsFleetIDUnauthorized {
+	return &GetFleetsFleetIDUnauthorized{}
+}
+
+/*GetFleetsFleetIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetFleetsFleetIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetFleetsFleetIDUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/][%d] getFleetsFleetIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetFleetsFleetIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -146,7 +296,7 @@ func NewGetFleetsFleetIDNotFound() *GetFleetsFleetIDNotFound {
 The fleet does not exist or you don't have access to it
 */
 type GetFleetsFleetIDNotFound struct {
-	Payload GetFleetsFleetIDNotFoundBody
+	Payload *models.GetFleetsFleetIDNotFoundBody
 }
 
 func (o *GetFleetsFleetIDNotFound) Error() string {
@@ -155,8 +305,39 @@ func (o *GetFleetsFleetIDNotFound) Error() string {
 
 func (o *GetFleetsFleetIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetFleetsFleetIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFleetsFleetIDEnhanceYourCalm creates a GetFleetsFleetIDEnhanceYourCalm with default headers values
+func NewGetFleetsFleetIDEnhanceYourCalm() *GetFleetsFleetIDEnhanceYourCalm {
+	return &GetFleetsFleetIDEnhanceYourCalm{}
+}
+
+/*GetFleetsFleetIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetFleetsFleetIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetFleetsFleetIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/][%d] getFleetsFleetIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetFleetsFleetIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -192,186 +373,60 @@ func (o *GetFleetsFleetIDInternalServerError) readResponse(response runtime.Clie
 	return nil
 }
 
-/*GetFleetsFleetIDNotFoundBody get_fleets_fleet_id_not_found
-//
-// Not found
-swagger:model GetFleetsFleetIDNotFoundBody
+// NewGetFleetsFleetIDServiceUnavailable creates a GetFleetsFleetIDServiceUnavailable with default headers values
+func NewGetFleetsFleetIDServiceUnavailable() *GetFleetsFleetIDServiceUnavailable {
+	return &GetFleetsFleetIDServiceUnavailable{}
+}
+
+/*GetFleetsFleetIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetFleetsFleetIDNotFoundBody struct {
-
-	// get_fleets_fleet_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetFleetsFleetIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetFleetsFleetIDNotFoundBody error false */
-
-// Validate validates this get fleets fleet ID not found body
-func (o *GetFleetsFleetIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetFleetsFleetIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/][%d] getFleetsFleetIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetFleetsFleetIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetFleetsFleetIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getFleetsFleetIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetFleetsFleetIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetFleetsFleetIDGatewayTimeout creates a GetFleetsFleetIDGatewayTimeout with default headers values
+func NewGetFleetsFleetIDGatewayTimeout() *GetFleetsFleetIDGatewayTimeout {
+	return &GetFleetsFleetIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetFleetsFleetIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetFleetsFleetIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetFleetsFleetIDGatewayTimeout handles this case with default header values.
 
-/*GetFleetsFleetIDOKBody get_fleets_fleet_id_ok
-//
-// 200 ok object
-swagger:model GetFleetsFleetIDOKBody
+Gateway timeout
 */
-
-type GetFleetsFleetIDOKBody struct {
-
-	// get_fleets_fleet_id_is_free_move
-	//
-	// Is free-move enabled
-	// Required: true
-	IsFreeMove *bool `json:"is_free_move"`
-
-	// get_fleets_fleet_id_is_registered
-	//
-	// Does the fleet have an active fleet advertisement
-	// Required: true
-	IsRegistered *bool `json:"is_registered"`
-
-	// get_fleets_fleet_id_is_voice_enabled
-	//
-	// Is EVE Voice enabled
-	// Required: true
-	IsVoiceEnabled *bool `json:"is_voice_enabled"`
-
-	// get_fleets_fleet_id_motd
-	//
-	// Fleet MOTD in CCP flavoured HTML
-	// Required: true
-	Motd *string `json:"motd"`
+type GetFleetsFleetIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetFleetsFleetIDOKBody is_free_move false */
-
-/* polymorph GetFleetsFleetIDOKBody is_registered false */
-
-/* polymorph GetFleetsFleetIDOKBody is_voice_enabled false */
-
-/* polymorph GetFleetsFleetIDOKBody motd false */
-
-// Validate validates this get fleets fleet ID o k body
-func (o *GetFleetsFleetIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateIsFreeMove(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsRegistered(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsVoiceEnabled(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMotd(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetFleetsFleetIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/][%d] getFleetsFleetIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetFleetsFleetIDOKBody) validateIsFreeMove(formats strfmt.Registry) error {
+func (o *GetFleetsFleetIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getFleetsFleetIdOK"+"."+"is_free_move", "body", o.IsFreeMove); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetFleetsFleetIDOKBody) validateIsRegistered(formats strfmt.Registry) error {
-
-	if err := validate.Required("getFleetsFleetIdOK"+"."+"is_registered", "body", o.IsRegistered); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFleetsFleetIDOKBody) validateIsVoiceEnabled(formats strfmt.Registry) error {
-
-	if err := validate.Required("getFleetsFleetIdOK"+"."+"is_voice_enabled", "body", o.IsVoiceEnabled); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFleetsFleetIDOKBody) validateMotd(formats strfmt.Registry) error {
-
-	if err := validate.Required("getFleetsFleetIdOK"+"."+"motd", "body", o.Motd); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetFleetsFleetIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetFleetsFleetIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetFleetsFleetIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

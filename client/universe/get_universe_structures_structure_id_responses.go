@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseStructuresStructureIDReader is a Reader for the GetUniverseStructuresStructureID structure.
@@ -35,6 +32,27 @@ func (o *GetUniverseStructuresStructureIDReader) ReadResponse(response runtime.C
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseStructuresStructureIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseStructuresStructureIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetUniverseStructuresStructureIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetUniverseStructuresStructureIDForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,8 +67,29 @@ func (o *GetUniverseStructuresStructureIDReader) ReadResponse(response runtime.C
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetUniverseStructuresStructureIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseStructuresStructureIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseStructuresStructureIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseStructuresStructureIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -74,6 +113,9 @@ type GetUniverseStructuresStructureIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -81,7 +123,7 @@ type GetUniverseStructuresStructureIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetUniverseStructuresStructureIDOKBody
+	Payload *models.GetUniverseStructuresStructureIDOKBody
 }
 
 func (o *GetUniverseStructuresStructureIDOK) Error() string {
@@ -93,14 +135,122 @@ func (o *GetUniverseStructuresStructureIDOK) readResponse(response runtime.Clien
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetUniverseStructuresStructureIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseStructuresStructureIDNotModified creates a GetUniverseStructuresStructureIDNotModified with default headers values
+func NewGetUniverseStructuresStructureIDNotModified() *GetUniverseStructuresStructureIDNotModified {
+	return &GetUniverseStructuresStructureIDNotModified{}
+}
+
+/*GetUniverseStructuresStructureIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseStructuresStructureIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseStructuresStructureIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/structures/{structure_id}/][%d] getUniverseStructuresStructureIdNotModified ", 304)
+}
+
+func (o *GetUniverseStructuresStructureIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseStructuresStructureIDBadRequest creates a GetUniverseStructuresStructureIDBadRequest with default headers values
+func NewGetUniverseStructuresStructureIDBadRequest() *GetUniverseStructuresStructureIDBadRequest {
+	return &GetUniverseStructuresStructureIDBadRequest{}
+}
+
+/*GetUniverseStructuresStructureIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseStructuresStructureIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseStructuresStructureIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/structures/{structure_id}/][%d] getUniverseStructuresStructureIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseStructuresStructureIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseStructuresStructureIDUnauthorized creates a GetUniverseStructuresStructureIDUnauthorized with default headers values
+func NewGetUniverseStructuresStructureIDUnauthorized() *GetUniverseStructuresStructureIDUnauthorized {
+	return &GetUniverseStructuresStructureIDUnauthorized{}
+}
+
+/*GetUniverseStructuresStructureIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetUniverseStructuresStructureIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetUniverseStructuresStructureIDUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /universe/structures/{structure_id}/][%d] getUniverseStructuresStructureIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetUniverseStructuresStructureIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -146,7 +296,7 @@ func NewGetUniverseStructuresStructureIDNotFound() *GetUniverseStructuresStructu
 Structure not found
 */
 type GetUniverseStructuresStructureIDNotFound struct {
-	Payload GetUniverseStructuresStructureIDNotFoundBody
+	Payload *models.GetUniverseStructuresStructureIDNotFoundBody
 }
 
 func (o *GetUniverseStructuresStructureIDNotFound) Error() string {
@@ -155,8 +305,39 @@ func (o *GetUniverseStructuresStructureIDNotFound) Error() string {
 
 func (o *GetUniverseStructuresStructureIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetUniverseStructuresStructureIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseStructuresStructureIDEnhanceYourCalm creates a GetUniverseStructuresStructureIDEnhanceYourCalm with default headers values
+func NewGetUniverseStructuresStructureIDEnhanceYourCalm() *GetUniverseStructuresStructureIDEnhanceYourCalm {
+	return &GetUniverseStructuresStructureIDEnhanceYourCalm{}
+}
+
+/*GetUniverseStructuresStructureIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseStructuresStructureIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseStructuresStructureIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/structures/{structure_id}/][%d] getUniverseStructuresStructureIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseStructuresStructureIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -192,298 +373,60 @@ func (o *GetUniverseStructuresStructureIDInternalServerError) readResponse(respo
 	return nil
 }
 
-/*GetUniverseStructuresStructureIDNotFoundBody get_universe_structures_structure_id_not_found
-//
-// Not found
-swagger:model GetUniverseStructuresStructureIDNotFoundBody
+// NewGetUniverseStructuresStructureIDServiceUnavailable creates a GetUniverseStructuresStructureIDServiceUnavailable with default headers values
+func NewGetUniverseStructuresStructureIDServiceUnavailable() *GetUniverseStructuresStructureIDServiceUnavailable {
+	return &GetUniverseStructuresStructureIDServiceUnavailable{}
+}
+
+/*GetUniverseStructuresStructureIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseStructuresStructureIDNotFoundBody struct {
-
-	// get_universe_structures_structure_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetUniverseStructuresStructureIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseStructuresStructureIDNotFoundBody error false */
-
-// Validate validates this get universe structures structure ID not found body
-func (o *GetUniverseStructuresStructureIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseStructuresStructureIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/structures/{structure_id}/][%d] getUniverseStructuresStructureIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseStructuresStructureIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetUniverseStructuresStructureIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseStructuresStructureIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetUniverseStructuresStructureIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetUniverseStructuresStructureIDGatewayTimeout creates a GetUniverseStructuresStructureIDGatewayTimeout with default headers values
+func NewGetUniverseStructuresStructureIDGatewayTimeout() *GetUniverseStructuresStructureIDGatewayTimeout {
+	return &GetUniverseStructuresStructureIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetUniverseStructuresStructureIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseStructuresStructureIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetUniverseStructuresStructureIDGatewayTimeout handles this case with default header values.
 
-/*GetUniverseStructuresStructureIDOKBody get_universe_structures_structure_id_ok
-//
-// 200 ok object
-swagger:model GetUniverseStructuresStructureIDOKBody
+Gateway timeout
 */
-
-type GetUniverseStructuresStructureIDOKBody struct {
-
-	// get_universe_structures_structure_id_name
-	//
-	// The full name of the structure
-	// Required: true
-	Name *string `json:"name"`
-
-	// position
-	// Required: true
-	Position *GetUniverseStructuresStructureIDOKBodyPosition `json:"position"`
-
-	// get_universe_structures_structure_id_solar_system_id
-	//
-	// solar_system_id integer
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
-
-	// get_universe_structures_structure_id_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetUniverseStructuresStructureIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetUniverseStructuresStructureIDOKBody name false */
-
-/* polymorph GetUniverseStructuresStructureIDOKBody position false */
-
-/* polymorph GetUniverseStructuresStructureIDOKBody solar_system_id false */
-
-/* polymorph GetUniverseStructuresStructureIDOKBody type_id false */
-
-// Validate validates this get universe structures structure ID o k body
-func (o *GetUniverseStructuresStructureIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePosition(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseStructuresStructureIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/structures/{structure_id}/][%d] getUniverseStructuresStructureIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetUniverseStructuresStructureIDOKBody) validateName(formats strfmt.Registry) error {
+func (o *GetUniverseStructuresStructureIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseStructuresStructureIdOK"+"."+"name", "body", o.Name); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseStructuresStructureIDOKBody) validatePosition(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStructuresStructureIdOK"+"."+"position", "body", o.Position); err != nil {
-		return err
-	}
-
-	if o.Position != nil {
-
-		if err := o.Position.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("getUniverseStructuresStructureIdOK" + "." + "position")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStructuresStructureIDOKBody) validateSolarSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStructuresStructureIdOK"+"."+"solar_system_id", "body", o.SolarSystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStructuresStructureIDOKBody) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStructuresStructureIdOK"+"."+"type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseStructuresStructureIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseStructuresStructureIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseStructuresStructureIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetUniverseStructuresStructureIDOKBodyPosition get_universe_structures_structure_id_position
-//
-// Coordinates of the structure in Cartesian space relative to the Sun, in metres.
-//
-swagger:model GetUniverseStructuresStructureIDOKBodyPosition
-*/
-
-type GetUniverseStructuresStructureIDOKBodyPosition struct {
-
-	// get_universe_structures_structure_id_x
-	//
-	// x number
-	// Required: true
-	X *float32 `json:"x"`
-
-	// get_universe_structures_structure_id_y
-	//
-	// y number
-	// Required: true
-	Y *float32 `json:"y"`
-
-	// get_universe_structures_structure_id_z
-	//
-	// z number
-	// Required: true
-	Z *float32 `json:"z"`
-}
-
-/* polymorph GetUniverseStructuresStructureIDOKBodyPosition x false */
-
-/* polymorph GetUniverseStructuresStructureIDOKBodyPosition y false */
-
-/* polymorph GetUniverseStructuresStructureIDOKBodyPosition z false */
-
-// Validate validates this get universe structures structure ID o k body position
-func (o *GetUniverseStructuresStructureIDOKBodyPosition) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateX(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateY(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateZ(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetUniverseStructuresStructureIDOKBodyPosition) validateX(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStructuresStructureIdOK"+"."+"position"+"."+"x", "body", o.X); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStructuresStructureIDOKBodyPosition) validateY(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStructuresStructureIdOK"+"."+"position"+"."+"y", "body", o.Y); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStructuresStructureIDOKBodyPosition) validateZ(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStructuresStructureIdOK"+"."+"position"+"."+"z", "body", o.Z); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseStructuresStructureIDOKBodyPosition) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseStructuresStructureIDOKBodyPosition) UnmarshalBinary(b []byte) error {
-	var res GetUniverseStructuresStructureIDOKBodyPosition
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

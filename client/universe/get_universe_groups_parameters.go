@@ -83,11 +83,11 @@ for the get universe groups operation typically these are written to a http.Requ
 */
 type GetUniverseGroupsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -98,11 +98,6 @@ type GetUniverseGroupsParams struct {
 
 	*/
 	Page *int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -142,15 +137,15 @@ func (o *GetUniverseGroupsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get universe groups params
-func (o *GetUniverseGroupsParams) WithXUserAgent(xUserAgent *string) *GetUniverseGroupsParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get universe groups params
+func (o *GetUniverseGroupsParams) WithIfNoneMatch(ifNoneMatch *string) *GetUniverseGroupsParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get universe groups params
-func (o *GetUniverseGroupsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get universe groups params
+func (o *GetUniverseGroupsParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithDatasource adds the datasource to the get universe groups params
@@ -175,17 +170,6 @@ func (o *GetUniverseGroupsParams) SetPage(page *int32) {
 	o.Page = page
 }
 
-// WithUserAgent adds the userAgent to the get universe groups params
-func (o *GetUniverseGroupsParams) WithUserAgent(userAgent *string) *GetUniverseGroupsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get universe groups params
-func (o *GetUniverseGroupsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetUniverseGroupsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -194,10 +178,10 @@ func (o *GetUniverseGroupsParams) WriteToRequest(r runtime.ClientRequest, reg st
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -229,22 +213,6 @@ func (o *GetUniverseGroupsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		qPage := swag.FormatInt32(qrPage)
 		if qPage != "" {
 			if err := r.SetQueryParam("page", qPage); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

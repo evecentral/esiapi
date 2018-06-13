@@ -25,19 +25,19 @@ type Client struct {
 }
 
 /*
-GetCharactersCharacterIDKillmailsRecent gets character kills and losses
+GetCharactersCharacterIDKillmailsRecent gets a character s recent kills and losses
 
-Return a list of character's recent kills and losses
+Return a list of a character's kills and losses going back 90 days
 
 ---
-Alternate route: `/v1/characters/{character_id}/killmails/recent/`
+Alternate route: `/dev/characters/{character_id}/killmails/recent/`
 
 Alternate route: `/legacy/characters/{character_id}/killmails/recent/`
 
-Alternate route: `/dev/characters/{character_id}/killmails/recent/`
+Alternate route: `/v1/characters/{character_id}/killmails/recent/`
 
 ---
-This route is cached for up to 120 seconds
+This route is cached for up to 300 seconds
 */
 func (a *Client) GetCharactersCharacterIDKillmailsRecent(params *GetCharactersCharacterIDKillmailsRecentParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDKillmailsRecentOK, error) {
 	// TODO: Validate the params before sending
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDKillmailsRecent(params *GetCharactersCh
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/killmails/recent/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDKillmailsRecentReader{formats: a.formats},
@@ -66,19 +66,64 @@ func (a *Client) GetCharactersCharacterIDKillmailsRecent(params *GetCharactersCh
 }
 
 /*
+GetCorporationsCorporationIDKillmailsRecent gets a corporation s recent kills and losses
+
+Get a list of a corporation's kills and losses going back 90 days
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/killmails/recent/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/killmails/recent/`
+
+Alternate route: `/v1/corporations/{corporation_id}/killmails/recent/`
+
+---
+This route is cached for up to 300 seconds
+
+---
+Requires one of the following EVE corporation role(s): Director
+
+*/
+func (a *Client) GetCorporationsCorporationIDKillmailsRecent(params *GetCorporationsCorporationIDKillmailsRecentParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDKillmailsRecentOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDKillmailsRecentParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_killmails_recent",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/killmails/recent/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDKillmailsRecentReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDKillmailsRecentOK), nil
+
+}
+
+/*
 GetKillmailsKillmailIDKillmailHash gets a single killmail
 
 Return a single killmail from its ID and hash
 
 ---
-Alternate route: `/v1/killmails/{killmail_id}/{killmail_hash}/`
+Alternate route: `/dev/killmails/{killmail_id}/{killmail_hash}/`
 
 Alternate route: `/legacy/killmails/{killmail_id}/{killmail_hash}/`
 
-Alternate route: `/dev/killmails/{killmail_id}/{killmail_hash}/`
+Alternate route: `/v1/killmails/{killmail_id}/{killmail_hash}/`
 
 ---
-This route is cached for up to 3600 seconds
+This route is cached for up to 1209600 seconds
 */
 func (a *Client) GetKillmailsKillmailIDKillmailHash(params *GetKillmailsKillmailIDKillmailHashParams) (*GetKillmailsKillmailIDKillmailHashOK, error) {
 	// TODO: Validate the params before sending
@@ -91,7 +136,7 @@ func (a *Client) GetKillmailsKillmailIDKillmailHash(params *GetKillmailsKillmail
 		Method:             "GET",
 		PathPattern:        "/killmails/{killmail_id}/{killmail_hash}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetKillmailsKillmailIDKillmailHashReader{formats: a.formats},

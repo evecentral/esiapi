@@ -30,9 +30,9 @@ DeleteCharactersCharacterIDContacts deletes contacts
 Bulk delete contacts
 
 ---
-Alternate route: `/v1/characters/{character_id}/contacts/`
+Alternate route: `/dev/characters/{character_id}/contacts/`
 
-Alternate route: `/legacy/characters/{character_id}/contacts/`
+Alternate route: `/v2/characters/{character_id}/contacts/`
 
 */
 func (a *Client) DeleteCharactersCharacterIDContacts(params *DeleteCharactersCharacterIDContactsParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteCharactersCharacterIDContactsNoContent, error) {
@@ -46,7 +46,7 @@ func (a *Client) DeleteCharactersCharacterIDContacts(params *DeleteCharactersCha
 		Method:             "DELETE",
 		PathPattern:        "/characters/{character_id}/contacts/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteCharactersCharacterIDContactsReader{formats: a.formats},
@@ -62,16 +62,94 @@ func (a *Client) DeleteCharactersCharacterIDContacts(params *DeleteCharactersCha
 }
 
 /*
+GetAlliancesAllianceIDContacts gets alliance contacts
+
+Return contacts of an alliance
+
+---
+Alternate route: `/dev/alliances/{alliance_id}/contacts/`
+
+Alternate route: `/v2/alliances/{alliance_id}/contacts/`
+
+---
+This route is cached for up to 300 seconds
+*/
+func (a *Client) GetAlliancesAllianceIDContacts(params *GetAlliancesAllianceIDContactsParams, authInfo runtime.ClientAuthInfoWriter) (*GetAlliancesAllianceIDContactsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAlliancesAllianceIDContactsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_alliances_alliance_id_contacts",
+		Method:             "GET",
+		PathPattern:        "/alliances/{alliance_id}/contacts/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetAlliancesAllianceIDContactsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetAlliancesAllianceIDContactsOK), nil
+
+}
+
+/*
+GetAlliancesAllianceIDContactsLabels gets alliance contact labels
+
+Return custom labels for an alliance's contacts
+
+---
+Alternate route: `/dev/alliances/{alliance_id}/contacts/labels/`
+
+Alternate route: `/legacy/alliances/{alliance_id}/contacts/labels/`
+
+Alternate route: `/v1/alliances/{alliance_id}/contacts/labels/`
+
+---
+This route is cached for up to 300 seconds
+*/
+func (a *Client) GetAlliancesAllianceIDContactsLabels(params *GetAlliancesAllianceIDContactsLabelsParams, authInfo runtime.ClientAuthInfoWriter) (*GetAlliancesAllianceIDContactsLabelsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAlliancesAllianceIDContactsLabelsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_alliances_alliance_id_contacts_labels",
+		Method:             "GET",
+		PathPattern:        "/alliances/{alliance_id}/contacts/labels/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetAlliancesAllianceIDContactsLabelsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetAlliancesAllianceIDContactsLabelsOK), nil
+
+}
+
+/*
 GetCharactersCharacterIDContacts gets contacts
 
 Return contacts of a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/contacts/`
-
-Alternate route: `/legacy/characters/{character_id}/contacts/`
-
 Alternate route: `/dev/characters/{character_id}/contacts/`
+
+Alternate route: `/v2/characters/{character_id}/contacts/`
 
 ---
 This route is cached for up to 300 seconds
@@ -87,7 +165,7 @@ func (a *Client) GetCharactersCharacterIDContacts(params *GetCharactersCharacter
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/contacts/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDContactsReader{formats: a.formats},
@@ -105,14 +183,14 @@ func (a *Client) GetCharactersCharacterIDContacts(params *GetCharactersCharacter
 /*
 GetCharactersCharacterIDContactsLabels gets contact labels
 
-Return custom labels for contacts the character defined
+Return custom labels for a character's contacts
 
 ---
-Alternate route: `/v1/characters/{character_id}/contacts/labels/`
+Alternate route: `/dev/characters/{character_id}/contacts/labels/`
 
 Alternate route: `/legacy/characters/{character_id}/contacts/labels/`
 
-Alternate route: `/dev/characters/{character_id}/contacts/labels/`
+Alternate route: `/v1/characters/{character_id}/contacts/labels/`
 
 ---
 This route is cached for up to 300 seconds
@@ -128,7 +206,7 @@ func (a *Client) GetCharactersCharacterIDContactsLabels(params *GetCharactersCha
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/contacts/labels/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDContactsLabelsReader{formats: a.formats},
@@ -144,16 +222,94 @@ func (a *Client) GetCharactersCharacterIDContactsLabels(params *GetCharactersCha
 }
 
 /*
+GetCorporationsCorporationIDContacts gets corporation contacts
+
+Return contacts of a corporation
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/contacts/`
+
+Alternate route: `/v2/corporations/{corporation_id}/contacts/`
+
+---
+This route is cached for up to 300 seconds
+*/
+func (a *Client) GetCorporationsCorporationIDContacts(params *GetCorporationsCorporationIDContactsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDContactsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDContactsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_contacts",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/contacts/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDContactsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDContactsOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDContactsLabels gets corporation contact labels
+
+Return custom labels for a corporation's contacts
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/contacts/labels/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/contacts/labels/`
+
+Alternate route: `/v1/corporations/{corporation_id}/contacts/labels/`
+
+---
+This route is cached for up to 300 seconds
+*/
+func (a *Client) GetCorporationsCorporationIDContactsLabels(params *GetCorporationsCorporationIDContactsLabelsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDContactsLabelsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDContactsLabelsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_contacts_labels",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/contacts/labels/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDContactsLabelsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDContactsLabelsOK), nil
+
+}
+
+/*
 PostCharactersCharacterIDContacts adds contacts
 
 Bulk add contacts with same settings
 
 ---
-Alternate route: `/v1/characters/{character_id}/contacts/`
-
-Alternate route: `/legacy/characters/{character_id}/contacts/`
-
 Alternate route: `/dev/characters/{character_id}/contacts/`
+
+Alternate route: `/v2/characters/{character_id}/contacts/`
 
 */
 func (a *Client) PostCharactersCharacterIDContacts(params *PostCharactersCharacterIDContactsParams, authInfo runtime.ClientAuthInfoWriter) (*PostCharactersCharacterIDContactsCreated, error) {
@@ -167,7 +323,7 @@ func (a *Client) PostCharactersCharacterIDContacts(params *PostCharactersCharact
 		Method:             "POST",
 		PathPattern:        "/characters/{character_id}/contacts/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostCharactersCharacterIDContactsReader{formats: a.formats},
@@ -188,11 +344,9 @@ PutCharactersCharacterIDContacts edits contacts
 Bulk edit contacts with same settings
 
 ---
-Alternate route: `/v1/characters/{character_id}/contacts/`
-
-Alternate route: `/legacy/characters/{character_id}/contacts/`
-
 Alternate route: `/dev/characters/{character_id}/contacts/`
+
+Alternate route: `/v2/characters/{character_id}/contacts/`
 
 */
 func (a *Client) PutCharactersCharacterIDContacts(params *PutCharactersCharacterIDContactsParams, authInfo runtime.ClientAuthInfoWriter) (*PutCharactersCharacterIDContactsNoContent, error) {
@@ -206,7 +360,7 @@ func (a *Client) PutCharactersCharacterIDContacts(params *PutCharactersCharacter
 		Method:             "PUT",
 		PathPattern:        "/characters/{character_id}/contacts/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PutCharactersCharacterIDContactsReader{formats: a.formats},

@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetAlliancesAllianceIDIconsReader is a Reader for the GetAlliancesAllianceIDIcons structure.
@@ -35,6 +32,20 @@ func (o *GetAlliancesAllianceIDIconsReader) ReadResponse(response runtime.Client
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetAlliancesAllianceIDIconsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetAlliancesAllianceIDIconsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetAlliancesAllianceIDIconsNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetAlliancesAllianceIDIconsReader) ReadResponse(response runtime.Client
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetAlliancesAllianceIDIconsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetAlliancesAllianceIDIconsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetAlliancesAllianceIDIconsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetAlliancesAllianceIDIconsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -61,12 +93,15 @@ func NewGetAlliancesAllianceIDIconsOK() *GetAlliancesAllianceIDIconsOK {
 
 /*GetAlliancesAllianceIDIconsOK handles this case with default header values.
 
-Urls for icons for the given alliance id and server
+Icon URLs for the given alliance id and server
 */
 type GetAlliancesAllianceIDIconsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +109,7 @@ type GetAlliancesAllianceIDIconsOK struct {
 	 */
 	LastModified string
 
-	Payload GetAlliancesAllianceIDIconsOKBody
+	Payload *models.GetAlliancesAllianceIDIconsOKBody
 }
 
 func (o *GetAlliancesAllianceIDIconsOK) Error() string {
@@ -86,14 +121,93 @@ func (o *GetAlliancesAllianceIDIconsOK) readResponse(response runtime.ClientResp
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetAlliancesAllianceIDIconsOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetAlliancesAllianceIDIconsNotModified creates a GetAlliancesAllianceIDIconsNotModified with default headers values
+func NewGetAlliancesAllianceIDIconsNotModified() *GetAlliancesAllianceIDIconsNotModified {
+	return &GetAlliancesAllianceIDIconsNotModified{}
+}
+
+/*GetAlliancesAllianceIDIconsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetAlliancesAllianceIDIconsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetAlliancesAllianceIDIconsNotModified) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/icons/][%d] getAlliancesAllianceIdIconsNotModified ", 304)
+}
+
+func (o *GetAlliancesAllianceIDIconsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetAlliancesAllianceIDIconsBadRequest creates a GetAlliancesAllianceIDIconsBadRequest with default headers values
+func NewGetAlliancesAllianceIDIconsBadRequest() *GetAlliancesAllianceIDIconsBadRequest {
+	return &GetAlliancesAllianceIDIconsBadRequest{}
+}
+
+/*GetAlliancesAllianceIDIconsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetAlliancesAllianceIDIconsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetAlliancesAllianceIDIconsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/icons/][%d] getAlliancesAllianceIdIconsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetAlliancesAllianceIDIconsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +224,7 @@ func NewGetAlliancesAllianceIDIconsNotFound() *GetAlliancesAllianceIDIconsNotFou
 No image server for this datasource
 */
 type GetAlliancesAllianceIDIconsNotFound struct {
-	Payload GetAlliancesAllianceIDIconsNotFoundBody
+	Payload *models.GetAlliancesAllianceIDIconsNotFoundBody
 }
 
 func (o *GetAlliancesAllianceIDIconsNotFound) Error() string {
@@ -119,8 +233,39 @@ func (o *GetAlliancesAllianceIDIconsNotFound) Error() string {
 
 func (o *GetAlliancesAllianceIDIconsNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetAlliancesAllianceIDIconsNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetAlliancesAllianceIDIconsEnhanceYourCalm creates a GetAlliancesAllianceIDIconsEnhanceYourCalm with default headers values
+func NewGetAlliancesAllianceIDIconsEnhanceYourCalm() *GetAlliancesAllianceIDIconsEnhanceYourCalm {
+	return &GetAlliancesAllianceIDIconsEnhanceYourCalm{}
+}
+
+/*GetAlliancesAllianceIDIconsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetAlliancesAllianceIDIconsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetAlliancesAllianceIDIconsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/icons/][%d] getAlliancesAllianceIdIconsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetAlliancesAllianceIDIconsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,142 +301,60 @@ func (o *GetAlliancesAllianceIDIconsInternalServerError) readResponse(response r
 	return nil
 }
 
-/*GetAlliancesAllianceIDIconsNotFoundBody get_alliances_alliance_id_icons_not_found
-//
-// No image server for this datasource
-swagger:model GetAlliancesAllianceIDIconsNotFoundBody
+// NewGetAlliancesAllianceIDIconsServiceUnavailable creates a GetAlliancesAllianceIDIconsServiceUnavailable with default headers values
+func NewGetAlliancesAllianceIDIconsServiceUnavailable() *GetAlliancesAllianceIDIconsServiceUnavailable {
+	return &GetAlliancesAllianceIDIconsServiceUnavailable{}
+}
+
+/*GetAlliancesAllianceIDIconsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetAlliancesAllianceIDIconsNotFoundBody struct {
-
-	// get_alliances_alliance_id_icons_error
-	//
-	// error message
-	// Required: true
-	Error *string `json:"error"`
+type GetAlliancesAllianceIDIconsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetAlliancesAllianceIDIconsNotFoundBody error false */
-
-// Validate validates this get alliances alliance ID icons not found body
-func (o *GetAlliancesAllianceIDIconsNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetAlliancesAllianceIDIconsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/icons/][%d] getAlliancesAllianceIdIconsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetAlliancesAllianceIDIconsNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetAlliancesAllianceIDIconsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getAlliancesAllianceIdIconsNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetAlliancesAllianceIDIconsNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetAlliancesAllianceIDIconsGatewayTimeout creates a GetAlliancesAllianceIDIconsGatewayTimeout with default headers values
+func NewGetAlliancesAllianceIDIconsGatewayTimeout() *GetAlliancesAllianceIDIconsGatewayTimeout {
+	return &GetAlliancesAllianceIDIconsGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetAlliancesAllianceIDIconsNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetAlliancesAllianceIDIconsNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetAlliancesAllianceIDIconsGatewayTimeout handles this case with default header values.
 
-/*GetAlliancesAllianceIDIconsOKBody get_alliances_alliance_id_icons_ok
-//
-// 200 ok object
-swagger:model GetAlliancesAllianceIDIconsOKBody
+Gateway timeout
 */
-
-type GetAlliancesAllianceIDIconsOKBody struct {
-
-	// get_alliances_alliance_id_icons_px128x128
-	//
-	// px128x128 string
-	// Required: true
-	Px128x128 *string `json:"px128x128"`
-
-	// get_alliances_alliance_id_icons_px64x64
-	//
-	// px64x64 string
-	// Required: true
-	Px64x64 *string `json:"px64x64"`
+type GetAlliancesAllianceIDIconsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetAlliancesAllianceIDIconsOKBody px128x128 false */
-
-/* polymorph GetAlliancesAllianceIDIconsOKBody px64x64 false */
-
-// Validate validates this get alliances alliance ID icons o k body
-func (o *GetAlliancesAllianceIDIconsOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validatePx128x128(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePx64x64(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetAlliancesAllianceIDIconsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/icons/][%d] getAlliancesAllianceIdIconsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetAlliancesAllianceIDIconsOKBody) validatePx128x128(formats strfmt.Registry) error {
+func (o *GetAlliancesAllianceIDIconsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getAlliancesAllianceIdIconsOK"+"."+"px128x128", "body", o.Px128x128); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetAlliancesAllianceIDIconsOKBody) validatePx64x64(formats strfmt.Registry) error {
-
-	if err := validate.Required("getAlliancesAllianceIdIconsOK"+"."+"px64x64", "body", o.Px64x64); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetAlliancesAllianceIDIconsOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetAlliancesAllianceIDIconsOKBody) UnmarshalBinary(b []byte) error {
-	var res GetAlliancesAllianceIDIconsOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

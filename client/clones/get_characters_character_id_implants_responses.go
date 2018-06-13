@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDImplantsReader is a Reader for the GetCharactersCharacterIDImplants structure.
@@ -32,6 +32,27 @@ func (o *GetCharactersCharacterIDImplantsReader) ReadResponse(response runtime.C
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDImplantsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDImplantsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDImplantsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDImplantsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +60,29 @@ func (o *GetCharactersCharacterIDImplantsReader) ReadResponse(response runtime.C
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDImplantsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDImplantsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDImplantsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDImplantsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -64,6 +106,9 @@ type GetCharactersCharacterIDImplantsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -83,6 +128,9 @@ func (o *GetCharactersCharacterIDImplantsOK) readResponse(response runtime.Clien
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -91,6 +139,109 @@ func (o *GetCharactersCharacterIDImplantsOK) readResponse(response runtime.Clien
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDImplantsNotModified creates a GetCharactersCharacterIDImplantsNotModified with default headers values
+func NewGetCharactersCharacterIDImplantsNotModified() *GetCharactersCharacterIDImplantsNotModified {
+	return &GetCharactersCharacterIDImplantsNotModified{}
+}
+
+/*GetCharactersCharacterIDImplantsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDImplantsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDImplantsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/implants/][%d] getCharactersCharacterIdImplantsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDImplantsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDImplantsBadRequest creates a GetCharactersCharacterIDImplantsBadRequest with default headers values
+func NewGetCharactersCharacterIDImplantsBadRequest() *GetCharactersCharacterIDImplantsBadRequest {
+	return &GetCharactersCharacterIDImplantsBadRequest{}
+}
+
+/*GetCharactersCharacterIDImplantsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDImplantsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDImplantsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/implants/][%d] getCharactersCharacterIdImplantsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDImplantsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDImplantsUnauthorized creates a GetCharactersCharacterIDImplantsUnauthorized with default headers values
+func NewGetCharactersCharacterIDImplantsUnauthorized() *GetCharactersCharacterIDImplantsUnauthorized {
+	return &GetCharactersCharacterIDImplantsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDImplantsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDImplantsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDImplantsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/implants/][%d] getCharactersCharacterIdImplantsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDImplantsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -126,6 +277,35 @@ func (o *GetCharactersCharacterIDImplantsForbidden) readResponse(response runtim
 	return nil
 }
 
+// NewGetCharactersCharacterIDImplantsEnhanceYourCalm creates a GetCharactersCharacterIDImplantsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDImplantsEnhanceYourCalm() *GetCharactersCharacterIDImplantsEnhanceYourCalm {
+	return &GetCharactersCharacterIDImplantsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDImplantsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDImplantsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDImplantsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/implants/][%d] getCharactersCharacterIdImplantsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDImplantsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewGetCharactersCharacterIDImplantsInternalServerError creates a GetCharactersCharacterIDImplantsInternalServerError with default headers values
 func NewGetCharactersCharacterIDImplantsInternalServerError() *GetCharactersCharacterIDImplantsInternalServerError {
 	return &GetCharactersCharacterIDImplantsInternalServerError{}
@@ -146,6 +326,64 @@ func (o *GetCharactersCharacterIDImplantsInternalServerError) Error() string {
 func (o *GetCharactersCharacterIDImplantsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDImplantsServiceUnavailable creates a GetCharactersCharacterIDImplantsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDImplantsServiceUnavailable() *GetCharactersCharacterIDImplantsServiceUnavailable {
+	return &GetCharactersCharacterIDImplantsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDImplantsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetCharactersCharacterIDImplantsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetCharactersCharacterIDImplantsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/implants/][%d] getCharactersCharacterIdImplantsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDImplantsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDImplantsGatewayTimeout creates a GetCharactersCharacterIDImplantsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDImplantsGatewayTimeout() *GetCharactersCharacterIDImplantsGatewayTimeout {
+	return &GetCharactersCharacterIDImplantsGatewayTimeout{}
+}
+
+/*GetCharactersCharacterIDImplantsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDImplantsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDImplantsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/implants/][%d] getCharactersCharacterIdImplantsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDImplantsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

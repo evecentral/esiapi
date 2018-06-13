@@ -6,19 +6,14 @@ package universe
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseStationsStationIDReader is a Reader for the GetUniverseStationsStationID structure.
@@ -37,6 +32,20 @@ func (o *GetUniverseStationsStationIDReader) ReadResponse(response runtime.Clien
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseStationsStationIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseStationsStationIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetUniverseStationsStationIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -44,8 +53,29 @@ func (o *GetUniverseStationsStationIDReader) ReadResponse(response runtime.Clien
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetUniverseStationsStationIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseStationsStationIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseStationsStationIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseStationsStationIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -69,6 +99,9 @@ type GetUniverseStationsStationIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,7 +109,7 @@ type GetUniverseStationsStationIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetUniverseStationsStationIDOKBody
+	Payload *models.GetUniverseStationsStationIDOKBody
 }
 
 func (o *GetUniverseStationsStationIDOK) Error() string {
@@ -88,14 +121,93 @@ func (o *GetUniverseStationsStationIDOK) readResponse(response runtime.ClientRes
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetUniverseStationsStationIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseStationsStationIDNotModified creates a GetUniverseStationsStationIDNotModified with default headers values
+func NewGetUniverseStationsStationIDNotModified() *GetUniverseStationsStationIDNotModified {
+	return &GetUniverseStationsStationIDNotModified{}
+}
+
+/*GetUniverseStationsStationIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseStationsStationIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseStationsStationIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/stations/{station_id}/][%d] getUniverseStationsStationIdNotModified ", 304)
+}
+
+func (o *GetUniverseStationsStationIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseStationsStationIDBadRequest creates a GetUniverseStationsStationIDBadRequest with default headers values
+func NewGetUniverseStationsStationIDBadRequest() *GetUniverseStationsStationIDBadRequest {
+	return &GetUniverseStationsStationIDBadRequest{}
+}
+
+/*GetUniverseStationsStationIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseStationsStationIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseStationsStationIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/stations/{station_id}/][%d] getUniverseStationsStationIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseStationsStationIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -112,7 +224,7 @@ func NewGetUniverseStationsStationIDNotFound() *GetUniverseStationsStationIDNotF
 Station not found
 */
 type GetUniverseStationsStationIDNotFound struct {
-	Payload GetUniverseStationsStationIDNotFoundBody
+	Payload *models.GetUniverseStationsStationIDNotFoundBody
 }
 
 func (o *GetUniverseStationsStationIDNotFound) Error() string {
@@ -121,8 +233,39 @@ func (o *GetUniverseStationsStationIDNotFound) Error() string {
 
 func (o *GetUniverseStationsStationIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetUniverseStationsStationIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseStationsStationIDEnhanceYourCalm creates a GetUniverseStationsStationIDEnhanceYourCalm with default headers values
+func NewGetUniverseStationsStationIDEnhanceYourCalm() *GetUniverseStationsStationIDEnhanceYourCalm {
+	return &GetUniverseStationsStationIDEnhanceYourCalm{}
+}
+
+/*GetUniverseStationsStationIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseStationsStationIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseStationsStationIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/stations/{station_id}/][%d] getUniverseStationsStationIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseStationsStationIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -158,508 +301,60 @@ func (o *GetUniverseStationsStationIDInternalServerError) readResponse(response 
 	return nil
 }
 
-/*GetUniverseStationsStationIDNotFoundBody get_universe_stations_station_id_not_found
-//
-// Not found
-swagger:model GetUniverseStationsStationIDNotFoundBody
+// NewGetUniverseStationsStationIDServiceUnavailable creates a GetUniverseStationsStationIDServiceUnavailable with default headers values
+func NewGetUniverseStationsStationIDServiceUnavailable() *GetUniverseStationsStationIDServiceUnavailable {
+	return &GetUniverseStationsStationIDServiceUnavailable{}
+}
+
+/*GetUniverseStationsStationIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseStationsStationIDNotFoundBody struct {
-
-	// get_universe_stations_station_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetUniverseStationsStationIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseStationsStationIDNotFoundBody error false */
-
-// Validate validates this get universe stations station ID not found body
-func (o *GetUniverseStationsStationIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseStationsStationIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/stations/{station_id}/][%d] getUniverseStationsStationIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseStationsStationIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetUniverseStationsStationIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseStationsStationIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetUniverseStationsStationIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetUniverseStationsStationIDGatewayTimeout creates a GetUniverseStationsStationIDGatewayTimeout with default headers values
+func NewGetUniverseStationsStationIDGatewayTimeout() *GetUniverseStationsStationIDGatewayTimeout {
+	return &GetUniverseStationsStationIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetUniverseStationsStationIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseStationsStationIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetUniverseStationsStationIDGatewayTimeout handles this case with default header values.
 
-/*GetUniverseStationsStationIDOKBody get_universe_stations_station_id_ok
-//
-// 200 ok object
-swagger:model GetUniverseStationsStationIDOKBody
+Gateway timeout
 */
-
-type GetUniverseStationsStationIDOKBody struct {
-
-	// get_universe_stations_station_id_max_dockable_ship_volume
-	//
-	// max_dockable_ship_volume number
-	// Required: true
-	MaxDockableShipVolume *float32 `json:"max_dockable_ship_volume"`
-
-	// get_universe_stations_station_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_universe_stations_station_id_office_rental_cost
-	//
-	// office_rental_cost number
-	// Required: true
-	OfficeRentalCost *float32 `json:"office_rental_cost"`
-
-	// get_universe_stations_station_id_owner
-	//
-	// ID of the corporation that controls this station
-	// Required: true
-	Owner *int32 `json:"owner"`
-
-	// position
-	// Required: true
-	Position *GetUniverseStationsStationIDOKBodyPosition `json:"position"`
-
-	// get_universe_stations_station_id_race_id
-	//
-	// race_id integer
-	// Required: true
-	RaceID *int32 `json:"race_id"`
-
-	// get_universe_stations_station_id_reprocessing_efficiency
-	//
-	// reprocessing_efficiency number
-	// Required: true
-	ReprocessingEfficiency *float32 `json:"reprocessing_efficiency"`
-
-	// get_universe_stations_station_id_reprocessing_stations_take
-	//
-	// reprocessing_stations_take number
-	// Required: true
-	ReprocessingStationsTake *float32 `json:"reprocessing_stations_take"`
-
-	// get_universe_stations_station_id_services
-	//
-	// services array
-	// Required: true
-	// Max Items: 30
-	Services []string `json:"services"`
-
-	// get_universe_stations_station_id_station_id
-	//
-	// station_id integer
-	// Required: true
-	StationID *int32 `json:"station_id"`
-
-	// get_universe_stations_station_id_system_id
-	//
-	// The solar system this station is in
-	// Required: true
-	SystemID *int32 `json:"system_id"`
-
-	// get_universe_stations_station_id_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetUniverseStationsStationIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetUniverseStationsStationIDOKBody max_dockable_ship_volume false */
-
-/* polymorph GetUniverseStationsStationIDOKBody name false */
-
-/* polymorph GetUniverseStationsStationIDOKBody office_rental_cost false */
-
-/* polymorph GetUniverseStationsStationIDOKBody owner false */
-
-/* polymorph GetUniverseStationsStationIDOKBody position false */
-
-/* polymorph GetUniverseStationsStationIDOKBody race_id false */
-
-/* polymorph GetUniverseStationsStationIDOKBody reprocessing_efficiency false */
-
-/* polymorph GetUniverseStationsStationIDOKBody reprocessing_stations_take false */
-
-/* polymorph GetUniverseStationsStationIDOKBody services false */
-
-/* polymorph GetUniverseStationsStationIDOKBody station_id false */
-
-/* polymorph GetUniverseStationsStationIDOKBody system_id false */
-
-/* polymorph GetUniverseStationsStationIDOKBody type_id false */
-
-// Validate validates this get universe stations station ID o k body
-func (o *GetUniverseStationsStationIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateMaxDockableShipVolume(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOfficeRentalCost(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOwner(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePosition(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRaceID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateReprocessingEfficiency(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateReprocessingStationsTake(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateServices(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseStationsStationIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/stations/{station_id}/][%d] getUniverseStationsStationIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetUniverseStationsStationIDOKBody) validateMaxDockableShipVolume(formats strfmt.Registry) error {
+func (o *GetUniverseStationsStationIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"max_dockable_ship_volume", "body", o.MaxDockableShipVolume); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateOfficeRentalCost(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"office_rental_cost", "body", o.OfficeRentalCost); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateOwner(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"owner", "body", o.Owner); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validatePosition(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"position", "body", o.Position); err != nil {
-		return err
-	}
-
-	if o.Position != nil {
-
-		if err := o.Position.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("getUniverseStationsStationIdOK" + "." + "position")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateRaceID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"race_id", "body", o.RaceID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateReprocessingEfficiency(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"reprocessing_efficiency", "body", o.ReprocessingEfficiency); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateReprocessingStationsTake(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"reprocessing_stations_take", "body", o.ReprocessingStationsTake); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var getUniverseStationsStationIdOKBodyServicesItemsEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["bounty-missions","assasination-missions","courier-missions","interbus","reprocessing-plant","refinery","market","black-market","stock-exchange","cloning","surgery","dna-therapy","repair-facilities","factory","labratory","gambling","fitting","paintshop","news","storage","insurance","docking","office-rental","jump-clone-facility","loyalty-point-store","navy-offices","security-offices"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getUniverseStationsStationIdOKBodyServicesItemsEnum = append(getUniverseStationsStationIdOKBodyServicesItemsEnum, v)
-	}
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateServicesItemsEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getUniverseStationsStationIdOKBodyServicesItemsEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateServices(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"services", "body", o.Services); err != nil {
-		return err
-	}
-
-	iServicesSize := int64(len(o.Services))
-
-	if err := validate.MaxItems("getUniverseStationsStationIdOK"+"."+"services", "body", iServicesSize, 30); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Services); i++ {
-
-		// value enum
-		if err := o.validateServicesItemsEnum("getUniverseStationsStationIdOK"+"."+"services"+"."+strconv.Itoa(i), "body", o.Services[i]); err != nil {
-			return err
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateStationID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"station_id", "body", o.StationID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"system_id", "body", o.SystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBody) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseStationsStationIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseStationsStationIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseStationsStationIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetUniverseStationsStationIDOKBodyPosition get_universe_stations_station_id_position
-//
-// position object
-swagger:model GetUniverseStationsStationIDOKBodyPosition
-*/
-
-type GetUniverseStationsStationIDOKBodyPosition struct {
-
-	// get_universe_stations_station_id_x
-	//
-	// x number
-	// Required: true
-	X *float32 `json:"x"`
-
-	// get_universe_stations_station_id_y
-	//
-	// y number
-	// Required: true
-	Y *float32 `json:"y"`
-
-	// get_universe_stations_station_id_z
-	//
-	// z number
-	// Required: true
-	Z *float32 `json:"z"`
-}
-
-/* polymorph GetUniverseStationsStationIDOKBodyPosition x false */
-
-/* polymorph GetUniverseStationsStationIDOKBodyPosition y false */
-
-/* polymorph GetUniverseStationsStationIDOKBodyPosition z false */
-
-// Validate validates this get universe stations station ID o k body position
-func (o *GetUniverseStationsStationIDOKBodyPosition) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateX(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateY(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateZ(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBodyPosition) validateX(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"position"+"."+"x", "body", o.X); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBodyPosition) validateY(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"position"+"."+"y", "body", o.Y); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseStationsStationIDOKBodyPosition) validateZ(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseStationsStationIdOK"+"."+"position"+"."+"z", "body", o.Z); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseStationsStationIDOKBodyPosition) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseStationsStationIDOKBodyPosition) UnmarshalBinary(b []byte) error {
-	var res GetUniverseStationsStationIDOKBodyPosition
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

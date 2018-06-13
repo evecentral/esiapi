@@ -30,11 +30,11 @@ DeleteCharactersCharacterIDFittingsFittingID deletes fitting
 Delete a fitting from a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/fittings/{fitting_id}/`
+Alternate route: `/dev/characters/{character_id}/fittings/{fitting_id}/`
 
 Alternate route: `/legacy/characters/{character_id}/fittings/{fitting_id}/`
 
-Alternate route: `/dev/characters/{character_id}/fittings/{fitting_id}/`
+Alternate route: `/v1/characters/{character_id}/fittings/{fitting_id}/`
 
 */
 func (a *Client) DeleteCharactersCharacterIDFittingsFittingID(params *DeleteCharactersCharacterIDFittingsFittingIDParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteCharactersCharacterIDFittingsFittingIDNoContent, error) {
@@ -48,7 +48,7 @@ func (a *Client) DeleteCharactersCharacterIDFittingsFittingID(params *DeleteChar
 		Method:             "DELETE",
 		PathPattern:        "/characters/{character_id}/fittings/{fitting_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteCharactersCharacterIDFittingsFittingIDReader{formats: a.formats},
@@ -69,11 +69,11 @@ GetCharactersCharacterIDFittings gets fittings
 Return fittings of a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/fittings/`
+Alternate route: `/dev/characters/{character_id}/fittings/`
 
 Alternate route: `/legacy/characters/{character_id}/fittings/`
 
-Alternate route: `/dev/characters/{character_id}/fittings/`
+Alternate route: `/v1/characters/{character_id}/fittings/`
 
 ---
 This route is cached for up to 300 seconds
@@ -89,7 +89,7 @@ func (a *Client) GetCharactersCharacterIDFittings(params *GetCharactersCharacter
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/fittings/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDFittingsReader{formats: a.formats},
@@ -110,11 +110,11 @@ PostCharactersCharacterIDFittings creates fitting
 Save a new fitting for a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/fittings/`
+Alternate route: `/dev/characters/{character_id}/fittings/`
 
 Alternate route: `/legacy/characters/{character_id}/fittings/`
 
-Alternate route: `/dev/characters/{character_id}/fittings/`
+Alternate route: `/v1/characters/{character_id}/fittings/`
 
 */
 func (a *Client) PostCharactersCharacterIDFittings(params *PostCharactersCharacterIDFittingsParams, authInfo runtime.ClientAuthInfoWriter) (*PostCharactersCharacterIDFittingsCreated, error) {
@@ -128,7 +128,7 @@ func (a *Client) PostCharactersCharacterIDFittings(params *PostCharactersCharact
 		Method:             "POST",
 		PathPattern:        "/characters/{character_id}/fittings/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostCharactersCharacterIDFittingsReader{formats: a.formats},

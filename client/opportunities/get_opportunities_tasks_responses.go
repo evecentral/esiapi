@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetOpportunitiesTasksReader is a Reader for the GetOpportunitiesTasks structure.
@@ -32,8 +32,43 @@ func (o *GetOpportunitiesTasksReader) ReadResponse(response runtime.ClientRespon
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetOpportunitiesTasksNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetOpportunitiesTasksBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetOpportunitiesTasksEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetOpportunitiesTasksInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetOpportunitiesTasksServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetOpportunitiesTasksGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetOpportunitiesTasksOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetOpportunitiesTasksOK) readResponse(response runtime.ClientResponse, 
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetOpportunitiesTasksOK) readResponse(response runtime.ClientResponse, 
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetOpportunitiesTasksNotModified creates a GetOpportunitiesTasksNotModified with default headers values
+func NewGetOpportunitiesTasksNotModified() *GetOpportunitiesTasksNotModified {
+	return &GetOpportunitiesTasksNotModified{}
+}
+
+/*GetOpportunitiesTasksNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetOpportunitiesTasksNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetOpportunitiesTasksNotModified) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/][%d] getOpportunitiesTasksNotModified ", 304)
+}
+
+func (o *GetOpportunitiesTasksNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetOpportunitiesTasksBadRequest creates a GetOpportunitiesTasksBadRequest with default headers values
+func NewGetOpportunitiesTasksBadRequest() *GetOpportunitiesTasksBadRequest {
+	return &GetOpportunitiesTasksBadRequest{}
+}
+
+/*GetOpportunitiesTasksBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetOpportunitiesTasksBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetOpportunitiesTasksBadRequest) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/][%d] getOpportunitiesTasksBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetOpportunitiesTasksBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetOpportunitiesTasksEnhanceYourCalm creates a GetOpportunitiesTasksEnhanceYourCalm with default headers values
+func NewGetOpportunitiesTasksEnhanceYourCalm() *GetOpportunitiesTasksEnhanceYourCalm {
+	return &GetOpportunitiesTasksEnhanceYourCalm{}
+}
+
+/*GetOpportunitiesTasksEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetOpportunitiesTasksEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetOpportunitiesTasksEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/][%d] getOpportunitiesTasksEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetOpportunitiesTasksEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetOpportunitiesTasksInternalServerError) Error() string {
 func (o *GetOpportunitiesTasksInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetOpportunitiesTasksServiceUnavailable creates a GetOpportunitiesTasksServiceUnavailable with default headers values
+func NewGetOpportunitiesTasksServiceUnavailable() *GetOpportunitiesTasksServiceUnavailable {
+	return &GetOpportunitiesTasksServiceUnavailable{}
+}
+
+/*GetOpportunitiesTasksServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetOpportunitiesTasksServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetOpportunitiesTasksServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/][%d] getOpportunitiesTasksServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetOpportunitiesTasksServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetOpportunitiesTasksGatewayTimeout creates a GetOpportunitiesTasksGatewayTimeout with default headers values
+func NewGetOpportunitiesTasksGatewayTimeout() *GetOpportunitiesTasksGatewayTimeout {
+	return &GetOpportunitiesTasksGatewayTimeout{}
+}
+
+/*GetOpportunitiesTasksGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetOpportunitiesTasksGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetOpportunitiesTasksGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/][%d] getOpportunitiesTasksGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetOpportunitiesTasksGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

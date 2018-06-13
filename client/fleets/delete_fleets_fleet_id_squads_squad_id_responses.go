@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // DeleteFleetsFleetIDSquadsSquadIDReader is a Reader for the DeleteFleetsFleetIDSquadsSquadID structure.
@@ -35,6 +32,20 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDReader) ReadResponse(response runtime.C
 		}
 		return result, nil
 
+	case 400:
+		result := NewDeleteFleetsFleetIDSquadsSquadIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewDeleteFleetsFleetIDSquadsSquadIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewDeleteFleetsFleetIDSquadsSquadIDForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,8 +60,29 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDReader) ReadResponse(response runtime.C
 		}
 		return nil, result
 
+	case 420:
+		result := NewDeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewDeleteFleetsFleetIDSquadsSquadIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewDeleteFleetsFleetIDSquadsSquadIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewDeleteFleetsFleetIDSquadsSquadIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -78,6 +110,64 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDNoContent) Error() string {
 }
 
 func (o *DeleteFleetsFleetIDSquadsSquadIDNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewDeleteFleetsFleetIDSquadsSquadIDBadRequest creates a DeleteFleetsFleetIDSquadsSquadIDBadRequest with default headers values
+func NewDeleteFleetsFleetIDSquadsSquadIDBadRequest() *DeleteFleetsFleetIDSquadsSquadIDBadRequest {
+	return &DeleteFleetsFleetIDSquadsSquadIDBadRequest{}
+}
+
+/*DeleteFleetsFleetIDSquadsSquadIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type DeleteFleetsFleetIDSquadsSquadIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *DeleteFleetsFleetIDSquadsSquadIDBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/squads/{squad_id}/][%d] deleteFleetsFleetIdSquadsSquadIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *DeleteFleetsFleetIDSquadsSquadIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteFleetsFleetIDSquadsSquadIDUnauthorized creates a DeleteFleetsFleetIDSquadsSquadIDUnauthorized with default headers values
+func NewDeleteFleetsFleetIDSquadsSquadIDUnauthorized() *DeleteFleetsFleetIDSquadsSquadIDUnauthorized {
+	return &DeleteFleetsFleetIDSquadsSquadIDUnauthorized{}
+}
+
+/*DeleteFleetsFleetIDSquadsSquadIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type DeleteFleetsFleetIDSquadsSquadIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *DeleteFleetsFleetIDSquadsSquadIDUnauthorized) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/squads/{squad_id}/][%d] deleteFleetsFleetIdSquadsSquadIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *DeleteFleetsFleetIDSquadsSquadIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -121,7 +211,7 @@ func NewDeleteFleetsFleetIDSquadsSquadIDNotFound() *DeleteFleetsFleetIDSquadsSqu
 The fleet does not exist or you don't have access to it
 */
 type DeleteFleetsFleetIDSquadsSquadIDNotFound struct {
-	Payload DeleteFleetsFleetIDSquadsSquadIDNotFoundBody
+	Payload *models.DeleteFleetsFleetIDSquadsSquadIDNotFoundBody
 }
 
 func (o *DeleteFleetsFleetIDSquadsSquadIDNotFound) Error() string {
@@ -130,8 +220,39 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDNotFound) Error() string {
 
 func (o *DeleteFleetsFleetIDSquadsSquadIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.DeleteFleetsFleetIDSquadsSquadIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm creates a DeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm with default headers values
+func NewDeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm() *DeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm {
+	return &DeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm{}
+}
+
+/*DeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type DeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *DeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/squads/{squad_id}/][%d] deleteFleetsFleetIdSquadsSquadIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *DeleteFleetsFleetIDSquadsSquadIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -167,61 +288,60 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDInternalServerError) readResponse(respo
 	return nil
 }
 
-/*DeleteFleetsFleetIDSquadsSquadIDNotFoundBody delete_fleets_fleet_id_squads_squad_id_not_found
-//
-// Not found
-swagger:model DeleteFleetsFleetIDSquadsSquadIDNotFoundBody
+// NewDeleteFleetsFleetIDSquadsSquadIDServiceUnavailable creates a DeleteFleetsFleetIDSquadsSquadIDServiceUnavailable with default headers values
+func NewDeleteFleetsFleetIDSquadsSquadIDServiceUnavailable() *DeleteFleetsFleetIDSquadsSquadIDServiceUnavailable {
+	return &DeleteFleetsFleetIDSquadsSquadIDServiceUnavailable{}
+}
+
+/*DeleteFleetsFleetIDSquadsSquadIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type DeleteFleetsFleetIDSquadsSquadIDNotFoundBody struct {
-
-	// delete_fleets_fleet_id_squads_squad_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type DeleteFleetsFleetIDSquadsSquadIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph DeleteFleetsFleetIDSquadsSquadIDNotFoundBody error false */
-
-// Validate validates this delete fleets fleet ID squads squad ID not found body
-func (o *DeleteFleetsFleetIDSquadsSquadIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *DeleteFleetsFleetIDSquadsSquadIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/squads/{squad_id}/][%d] deleteFleetsFleetIdSquadsSquadIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *DeleteFleetsFleetIDSquadsSquadIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *DeleteFleetsFleetIDSquadsSquadIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("deleteFleetsFleetIdSquadsSquadIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *DeleteFleetsFleetIDSquadsSquadIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewDeleteFleetsFleetIDSquadsSquadIDGatewayTimeout creates a DeleteFleetsFleetIDSquadsSquadIDGatewayTimeout with default headers values
+func NewDeleteFleetsFleetIDSquadsSquadIDGatewayTimeout() *DeleteFleetsFleetIDSquadsSquadIDGatewayTimeout {
+	return &DeleteFleetsFleetIDSquadsSquadIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *DeleteFleetsFleetIDSquadsSquadIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res DeleteFleetsFleetIDSquadsSquadIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*DeleteFleetsFleetIDSquadsSquadIDGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type DeleteFleetsFleetIDSquadsSquadIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *DeleteFleetsFleetIDSquadsSquadIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/squads/{squad_id}/][%d] deleteFleetsFleetIdSquadsSquadIdGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *DeleteFleetsFleetIDSquadsSquadIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

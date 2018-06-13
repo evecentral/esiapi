@@ -6,18 +6,14 @@ package character
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDStandingsReader is a Reader for the GetCharactersCharacterIDStandings structure.
@@ -36,6 +32,27 @@ func (o *GetCharactersCharacterIDStandingsReader) ReadResponse(response runtime.
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDStandingsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDStandingsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDStandingsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDStandingsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +60,29 @@ func (o *GetCharactersCharacterIDStandingsReader) ReadResponse(response runtime.
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDStandingsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDStandingsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDStandingsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDStandingsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +106,9 @@ type GetCharactersCharacterIDStandingsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +116,7 @@ type GetCharactersCharacterIDStandingsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDStandingsOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDStandingsOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDStandingsOK) Error() string {
@@ -87,6 +128,9 @@ func (o *GetCharactersCharacterIDStandingsOK) readResponse(response runtime.Clie
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -95,6 +139,109 @@ func (o *GetCharactersCharacterIDStandingsOK) readResponse(response runtime.Clie
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDStandingsNotModified creates a GetCharactersCharacterIDStandingsNotModified with default headers values
+func NewGetCharactersCharacterIDStandingsNotModified() *GetCharactersCharacterIDStandingsNotModified {
+	return &GetCharactersCharacterIDStandingsNotModified{}
+}
+
+/*GetCharactersCharacterIDStandingsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDStandingsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDStandingsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/standings/][%d] getCharactersCharacterIdStandingsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDStandingsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDStandingsBadRequest creates a GetCharactersCharacterIDStandingsBadRequest with default headers values
+func NewGetCharactersCharacterIDStandingsBadRequest() *GetCharactersCharacterIDStandingsBadRequest {
+	return &GetCharactersCharacterIDStandingsBadRequest{}
+}
+
+/*GetCharactersCharacterIDStandingsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDStandingsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDStandingsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/standings/][%d] getCharactersCharacterIdStandingsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDStandingsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDStandingsUnauthorized creates a GetCharactersCharacterIDStandingsUnauthorized with default headers values
+func NewGetCharactersCharacterIDStandingsUnauthorized() *GetCharactersCharacterIDStandingsUnauthorized {
+	return &GetCharactersCharacterIDStandingsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDStandingsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDStandingsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDStandingsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/standings/][%d] getCharactersCharacterIdStandingsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDStandingsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -121,6 +268,35 @@ func (o *GetCharactersCharacterIDStandingsForbidden) Error() string {
 func (o *GetCharactersCharacterIDStandingsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDStandingsEnhanceYourCalm creates a GetCharactersCharacterIDStandingsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDStandingsEnhanceYourCalm() *GetCharactersCharacterIDStandingsEnhanceYourCalm {
+	return &GetCharactersCharacterIDStandingsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDStandingsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDStandingsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDStandingsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/standings/][%d] getCharactersCharacterIdStandingsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDStandingsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -159,149 +335,60 @@ func (o *GetCharactersCharacterIDStandingsInternalServerError) readResponse(resp
 	return nil
 }
 
-/*GetCharactersCharacterIDStandingsOKBodyItems0 get_characters_character_id_standings_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDStandingsOKBodyItems0
+// NewGetCharactersCharacterIDStandingsServiceUnavailable creates a GetCharactersCharacterIDStandingsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDStandingsServiceUnavailable() *GetCharactersCharacterIDStandingsServiceUnavailable {
+	return &GetCharactersCharacterIDStandingsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDStandingsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDStandingsOKBodyItems0 struct {
-
-	// get_characters_character_id_standings_from_id
-	//
-	// from_id integer
-	// Required: true
-	FromID *int32 `json:"from_id"`
-
-	// get_characters_character_id_standings_from_type
-	//
-	// from_type string
-	// Required: true
-	FromType *string `json:"from_type"`
-
-	// get_characters_character_id_standings_standing
-	//
-	// standing number
-	// Required: true
-	// Maximum: 10
-	// Minimum: -10
-	Standing *float32 `json:"standing"`
+type GetCharactersCharacterIDStandingsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDStandingsOKBodyItems0 from_id false */
-
-/* polymorph GetCharactersCharacterIDStandingsOKBodyItems0 from_type false */
-
-/* polymorph GetCharactersCharacterIDStandingsOKBodyItems0 standing false */
-
-// Validate validates this get characters character ID standings o k body items0
-func (o *GetCharactersCharacterIDStandingsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateFromID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateFromType(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStanding(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDStandingsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/standings/][%d] getCharactersCharacterIdStandingsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDStandingsOKBodyItems0) validateFromID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDStandingsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("from_id", "body", o.FromID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-var getCharactersCharacterIdStandingsOKBodyItems0TypeFromTypePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["agent","npc_corp","faction"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdStandingsOKBodyItems0TypeFromTypePropEnum = append(getCharactersCharacterIdStandingsOKBodyItems0TypeFromTypePropEnum, v)
-	}
+// NewGetCharactersCharacterIDStandingsGatewayTimeout creates a GetCharactersCharacterIDStandingsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDStandingsGatewayTimeout() *GetCharactersCharacterIDStandingsGatewayTimeout {
+	return &GetCharactersCharacterIDStandingsGatewayTimeout{}
 }
 
-const (
-	// GetCharactersCharacterIDStandingsOKBodyItems0FromTypeAgent captures enum value "agent"
-	GetCharactersCharacterIDStandingsOKBodyItems0FromTypeAgent string = "agent"
-	// GetCharactersCharacterIDStandingsOKBodyItems0FromTypeNpcCorp captures enum value "npc_corp"
-	GetCharactersCharacterIDStandingsOKBodyItems0FromTypeNpcCorp string = "npc_corp"
-	// GetCharactersCharacterIDStandingsOKBodyItems0FromTypeFaction captures enum value "faction"
-	GetCharactersCharacterIDStandingsOKBodyItems0FromTypeFaction string = "faction"
-)
+/*GetCharactersCharacterIDStandingsGatewayTimeout handles this case with default header values.
 
-// prop value enum
-func (o *GetCharactersCharacterIDStandingsOKBodyItems0) validateFromTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdStandingsOKBodyItems0TypeFromTypePropEnum); err != nil {
-		return err
-	}
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDStandingsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetCharactersCharacterIDStandingsOKBodyItems0) validateFromType(formats strfmt.Registry) error {
-
-	if err := validate.Required("from_type", "body", o.FromType); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateFromTypeEnum("from_type", "body", *o.FromType); err != nil {
-		return err
-	}
-
-	return nil
+func (o *GetCharactersCharacterIDStandingsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/standings/][%d] getCharactersCharacterIdStandingsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDStandingsOKBodyItems0) validateStanding(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDStandingsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("standing", "body", o.Standing); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	if err := validate.Minimum("standing", "body", float64(*o.Standing), -10, false); err != nil {
-		return err
-	}
-
-	if err := validate.Maximum("standing", "body", float64(*o.Standing), 10, false); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDStandingsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDStandingsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDStandingsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

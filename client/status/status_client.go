@@ -30,11 +30,11 @@ GetStatus retrieves the uptime and player counts
 EVE Server status
 
 ---
-Alternate route: `/v1/status/`
+Alternate route: `/dev/status/`
 
 Alternate route: `/legacy/status/`
 
-Alternate route: `/dev/status/`
+Alternate route: `/v1/status/`
 
 ---
 This route is cached for up to 30 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetStatus(params *GetStatusParams) (*GetStatusOK, error) {
 		Method:             "GET",
 		PathPattern:        "/status/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetStatusReader{formats: a.formats},

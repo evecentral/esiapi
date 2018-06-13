@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetMarketsGroupsMarketGroupIDReader is a Reader for the GetMarketsGroupsMarketGroupID structure.
@@ -35,6 +32,20 @@ func (o *GetMarketsGroupsMarketGroupIDReader) ReadResponse(response runtime.Clie
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetMarketsGroupsMarketGroupIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetMarketsGroupsMarketGroupIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetMarketsGroupsMarketGroupIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetMarketsGroupsMarketGroupIDReader) ReadResponse(response runtime.Clie
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetMarketsGroupsMarketGroupIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetMarketsGroupsMarketGroupIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetMarketsGroupsMarketGroupIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetMarketsGroupsMarketGroupIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -70,6 +102,9 @@ type GetMarketsGroupsMarketGroupIDOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -77,7 +112,7 @@ type GetMarketsGroupsMarketGroupIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetMarketsGroupsMarketGroupIDOKBody
+	Payload *models.GetMarketsGroupsMarketGroupIDOKBody
 }
 
 func (o *GetMarketsGroupsMarketGroupIDOK) Error() string {
@@ -92,14 +127,93 @@ func (o *GetMarketsGroupsMarketGroupIDOK) readResponse(response runtime.ClientRe
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetMarketsGroupsMarketGroupIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsGroupsMarketGroupIDNotModified creates a GetMarketsGroupsMarketGroupIDNotModified with default headers values
+func NewGetMarketsGroupsMarketGroupIDNotModified() *GetMarketsGroupsMarketGroupIDNotModified {
+	return &GetMarketsGroupsMarketGroupIDNotModified{}
+}
+
+/*GetMarketsGroupsMarketGroupIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetMarketsGroupsMarketGroupIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetMarketsGroupsMarketGroupIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/{market_group_id}/][%d] getMarketsGroupsMarketGroupIdNotModified ", 304)
+}
+
+func (o *GetMarketsGroupsMarketGroupIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetMarketsGroupsMarketGroupIDBadRequest creates a GetMarketsGroupsMarketGroupIDBadRequest with default headers values
+func NewGetMarketsGroupsMarketGroupIDBadRequest() *GetMarketsGroupsMarketGroupIDBadRequest {
+	return &GetMarketsGroupsMarketGroupIDBadRequest{}
+}
+
+/*GetMarketsGroupsMarketGroupIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetMarketsGroupsMarketGroupIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetMarketsGroupsMarketGroupIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/{market_group_id}/][%d] getMarketsGroupsMarketGroupIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetMarketsGroupsMarketGroupIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -116,7 +230,7 @@ func NewGetMarketsGroupsMarketGroupIDNotFound() *GetMarketsGroupsMarketGroupIDNo
 Market group not found
 */
 type GetMarketsGroupsMarketGroupIDNotFound struct {
-	Payload GetMarketsGroupsMarketGroupIDNotFoundBody
+	Payload *models.GetMarketsGroupsMarketGroupIDNotFoundBody
 }
 
 func (o *GetMarketsGroupsMarketGroupIDNotFound) Error() string {
@@ -125,8 +239,39 @@ func (o *GetMarketsGroupsMarketGroupIDNotFound) Error() string {
 
 func (o *GetMarketsGroupsMarketGroupIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetMarketsGroupsMarketGroupIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsGroupsMarketGroupIDEnhanceYourCalm creates a GetMarketsGroupsMarketGroupIDEnhanceYourCalm with default headers values
+func NewGetMarketsGroupsMarketGroupIDEnhanceYourCalm() *GetMarketsGroupsMarketGroupIDEnhanceYourCalm {
+	return &GetMarketsGroupsMarketGroupIDEnhanceYourCalm{}
+}
+
+/*GetMarketsGroupsMarketGroupIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetMarketsGroupsMarketGroupIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetMarketsGroupsMarketGroupIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/{market_group_id}/][%d] getMarketsGroupsMarketGroupIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetMarketsGroupsMarketGroupIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -162,215 +307,60 @@ func (o *GetMarketsGroupsMarketGroupIDInternalServerError) readResponse(response
 	return nil
 }
 
-/*GetMarketsGroupsMarketGroupIDNotFoundBody get_markets_groups_market_group_id_not_found
-//
-// Not found
-swagger:model GetMarketsGroupsMarketGroupIDNotFoundBody
+// NewGetMarketsGroupsMarketGroupIDServiceUnavailable creates a GetMarketsGroupsMarketGroupIDServiceUnavailable with default headers values
+func NewGetMarketsGroupsMarketGroupIDServiceUnavailable() *GetMarketsGroupsMarketGroupIDServiceUnavailable {
+	return &GetMarketsGroupsMarketGroupIDServiceUnavailable{}
+}
+
+/*GetMarketsGroupsMarketGroupIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetMarketsGroupsMarketGroupIDNotFoundBody struct {
-
-	// get_markets_groups_market_group_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetMarketsGroupsMarketGroupIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetMarketsGroupsMarketGroupIDNotFoundBody error false */
-
-// Validate validates this get markets groups market group ID not found body
-func (o *GetMarketsGroupsMarketGroupIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetMarketsGroupsMarketGroupIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/{market_group_id}/][%d] getMarketsGroupsMarketGroupIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetMarketsGroupsMarketGroupIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetMarketsGroupsMarketGroupIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getMarketsGroupsMarketGroupIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetMarketsGroupsMarketGroupIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetMarketsGroupsMarketGroupIDGatewayTimeout creates a GetMarketsGroupsMarketGroupIDGatewayTimeout with default headers values
+func NewGetMarketsGroupsMarketGroupIDGatewayTimeout() *GetMarketsGroupsMarketGroupIDGatewayTimeout {
+	return &GetMarketsGroupsMarketGroupIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetMarketsGroupsMarketGroupIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetMarketsGroupsMarketGroupIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetMarketsGroupsMarketGroupIDGatewayTimeout handles this case with default header values.
 
-/*GetMarketsGroupsMarketGroupIDOKBody get_markets_groups_market_group_id_ok
-//
-// 200 ok object
-swagger:model GetMarketsGroupsMarketGroupIDOKBody
+Gateway timeout
 */
-
-type GetMarketsGroupsMarketGroupIDOKBody struct {
-
-	// get_markets_groups_market_group_id_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_markets_groups_market_group_id_market_group_id
-	//
-	// market_group_id integer
-	// Required: true
-	MarketGroupID *int32 `json:"market_group_id"`
-
-	// get_markets_groups_market_group_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_markets_groups_market_group_id_parent_group_id
-	//
-	// parent_group_id integer
-	// Required: true
-	ParentGroupID *int32 `json:"parent_group_id"`
-
-	// get_markets_groups_market_group_id_types
-	//
-	// types array
-	// Required: true
-	// Max Items: 5000
-	Types []int32 `json:"types"`
+type GetMarketsGroupsMarketGroupIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetMarketsGroupsMarketGroupIDOKBody description false */
-
-/* polymorph GetMarketsGroupsMarketGroupIDOKBody market_group_id false */
-
-/* polymorph GetMarketsGroupsMarketGroupIDOKBody name false */
-
-/* polymorph GetMarketsGroupsMarketGroupIDOKBody parent_group_id false */
-
-/* polymorph GetMarketsGroupsMarketGroupIDOKBody types false */
-
-// Validate validates this get markets groups market group ID o k body
-func (o *GetMarketsGroupsMarketGroupIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMarketGroupID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateParentGroupID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypes(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetMarketsGroupsMarketGroupIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/{market_group_id}/][%d] getMarketsGroupsMarketGroupIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetMarketsGroupsMarketGroupIDOKBody) validateDescription(formats strfmt.Registry) error {
+func (o *GetMarketsGroupsMarketGroupIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getMarketsGroupsMarketGroupIdOK"+"."+"description", "body", o.Description); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetMarketsGroupsMarketGroupIDOKBody) validateMarketGroupID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getMarketsGroupsMarketGroupIdOK"+"."+"market_group_id", "body", o.MarketGroupID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsGroupsMarketGroupIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getMarketsGroupsMarketGroupIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsGroupsMarketGroupIDOKBody) validateParentGroupID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getMarketsGroupsMarketGroupIdOK"+"."+"parent_group_id", "body", o.ParentGroupID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsGroupsMarketGroupIDOKBody) validateTypes(formats strfmt.Registry) error {
-
-	if err := validate.Required("getMarketsGroupsMarketGroupIdOK"+"."+"types", "body", o.Types); err != nil {
-		return err
-	}
-
-	iTypesSize := int64(len(o.Types))
-
-	if err := validate.MaxItems("getMarketsGroupsMarketGroupIdOK"+"."+"types", "body", iTypesSize, 5000); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetMarketsGroupsMarketGroupIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetMarketsGroupsMarketGroupIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetMarketsGroupsMarketGroupIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

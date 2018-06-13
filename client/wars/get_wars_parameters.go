@@ -75,11 +75,11 @@ for the get wars operation typically these are written to a http.Request
 */
 type GetWarsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -90,11 +90,6 @@ type GetWarsParams struct {
 
 	*/
 	MaxWarID *int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetWarsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get wars params
-func (o *GetWarsParams) WithXUserAgent(xUserAgent *string) *GetWarsParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get wars params
+func (o *GetWarsParams) WithIfNoneMatch(ifNoneMatch *string) *GetWarsParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get wars params
-func (o *GetWarsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get wars params
+func (o *GetWarsParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithDatasource adds the datasource to the get wars params
@@ -167,17 +162,6 @@ func (o *GetWarsParams) SetMaxWarID(maxWarID *int32) {
 	o.MaxWarID = maxWarID
 }
 
-// WithUserAgent adds the userAgent to the get wars params
-func (o *GetWarsParams) WithUserAgent(userAgent *string) *GetWarsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get wars params
-func (o *GetWarsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetWarsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetWarsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regis
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -221,22 +205,6 @@ func (o *GetWarsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regis
 		qMaxWarID := swag.FormatInt32(qrMaxWarID)
 		if qMaxWarID != "" {
 			if err := r.SetQueryParam("max_war_id", qMaxWarID); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

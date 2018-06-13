@@ -17,6 +17,8 @@ import (
 	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPostCharactersCharacterIDMailLabelsParams creates a new PostCharactersCharacterIDMailLabelsParams object
@@ -75,11 +77,6 @@ for the post characters character id mail labels operation typically these are w
 */
 type PostCharactersCharacterIDMailLabelsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -94,17 +91,12 @@ type PostCharactersCharacterIDMailLabelsParams struct {
 	  Label to create
 
 	*/
-	Label PostCharactersCharacterIDMailLabelsBody
+	Label *models.PostCharactersCharacterIDMailLabelsParamsBody
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -144,17 +136,6 @@ func (o *PostCharactersCharacterIDMailLabelsParams) SetHTTPClient(client *http.C
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post characters character id mail labels params
-func (o *PostCharactersCharacterIDMailLabelsParams) WithXUserAgent(xUserAgent *string) *PostCharactersCharacterIDMailLabelsParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post characters character id mail labels params
-func (o *PostCharactersCharacterIDMailLabelsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithCharacterID adds the characterID to the post characters character id mail labels params
 func (o *PostCharactersCharacterIDMailLabelsParams) WithCharacterID(characterID int32) *PostCharactersCharacterIDMailLabelsParams {
 	o.SetCharacterID(characterID)
@@ -178,13 +159,13 @@ func (o *PostCharactersCharacterIDMailLabelsParams) SetDatasource(datasource *st
 }
 
 // WithLabel adds the label to the post characters character id mail labels params
-func (o *PostCharactersCharacterIDMailLabelsParams) WithLabel(label PostCharactersCharacterIDMailLabelsBody) *PostCharactersCharacterIDMailLabelsParams {
+func (o *PostCharactersCharacterIDMailLabelsParams) WithLabel(label *models.PostCharactersCharacterIDMailLabelsParamsBody) *PostCharactersCharacterIDMailLabelsParams {
 	o.SetLabel(label)
 	return o
 }
 
 // SetLabel adds the label to the post characters character id mail labels params
-func (o *PostCharactersCharacterIDMailLabelsParams) SetLabel(label PostCharactersCharacterIDMailLabelsBody) {
+func (o *PostCharactersCharacterIDMailLabelsParams) SetLabel(label *models.PostCharactersCharacterIDMailLabelsParamsBody) {
 	o.Label = label
 }
 
@@ -199,17 +180,6 @@ func (o *PostCharactersCharacterIDMailLabelsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post characters character id mail labels params
-func (o *PostCharactersCharacterIDMailLabelsParams) WithUserAgent(userAgent *string) *PostCharactersCharacterIDMailLabelsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post characters character id mail labels params
-func (o *PostCharactersCharacterIDMailLabelsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostCharactersCharacterIDMailLabelsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -217,15 +187,6 @@ func (o *PostCharactersCharacterIDMailLabelsParams) WriteToRequest(r runtime.Cli
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	// path param character_id
 	if err := r.SetPathParam("character_id", swag.FormatInt32(o.CharacterID)); err != nil {
@@ -248,8 +209,10 @@ func (o *PostCharactersCharacterIDMailLabelsParams) WriteToRequest(r runtime.Cli
 
 	}
 
-	if err := r.SetBodyParam(o.Label); err != nil {
-		return err
+	if o.Label != nil {
+		if err := r.SetBodyParam(o.Label); err != nil {
+			return err
+		}
 	}
 
 	if o.Token != nil {
@@ -262,22 +225,6 @@ func (o *PostCharactersCharacterIDMailLabelsParams) WriteToRequest(r runtime.Cli
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

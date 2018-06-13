@@ -75,26 +75,21 @@ for the get corporations names operation typically these are written to a http.R
 */
 type GetCorporationsNamesParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CorporationIds
 	  A comma separated list of corporation IDs
 
 	*/
-	CorporationIds []int64
+	CorporationIds []int32
 	/*Datasource
 	  The server name you would like data from
 
 	*/
 	Datasource *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,25 +129,25 @@ func (o *GetCorporationsNamesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get corporations names params
-func (o *GetCorporationsNamesParams) WithXUserAgent(xUserAgent *string) *GetCorporationsNamesParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get corporations names params
+func (o *GetCorporationsNamesParams) WithIfNoneMatch(ifNoneMatch *string) *GetCorporationsNamesParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get corporations names params
-func (o *GetCorporationsNamesParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get corporations names params
+func (o *GetCorporationsNamesParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCorporationIds adds the corporationIds to the get corporations names params
-func (o *GetCorporationsNamesParams) WithCorporationIds(corporationIds []int64) *GetCorporationsNamesParams {
+func (o *GetCorporationsNamesParams) WithCorporationIds(corporationIds []int32) *GetCorporationsNamesParams {
 	o.SetCorporationIds(corporationIds)
 	return o
 }
 
 // SetCorporationIds adds the corporationIds to the get corporations names params
-func (o *GetCorporationsNamesParams) SetCorporationIds(corporationIds []int64) {
+func (o *GetCorporationsNamesParams) SetCorporationIds(corporationIds []int32) {
 	o.CorporationIds = corporationIds
 }
 
@@ -167,17 +162,6 @@ func (o *GetCorporationsNamesParams) SetDatasource(datasource *string) {
 	o.Datasource = datasource
 }
 
-// WithUserAgent adds the userAgent to the get corporations names params
-func (o *GetCorporationsNamesParams) WithUserAgent(userAgent *string) *GetCorporationsNamesParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get corporations names params
-func (o *GetCorporationsNamesParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCorporationsNamesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetCorporationsNamesParams) WriteToRequest(r runtime.ClientRequest, reg
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -197,7 +181,7 @@ func (o *GetCorporationsNamesParams) WriteToRequest(r runtime.ClientRequest, reg
 
 	var valuesCorporationIds []string
 	for _, v := range o.CorporationIds {
-		valuesCorporationIds = append(valuesCorporationIds, swag.FormatInt64(v))
+		valuesCorporationIds = append(valuesCorporationIds, swag.FormatInt32(v))
 	}
 
 	joinedCorporationIds := swag.JoinByFormat(valuesCorporationIds, "")
@@ -216,22 +200,6 @@ func (o *GetCorporationsNamesParams) WriteToRequest(r runtime.ClientRequest, reg
 		qDatasource := qrDatasource
 		if qDatasource != "" {
 			if err := r.SetQueryParam("datasource", qDatasource); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

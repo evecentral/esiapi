@@ -17,6 +17,8 @@ import (
 	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPutFleetsFleetIDSquadsSquadIDParams creates a new PutFleetsFleetIDSquadsSquadIDParams object
@@ -75,11 +77,6 @@ for the put fleets fleet id squads squad id operation typically these are writte
 */
 type PutFleetsFleetIDSquadsSquadIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -94,7 +91,7 @@ type PutFleetsFleetIDSquadsSquadIDParams struct {
 	  New name of the squad
 
 	*/
-	Naming PutFleetsFleetIDSquadsSquadIDBody
+	Naming *models.PutFleetsFleetIDSquadsSquadIDParamsBody
 	/*SquadID
 	  The squad to rename
 
@@ -105,11 +102,6 @@ type PutFleetsFleetIDSquadsSquadIDParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -149,17 +141,6 @@ func (o *PutFleetsFleetIDSquadsSquadIDParams) SetHTTPClient(client *http.Client)
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the put fleets fleet id squads squad id params
-func (o *PutFleetsFleetIDSquadsSquadIDParams) WithXUserAgent(xUserAgent *string) *PutFleetsFleetIDSquadsSquadIDParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the put fleets fleet id squads squad id params
-func (o *PutFleetsFleetIDSquadsSquadIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the put fleets fleet id squads squad id params
 func (o *PutFleetsFleetIDSquadsSquadIDParams) WithDatasource(datasource *string) *PutFleetsFleetIDSquadsSquadIDParams {
 	o.SetDatasource(datasource)
@@ -183,13 +164,13 @@ func (o *PutFleetsFleetIDSquadsSquadIDParams) SetFleetID(fleetID int64) {
 }
 
 // WithNaming adds the naming to the put fleets fleet id squads squad id params
-func (o *PutFleetsFleetIDSquadsSquadIDParams) WithNaming(naming PutFleetsFleetIDSquadsSquadIDBody) *PutFleetsFleetIDSquadsSquadIDParams {
+func (o *PutFleetsFleetIDSquadsSquadIDParams) WithNaming(naming *models.PutFleetsFleetIDSquadsSquadIDParamsBody) *PutFleetsFleetIDSquadsSquadIDParams {
 	o.SetNaming(naming)
 	return o
 }
 
 // SetNaming adds the naming to the put fleets fleet id squads squad id params
-func (o *PutFleetsFleetIDSquadsSquadIDParams) SetNaming(naming PutFleetsFleetIDSquadsSquadIDBody) {
+func (o *PutFleetsFleetIDSquadsSquadIDParams) SetNaming(naming *models.PutFleetsFleetIDSquadsSquadIDParamsBody) {
 	o.Naming = naming
 }
 
@@ -215,17 +196,6 @@ func (o *PutFleetsFleetIDSquadsSquadIDParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the put fleets fleet id squads squad id params
-func (o *PutFleetsFleetIDSquadsSquadIDParams) WithUserAgent(userAgent *string) *PutFleetsFleetIDSquadsSquadIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the put fleets fleet id squads squad id params
-func (o *PutFleetsFleetIDSquadsSquadIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PutFleetsFleetIDSquadsSquadIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -233,15 +203,6 @@ func (o *PutFleetsFleetIDSquadsSquadIDParams) WriteToRequest(r runtime.ClientReq
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -264,8 +225,10 @@ func (o *PutFleetsFleetIDSquadsSquadIDParams) WriteToRequest(r runtime.ClientReq
 		return err
 	}
 
-	if err := r.SetBodyParam(o.Naming); err != nil {
-		return err
+	if o.Naming != nil {
+		if err := r.SetBodyParam(o.Naming); err != nil {
+			return err
+		}
 	}
 
 	// path param squad_id
@@ -283,22 +246,6 @@ func (o *PutFleetsFleetIDSquadsSquadIDParams) WriteToRequest(r runtime.ClientReq
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

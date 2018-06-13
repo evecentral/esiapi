@@ -30,11 +30,11 @@ GetCharactersCharacterIDPlanets gets colonies
 Returns a list of all planetary colonies owned by a character.
 
 ---
-Alternate route: `/v1/characters/{character_id}/planets/`
+Alternate route: `/dev/characters/{character_id}/planets/`
 
 Alternate route: `/legacy/characters/{character_id}/planets/`
 
-Alternate route: `/dev/characters/{character_id}/planets/`
+Alternate route: `/v1/characters/{character_id}/planets/`
 
 ---
 This route is cached for up to 600 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDPlanets(params *GetCharactersCharacterI
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/planets/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDPlanetsReader{formats: a.formats},
@@ -71,7 +71,9 @@ GetCharactersCharacterIDPlanetsPlanetID gets colony layout
 Returns full details on the layout of a single planetary colony, including links, pins and routes. Note: Planetary information is only recalculated when the colony is viewed through the client. Information will not update until this criteria is met.
 
 ---
-Alternate route: `/v2/characters/{character_id}/planets/{planet_id}/`
+Alternate route: `/dev/characters/{character_id}/planets/{planet_id}/`
+
+Alternate route: `/v3/characters/{character_id}/planets/{planet_id}/`
 
 ---
 This route is cached for up to 600 seconds
@@ -87,7 +89,7 @@ func (a *Client) GetCharactersCharacterIDPlanetsPlanetID(params *GetCharactersCh
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/planets/{planet_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDPlanetsPlanetIDReader{formats: a.formats},
@@ -103,16 +105,61 @@ func (a *Client) GetCharactersCharacterIDPlanetsPlanetID(params *GetCharactersCh
 }
 
 /*
+GetCorporationsCorporationIDCustomsOffices lists corporation customs offices
+
+List customs offices owned by a corporation
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/customs_offices/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/customs_offices/`
+
+Alternate route: `/v1/corporations/{corporation_id}/customs_offices/`
+
+---
+This route is cached for up to 3600 seconds
+
+---
+Requires one of the following EVE corporation role(s): Director
+
+*/
+func (a *Client) GetCorporationsCorporationIDCustomsOffices(params *GetCorporationsCorporationIDCustomsOfficesParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDCustomsOfficesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDCustomsOfficesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_customs_offices",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/customs_offices/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDCustomsOfficesReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDCustomsOfficesOK), nil
+
+}
+
+/*
 GetUniverseSchematicsSchematicID gets schematic information
 
 Get information on a planetary factory schematic
 
 ---
-Alternate route: `/v1/universe/schematics/{schematic_id}/`
+Alternate route: `/dev/universe/schematics/{schematic_id}/`
 
 Alternate route: `/legacy/universe/schematics/{schematic_id}/`
 
-Alternate route: `/dev/universe/schematics/{schematic_id}/`
+Alternate route: `/v1/universe/schematics/{schematic_id}/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -128,7 +175,7 @@ func (a *Client) GetUniverseSchematicsSchematicID(params *GetUniverseSchematicsS
 		Method:             "GET",
 		PathPattern:        "/universe/schematics/{schematic_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseSchematicsSchematicIDReader{formats: a.formats},

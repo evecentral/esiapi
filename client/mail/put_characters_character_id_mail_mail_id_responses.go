@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PutCharactersCharacterIDMailMailIDReader is a Reader for the PutCharactersCharacterIDMailMailID structure.
@@ -42,6 +39,13 @@ func (o *PutCharactersCharacterIDMailMailIDReader) ReadResponse(response runtime
 		}
 		return nil, result
 
+	case 401:
+		result := NewPutCharactersCharacterIDMailMailIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPutCharactersCharacterIDMailMailIDForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,8 +53,29 @@ func (o *PutCharactersCharacterIDMailMailIDReader) ReadResponse(response runtime
 		}
 		return nil, result
 
+	case 420:
+		result := NewPutCharactersCharacterIDMailMailIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPutCharactersCharacterIDMailMailIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPutCharactersCharacterIDMailMailIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPutCharactersCharacterIDMailMailIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -89,10 +114,10 @@ func NewPutCharactersCharacterIDMailMailIDBadRequest() *PutCharactersCharacterID
 
 /*PutCharactersCharacterIDMailMailIDBadRequest handles this case with default header values.
 
-Invalid label ID; or No parameters in body -- nothing to do
+Bad request
 */
 type PutCharactersCharacterIDMailMailIDBadRequest struct {
-	Payload PutCharactersCharacterIDMailMailIDBadRequestBody
+	Payload *models.BadRequest
 }
 
 func (o *PutCharactersCharacterIDMailMailIDBadRequest) Error() string {
@@ -101,8 +126,39 @@ func (o *PutCharactersCharacterIDMailMailIDBadRequest) Error() string {
 
 func (o *PutCharactersCharacterIDMailMailIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.BadRequest)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDMailMailIDUnauthorized creates a PutCharactersCharacterIDMailMailIDUnauthorized with default headers values
+func NewPutCharactersCharacterIDMailMailIDUnauthorized() *PutCharactersCharacterIDMailMailIDUnauthorized {
+	return &PutCharactersCharacterIDMailMailIDUnauthorized{}
+}
+
+/*PutCharactersCharacterIDMailMailIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PutCharactersCharacterIDMailMailIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PutCharactersCharacterIDMailMailIDUnauthorized) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/mail/{mail_id}/][%d] putCharactersCharacterIdMailMailIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDMailMailIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -129,6 +185,35 @@ func (o *PutCharactersCharacterIDMailMailIDForbidden) Error() string {
 func (o *PutCharactersCharacterIDMailMailIDForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDMailMailIDEnhanceYourCalm creates a PutCharactersCharacterIDMailMailIDEnhanceYourCalm with default headers values
+func NewPutCharactersCharacterIDMailMailIDEnhanceYourCalm() *PutCharactersCharacterIDMailMailIDEnhanceYourCalm {
+	return &PutCharactersCharacterIDMailMailIDEnhanceYourCalm{}
+}
+
+/*PutCharactersCharacterIDMailMailIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PutCharactersCharacterIDMailMailIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PutCharactersCharacterIDMailMailIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/mail/{mail_id}/][%d] putCharactersCharacterIdMailMailIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDMailMailIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -167,105 +252,60 @@ func (o *PutCharactersCharacterIDMailMailIDInternalServerError) readResponse(res
 	return nil
 }
 
-/*PutCharactersCharacterIDMailMailIDBadRequestBody put_characters_character_id_mail_mail_id_bad_request
-//
-// Bad request
-swagger:model PutCharactersCharacterIDMailMailIDBadRequestBody
+// NewPutCharactersCharacterIDMailMailIDServiceUnavailable creates a PutCharactersCharacterIDMailMailIDServiceUnavailable with default headers values
+func NewPutCharactersCharacterIDMailMailIDServiceUnavailable() *PutCharactersCharacterIDMailMailIDServiceUnavailable {
+	return &PutCharactersCharacterIDMailMailIDServiceUnavailable{}
+}
+
+/*PutCharactersCharacterIDMailMailIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PutCharactersCharacterIDMailMailIDBadRequestBody struct {
-
-	// put_characters_character_id_mail_mail_id_400_bad_request
-	//
-	// Bad request message
-	// Required: true
-	Error *string `json:"error"`
+type PutCharactersCharacterIDMailMailIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PutCharactersCharacterIDMailMailIDBadRequestBody error false */
-
-// Validate validates this put characters character ID mail mail ID bad request body
-func (o *PutCharactersCharacterIDMailMailIDBadRequestBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PutCharactersCharacterIDMailMailIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/mail/{mail_id}/][%d] putCharactersCharacterIdMailMailIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *PutCharactersCharacterIDMailMailIDBadRequestBody) validateError(formats strfmt.Registry) error {
+func (o *PutCharactersCharacterIDMailMailIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("putCharactersCharacterIdMailMailIdBadRequest"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *PutCharactersCharacterIDMailMailIDBadRequestBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewPutCharactersCharacterIDMailMailIDGatewayTimeout creates a PutCharactersCharacterIDMailMailIDGatewayTimeout with default headers values
+func NewPutCharactersCharacterIDMailMailIDGatewayTimeout() *PutCharactersCharacterIDMailMailIDGatewayTimeout {
+	return &PutCharactersCharacterIDMailMailIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *PutCharactersCharacterIDMailMailIDBadRequestBody) UnmarshalBinary(b []byte) error {
-	var res PutCharactersCharacterIDMailMailIDBadRequestBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*PutCharactersCharacterIDMailMailIDGatewayTimeout handles this case with default header values.
 
-/*PutCharactersCharacterIDMailMailIDBody put_characters_character_id_mail_mail_id_contents
-//
-// contents object
-swagger:model PutCharactersCharacterIDMailMailIDBody
+Gateway timeout
 */
-
-type PutCharactersCharacterIDMailMailIDBody struct {
-
-	// put_characters_character_id_mail_mail_id_labels
-	//
-	// Labels to assign to the mail. Pre-existing labels are unassigned.
-	// Required: true
-	// Max Items: 25
-	Labels []*int64 `json:"labels"`
-
-	// put_characters_character_id_mail_mail_id_read
-	//
-	// Whether the mail is flagged as read
-	// Required: true
-	Read *bool `json:"read"`
+type PutCharactersCharacterIDMailMailIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PutCharactersCharacterIDMailMailIDBody labels false */
-
-/* polymorph PutCharactersCharacterIDMailMailIDBody read false */
-
-// MarshalBinary interface implementation
-func (o *PutCharactersCharacterIDMailMailIDBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *PutCharactersCharacterIDMailMailIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/mail/{mail_id}/][%d] putCharactersCharacterIdMailMailIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *PutCharactersCharacterIDMailMailIDBody) UnmarshalBinary(b []byte) error {
-	var res PutCharactersCharacterIDMailMailIDBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *PutCharactersCharacterIDMailMailIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

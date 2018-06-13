@@ -6,19 +6,14 @@ package character
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDMedalsReader is a Reader for the GetCharactersCharacterIDMedals structure.
@@ -37,6 +32,27 @@ func (o *GetCharactersCharacterIDMedalsReader) ReadResponse(response runtime.Cli
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDMedalsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDMedalsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDMedalsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDMedalsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -44,8 +60,29 @@ func (o *GetCharactersCharacterIDMedalsReader) ReadResponse(response runtime.Cli
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDMedalsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDMedalsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDMedalsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDMedalsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -69,6 +106,9 @@ type GetCharactersCharacterIDMedalsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,7 +116,7 @@ type GetCharactersCharacterIDMedalsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDMedalsOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDMedalsOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDMedalsOK) Error() string {
@@ -88,6 +128,9 @@ func (o *GetCharactersCharacterIDMedalsOK) readResponse(response runtime.ClientR
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -96,6 +139,109 @@ func (o *GetCharactersCharacterIDMedalsOK) readResponse(response runtime.ClientR
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMedalsNotModified creates a GetCharactersCharacterIDMedalsNotModified with default headers values
+func NewGetCharactersCharacterIDMedalsNotModified() *GetCharactersCharacterIDMedalsNotModified {
+	return &GetCharactersCharacterIDMedalsNotModified{}
+}
+
+/*GetCharactersCharacterIDMedalsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDMedalsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDMedalsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/medals/][%d] getCharactersCharacterIdMedalsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDMedalsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMedalsBadRequest creates a GetCharactersCharacterIDMedalsBadRequest with default headers values
+func NewGetCharactersCharacterIDMedalsBadRequest() *GetCharactersCharacterIDMedalsBadRequest {
+	return &GetCharactersCharacterIDMedalsBadRequest{}
+}
+
+/*GetCharactersCharacterIDMedalsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDMedalsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDMedalsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/medals/][%d] getCharactersCharacterIdMedalsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMedalsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMedalsUnauthorized creates a GetCharactersCharacterIDMedalsUnauthorized with default headers values
+func NewGetCharactersCharacterIDMedalsUnauthorized() *GetCharactersCharacterIDMedalsUnauthorized {
+	return &GetCharactersCharacterIDMedalsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDMedalsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDMedalsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDMedalsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/medals/][%d] getCharactersCharacterIdMedalsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMedalsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,6 +268,35 @@ func (o *GetCharactersCharacterIDMedalsForbidden) Error() string {
 func (o *GetCharactersCharacterIDMedalsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMedalsEnhanceYourCalm creates a GetCharactersCharacterIDMedalsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDMedalsEnhanceYourCalm() *GetCharactersCharacterIDMedalsEnhanceYourCalm {
+	return &GetCharactersCharacterIDMedalsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDMedalsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDMedalsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDMedalsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/medals/][%d] getCharactersCharacterIdMedalsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMedalsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -160,408 +335,60 @@ func (o *GetCharactersCharacterIDMedalsInternalServerError) readResponse(respons
 	return nil
 }
 
-/*GetCharactersCharacterIDMedalsOKBodyItems0 get_characters_character_id_medals_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDMedalsOKBodyItems0
+// NewGetCharactersCharacterIDMedalsServiceUnavailable creates a GetCharactersCharacterIDMedalsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDMedalsServiceUnavailable() *GetCharactersCharacterIDMedalsServiceUnavailable {
+	return &GetCharactersCharacterIDMedalsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDMedalsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDMedalsOKBodyItems0 struct {
-
-	// get_characters_character_id_medals_corporation_id
-	//
-	// corporation_id integer
-	// Required: true
-	CorporationID *int32 `json:"corporation_id"`
-
-	// get_characters_character_id_medals_date
-	//
-	// date string
-	// Required: true
-	Date *strfmt.DateTime `json:"date"`
-
-	// get_characters_character_id_medals_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_characters_character_id_medals_graphics
-	//
-	// graphics array
-	// Required: true
-	// Max Items: 10
-	Graphics []*GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0 `json:"graphics"`
-
-	// get_characters_character_id_medals_issuer_id
-	//
-	// issuer_id integer
-	// Required: true
-	IssuerID *int32 `json:"issuer_id"`
-
-	// get_characters_character_id_medals_medal_id
-	//
-	// medal_id integer
-	// Required: true
-	MedalID *int32 `json:"medal_id"`
-
-	// get_characters_character_id_medals_reason
-	//
-	// reason string
-	// Required: true
-	Reason *string `json:"reason"`
-
-	// get_characters_character_id_medals_status
-	//
-	// status string
-	// Required: true
-	Status *string `json:"status"`
-
-	// get_characters_character_id_medals_title
-	//
-	// title string
-	// Required: true
-	Title *string `json:"title"`
+type GetCharactersCharacterIDMedalsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 corporation_id false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 date false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 description false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 graphics false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 issuer_id false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 medal_id false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 reason false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 status false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0 title false */
-
-// Validate validates this get characters character ID medals o k body items0
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCorporationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateGraphics(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIssuerID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMedalID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateReason(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStatus(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTitle(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDMedalsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/medals/][%d] getCharactersCharacterIdMedalsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateCorporationID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDMedalsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("corporation_id", "body", o.CorporationID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateDate(formats strfmt.Registry) error {
-
-	if err := validate.Required("date", "body", o.Date); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("date", "body", "date-time", o.Date.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDMedalsGatewayTimeout creates a GetCharactersCharacterIDMedalsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDMedalsGatewayTimeout() *GetCharactersCharacterIDMedalsGatewayTimeout {
+	return &GetCharactersCharacterIDMedalsGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateDescription(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDMedalsGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("description", "body", o.Description); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateGraphics(formats strfmt.Registry) error {
-
-	if err := validate.Required("graphics", "body", o.Graphics); err != nil {
-		return err
-	}
-
-	iGraphicsSize := int64(len(o.Graphics))
-
-	if err := validate.MaxItems("graphics", "body", iGraphicsSize, 10); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Graphics); i++ {
-
-		if swag.IsZero(o.Graphics[i]) { // not required
-			continue
-		}
-
-		if o.Graphics[i] != nil {
-
-			if err := o.Graphics[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("graphics" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateIssuerID(formats strfmt.Registry) error {
-
-	if err := validate.Required("issuer_id", "body", o.IssuerID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateMedalID(formats strfmt.Registry) error {
-
-	if err := validate.Required("medal_id", "body", o.MedalID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateReason(formats strfmt.Registry) error {
-
-	if err := validate.Required("reason", "body", o.Reason); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var getCharactersCharacterIdMedalsOKBodyItems0TypeStatusPropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["public","private"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdMedalsOKBodyItems0TypeStatusPropEnum = append(getCharactersCharacterIdMedalsOKBodyItems0TypeStatusPropEnum, v)
-	}
-}
-
-const (
-	// GetCharactersCharacterIDMedalsOKBodyItems0StatusPublic captures enum value "public"
-	GetCharactersCharacterIDMedalsOKBodyItems0StatusPublic string = "public"
-	// GetCharactersCharacterIDMedalsOKBodyItems0StatusPrivate captures enum value "private"
-	GetCharactersCharacterIDMedalsOKBodyItems0StatusPrivate string = "private"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateStatusEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdMedalsOKBodyItems0TypeStatusPropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateStatus(formats strfmt.Registry) error {
-
-	if err := validate.Required("status", "body", o.Status); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateStatusEnum("status", "body", *o.Status); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) validateTitle(formats strfmt.Registry) error {
-
-	if err := validate.Required("title", "body", o.Title); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDMedalsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0 get_characters_character_id_medals_graphic
-//
-// graphic object
-swagger:model GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0
+Gateway timeout
 */
-
-type GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0 struct {
-
-	// get_characters_character_id_medals_color
-	//
-	// color integer
-	Color int32 `json:"color,omitempty"`
-
-	// get_characters_character_id_medals_graphic
-	//
-	// graphic string
-	// Required: true
-	Graphic *string `json:"graphic"`
-
-	// get_characters_character_id_medals_layer
-	//
-	// layer integer
-	// Required: true
-	Layer *int32 `json:"layer"`
-
-	// get_characters_character_id_medals_part
-	//
-	// part integer
-	// Required: true
-	Part *int32 `json:"part"`
+type GetCharactersCharacterIDMedalsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0 color false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0 graphic false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0 layer false */
-
-/* polymorph GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0 part false */
-
-// Validate validates this get characters character ID medals o k body items0 graphics items0
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateGraphic(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLayer(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePart(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDMedalsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/medals/][%d] getCharactersCharacterIdMedalsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0) validateGraphic(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDMedalsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("graphic", "body", o.Graphic); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0) validateLayer(formats strfmt.Registry) error {
-
-	if err := validate.Required("layer", "body", o.Layer); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0) validatePart(formats strfmt.Registry) error {
-
-	if err := validate.Required("part", "body", o.Part); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDMedalsOKBodyItems0GraphicsItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

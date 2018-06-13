@@ -74,11 +74,6 @@ for the post universe names operation typically these are written to a http.Requ
 */
 type PostUniverseNamesParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -89,11 +84,6 @@ type PostUniverseNamesParams struct {
 
 	*/
 	Ids []int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -133,17 +123,6 @@ func (o *PostUniverseNamesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post universe names params
-func (o *PostUniverseNamesParams) WithXUserAgent(xUserAgent *string) *PostUniverseNamesParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post universe names params
-func (o *PostUniverseNamesParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the post universe names params
 func (o *PostUniverseNamesParams) WithDatasource(datasource *string) *PostUniverseNamesParams {
 	o.SetDatasource(datasource)
@@ -166,17 +145,6 @@ func (o *PostUniverseNamesParams) SetIds(ids []int32) {
 	o.Ids = ids
 }
 
-// WithUserAgent adds the userAgent to the post universe names params
-func (o *PostUniverseNamesParams) WithUserAgent(userAgent *string) *PostUniverseNamesParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post universe names params
-func (o *PostUniverseNamesParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostUniverseNamesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -184,15 +152,6 @@ func (o *PostUniverseNamesParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -210,24 +169,10 @@ func (o *PostUniverseNamesParams) WriteToRequest(r runtime.ClientRequest, reg st
 
 	}
 
-	if err := r.SetBodyParam(o.Ids); err != nil {
-		return err
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
+	if o.Ids != nil {
+		if err := r.SetBodyParam(o.Ids); err != nil {
+			return err
 		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	if len(res) > 0 {

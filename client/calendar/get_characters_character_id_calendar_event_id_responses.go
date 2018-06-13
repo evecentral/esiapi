@@ -6,18 +6,14 @@ package calendar
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDCalendarEventIDReader is a Reader for the GetCharactersCharacterIDCalendarEventID structure.
@@ -36,6 +32,27 @@ func (o *GetCharactersCharacterIDCalendarEventIDReader) ReadResponse(response ru
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDCalendarEventIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDCalendarEventIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDCalendarEventIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDCalendarEventIDForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +60,36 @@ func (o *GetCharactersCharacterIDCalendarEventIDReader) ReadResponse(response ru
 		}
 		return nil, result
 
+	case 404:
+		result := NewGetCharactersCharacterIDCalendarEventIDNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCharactersCharacterIDCalendarEventIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDCalendarEventIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDCalendarEventIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDCalendarEventIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +113,9 @@ type GetCharactersCharacterIDCalendarEventIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +123,7 @@ type GetCharactersCharacterIDCalendarEventIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDCalendarEventIDOKBody
+	Payload *models.GetCharactersCharacterIDCalendarEventIDOKBody
 }
 
 func (o *GetCharactersCharacterIDCalendarEventIDOK) Error() string {
@@ -87,14 +135,122 @@ func (o *GetCharactersCharacterIDCalendarEventIDOK) readResponse(response runtim
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDCalendarEventIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarEventIDNotModified creates a GetCharactersCharacterIDCalendarEventIDNotModified with default headers values
+func NewGetCharactersCharacterIDCalendarEventIDNotModified() *GetCharactersCharacterIDCalendarEventIDNotModified {
+	return &GetCharactersCharacterIDCalendarEventIDNotModified{}
+}
+
+/*GetCharactersCharacterIDCalendarEventIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDCalendarEventIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/{event_id}/][%d] getCharactersCharacterIdCalendarEventIdNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarEventIDBadRequest creates a GetCharactersCharacterIDCalendarEventIDBadRequest with default headers values
+func NewGetCharactersCharacterIDCalendarEventIDBadRequest() *GetCharactersCharacterIDCalendarEventIDBadRequest {
+	return &GetCharactersCharacterIDCalendarEventIDBadRequest{}
+}
+
+/*GetCharactersCharacterIDCalendarEventIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDCalendarEventIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/{event_id}/][%d] getCharactersCharacterIdCalendarEventIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarEventIDUnauthorized creates a GetCharactersCharacterIDCalendarEventIDUnauthorized with default headers values
+func NewGetCharactersCharacterIDCalendarEventIDUnauthorized() *GetCharactersCharacterIDCalendarEventIDUnauthorized {
+	return &GetCharactersCharacterIDCalendarEventIDUnauthorized{}
+}
+
+/*GetCharactersCharacterIDCalendarEventIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDCalendarEventIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/{event_id}/][%d] getCharactersCharacterIdCalendarEventIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -121,6 +277,64 @@ func (o *GetCharactersCharacterIDCalendarEventIDForbidden) Error() string {
 func (o *GetCharactersCharacterIDCalendarEventIDForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarEventIDNotFound creates a GetCharactersCharacterIDCalendarEventIDNotFound with default headers values
+func NewGetCharactersCharacterIDCalendarEventIDNotFound() *GetCharactersCharacterIDCalendarEventIDNotFound {
+	return &GetCharactersCharacterIDCalendarEventIDNotFound{}
+}
+
+/*GetCharactersCharacterIDCalendarEventIDNotFound handles this case with default header values.
+
+Not found
+*/
+type GetCharactersCharacterIDCalendarEventIDNotFound struct {
+	Payload *models.GetCharactersCharacterIDCalendarEventIDNotFoundBody
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDNotFound) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/{event_id}/][%d] getCharactersCharacterIdCalendarEventIdNotFound  %+v", 404, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GetCharactersCharacterIDCalendarEventIDNotFoundBody)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarEventIDEnhanceYourCalm creates a GetCharactersCharacterIDCalendarEventIDEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDCalendarEventIDEnhanceYourCalm() *GetCharactersCharacterIDCalendarEventIDEnhanceYourCalm {
+	return &GetCharactersCharacterIDCalendarEventIDEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDCalendarEventIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDCalendarEventIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/{event_id}/][%d] getCharactersCharacterIdCalendarEventIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -159,301 +373,60 @@ func (o *GetCharactersCharacterIDCalendarEventIDInternalServerError) readRespons
 	return nil
 }
 
-/*GetCharactersCharacterIDCalendarEventIDOKBody get_characters_character_id_calendar_event_id_ok
-//
-// Full details of a specific event
-swagger:model GetCharactersCharacterIDCalendarEventIDOKBody
+// NewGetCharactersCharacterIDCalendarEventIDServiceUnavailable creates a GetCharactersCharacterIDCalendarEventIDServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDCalendarEventIDServiceUnavailable() *GetCharactersCharacterIDCalendarEventIDServiceUnavailable {
+	return &GetCharactersCharacterIDCalendarEventIDServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDCalendarEventIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDCalendarEventIDOKBody struct {
-
-	// get_characters_character_id_calendar_event_id_date
-	//
-	// date string
-	// Required: true
-	Date *strfmt.DateTime `json:"date"`
-
-	// get_characters_character_id_calendar_event_id_duration
-	//
-	// Length in minutes
-	// Required: true
-	Duration *int32 `json:"duration"`
-
-	// get_characters_character_id_calendar_event_id_event_id
-	//
-	// event_id integer
-	// Required: true
-	EventID *int32 `json:"event_id"`
-
-	// get_characters_character_id_calendar_event_id_importance
-	//
-	// importance integer
-	// Required: true
-	Importance *int32 `json:"importance"`
-
-	// get_characters_character_id_calendar_event_id_owner_id
-	//
-	// owner_id integer
-	// Required: true
-	OwnerID *int32 `json:"owner_id"`
-
-	// get_characters_character_id_calendar_event_id_owner_name
-	//
-	// owner_name string
-	// Required: true
-	OwnerName *string `json:"owner_name"`
-
-	// get_characters_character_id_calendar_event_id_owner_type
-	//
-	// owner_type string
-	// Required: true
-	OwnerType *string `json:"owner_type"`
-
-	// get_characters_character_id_calendar_event_id_response
-	//
-	// response string
-	// Required: true
-	Response *string `json:"response"`
-
-	// get_characters_character_id_calendar_event_id_text
-	//
-	// text string
-	// Required: true
-	Text *string `json:"text"`
-
-	// get_characters_character_id_calendar_event_id_title
-	//
-	// title string
-	// Required: true
-	Title *string `json:"title"`
+type GetCharactersCharacterIDCalendarEventIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody date false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody duration false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody event_id false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody importance false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody owner_id false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody owner_name false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody owner_type false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody response false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody text false */
-
-/* polymorph GetCharactersCharacterIDCalendarEventIDOKBody title false */
-
-// Validate validates this get characters character ID calendar event ID o k body
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDuration(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateEventID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateImportance(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOwnerID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOwnerName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOwnerType(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateResponse(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateText(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTitle(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDCalendarEventIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/{event_id}/][%d] getCharactersCharacterIdCalendarEventIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateDate(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDCalendarEventIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"date", "body", o.Date); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	if err := validate.FormatOf("getCharactersCharacterIdCalendarEventIdOK"+"."+"date", "body", "date-time", o.Date.String(), formats); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateDuration(formats strfmt.Registry) error {
+// NewGetCharactersCharacterIDCalendarEventIDGatewayTimeout creates a GetCharactersCharacterIDCalendarEventIDGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDCalendarEventIDGatewayTimeout() *GetCharactersCharacterIDCalendarEventIDGatewayTimeout {
+	return &GetCharactersCharacterIDCalendarEventIDGatewayTimeout{}
+}
 
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"duration", "body", o.Duration); err != nil {
+/*GetCharactersCharacterIDCalendarEventIDGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDCalendarEventIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/{event_id}/][%d] getCharactersCharacterIdCalendarEventIdGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarEventIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateEventID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"event_id", "body", o.EventID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateImportance(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"importance", "body", o.Importance); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateOwnerID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"owner_id", "body", o.OwnerID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateOwnerName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"owner_name", "body", o.OwnerName); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var getCharactersCharacterIdCalendarEventIdOKBodyTypeOwnerTypePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["eve_server","corporation","faction","character","alliance"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdCalendarEventIdOKBodyTypeOwnerTypePropEnum = append(getCharactersCharacterIdCalendarEventIdOKBodyTypeOwnerTypePropEnum, v)
-	}
-}
-
-const (
-	// GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeEveServer captures enum value "eve_server"
-	GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeEveServer string = "eve_server"
-	// GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeCorporation captures enum value "corporation"
-	GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeCorporation string = "corporation"
-	// GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeFaction captures enum value "faction"
-	GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeFaction string = "faction"
-	// GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeCharacter captures enum value "character"
-	GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeCharacter string = "character"
-	// GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeAlliance captures enum value "alliance"
-	GetCharactersCharacterIDCalendarEventIDOKBodyOwnerTypeAlliance string = "alliance"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateOwnerTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdCalendarEventIdOKBodyTypeOwnerTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateOwnerType(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"owner_type", "body", o.OwnerType); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateOwnerTypeEnum("getCharactersCharacterIdCalendarEventIdOK"+"."+"owner_type", "body", *o.OwnerType); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateResponse(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"response", "body", o.Response); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateText(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"text", "body", o.Text); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) validateTitle(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdCalendarEventIdOK"+"."+"title", "body", o.Title); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDCalendarEventIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDCalendarEventIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

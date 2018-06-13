@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostFleetsFleetIDMembersReader is a Reader for the PostFleetsFleetIDMembers structure.
@@ -35,6 +32,20 @@ func (o *PostFleetsFleetIDMembersReader) ReadResponse(response runtime.ClientRes
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostFleetsFleetIDMembersBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostFleetsFleetIDMembersUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostFleetsFleetIDMembersForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,6 +60,13 @@ func (o *PostFleetsFleetIDMembersReader) ReadResponse(response runtime.ClientRes
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostFleetsFleetIDMembersEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 422:
 		result := NewPostFleetsFleetIDMembersUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -58,6 +76,20 @@ func (o *PostFleetsFleetIDMembersReader) ReadResponse(response runtime.ClientRes
 
 	case 500:
 		result := NewPostFleetsFleetIDMembersInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostFleetsFleetIDMembersServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostFleetsFleetIDMembersGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -85,6 +117,64 @@ func (o *PostFleetsFleetIDMembersNoContent) Error() string {
 }
 
 func (o *PostFleetsFleetIDMembersNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewPostFleetsFleetIDMembersBadRequest creates a PostFleetsFleetIDMembersBadRequest with default headers values
+func NewPostFleetsFleetIDMembersBadRequest() *PostFleetsFleetIDMembersBadRequest {
+	return &PostFleetsFleetIDMembersBadRequest{}
+}
+
+/*PostFleetsFleetIDMembersBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostFleetsFleetIDMembersBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostFleetsFleetIDMembersBadRequest) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/members/][%d] postFleetsFleetIdMembersBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostFleetsFleetIDMembersBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostFleetsFleetIDMembersUnauthorized creates a PostFleetsFleetIDMembersUnauthorized with default headers values
+func NewPostFleetsFleetIDMembersUnauthorized() *PostFleetsFleetIDMembersUnauthorized {
+	return &PostFleetsFleetIDMembersUnauthorized{}
+}
+
+/*PostFleetsFleetIDMembersUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostFleetsFleetIDMembersUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostFleetsFleetIDMembersUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/members/][%d] postFleetsFleetIdMembersUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostFleetsFleetIDMembersUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -128,7 +218,7 @@ func NewPostFleetsFleetIDMembersNotFound() *PostFleetsFleetIDMembersNotFound {
 The fleet does not exist or you don't have access to it
 */
 type PostFleetsFleetIDMembersNotFound struct {
-	Payload PostFleetsFleetIDMembersNotFoundBody
+	Payload *models.PostFleetsFleetIDMembersNotFoundBody
 }
 
 func (o *PostFleetsFleetIDMembersNotFound) Error() string {
@@ -137,8 +227,39 @@ func (o *PostFleetsFleetIDMembersNotFound) Error() string {
 
 func (o *PostFleetsFleetIDMembersNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.PostFleetsFleetIDMembersNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostFleetsFleetIDMembersEnhanceYourCalm creates a PostFleetsFleetIDMembersEnhanceYourCalm with default headers values
+func NewPostFleetsFleetIDMembersEnhanceYourCalm() *PostFleetsFleetIDMembersEnhanceYourCalm {
+	return &PostFleetsFleetIDMembersEnhanceYourCalm{}
+}
+
+/*PostFleetsFleetIDMembersEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostFleetsFleetIDMembersEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostFleetsFleetIDMembersEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/members/][%d] postFleetsFleetIdMembersEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostFleetsFleetIDMembersEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -155,7 +276,7 @@ func NewPostFleetsFleetIDMembersUnprocessableEntity() *PostFleetsFleetIDMembersU
 Errors in invitation
 */
 type PostFleetsFleetIDMembersUnprocessableEntity struct {
-	Payload PostFleetsFleetIDMembersUnprocessableEntityBody
+	Payload *models.PostFleetsFleetIDMembersUnprocessableEntityBody
 }
 
 func (o *PostFleetsFleetIDMembersUnprocessableEntity) Error() string {
@@ -164,8 +285,10 @@ func (o *PostFleetsFleetIDMembersUnprocessableEntity) Error() string {
 
 func (o *PostFleetsFleetIDMembersUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.PostFleetsFleetIDMembersUnprocessableEntityBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -201,182 +324,60 @@ func (o *PostFleetsFleetIDMembersInternalServerError) readResponse(response runt
 	return nil
 }
 
-/*PostFleetsFleetIDMembersBody post_fleets_fleet_id_members_invitation
-//
-// invitation object
-swagger:model PostFleetsFleetIDMembersBody
+// NewPostFleetsFleetIDMembersServiceUnavailable creates a PostFleetsFleetIDMembersServiceUnavailable with default headers values
+func NewPostFleetsFleetIDMembersServiceUnavailable() *PostFleetsFleetIDMembersServiceUnavailable {
+	return &PostFleetsFleetIDMembersServiceUnavailable{}
+}
+
+/*PostFleetsFleetIDMembersServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostFleetsFleetIDMembersBody struct {
-
-	// post_fleets_fleet_id_members_character_id
-	//
-	// The character you want to invite
-	// Required: true
-	CharacterID *int32 `json:"character_id"`
-
-	// post_fleets_fleet_id_members_role
-	//
-	// - If a character is invited with the `fleet_commander` role, neither `wing_id` or `squad_id` should be specified - If a character is invited with the `wing_commander` role, only `wing_id` should be specified - If a character is invited with the `squad_commander` role, both `wing_id` and `squad_id` should be specified - If a character is invited with the `squad_member` role, `wing_id` and `squad_id` should either both be specified or not specified at all. If they aren’t specified, the invited character will join any squad with available positions
-	//
-	// Required: true
-	Role *string `json:"role"`
-
-	// post_fleets_fleet_id_members_squad_id
-	//
-	// squad_id integer
-	// Required: true
-	// Minimum: 0
-	SquadID *int64 `json:"squad_id"`
-
-	// post_fleets_fleet_id_members_wing_id
-	//
-	// wing_id integer
-	// Required: true
-	// Minimum: 0
-	WingID *int64 `json:"wing_id"`
+type PostFleetsFleetIDMembersServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostFleetsFleetIDMembersBody character_id false */
-
-/* polymorph PostFleetsFleetIDMembersBody role false */
-
-/* polymorph PostFleetsFleetIDMembersBody squad_id false */
-
-/* polymorph PostFleetsFleetIDMembersBody wing_id false */
-
-// MarshalBinary interface implementation
-func (o *PostFleetsFleetIDMembersBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *PostFleetsFleetIDMembersServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/members/][%d] postFleetsFleetIdMembersServiceUnavailable  %+v", 503, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostFleetsFleetIDMembersBody) UnmarshalBinary(b []byte) error {
-	var res PostFleetsFleetIDMembersBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *PostFleetsFleetIDMembersServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }
 
-/*PostFleetsFleetIDMembersNotFoundBody post_fleets_fleet_id_members_not_found
-//
-// Not found
-swagger:model PostFleetsFleetIDMembersNotFoundBody
+// NewPostFleetsFleetIDMembersGatewayTimeout creates a PostFleetsFleetIDMembersGatewayTimeout with default headers values
+func NewPostFleetsFleetIDMembersGatewayTimeout() *PostFleetsFleetIDMembersGatewayTimeout {
+	return &PostFleetsFleetIDMembersGatewayTimeout{}
+}
+
+/*PostFleetsFleetIDMembersGatewayTimeout handles this case with default header values.
+
+Gateway timeout
 */
-
-type PostFleetsFleetIDMembersNotFoundBody struct {
-
-	// post_fleets_fleet_id_members_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type PostFleetsFleetIDMembersGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PostFleetsFleetIDMembersNotFoundBody error false */
-
-// Validate validates this post fleets fleet ID members not found body
-func (o *PostFleetsFleetIDMembersNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostFleetsFleetIDMembersGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/members/][%d] postFleetsFleetIdMembersGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *PostFleetsFleetIDMembersNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *PostFleetsFleetIDMembersGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postFleetsFleetIdMembersNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *PostFleetsFleetIDMembersNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *PostFleetsFleetIDMembersNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res PostFleetsFleetIDMembersNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*PostFleetsFleetIDMembersUnprocessableEntityBody post_fleets_fleet_id_members_unprocessable_entity
-//
-// 422 unprocessable entity object
-swagger:model PostFleetsFleetIDMembersUnprocessableEntityBody
-*/
-
-type PostFleetsFleetIDMembersUnprocessableEntityBody struct {
-
-	// post_fleets_fleet_id_members_error
-	//
-	// error message
-	// Required: true
-	Error *string `json:"error"`
-}
-
-/* polymorph PostFleetsFleetIDMembersUnprocessableEntityBody error false */
-
-// Validate validates this post fleets fleet ID members unprocessable entity body
-func (o *PostFleetsFleetIDMembersUnprocessableEntityBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *PostFleetsFleetIDMembersUnprocessableEntityBody) validateError(formats strfmt.Registry) error {
-
-	if err := validate.Required("postFleetsFleetIdMembersUnprocessableEntity"+"."+"error", "body", o.Error); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *PostFleetsFleetIDMembersUnprocessableEntityBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *PostFleetsFleetIDMembersUnprocessableEntityBody) UnmarshalBinary(b []byte) error {
-	var res PostFleetsFleetIDMembersUnprocessableEntityBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

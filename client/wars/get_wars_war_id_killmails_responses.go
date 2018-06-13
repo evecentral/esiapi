@@ -12,11 +12,10 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetWarsWarIDKillmailsReader is a Reader for the GetWarsWarIDKillmails structure.
@@ -35,6 +34,27 @@ func (o *GetWarsWarIDKillmailsReader) ReadResponse(response runtime.ClientRespon
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetWarsWarIDKillmailsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetWarsWarIDKillmailsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetWarsWarIDKillmailsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 422:
 		result := NewGetWarsWarIDKillmailsUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,6 +69,20 @@ func (o *GetWarsWarIDKillmailsReader) ReadResponse(response runtime.ClientRespon
 		}
 		return nil, result
 
+	case 503:
+		result := NewGetWarsWarIDKillmailsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetWarsWarIDKillmailsGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -56,7 +90,9 @@ func (o *GetWarsWarIDKillmailsReader) ReadResponse(response runtime.ClientRespon
 
 // NewGetWarsWarIDKillmailsOK creates a GetWarsWarIDKillmailsOK with default headers values
 func NewGetWarsWarIDKillmailsOK() *GetWarsWarIDKillmailsOK {
-	return &GetWarsWarIDKillmailsOK{}
+	return &GetWarsWarIDKillmailsOK{
+		XPages: 1,
+	}
 }
 
 /*GetWarsWarIDKillmailsOK handles this case with default header values.
@@ -67,14 +103,20 @@ type GetWarsWarIDKillmailsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
 	/*RFC7231 formatted datetime string
 	 */
 	LastModified string
+	/*Maximum page number
+	 */
+	XPages int32
 
-	Payload []*GetWarsWarIDKillmailsOKBodyItems0
+	Payload []*models.GetWarsWarIDKillmailsOKBodyItems
 }
 
 func (o *GetWarsWarIDKillmailsOK) Error() string {
@@ -86,14 +128,127 @@ func (o *GetWarsWarIDKillmailsOK) readResponse(response runtime.ClientResponse, 
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	// response header X-Pages
+	xPages, err := swag.ConvertInt32(response.GetHeader("X-Pages"))
+	if err != nil {
+		return errors.InvalidType("X-Pages", "header", "int32", response.GetHeader("X-Pages"))
+	}
+	o.XPages = xPages
+
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetWarsWarIDKillmailsNotModified creates a GetWarsWarIDKillmailsNotModified with default headers values
+func NewGetWarsWarIDKillmailsNotModified() *GetWarsWarIDKillmailsNotModified {
+	return &GetWarsWarIDKillmailsNotModified{}
+}
+
+/*GetWarsWarIDKillmailsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetWarsWarIDKillmailsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetWarsWarIDKillmailsNotModified) Error() string {
+	return fmt.Sprintf("[GET /wars/{war_id}/killmails/][%d] getWarsWarIdKillmailsNotModified ", 304)
+}
+
+func (o *GetWarsWarIDKillmailsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetWarsWarIDKillmailsBadRequest creates a GetWarsWarIDKillmailsBadRequest with default headers values
+func NewGetWarsWarIDKillmailsBadRequest() *GetWarsWarIDKillmailsBadRequest {
+	return &GetWarsWarIDKillmailsBadRequest{}
+}
+
+/*GetWarsWarIDKillmailsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetWarsWarIDKillmailsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetWarsWarIDKillmailsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /wars/{war_id}/killmails/][%d] getWarsWarIdKillmailsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetWarsWarIDKillmailsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetWarsWarIDKillmailsEnhanceYourCalm creates a GetWarsWarIDKillmailsEnhanceYourCalm with default headers values
+func NewGetWarsWarIDKillmailsEnhanceYourCalm() *GetWarsWarIDKillmailsEnhanceYourCalm {
+	return &GetWarsWarIDKillmailsEnhanceYourCalm{}
+}
+
+/*GetWarsWarIDKillmailsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetWarsWarIDKillmailsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetWarsWarIDKillmailsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /wars/{war_id}/killmails/][%d] getWarsWarIdKillmailsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetWarsWarIDKillmailsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +265,7 @@ func NewGetWarsWarIDKillmailsUnprocessableEntity() *GetWarsWarIDKillmailsUnproce
 War not found
 */
 type GetWarsWarIDKillmailsUnprocessableEntity struct {
-	Payload GetWarsWarIDKillmailsUnprocessableEntityBody
+	Payload *models.GetWarsWarIDKillmailsUnprocessableEntityBody
 }
 
 func (o *GetWarsWarIDKillmailsUnprocessableEntity) Error() string {
@@ -119,8 +274,10 @@ func (o *GetWarsWarIDKillmailsUnprocessableEntity) Error() string {
 
 func (o *GetWarsWarIDKillmailsUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetWarsWarIDKillmailsUnprocessableEntityBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,142 +313,60 @@ func (o *GetWarsWarIDKillmailsInternalServerError) readResponse(response runtime
 	return nil
 }
 
-/*GetWarsWarIDKillmailsOKBodyItems0 get_wars_war_id_killmails_200_ok
-//
-// 200 ok object
-swagger:model GetWarsWarIDKillmailsOKBodyItems0
+// NewGetWarsWarIDKillmailsServiceUnavailable creates a GetWarsWarIDKillmailsServiceUnavailable with default headers values
+func NewGetWarsWarIDKillmailsServiceUnavailable() *GetWarsWarIDKillmailsServiceUnavailable {
+	return &GetWarsWarIDKillmailsServiceUnavailable{}
+}
+
+/*GetWarsWarIDKillmailsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetWarsWarIDKillmailsOKBodyItems0 struct {
-
-	// get_wars_war_id_killmails_killmail_hash
-	//
-	// A hash of this killmail
-	// Required: true
-	KillmailHash *string `json:"killmail_hash"`
-
-	// get_wars_war_id_killmails_killmail_id
-	//
-	// ID of this killmail
-	// Required: true
-	KillmailID *int32 `json:"killmail_id"`
+type GetWarsWarIDKillmailsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetWarsWarIDKillmailsOKBodyItems0 killmail_hash false */
-
-/* polymorph GetWarsWarIDKillmailsOKBodyItems0 killmail_id false */
-
-// Validate validates this get wars war ID killmails o k body items0
-func (o *GetWarsWarIDKillmailsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateKillmailHash(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateKillmailID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetWarsWarIDKillmailsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /wars/{war_id}/killmails/][%d] getWarsWarIdKillmailsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetWarsWarIDKillmailsOKBodyItems0) validateKillmailHash(formats strfmt.Registry) error {
+func (o *GetWarsWarIDKillmailsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("killmail_hash", "body", o.KillmailHash); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetWarsWarIDKillmailsOKBodyItems0) validateKillmailID(formats strfmt.Registry) error {
-
-	if err := validate.Required("killmail_id", "body", o.KillmailID); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetWarsWarIDKillmailsGatewayTimeout creates a GetWarsWarIDKillmailsGatewayTimeout with default headers values
+func NewGetWarsWarIDKillmailsGatewayTimeout() *GetWarsWarIDKillmailsGatewayTimeout {
+	return &GetWarsWarIDKillmailsGatewayTimeout{}
 }
 
-// MarshalBinary interface implementation
-func (o *GetWarsWarIDKillmailsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
+/*GetWarsWarIDKillmailsGatewayTimeout handles this case with default header values.
 
-// UnmarshalBinary interface implementation
-func (o *GetWarsWarIDKillmailsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetWarsWarIDKillmailsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetWarsWarIDKillmailsUnprocessableEntityBody get_wars_war_id_killmails_unprocessable_entity
-//
-// Unprocessable entity
-swagger:model GetWarsWarIDKillmailsUnprocessableEntityBody
+Gateway timeout
 */
-
-type GetWarsWarIDKillmailsUnprocessableEntityBody struct {
-
-	// get_wars_war_id_killmails_422_unprocessable_entity
-	//
-	// Unprocessable entity message
-	// Required: true
-	Error *string `json:"error"`
+type GetWarsWarIDKillmailsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetWarsWarIDKillmailsUnprocessableEntityBody error false */
-
-// Validate validates this get wars war ID killmails unprocessable entity body
-func (o *GetWarsWarIDKillmailsUnprocessableEntityBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetWarsWarIDKillmailsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /wars/{war_id}/killmails/][%d] getWarsWarIdKillmailsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetWarsWarIDKillmailsUnprocessableEntityBody) validateError(formats strfmt.Registry) error {
+func (o *GetWarsWarIDKillmailsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getWarsWarIdKillmailsUnprocessableEntity"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetWarsWarIDKillmailsUnprocessableEntityBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetWarsWarIDKillmailsUnprocessableEntityBody) UnmarshalBinary(b []byte) error {
-	var res GetWarsWarIDKillmailsUnprocessableEntityBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

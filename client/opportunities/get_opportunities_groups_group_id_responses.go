@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetOpportunitiesGroupsGroupIDReader is a Reader for the GetOpportunitiesGroupsGroupID structure.
@@ -35,8 +32,43 @@ func (o *GetOpportunitiesGroupsGroupIDReader) ReadResponse(response runtime.Clie
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetOpportunitiesGroupsGroupIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetOpportunitiesGroupsGroupIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetOpportunitiesGroupsGroupIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetOpportunitiesGroupsGroupIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetOpportunitiesGroupsGroupIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetOpportunitiesGroupsGroupIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -63,6 +95,9 @@ type GetOpportunitiesGroupsGroupIDOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -70,7 +105,7 @@ type GetOpportunitiesGroupsGroupIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetOpportunitiesGroupsGroupIDOKBody
+	Payload *models.GetOpportunitiesGroupsGroupIDOKBody
 }
 
 func (o *GetOpportunitiesGroupsGroupIDOK) Error() string {
@@ -85,14 +120,122 @@ func (o *GetOpportunitiesGroupsGroupIDOK) readResponse(response runtime.ClientRe
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetOpportunitiesGroupsGroupIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetOpportunitiesGroupsGroupIDNotModified creates a GetOpportunitiesGroupsGroupIDNotModified with default headers values
+func NewGetOpportunitiesGroupsGroupIDNotModified() *GetOpportunitiesGroupsGroupIDNotModified {
+	return &GetOpportunitiesGroupsGroupIDNotModified{}
+}
+
+/*GetOpportunitiesGroupsGroupIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetOpportunitiesGroupsGroupIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetOpportunitiesGroupsGroupIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /opportunities/groups/{group_id}/][%d] getOpportunitiesGroupsGroupIdNotModified ", 304)
+}
+
+func (o *GetOpportunitiesGroupsGroupIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetOpportunitiesGroupsGroupIDBadRequest creates a GetOpportunitiesGroupsGroupIDBadRequest with default headers values
+func NewGetOpportunitiesGroupsGroupIDBadRequest() *GetOpportunitiesGroupsGroupIDBadRequest {
+	return &GetOpportunitiesGroupsGroupIDBadRequest{}
+}
+
+/*GetOpportunitiesGroupsGroupIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetOpportunitiesGroupsGroupIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetOpportunitiesGroupsGroupIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /opportunities/groups/{group_id}/][%d] getOpportunitiesGroupsGroupIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetOpportunitiesGroupsGroupIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetOpportunitiesGroupsGroupIDEnhanceYourCalm creates a GetOpportunitiesGroupsGroupIDEnhanceYourCalm with default headers values
+func NewGetOpportunitiesGroupsGroupIDEnhanceYourCalm() *GetOpportunitiesGroupsGroupIDEnhanceYourCalm {
+	return &GetOpportunitiesGroupsGroupIDEnhanceYourCalm{}
+}
+
+/*GetOpportunitiesGroupsGroupIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetOpportunitiesGroupsGroupIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetOpportunitiesGroupsGroupIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /opportunities/groups/{group_id}/][%d] getOpportunitiesGroupsGroupIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetOpportunitiesGroupsGroupIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -128,185 +271,60 @@ func (o *GetOpportunitiesGroupsGroupIDInternalServerError) readResponse(response
 	return nil
 }
 
-/*GetOpportunitiesGroupsGroupIDOKBody get_opportunities_groups_group_id_ok
-//
-// 200 ok object
-swagger:model GetOpportunitiesGroupsGroupIDOKBody
+// NewGetOpportunitiesGroupsGroupIDServiceUnavailable creates a GetOpportunitiesGroupsGroupIDServiceUnavailable with default headers values
+func NewGetOpportunitiesGroupsGroupIDServiceUnavailable() *GetOpportunitiesGroupsGroupIDServiceUnavailable {
+	return &GetOpportunitiesGroupsGroupIDServiceUnavailable{}
+}
+
+/*GetOpportunitiesGroupsGroupIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetOpportunitiesGroupsGroupIDOKBody struct {
-
-	// get_opportunities_groups_group_id_connected_groups
-	//
-	// The groups that are connected to this group on the opportunities map
-	// Required: true
-	// Max Items: 50
-	ConnectedGroups []int32 `json:"connected_groups"`
-
-	// get_opportunities_groups_group_id_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_opportunities_groups_group_id_group_id
-	//
-	// group_id integer
-	// Required: true
-	GroupID *int32 `json:"group_id"`
-
-	// get_opportunities_groups_group_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_opportunities_groups_group_id_notification
-	//
-	// notification string
-	// Required: true
-	Notification *string `json:"notification"`
-
-	// get_opportunities_groups_group_id_required_tasks
-	//
-	// Tasks need to complete for this group
-	// Required: true
-	// Max Items: 100
-	RequiredTasks []int32 `json:"required_tasks"`
+type GetOpportunitiesGroupsGroupIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetOpportunitiesGroupsGroupIDOKBody connected_groups false */
-
-/* polymorph GetOpportunitiesGroupsGroupIDOKBody description false */
-
-/* polymorph GetOpportunitiesGroupsGroupIDOKBody group_id false */
-
-/* polymorph GetOpportunitiesGroupsGroupIDOKBody name false */
-
-/* polymorph GetOpportunitiesGroupsGroupIDOKBody notification false */
-
-/* polymorph GetOpportunitiesGroupsGroupIDOKBody required_tasks false */
-
-// Validate validates this get opportunities groups group ID o k body
-func (o *GetOpportunitiesGroupsGroupIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateConnectedGroups(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateGroupID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateNotification(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRequiredTasks(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetOpportunitiesGroupsGroupIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /opportunities/groups/{group_id}/][%d] getOpportunitiesGroupsGroupIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetOpportunitiesGroupsGroupIDOKBody) validateConnectedGroups(formats strfmt.Registry) error {
+func (o *GetOpportunitiesGroupsGroupIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getOpportunitiesGroupsGroupIdOK"+"."+"connected_groups", "body", o.ConnectedGroups); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	iConnectedGroupsSize := int64(len(o.ConnectedGroups))
-
-	if err := validate.MaxItems("getOpportunitiesGroupsGroupIdOK"+"."+"connected_groups", "body", iConnectedGroupsSize, 50); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetOpportunitiesGroupsGroupIDOKBody) validateDescription(formats strfmt.Registry) error {
-
-	if err := validate.Required("getOpportunitiesGroupsGroupIdOK"+"."+"description", "body", o.Description); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetOpportunitiesGroupsGroupIDGatewayTimeout creates a GetOpportunitiesGroupsGroupIDGatewayTimeout with default headers values
+func NewGetOpportunitiesGroupsGroupIDGatewayTimeout() *GetOpportunitiesGroupsGroupIDGatewayTimeout {
+	return &GetOpportunitiesGroupsGroupIDGatewayTimeout{}
 }
 
-func (o *GetOpportunitiesGroupsGroupIDOKBody) validateGroupID(formats strfmt.Registry) error {
+/*GetOpportunitiesGroupsGroupIDGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("getOpportunitiesGroupsGroupIdOK"+"."+"group_id", "body", o.GroupID); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetOpportunitiesGroupsGroupIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetOpportunitiesGroupsGroupIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getOpportunitiesGroupsGroupIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
+func (o *GetOpportunitiesGroupsGroupIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /opportunities/groups/{group_id}/][%d] getOpportunitiesGroupsGroupIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetOpportunitiesGroupsGroupIDOKBody) validateNotification(formats strfmt.Registry) error {
+func (o *GetOpportunitiesGroupsGroupIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getOpportunitiesGroupsGroupIdOK"+"."+"notification", "body", o.Notification); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetOpportunitiesGroupsGroupIDOKBody) validateRequiredTasks(formats strfmt.Registry) error {
-
-	if err := validate.Required("getOpportunitiesGroupsGroupIdOK"+"."+"required_tasks", "body", o.RequiredTasks); err != nil {
-		return err
-	}
-
-	iRequiredTasksSize := int64(len(o.RequiredTasks))
-
-	if err := validate.MaxItems("getOpportunitiesGroupsGroupIdOK"+"."+"required_tasks", "body", iRequiredTasksSize, 100); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetOpportunitiesGroupsGroupIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetOpportunitiesGroupsGroupIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetOpportunitiesGroupsGroupIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostCharactersAffiliationReader is a Reader for the PostCharactersAffiliation structure.
@@ -35,8 +32,22 @@ func (o *PostCharactersAffiliationReader) ReadResponse(response runtime.ClientRe
 		}
 		return result, nil
 
-	case 422:
-		result := NewPostCharactersAffiliationUnprocessableEntity()
+	case 400:
+		result := NewPostCharactersAffiliationBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 404:
+		result := NewPostCharactersAffiliationNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewPostCharactersAffiliationEnhanceYourCalm()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -44,6 +55,20 @@ func (o *PostCharactersAffiliationReader) ReadResponse(response runtime.ClientRe
 
 	case 500:
 		result := NewPostCharactersAffiliationInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostCharactersAffiliationServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostCharactersAffiliationGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -64,17 +89,7 @@ func NewPostCharactersAffiliationOK() *PostCharactersAffiliationOK {
 Character corporation, alliance and faction IDs
 */
 type PostCharactersAffiliationOK struct {
-	/*The caching mechanism used
-	 */
-	CacheControl string
-	/*RFC7231 formatted datetime string
-	 */
-	Expires string
-	/*RFC7231 formatted datetime string
-	 */
-	LastModified string
-
-	Payload []*PostCharactersAffiliationOKBodyItems0
+	Payload []*models.PostCharactersAffiliationOKBodyItems
 }
 
 func (o *PostCharactersAffiliationOK) Error() string {
@@ -82,15 +97,6 @@ func (o *PostCharactersAffiliationOK) Error() string {
 }
 
 func (o *PostCharactersAffiliationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	// response header Cache-Control
-	o.CacheControl = response.GetHeader("Cache-Control")
-
-	// response header Expires
-	o.Expires = response.GetHeader("Expires")
-
-	// response header Last-Modified
-	o.LastModified = response.GetHeader("Last-Modified")
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
@@ -100,27 +106,87 @@ func (o *PostCharactersAffiliationOK) readResponse(response runtime.ClientRespon
 	return nil
 }
 
-// NewPostCharactersAffiliationUnprocessableEntity creates a PostCharactersAffiliationUnprocessableEntity with default headers values
-func NewPostCharactersAffiliationUnprocessableEntity() *PostCharactersAffiliationUnprocessableEntity {
-	return &PostCharactersAffiliationUnprocessableEntity{}
+// NewPostCharactersAffiliationBadRequest creates a PostCharactersAffiliationBadRequest with default headers values
+func NewPostCharactersAffiliationBadRequest() *PostCharactersAffiliationBadRequest {
+	return &PostCharactersAffiliationBadRequest{}
 }
 
-/*PostCharactersAffiliationUnprocessableEntity handles this case with default header values.
+/*PostCharactersAffiliationBadRequest handles this case with default header values.
 
-No valid character IDs found
+Bad request
 */
-type PostCharactersAffiliationUnprocessableEntity struct {
-	Payload PostCharactersAffiliationUnprocessableEntityBody
+type PostCharactersAffiliationBadRequest struct {
+	Payload *models.BadRequest
 }
 
-func (o *PostCharactersAffiliationUnprocessableEntity) Error() string {
-	return fmt.Sprintf("[POST /characters/affiliation/][%d] postCharactersAffiliationUnprocessableEntity  %+v", 422, o.Payload)
+func (o *PostCharactersAffiliationBadRequest) Error() string {
+	return fmt.Sprintf("[POST /characters/affiliation/][%d] postCharactersAffiliationBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *PostCharactersAffiliationUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+func (o *PostCharactersAffiliationBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
 
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersAffiliationNotFound creates a PostCharactersAffiliationNotFound with default headers values
+func NewPostCharactersAffiliationNotFound() *PostCharactersAffiliationNotFound {
+	return &PostCharactersAffiliationNotFound{}
+}
+
+/*PostCharactersAffiliationNotFound handles this case with default header values.
+
+No characters found!
+*/
+type PostCharactersAffiliationNotFound struct {
+	Payload *models.PostCharactersAffiliationNotFoundBody
+}
+
+func (o *PostCharactersAffiliationNotFound) Error() string {
+	return fmt.Sprintf("[POST /characters/affiliation/][%d] postCharactersAffiliationNotFound  %+v", 404, o.Payload)
+}
+
+func (o *PostCharactersAffiliationNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.PostCharactersAffiliationNotFoundBody)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersAffiliationEnhanceYourCalm creates a PostCharactersAffiliationEnhanceYourCalm with default headers values
+func NewPostCharactersAffiliationEnhanceYourCalm() *PostCharactersAffiliationEnhanceYourCalm {
+	return &PostCharactersAffiliationEnhanceYourCalm{}
+}
+
+/*PostCharactersAffiliationEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostCharactersAffiliationEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostCharactersAffiliationEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /characters/affiliation/][%d] postCharactersAffiliationEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostCharactersAffiliationEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,156 +222,60 @@ func (o *PostCharactersAffiliationInternalServerError) readResponse(response run
 	return nil
 }
 
-/*PostCharactersAffiliationOKBodyItems0 post_characters_affiliation_200_ok
-//
-// 200 ok object
-swagger:model PostCharactersAffiliationOKBodyItems0
+// NewPostCharactersAffiliationServiceUnavailable creates a PostCharactersAffiliationServiceUnavailable with default headers values
+func NewPostCharactersAffiliationServiceUnavailable() *PostCharactersAffiliationServiceUnavailable {
+	return &PostCharactersAffiliationServiceUnavailable{}
+}
+
+/*PostCharactersAffiliationServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostCharactersAffiliationOKBodyItems0 struct {
-
-	// post_characters_affiliation_alliance_id
-	//
-	// The character's alliance ID, if their corporation is in an alliance
-	AllianceID int32 `json:"alliance_id,omitempty"`
-
-	// post_characters_affiliation_character_id
-	//
-	// The character's ID
-	// Required: true
-	CharacterID *int32 `json:"character_id"`
-
-	// post_characters_affiliation_corporation_id
-	//
-	// The character's corporation ID
-	// Required: true
-	CorporationID *int32 `json:"corporation_id"`
-
-	// post_characters_affiliation_faction_id
-	//
-	// The character's faction ID, if their corporation is in a faction
-	FactionID int32 `json:"faction_id,omitempty"`
+type PostCharactersAffiliationServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostCharactersAffiliationOKBodyItems0 alliance_id false */
-
-/* polymorph PostCharactersAffiliationOKBodyItems0 character_id false */
-
-/* polymorph PostCharactersAffiliationOKBodyItems0 corporation_id false */
-
-/* polymorph PostCharactersAffiliationOKBodyItems0 faction_id false */
-
-// Validate validates this post characters affiliation o k body items0
-func (o *PostCharactersAffiliationOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCharacterID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCorporationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostCharactersAffiliationServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /characters/affiliation/][%d] postCharactersAffiliationServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *PostCharactersAffiliationOKBodyItems0) validateCharacterID(formats strfmt.Registry) error {
+func (o *PostCharactersAffiliationServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("character_id", "body", o.CharacterID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *PostCharactersAffiliationOKBodyItems0) validateCorporationID(formats strfmt.Registry) error {
-
-	if err := validate.Required("corporation_id", "body", o.CorporationID); err != nil {
-		return err
-	}
-
-	return nil
+// NewPostCharactersAffiliationGatewayTimeout creates a PostCharactersAffiliationGatewayTimeout with default headers values
+func NewPostCharactersAffiliationGatewayTimeout() *PostCharactersAffiliationGatewayTimeout {
+	return &PostCharactersAffiliationGatewayTimeout{}
 }
 
-// MarshalBinary interface implementation
-func (o *PostCharactersAffiliationOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
+/*PostCharactersAffiliationGatewayTimeout handles this case with default header values.
 
-// UnmarshalBinary interface implementation
-func (o *PostCharactersAffiliationOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res PostCharactersAffiliationOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*PostCharactersAffiliationUnprocessableEntityBody post_characters_affiliation_unprocessable_entity
-//
-// Unprocessable entity
-swagger:model PostCharactersAffiliationUnprocessableEntityBody
+Gateway timeout
 */
-
-type PostCharactersAffiliationUnprocessableEntityBody struct {
-
-	// post_characters_affiliation_422_unprocessable_entity
-	//
-	// Unprocessable entity message
-	// Required: true
-	Error *string `json:"error"`
+type PostCharactersAffiliationGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PostCharactersAffiliationUnprocessableEntityBody error false */
-
-// Validate validates this post characters affiliation unprocessable entity body
-func (o *PostCharactersAffiliationUnprocessableEntityBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostCharactersAffiliationGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /characters/affiliation/][%d] postCharactersAffiliationGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *PostCharactersAffiliationUnprocessableEntityBody) validateError(formats strfmt.Registry) error {
+func (o *PostCharactersAffiliationGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postCharactersAffiliationUnprocessableEntity"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *PostCharactersAffiliationUnprocessableEntityBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *PostCharactersAffiliationUnprocessableEntityBody) UnmarshalBinary(b []byte) error {
-	var res PostCharactersAffiliationUnprocessableEntityBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

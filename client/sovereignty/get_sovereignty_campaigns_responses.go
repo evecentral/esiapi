@@ -6,19 +6,14 @@ package sovereignty
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetSovereigntyCampaignsReader is a Reader for the GetSovereigntyCampaigns structure.
@@ -37,8 +32,43 @@ func (o *GetSovereigntyCampaignsReader) ReadResponse(response runtime.ClientResp
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetSovereigntyCampaignsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetSovereigntyCampaignsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetSovereigntyCampaignsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetSovereigntyCampaignsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetSovereigntyCampaignsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetSovereigntyCampaignsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -62,6 +92,9 @@ type GetSovereigntyCampaignsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -69,7 +102,7 @@ type GetSovereigntyCampaignsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetSovereigntyCampaignsOKBodyItems0
+	Payload []*models.GetSovereigntyCampaignsOKBodyItems
 }
 
 func (o *GetSovereigntyCampaignsOK) Error() string {
@@ -81,6 +114,9 @@ func (o *GetSovereigntyCampaignsOK) readResponse(response runtime.ClientResponse
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -89,6 +125,109 @@ func (o *GetSovereigntyCampaignsOK) readResponse(response runtime.ClientResponse
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetSovereigntyCampaignsNotModified creates a GetSovereigntyCampaignsNotModified with default headers values
+func NewGetSovereigntyCampaignsNotModified() *GetSovereigntyCampaignsNotModified {
+	return &GetSovereigntyCampaignsNotModified{}
+}
+
+/*GetSovereigntyCampaignsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetSovereigntyCampaignsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetSovereigntyCampaignsNotModified) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/campaigns/][%d] getSovereigntyCampaignsNotModified ", 304)
+}
+
+func (o *GetSovereigntyCampaignsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetSovereigntyCampaignsBadRequest creates a GetSovereigntyCampaignsBadRequest with default headers values
+func NewGetSovereigntyCampaignsBadRequest() *GetSovereigntyCampaignsBadRequest {
+	return &GetSovereigntyCampaignsBadRequest{}
+}
+
+/*GetSovereigntyCampaignsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetSovereigntyCampaignsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetSovereigntyCampaignsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/campaigns/][%d] getSovereigntyCampaignsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetSovereigntyCampaignsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetSovereigntyCampaignsEnhanceYourCalm creates a GetSovereigntyCampaignsEnhanceYourCalm with default headers values
+func NewGetSovereigntyCampaignsEnhanceYourCalm() *GetSovereigntyCampaignsEnhanceYourCalm {
+	return &GetSovereigntyCampaignsEnhanceYourCalm{}
+}
+
+/*GetSovereigntyCampaignsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetSovereigntyCampaignsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetSovereigntyCampaignsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/campaigns/][%d] getSovereigntyCampaignsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetSovereigntyCampaignsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -124,368 +263,60 @@ func (o *GetSovereigntyCampaignsInternalServerError) readResponse(response runti
 	return nil
 }
 
-/*GetSovereigntyCampaignsOKBodyItems0 get_sovereignty_campaigns_200_ok
-//
-// 200 ok object
-swagger:model GetSovereigntyCampaignsOKBodyItems0
+// NewGetSovereigntyCampaignsServiceUnavailable creates a GetSovereigntyCampaignsServiceUnavailable with default headers values
+func NewGetSovereigntyCampaignsServiceUnavailable() *GetSovereigntyCampaignsServiceUnavailable {
+	return &GetSovereigntyCampaignsServiceUnavailable{}
+}
+
+/*GetSovereigntyCampaignsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetSovereigntyCampaignsOKBodyItems0 struct {
-
-	// get_sovereignty_campaigns_attackers_score
-	//
-	// Score for all attacking parties, only present in Defense Events.
-	//
-	AttackersScore float32 `json:"attackers_score,omitempty"`
-
-	// get_sovereignty_campaigns_campaign_id
-	//
-	// Unique ID for this campaign.
-	// Required: true
-	CampaignID *int32 `json:"campaign_id"`
-
-	// get_sovereignty_campaigns_constellation_id
-	//
-	// The constellation in which the campaign will take place.
-	//
-	// Required: true
-	ConstellationID *int32 `json:"constellation_id"`
-
-	// get_sovereignty_campaigns_defender_id
-	//
-	// Defending alliance, only present in Defense Events
-	//
-	DefenderID int32 `json:"defender_id,omitempty"`
-
-	// get_sovereignty_campaigns_defender_score
-	//
-	// Score for the defending alliance, only present in Defense Events.
-	//
-	DefenderScore float32 `json:"defender_score,omitempty"`
-
-	// get_sovereignty_campaigns_event_type
-	//
-	// Type of event this campaign is for. tcu_defense, ihub_defense and station_defense are referred to as "Defense Events", station_freeport as "Freeport Events".
-	//
-	// Required: true
-	EventType *string `json:"event_type"`
-
-	// get_sovereignty_campaigns_participants
-	//
-	// Alliance participating and their respective scores, only present in Freeport Events.
-	//
-	// Max Items: 5000
-	Participants []*GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0 `json:"participants"`
-
-	// get_sovereignty_campaigns_solar_system_id
-	//
-	// The solar system the structure is located in.
-	//
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
-
-	// get_sovereignty_campaigns_start_time
-	//
-	// Time the event is scheduled to start.
-	//
-	// Required: true
-	StartTime *strfmt.DateTime `json:"start_time"`
-
-	// get_sovereignty_campaigns_structure_id
-	//
-	// The structure item ID that is related to this campaign.
-	//
-	// Required: true
-	StructureID *int64 `json:"structure_id"`
+type GetSovereigntyCampaignsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 attackers_score false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 campaign_id false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 constellation_id false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 defender_id false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 defender_score false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 event_type false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 participants false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 solar_system_id false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 start_time false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0 structure_id false */
-
-// Validate validates this get sovereignty campaigns o k body items0
-func (o *GetSovereigntyCampaignsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCampaignID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateConstellationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateEventType(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateParticipants(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStartTime(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStructureID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetSovereigntyCampaignsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/campaigns/][%d] getSovereigntyCampaignsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetSovereigntyCampaignsOKBodyItems0) validateCampaignID(formats strfmt.Registry) error {
+func (o *GetSovereigntyCampaignsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("campaign_id", "body", o.CampaignID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetSovereigntyCampaignsOKBodyItems0) validateConstellationID(formats strfmt.Registry) error {
-
-	if err := validate.Required("constellation_id", "body", o.ConstellationID); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetSovereigntyCampaignsGatewayTimeout creates a GetSovereigntyCampaignsGatewayTimeout with default headers values
+func NewGetSovereigntyCampaignsGatewayTimeout() *GetSovereigntyCampaignsGatewayTimeout {
+	return &GetSovereigntyCampaignsGatewayTimeout{}
 }
 
-var getSovereigntyCampaignsOKBodyItems0TypeEventTypePropEnum []interface{}
+/*GetSovereigntyCampaignsGatewayTimeout handles this case with default header values.
 
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["tcu_defense","ihub_defense","station_defense","station_freeport"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getSovereigntyCampaignsOKBodyItems0TypeEventTypePropEnum = append(getSovereigntyCampaignsOKBodyItems0TypeEventTypePropEnum, v)
-	}
-}
-
-const (
-	// GetSovereigntyCampaignsOKBodyItems0EventTypeTcuDefense captures enum value "tcu_defense"
-	GetSovereigntyCampaignsOKBodyItems0EventTypeTcuDefense string = "tcu_defense"
-	// GetSovereigntyCampaignsOKBodyItems0EventTypeIhubDefense captures enum value "ihub_defense"
-	GetSovereigntyCampaignsOKBodyItems0EventTypeIhubDefense string = "ihub_defense"
-	// GetSovereigntyCampaignsOKBodyItems0EventTypeStationDefense captures enum value "station_defense"
-	GetSovereigntyCampaignsOKBodyItems0EventTypeStationDefense string = "station_defense"
-	// GetSovereigntyCampaignsOKBodyItems0EventTypeStationFreeport captures enum value "station_freeport"
-	GetSovereigntyCampaignsOKBodyItems0EventTypeStationFreeport string = "station_freeport"
-)
-
-// prop value enum
-func (o *GetSovereigntyCampaignsOKBodyItems0) validateEventTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getSovereigntyCampaignsOKBodyItems0TypeEventTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetSovereigntyCampaignsOKBodyItems0) validateEventType(formats strfmt.Registry) error {
-
-	if err := validate.Required("event_type", "body", o.EventType); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateEventTypeEnum("event_type", "body", *o.EventType); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSovereigntyCampaignsOKBodyItems0) validateParticipants(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.Participants) { // not required
-		return nil
-	}
-
-	iParticipantsSize := int64(len(o.Participants))
-
-	if err := validate.MaxItems("participants", "body", iParticipantsSize, 5000); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Participants); i++ {
-
-		if swag.IsZero(o.Participants[i]) { // not required
-			continue
-		}
-
-		if o.Participants[i] != nil {
-
-			if err := o.Participants[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("participants" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetSovereigntyCampaignsOKBodyItems0) validateSolarSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("solar_system_id", "body", o.SolarSystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSovereigntyCampaignsOKBodyItems0) validateStartTime(formats strfmt.Registry) error {
-
-	if err := validate.Required("start_time", "body", o.StartTime); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("start_time", "body", "date-time", o.StartTime.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSovereigntyCampaignsOKBodyItems0) validateStructureID(formats strfmt.Registry) error {
-
-	if err := validate.Required("structure_id", "body", o.StructureID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetSovereigntyCampaignsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetSovereigntyCampaignsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetSovereigntyCampaignsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0 get_sovereignty_campaigns_participant
-//
-// participant object
-swagger:model GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0
+Gateway timeout
 */
-
-type GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0 struct {
-
-	// get_sovereignty_campaigns_alliance_id
-	//
-	// alliance_id integer
-	// Required: true
-	AllianceID *int32 `json:"alliance_id"`
-
-	// get_sovereignty_campaigns_score
-	//
-	// score number
-	// Required: true
-	Score *float32 `json:"score"`
+type GetSovereigntyCampaignsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0 alliance_id false */
-
-/* polymorph GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0 score false */
-
-// Validate validates this get sovereignty campaigns o k body items0 participants items0
-func (o *GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAllianceID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateScore(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetSovereigntyCampaignsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/campaigns/][%d] getSovereigntyCampaignsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0) validateAllianceID(formats strfmt.Registry) error {
+func (o *GetSovereigntyCampaignsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("alliance_id", "body", o.AllianceID); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0) validateScore(formats strfmt.Registry) error {
-
-	if err := validate.Required("score", "body", o.Score); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0) UnmarshalBinary(b []byte) error {
-	var res GetSovereigntyCampaignsOKBodyItems0ParticipantsItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

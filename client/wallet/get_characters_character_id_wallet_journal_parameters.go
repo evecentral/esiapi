@@ -24,9 +24,11 @@ import (
 func NewGetCharactersCharacterIDWalletJournalParams() *GetCharactersCharacterIDWalletJournalParams {
 	var (
 		datasourceDefault = string("tranquility")
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDWalletJournalParams{
 		Datasource: &datasourceDefault,
+		Page:       &pageDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -37,9 +39,11 @@ func NewGetCharactersCharacterIDWalletJournalParams() *GetCharactersCharacterIDW
 func NewGetCharactersCharacterIDWalletJournalParamsWithTimeout(timeout time.Duration) *GetCharactersCharacterIDWalletJournalParams {
 	var (
 		datasourceDefault = string("tranquility")
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDWalletJournalParams{
 		Datasource: &datasourceDefault,
+		Page:       &pageDefault,
 
 		timeout: timeout,
 	}
@@ -50,9 +54,11 @@ func NewGetCharactersCharacterIDWalletJournalParamsWithTimeout(timeout time.Dura
 func NewGetCharactersCharacterIDWalletJournalParamsWithContext(ctx context.Context) *GetCharactersCharacterIDWalletJournalParams {
 	var (
 		datasourceDefault = string("tranquility")
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDWalletJournalParams{
 		Datasource: &datasourceDefault,
+		Page:       &pageDefault,
 
 		Context: ctx,
 	}
@@ -63,9 +69,11 @@ func NewGetCharactersCharacterIDWalletJournalParamsWithContext(ctx context.Conte
 func NewGetCharactersCharacterIDWalletJournalParamsWithHTTPClient(client *http.Client) *GetCharactersCharacterIDWalletJournalParams {
 	var (
 		datasourceDefault = string("tranquility")
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDWalletJournalParams{
 		Datasource: &datasourceDefault,
+		Page:       &pageDefault,
 		HTTPClient: client,
 	}
 }
@@ -75,11 +83,11 @@ for the get characters character id wallet journal operation typically these are
 */
 type GetCharactersCharacterIDWalletJournalParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -90,21 +98,16 @@ type GetCharactersCharacterIDWalletJournalParams struct {
 
 	*/
 	Datasource *string
-	/*FromID
-	  Only show journal entries happened before the transaction referenced by this id
+	/*Page
+	  Which page of results to return
 
 	*/
-	FromID *int64
+	Page *int32
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -144,15 +147,15 @@ func (o *GetCharactersCharacterIDWalletJournalParams) SetHTTPClient(client *http
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get characters character id wallet journal params
-func (o *GetCharactersCharacterIDWalletJournalParams) WithXUserAgent(xUserAgent *string) *GetCharactersCharacterIDWalletJournalParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get characters character id wallet journal params
+func (o *GetCharactersCharacterIDWalletJournalParams) WithIfNoneMatch(ifNoneMatch *string) *GetCharactersCharacterIDWalletJournalParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get characters character id wallet journal params
-func (o *GetCharactersCharacterIDWalletJournalParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get characters character id wallet journal params
+func (o *GetCharactersCharacterIDWalletJournalParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCharacterID adds the characterID to the get characters character id wallet journal params
@@ -177,15 +180,15 @@ func (o *GetCharactersCharacterIDWalletJournalParams) SetDatasource(datasource *
 	o.Datasource = datasource
 }
 
-// WithFromID adds the fromID to the get characters character id wallet journal params
-func (o *GetCharactersCharacterIDWalletJournalParams) WithFromID(fromID *int64) *GetCharactersCharacterIDWalletJournalParams {
-	o.SetFromID(fromID)
+// WithPage adds the page to the get characters character id wallet journal params
+func (o *GetCharactersCharacterIDWalletJournalParams) WithPage(page *int32) *GetCharactersCharacterIDWalletJournalParams {
+	o.SetPage(page)
 	return o
 }
 
-// SetFromID adds the fromId to the get characters character id wallet journal params
-func (o *GetCharactersCharacterIDWalletJournalParams) SetFromID(fromID *int64) {
-	o.FromID = fromID
+// SetPage adds the page to the get characters character id wallet journal params
+func (o *GetCharactersCharacterIDWalletJournalParams) SetPage(page *int32) {
+	o.Page = page
 }
 
 // WithToken adds the token to the get characters character id wallet journal params
@@ -199,17 +202,6 @@ func (o *GetCharactersCharacterIDWalletJournalParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the get characters character id wallet journal params
-func (o *GetCharactersCharacterIDWalletJournalParams) WithUserAgent(userAgent *string) *GetCharactersCharacterIDWalletJournalParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get characters character id wallet journal params
-func (o *GetCharactersCharacterIDWalletJournalParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCharactersCharacterIDWalletJournalParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -218,10 +210,10 @@ func (o *GetCharactersCharacterIDWalletJournalParams) WriteToRequest(r runtime.C
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -248,16 +240,16 @@ func (o *GetCharactersCharacterIDWalletJournalParams) WriteToRequest(r runtime.C
 
 	}
 
-	if o.FromID != nil {
+	if o.Page != nil {
 
-		// query param from_id
-		var qrFromID int64
-		if o.FromID != nil {
-			qrFromID = *o.FromID
+		// query param page
+		var qrPage int32
+		if o.Page != nil {
+			qrPage = *o.Page
 		}
-		qFromID := swag.FormatInt64(qrFromID)
-		if qFromID != "" {
-			if err := r.SetQueryParam("from_id", qFromID); err != nil {
+		qPage := swag.FormatInt32(qrPage)
+		if qPage != "" {
+			if err := r.SetQueryParam("page", qPage); err != nil {
 				return err
 			}
 		}
@@ -274,22 +266,6 @@ func (o *GetCharactersCharacterIDWalletJournalParams) WriteToRequest(r runtime.C
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

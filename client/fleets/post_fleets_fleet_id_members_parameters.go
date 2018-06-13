@@ -17,6 +17,8 @@ import (
 	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPostFleetsFleetIDMembersParams creates a new PostFleetsFleetIDMembersParams object
@@ -75,11 +77,6 @@ for the post fleets fleet id members operation typically these are written to a 
 */
 type PostFleetsFleetIDMembersParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -94,17 +91,12 @@ type PostFleetsFleetIDMembersParams struct {
 	  Details of the invitation
 
 	*/
-	Invitation PostFleetsFleetIDMembersBody
+	Invitation *models.PostFleetsFleetIDMembersParamsBody
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -144,17 +136,6 @@ func (o *PostFleetsFleetIDMembersParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post fleets fleet id members params
-func (o *PostFleetsFleetIDMembersParams) WithXUserAgent(xUserAgent *string) *PostFleetsFleetIDMembersParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post fleets fleet id members params
-func (o *PostFleetsFleetIDMembersParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the post fleets fleet id members params
 func (o *PostFleetsFleetIDMembersParams) WithDatasource(datasource *string) *PostFleetsFleetIDMembersParams {
 	o.SetDatasource(datasource)
@@ -178,13 +159,13 @@ func (o *PostFleetsFleetIDMembersParams) SetFleetID(fleetID int64) {
 }
 
 // WithInvitation adds the invitation to the post fleets fleet id members params
-func (o *PostFleetsFleetIDMembersParams) WithInvitation(invitation PostFleetsFleetIDMembersBody) *PostFleetsFleetIDMembersParams {
+func (o *PostFleetsFleetIDMembersParams) WithInvitation(invitation *models.PostFleetsFleetIDMembersParamsBody) *PostFleetsFleetIDMembersParams {
 	o.SetInvitation(invitation)
 	return o
 }
 
 // SetInvitation adds the invitation to the post fleets fleet id members params
-func (o *PostFleetsFleetIDMembersParams) SetInvitation(invitation PostFleetsFleetIDMembersBody) {
+func (o *PostFleetsFleetIDMembersParams) SetInvitation(invitation *models.PostFleetsFleetIDMembersParamsBody) {
 	o.Invitation = invitation
 }
 
@@ -199,17 +180,6 @@ func (o *PostFleetsFleetIDMembersParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post fleets fleet id members params
-func (o *PostFleetsFleetIDMembersParams) WithUserAgent(userAgent *string) *PostFleetsFleetIDMembersParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post fleets fleet id members params
-func (o *PostFleetsFleetIDMembersParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostFleetsFleetIDMembersParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -217,15 +187,6 @@ func (o *PostFleetsFleetIDMembersParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -248,8 +209,10 @@ func (o *PostFleetsFleetIDMembersParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 
-	if err := r.SetBodyParam(o.Invitation); err != nil {
-		return err
+	if o.Invitation != nil {
+		if err := r.SetBodyParam(o.Invitation); err != nil {
+			return err
+		}
 	}
 
 	if o.Token != nil {
@@ -262,22 +225,6 @@ func (o *PostFleetsFleetIDMembersParams) WriteToRequest(r runtime.ClientRequest,
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

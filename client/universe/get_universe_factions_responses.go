@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseFactionsReader is a Reader for the GetUniverseFactions structure.
@@ -35,8 +32,43 @@ func (o *GetUniverseFactionsReader) ReadResponse(response runtime.ClientResponse
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseFactionsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseFactionsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetUniverseFactionsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseFactionsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseFactionsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseFactionsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -63,6 +95,9 @@ type GetUniverseFactionsOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -70,7 +105,7 @@ type GetUniverseFactionsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetUniverseFactionsOKBodyItems0
+	Payload []*models.GetUniverseFactionsOKBodyItems
 }
 
 func (o *GetUniverseFactionsOK) Error() string {
@@ -85,6 +120,9 @@ func (o *GetUniverseFactionsOK) readResponse(response runtime.ClientResponse, co
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -93,6 +131,109 @@ func (o *GetUniverseFactionsOK) readResponse(response runtime.ClientResponse, co
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseFactionsNotModified creates a GetUniverseFactionsNotModified with default headers values
+func NewGetUniverseFactionsNotModified() *GetUniverseFactionsNotModified {
+	return &GetUniverseFactionsNotModified{}
+}
+
+/*GetUniverseFactionsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseFactionsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseFactionsNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/factions/][%d] getUniverseFactionsNotModified ", 304)
+}
+
+func (o *GetUniverseFactionsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseFactionsBadRequest creates a GetUniverseFactionsBadRequest with default headers values
+func NewGetUniverseFactionsBadRequest() *GetUniverseFactionsBadRequest {
+	return &GetUniverseFactionsBadRequest{}
+}
+
+/*GetUniverseFactionsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseFactionsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseFactionsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/factions/][%d] getUniverseFactionsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseFactionsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseFactionsEnhanceYourCalm creates a GetUniverseFactionsEnhanceYourCalm with default headers values
+func NewGetUniverseFactionsEnhanceYourCalm() *GetUniverseFactionsEnhanceYourCalm {
+	return &GetUniverseFactionsEnhanceYourCalm{}
+}
+
+/*GetUniverseFactionsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseFactionsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseFactionsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/factions/][%d] getUniverseFactionsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseFactionsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -128,244 +269,60 @@ func (o *GetUniverseFactionsInternalServerError) readResponse(response runtime.C
 	return nil
 }
 
-/*GetUniverseFactionsOKBodyItems0 get_universe_factions_200_ok
-//
-// 200 ok object
-swagger:model GetUniverseFactionsOKBodyItems0
+// NewGetUniverseFactionsServiceUnavailable creates a GetUniverseFactionsServiceUnavailable with default headers values
+func NewGetUniverseFactionsServiceUnavailable() *GetUniverseFactionsServiceUnavailable {
+	return &GetUniverseFactionsServiceUnavailable{}
+}
+
+/*GetUniverseFactionsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseFactionsOKBodyItems0 struct {
-
-	// get_universe_factions_corporation_id
-	//
-	// corporation_id integer
-	// Required: true
-	CorporationID *int32 `json:"corporation_id"`
-
-	// get_universe_factions_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_universe_factions_faction_id
-	//
-	// faction_id integer
-	// Required: true
-	FactionID *int32 `json:"faction_id"`
-
-	// get_universe_factions_is_unique
-	//
-	// is_unique boolean
-	// Required: true
-	IsUnique *bool `json:"is_unique"`
-
-	// get_universe_factions_militia_corporation_id
-	//
-	// militia_corporation_id integer
-	MilitiaCorporationID int32 `json:"militia_corporation_id,omitempty"`
-
-	// get_universe_factions_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_universe_factions_size_factor
-	//
-	// size_factor number
-	// Required: true
-	SizeFactor *float32 `json:"size_factor"`
-
-	// get_universe_factions_solar_system_id
-	//
-	// solar_system_id integer
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
-
-	// get_universe_factions_station_count
-	//
-	// station_count integer
-	// Required: true
-	StationCount *int32 `json:"station_count"`
-
-	// get_universe_factions_station_system_count
-	//
-	// station_system_count integer
-	// Required: true
-	StationSystemCount *int32 `json:"station_system_count"`
+type GetUniverseFactionsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseFactionsOKBodyItems0 corporation_id false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 description false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 faction_id false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 is_unique false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 militia_corporation_id false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 name false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 size_factor false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 solar_system_id false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 station_count false */
-
-/* polymorph GetUniverseFactionsOKBodyItems0 station_system_count false */
-
-// Validate validates this get universe factions o k body items0
-func (o *GetUniverseFactionsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCorporationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateFactionID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsUnique(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSizeFactor(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStationCount(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStationSystemCount(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseFactionsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/factions/][%d] getUniverseFactionsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseFactionsOKBodyItems0) validateCorporationID(formats strfmt.Registry) error {
+func (o *GetUniverseFactionsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("corporation_id", "body", o.CorporationID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetUniverseFactionsOKBodyItems0) validateDescription(formats strfmt.Registry) error {
+// NewGetUniverseFactionsGatewayTimeout creates a GetUniverseFactionsGatewayTimeout with default headers values
+func NewGetUniverseFactionsGatewayTimeout() *GetUniverseFactionsGatewayTimeout {
+	return &GetUniverseFactionsGatewayTimeout{}
+}
 
-	if err := validate.Required("description", "body", o.Description); err != nil {
+/*GetUniverseFactionsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetUniverseFactionsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetUniverseFactionsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/factions/][%d] getUniverseFactionsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetUniverseFactionsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseFactionsOKBodyItems0) validateFactionID(formats strfmt.Registry) error {
-
-	if err := validate.Required("faction_id", "body", o.FactionID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseFactionsOKBodyItems0) validateIsUnique(formats strfmt.Registry) error {
-
-	if err := validate.Required("is_unique", "body", o.IsUnique); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseFactionsOKBodyItems0) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseFactionsOKBodyItems0) validateSizeFactor(formats strfmt.Registry) error {
-
-	if err := validate.Required("size_factor", "body", o.SizeFactor); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseFactionsOKBodyItems0) validateSolarSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("solar_system_id", "body", o.SolarSystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseFactionsOKBodyItems0) validateStationCount(formats strfmt.Registry) error {
-
-	if err := validate.Required("station_count", "body", o.StationCount); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseFactionsOKBodyItems0) validateStationSystemCount(formats strfmt.Registry) error {
-
-	if err := validate.Required("station_system_count", "body", o.StationSystemCount); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseFactionsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseFactionsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetUniverseFactionsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

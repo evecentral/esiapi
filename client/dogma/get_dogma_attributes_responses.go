@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetDogmaAttributesReader is a Reader for the GetDogmaAttributes structure.
@@ -32,8 +32,43 @@ func (o *GetDogmaAttributesReader) ReadResponse(response runtime.ClientResponse,
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetDogmaAttributesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetDogmaAttributesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetDogmaAttributesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetDogmaAttributesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetDogmaAttributesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetDogmaAttributesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetDogmaAttributesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetDogmaAttributesOK) readResponse(response runtime.ClientResponse, con
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetDogmaAttributesOK) readResponse(response runtime.ClientResponse, con
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetDogmaAttributesNotModified creates a GetDogmaAttributesNotModified with default headers values
+func NewGetDogmaAttributesNotModified() *GetDogmaAttributesNotModified {
+	return &GetDogmaAttributesNotModified{}
+}
+
+/*GetDogmaAttributesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetDogmaAttributesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetDogmaAttributesNotModified) Error() string {
+	return fmt.Sprintf("[GET /dogma/attributes/][%d] getDogmaAttributesNotModified ", 304)
+}
+
+func (o *GetDogmaAttributesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetDogmaAttributesBadRequest creates a GetDogmaAttributesBadRequest with default headers values
+func NewGetDogmaAttributesBadRequest() *GetDogmaAttributesBadRequest {
+	return &GetDogmaAttributesBadRequest{}
+}
+
+/*GetDogmaAttributesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetDogmaAttributesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetDogmaAttributesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /dogma/attributes/][%d] getDogmaAttributesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetDogmaAttributesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetDogmaAttributesEnhanceYourCalm creates a GetDogmaAttributesEnhanceYourCalm with default headers values
+func NewGetDogmaAttributesEnhanceYourCalm() *GetDogmaAttributesEnhanceYourCalm {
+	return &GetDogmaAttributesEnhanceYourCalm{}
+}
+
+/*GetDogmaAttributesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetDogmaAttributesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetDogmaAttributesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /dogma/attributes/][%d] getDogmaAttributesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetDogmaAttributesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetDogmaAttributesInternalServerError) Error() string {
 func (o *GetDogmaAttributesInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetDogmaAttributesServiceUnavailable creates a GetDogmaAttributesServiceUnavailable with default headers values
+func NewGetDogmaAttributesServiceUnavailable() *GetDogmaAttributesServiceUnavailable {
+	return &GetDogmaAttributesServiceUnavailable{}
+}
+
+/*GetDogmaAttributesServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetDogmaAttributesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetDogmaAttributesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /dogma/attributes/][%d] getDogmaAttributesServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetDogmaAttributesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetDogmaAttributesGatewayTimeout creates a GetDogmaAttributesGatewayTimeout with default headers values
+func NewGetDogmaAttributesGatewayTimeout() *GetDogmaAttributesGatewayTimeout {
+	return &GetDogmaAttributesGatewayTimeout{}
+}
+
+/*GetDogmaAttributesGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetDogmaAttributesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetDogmaAttributesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /dogma/attributes/][%d] getDogmaAttributesGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetDogmaAttributesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

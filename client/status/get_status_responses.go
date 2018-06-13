@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetStatusReader is a Reader for the GetStatus structure.
@@ -35,8 +32,43 @@ func (o *GetStatusReader) ReadResponse(response runtime.ClientResponse, consumer
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetStatusNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetStatusBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetStatusEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetStatusInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetStatusServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetStatusGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetStatusOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetStatusOK struct {
 	 */
 	LastModified string
 
-	Payload GetStatusOKBody
+	Payload *models.GetStatusOKBody
 }
 
 func (o *GetStatusOK) Error() string {
@@ -79,14 +114,122 @@ func (o *GetStatusOK) readResponse(response runtime.ClientResponse, consumer run
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetStatusOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetStatusNotModified creates a GetStatusNotModified with default headers values
+func NewGetStatusNotModified() *GetStatusNotModified {
+	return &GetStatusNotModified{}
+}
+
+/*GetStatusNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetStatusNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetStatusNotModified) Error() string {
+	return fmt.Sprintf("[GET /status/][%d] getStatusNotModified ", 304)
+}
+
+func (o *GetStatusNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetStatusBadRequest creates a GetStatusBadRequest with default headers values
+func NewGetStatusBadRequest() *GetStatusBadRequest {
+	return &GetStatusBadRequest{}
+}
+
+/*GetStatusBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetStatusBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetStatusBadRequest) Error() string {
+	return fmt.Sprintf("[GET /status/][%d] getStatusBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetStatusBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetStatusEnhanceYourCalm creates a GetStatusEnhanceYourCalm with default headers values
+func NewGetStatusEnhanceYourCalm() *GetStatusEnhanceYourCalm {
+	return &GetStatusEnhanceYourCalm{}
+}
+
+/*GetStatusEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetStatusEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetStatusEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /status/][%d] getStatusEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetStatusEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,131 +265,60 @@ func (o *GetStatusInternalServerError) readResponse(response runtime.ClientRespo
 	return nil
 }
 
-/*GetStatusOKBody get_status_ok
-//
-// 200 ok object
-swagger:model GetStatusOKBody
+// NewGetStatusServiceUnavailable creates a GetStatusServiceUnavailable with default headers values
+func NewGetStatusServiceUnavailable() *GetStatusServiceUnavailable {
+	return &GetStatusServiceUnavailable{}
+}
+
+/*GetStatusServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetStatusOKBody struct {
-
-	// get_status_players
-	//
-	// Current online player count
-	// Required: true
-	Players *int64 `json:"players"`
-
-	// get_status_server_version
-	//
-	// Running version as string
-	// Required: true
-	ServerVersion *string `json:"server_version"`
-
-	// get_status_start_time
-	//
-	// Server start timestamp
-	// Required: true
-	StartTime *strfmt.DateTime `json:"start_time"`
-
-	// get_status_vip
-	//
-	// If the server is in VIP mode
-	// Required: true
-	Vip *bool `json:"vip"`
+type GetStatusServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetStatusOKBody players false */
-
-/* polymorph GetStatusOKBody server_version false */
-
-/* polymorph GetStatusOKBody start_time false */
-
-/* polymorph GetStatusOKBody vip false */
-
-// Validate validates this get status o k body
-func (o *GetStatusOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validatePlayers(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateServerVersion(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStartTime(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVip(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetStatusServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /status/][%d] getStatusServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetStatusOKBody) validatePlayers(formats strfmt.Registry) error {
+func (o *GetStatusServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getStatusOK"+"."+"players", "body", o.Players); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetStatusOKBody) validateServerVersion(formats strfmt.Registry) error {
-
-	if err := validate.Required("getStatusOK"+"."+"server_version", "body", o.ServerVersion); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetStatusGatewayTimeout creates a GetStatusGatewayTimeout with default headers values
+func NewGetStatusGatewayTimeout() *GetStatusGatewayTimeout {
+	return &GetStatusGatewayTimeout{}
 }
 
-func (o *GetStatusOKBody) validateStartTime(formats strfmt.Registry) error {
+/*GetStatusGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("getStatusOK"+"."+"start_time", "body", o.StartTime); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("getStatusOK"+"."+"start_time", "body", "date-time", o.StartTime.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetStatusGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetStatusOKBody) validateVip(formats strfmt.Registry) error {
+func (o *GetStatusGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /status/][%d] getStatusGatewayTimeout  %+v", 504, o.Payload)
+}
 
-	if err := validate.Required("getStatusOK"+"."+"vip", "body", o.Vip); err != nil {
+func (o *GetStatusGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetStatusOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetStatusOKBody) UnmarshalBinary(b []byte) error {
-	var res GetStatusOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

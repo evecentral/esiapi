@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDContractsContractIDBidsReader is a Reader for the GetCharactersCharacterIDContractsContractIDBids structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDContractsContractIDBidsReader) ReadResponse(res
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDContractsContractIDBidsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDContractsContractIDBidsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDContractsContractIDBidsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDContractsContractIDBidsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,36 @@ func (o *GetCharactersCharacterIDContractsContractIDBidsReader) ReadResponse(res
 		}
 		return nil, result
 
+	case 404:
+		result := NewGetCharactersCharacterIDContractsContractIDBidsNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDContractsContractIDBidsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDContractsContractIDBidsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDContractsContractIDBidsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -61,12 +107,15 @@ func NewGetCharactersCharacterIDContractsContractIDBidsOK() *GetCharactersCharac
 
 /*GetCharactersCharacterIDContractsContractIDBidsOK handles this case with default header values.
 
-A list of contracts
+A list of bids
 */
 type GetCharactersCharacterIDContractsContractIDBidsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +123,7 @@ type GetCharactersCharacterIDContractsContractIDBidsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDContractsContractIDBidsOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDContractsContractIDBidsOK) Error() string {
@@ -86,6 +135,9 @@ func (o *GetCharactersCharacterIDContractsContractIDBidsOK) readResponse(respons
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +146,109 @@ func (o *GetCharactersCharacterIDContractsContractIDBidsOK) readResponse(respons
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDBidsNotModified creates a GetCharactersCharacterIDContractsContractIDBidsNotModified with default headers values
+func NewGetCharactersCharacterIDContractsContractIDBidsNotModified() *GetCharactersCharacterIDContractsContractIDBidsNotModified {
+	return &GetCharactersCharacterIDContractsContractIDBidsNotModified{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDBidsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDContractsContractIDBidsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/bids/][%d] getCharactersCharacterIdContractsContractIdBidsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDBidsBadRequest creates a GetCharactersCharacterIDContractsContractIDBidsBadRequest with default headers values
+func NewGetCharactersCharacterIDContractsContractIDBidsBadRequest() *GetCharactersCharacterIDContractsContractIDBidsBadRequest {
+	return &GetCharactersCharacterIDContractsContractIDBidsBadRequest{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDBidsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDContractsContractIDBidsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/bids/][%d] getCharactersCharacterIdContractsContractIdBidsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDBidsUnauthorized creates a GetCharactersCharacterIDContractsContractIDBidsUnauthorized with default headers values
+func NewGetCharactersCharacterIDContractsContractIDBidsUnauthorized() *GetCharactersCharacterIDContractsContractIDBidsUnauthorized {
+	return &GetCharactersCharacterIDContractsContractIDBidsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDBidsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDContractsContractIDBidsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/bids/][%d] getCharactersCharacterIdContractsContractIdBidsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +275,64 @@ func (o *GetCharactersCharacterIDContractsContractIDBidsForbidden) Error() strin
 func (o *GetCharactersCharacterIDContractsContractIDBidsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDBidsNotFound creates a GetCharactersCharacterIDContractsContractIDBidsNotFound with default headers values
+func NewGetCharactersCharacterIDContractsContractIDBidsNotFound() *GetCharactersCharacterIDContractsContractIDBidsNotFound {
+	return &GetCharactersCharacterIDContractsContractIDBidsNotFound{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDBidsNotFound handles this case with default header values.
+
+Not found
+*/
+type GetCharactersCharacterIDContractsContractIDBidsNotFound struct {
+	Payload *models.GetCharactersCharacterIDContractsContractIDBidsNotFoundBody
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsNotFound) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/bids/][%d] getCharactersCharacterIdContractsContractIdBidsNotFound  %+v", 404, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GetCharactersCharacterIDContractsContractIDBidsNotFoundBody)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm creates a GetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm() *GetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm {
+	return &GetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/bids/][%d] getCharactersCharacterIdContractsContractIdBidsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDBidsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,131 +371,60 @@ func (o *GetCharactersCharacterIDContractsContractIDBidsInternalServerError) rea
 	return nil
 }
 
-/*GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0 get_characters_character_id_contracts_contract_id_bids_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0
+// NewGetCharactersCharacterIDContractsContractIDBidsServiceUnavailable creates a GetCharactersCharacterIDContractsContractIDBidsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDContractsContractIDBidsServiceUnavailable() *GetCharactersCharacterIDContractsContractIDBidsServiceUnavailable {
+	return &GetCharactersCharacterIDContractsContractIDBidsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDBidsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0 struct {
-
-	// get_characters_character_id_contracts_contract_id_bids_amount
-	//
-	// The ammount bid
-	// Required: true
-	Amount *float32 `json:"amount"`
-
-	// get_characters_character_id_contracts_contract_id_bids_bid_id
-	//
-	// Unique ID for the bid
-	// Required: true
-	BidID *int32 `json:"bid_id"`
-
-	// get_characters_character_id_contracts_contract_id_bids_bidder_id
-	//
-	// Character ID of the bidder
-	// Required: true
-	BidderID *int32 `json:"bidder_id"`
-
-	// get_characters_character_id_contracts_contract_id_bids_date_bid
-	//
-	// Datetime when the bid was placed
-	// Required: true
-	DateBid *strfmt.DateTime `json:"date_bid"`
+type GetCharactersCharacterIDContractsContractIDBidsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0 amount false */
-
-/* polymorph GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0 bid_id false */
-
-/* polymorph GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0 bidder_id false */
-
-/* polymorph GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0 date_bid false */
-
-// Validate validates this get characters character ID contracts contract ID bids o k body items0
-func (o *GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAmount(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateBidID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateBidderID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDateBid(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDContractsContractIDBidsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/bids/][%d] getCharactersCharacterIdContractsContractIdBidsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0) validateAmount(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDContractsContractIDBidsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("amount", "body", o.Amount); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0) validateBidID(formats strfmt.Registry) error {
-
-	if err := validate.Required("bid_id", "body", o.BidID); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDContractsContractIDBidsGatewayTimeout creates a GetCharactersCharacterIDContractsContractIDBidsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDContractsContractIDBidsGatewayTimeout() *GetCharactersCharacterIDContractsContractIDBidsGatewayTimeout {
+	return &GetCharactersCharacterIDContractsContractIDBidsGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0) validateBidderID(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDContractsContractIDBidsGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("bidder_id", "body", o.BidderID); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDContractsContractIDBidsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0) validateDateBid(formats strfmt.Registry) error {
-
-	if err := validate.Required("date_bid", "body", o.DateBid); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("date_bid", "body", "date-time", o.DateBid.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+func (o *GetCharactersCharacterIDContractsContractIDBidsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/bids/][%d] getCharactersCharacterIdContractsContractIdBidsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
+func (o *GetCharactersCharacterIDContractsContractIDBidsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDContractsContractIDBidsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

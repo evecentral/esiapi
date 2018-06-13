@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseGraphicsReader is a Reader for the GetUniverseGraphics structure.
@@ -32,8 +32,43 @@ func (o *GetUniverseGraphicsReader) ReadResponse(response runtime.ClientResponse
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseGraphicsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseGraphicsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetUniverseGraphicsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseGraphicsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseGraphicsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseGraphicsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetUniverseGraphicsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetUniverseGraphicsOK) readResponse(response runtime.ClientResponse, co
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetUniverseGraphicsOK) readResponse(response runtime.ClientResponse, co
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseGraphicsNotModified creates a GetUniverseGraphicsNotModified with default headers values
+func NewGetUniverseGraphicsNotModified() *GetUniverseGraphicsNotModified {
+	return &GetUniverseGraphicsNotModified{}
+}
+
+/*GetUniverseGraphicsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseGraphicsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseGraphicsNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/graphics/][%d] getUniverseGraphicsNotModified ", 304)
+}
+
+func (o *GetUniverseGraphicsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseGraphicsBadRequest creates a GetUniverseGraphicsBadRequest with default headers values
+func NewGetUniverseGraphicsBadRequest() *GetUniverseGraphicsBadRequest {
+	return &GetUniverseGraphicsBadRequest{}
+}
+
+/*GetUniverseGraphicsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseGraphicsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseGraphicsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/graphics/][%d] getUniverseGraphicsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseGraphicsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseGraphicsEnhanceYourCalm creates a GetUniverseGraphicsEnhanceYourCalm with default headers values
+func NewGetUniverseGraphicsEnhanceYourCalm() *GetUniverseGraphicsEnhanceYourCalm {
+	return &GetUniverseGraphicsEnhanceYourCalm{}
+}
+
+/*GetUniverseGraphicsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseGraphicsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseGraphicsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/graphics/][%d] getUniverseGraphicsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseGraphicsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetUniverseGraphicsInternalServerError) Error() string {
 func (o *GetUniverseGraphicsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseGraphicsServiceUnavailable creates a GetUniverseGraphicsServiceUnavailable with default headers values
+func NewGetUniverseGraphicsServiceUnavailable() *GetUniverseGraphicsServiceUnavailable {
+	return &GetUniverseGraphicsServiceUnavailable{}
+}
+
+/*GetUniverseGraphicsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetUniverseGraphicsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetUniverseGraphicsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/graphics/][%d] getUniverseGraphicsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetUniverseGraphicsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseGraphicsGatewayTimeout creates a GetUniverseGraphicsGatewayTimeout with default headers values
+func NewGetUniverseGraphicsGatewayTimeout() *GetUniverseGraphicsGatewayTimeout {
+	return &GetUniverseGraphicsGatewayTimeout{}
+}
+
+/*GetUniverseGraphicsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetUniverseGraphicsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetUniverseGraphicsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/graphics/][%d] getUniverseGraphicsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetUniverseGraphicsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

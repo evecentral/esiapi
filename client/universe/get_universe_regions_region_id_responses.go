@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseRegionsRegionIDReader is a Reader for the GetUniverseRegionsRegionID structure.
@@ -35,6 +32,20 @@ func (o *GetUniverseRegionsRegionIDReader) ReadResponse(response runtime.ClientR
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseRegionsRegionIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseRegionsRegionIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetUniverseRegionsRegionIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetUniverseRegionsRegionIDReader) ReadResponse(response runtime.ClientR
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetUniverseRegionsRegionIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseRegionsRegionIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseRegionsRegionIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseRegionsRegionIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -70,6 +102,9 @@ type GetUniverseRegionsRegionIDOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -77,7 +112,7 @@ type GetUniverseRegionsRegionIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetUniverseRegionsRegionIDOKBody
+	Payload *models.GetUniverseRegionsRegionIDOKBody
 }
 
 func (o *GetUniverseRegionsRegionIDOK) Error() string {
@@ -92,14 +127,93 @@ func (o *GetUniverseRegionsRegionIDOK) readResponse(response runtime.ClientRespo
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetUniverseRegionsRegionIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseRegionsRegionIDNotModified creates a GetUniverseRegionsRegionIDNotModified with default headers values
+func NewGetUniverseRegionsRegionIDNotModified() *GetUniverseRegionsRegionIDNotModified {
+	return &GetUniverseRegionsRegionIDNotModified{}
+}
+
+/*GetUniverseRegionsRegionIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseRegionsRegionIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseRegionsRegionIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/{region_id}/][%d] getUniverseRegionsRegionIdNotModified ", 304)
+}
+
+func (o *GetUniverseRegionsRegionIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseRegionsRegionIDBadRequest creates a GetUniverseRegionsRegionIDBadRequest with default headers values
+func NewGetUniverseRegionsRegionIDBadRequest() *GetUniverseRegionsRegionIDBadRequest {
+	return &GetUniverseRegionsRegionIDBadRequest{}
+}
+
+/*GetUniverseRegionsRegionIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseRegionsRegionIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseRegionsRegionIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/{region_id}/][%d] getUniverseRegionsRegionIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseRegionsRegionIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -116,7 +230,7 @@ func NewGetUniverseRegionsRegionIDNotFound() *GetUniverseRegionsRegionIDNotFound
 Region not found
 */
 type GetUniverseRegionsRegionIDNotFound struct {
-	Payload GetUniverseRegionsRegionIDNotFoundBody
+	Payload *models.GetUniverseRegionsRegionIDNotFoundBody
 }
 
 func (o *GetUniverseRegionsRegionIDNotFound) Error() string {
@@ -125,8 +239,39 @@ func (o *GetUniverseRegionsRegionIDNotFound) Error() string {
 
 func (o *GetUniverseRegionsRegionIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetUniverseRegionsRegionIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseRegionsRegionIDEnhanceYourCalm creates a GetUniverseRegionsRegionIDEnhanceYourCalm with default headers values
+func NewGetUniverseRegionsRegionIDEnhanceYourCalm() *GetUniverseRegionsRegionIDEnhanceYourCalm {
+	return &GetUniverseRegionsRegionIDEnhanceYourCalm{}
+}
+
+/*GetUniverseRegionsRegionIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseRegionsRegionIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseRegionsRegionIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/{region_id}/][%d] getUniverseRegionsRegionIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseRegionsRegionIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -162,193 +307,60 @@ func (o *GetUniverseRegionsRegionIDInternalServerError) readResponse(response ru
 	return nil
 }
 
-/*GetUniverseRegionsRegionIDNotFoundBody get_universe_regions_region_id_not_found
-//
-// Not found
-swagger:model GetUniverseRegionsRegionIDNotFoundBody
+// NewGetUniverseRegionsRegionIDServiceUnavailable creates a GetUniverseRegionsRegionIDServiceUnavailable with default headers values
+func NewGetUniverseRegionsRegionIDServiceUnavailable() *GetUniverseRegionsRegionIDServiceUnavailable {
+	return &GetUniverseRegionsRegionIDServiceUnavailable{}
+}
+
+/*GetUniverseRegionsRegionIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseRegionsRegionIDNotFoundBody struct {
-
-	// get_universe_regions_region_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetUniverseRegionsRegionIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseRegionsRegionIDNotFoundBody error false */
-
-// Validate validates this get universe regions region ID not found body
-func (o *GetUniverseRegionsRegionIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseRegionsRegionIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/{region_id}/][%d] getUniverseRegionsRegionIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseRegionsRegionIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetUniverseRegionsRegionIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseRegionsRegionIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetUniverseRegionsRegionIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetUniverseRegionsRegionIDGatewayTimeout creates a GetUniverseRegionsRegionIDGatewayTimeout with default headers values
+func NewGetUniverseRegionsRegionIDGatewayTimeout() *GetUniverseRegionsRegionIDGatewayTimeout {
+	return &GetUniverseRegionsRegionIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetUniverseRegionsRegionIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseRegionsRegionIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetUniverseRegionsRegionIDGatewayTimeout handles this case with default header values.
 
-/*GetUniverseRegionsRegionIDOKBody get_universe_regions_region_id_ok
-//
-// 200 ok object
-swagger:model GetUniverseRegionsRegionIDOKBody
+Gateway timeout
 */
-
-type GetUniverseRegionsRegionIDOKBody struct {
-
-	// get_universe_regions_region_id_constellations
-	//
-	// constellations array
-	// Required: true
-	// Max Items: 1000
-	Constellations []int32 `json:"constellations"`
-
-	// get_universe_regions_region_id_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_universe_regions_region_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_universe_regions_region_id_region_id
-	//
-	// region_id integer
-	// Required: true
-	RegionID *int32 `json:"region_id"`
+type GetUniverseRegionsRegionIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetUniverseRegionsRegionIDOKBody constellations false */
-
-/* polymorph GetUniverseRegionsRegionIDOKBody description false */
-
-/* polymorph GetUniverseRegionsRegionIDOKBody name false */
-
-/* polymorph GetUniverseRegionsRegionIDOKBody region_id false */
-
-// Validate validates this get universe regions region ID o k body
-func (o *GetUniverseRegionsRegionIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateConstellations(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRegionID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseRegionsRegionIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/{region_id}/][%d] getUniverseRegionsRegionIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetUniverseRegionsRegionIDOKBody) validateConstellations(formats strfmt.Registry) error {
+func (o *GetUniverseRegionsRegionIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseRegionsRegionIdOK"+"."+"constellations", "body", o.Constellations); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	iConstellationsSize := int64(len(o.Constellations))
-
-	if err := validate.MaxItems("getUniverseRegionsRegionIdOK"+"."+"constellations", "body", iConstellationsSize, 1000); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseRegionsRegionIDOKBody) validateDescription(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseRegionsRegionIdOK"+"."+"description", "body", o.Description); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseRegionsRegionIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseRegionsRegionIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseRegionsRegionIDOKBody) validateRegionID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseRegionsRegionIdOK"+"."+"region_id", "body", o.RegionID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseRegionsRegionIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseRegionsRegionIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseRegionsRegionIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -6,18 +6,14 @@ package corporation
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCorporationsCorporationIDReader is a Reader for the GetCorporationsCorporationID structure.
@@ -36,6 +32,20 @@ func (o *GetCorporationsCorporationIDReader) ReadResponse(response runtime.Clien
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCorporationsCorporationIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCorporationsCorporationIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetCorporationsCorporationIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +53,29 @@ func (o *GetCorporationsCorporationIDReader) ReadResponse(response runtime.Clien
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCorporationsCorporationIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCorporationsCorporationIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCorporationsCorporationIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCorporationsCorporationIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -62,12 +93,15 @@ func NewGetCorporationsCorporationIDOK() *GetCorporationsCorporationIDOK {
 
 /*GetCorporationsCorporationIDOK handles this case with default header values.
 
-Public data about a corporation
+Public information about a corporation
 */
 type GetCorporationsCorporationIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +109,7 @@ type GetCorporationsCorporationIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetCorporationsCorporationIDOKBody
+	Payload *models.GetCorporationsCorporationIDOKBody
 }
 
 func (o *GetCorporationsCorporationIDOK) Error() string {
@@ -87,14 +121,93 @@ func (o *GetCorporationsCorporationIDOK) readResponse(response runtime.ClientRes
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCorporationsCorporationIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDNotModified creates a GetCorporationsCorporationIDNotModified with default headers values
+func NewGetCorporationsCorporationIDNotModified() *GetCorporationsCorporationIDNotModified {
+	return &GetCorporationsCorporationIDNotModified{}
+}
+
+/*GetCorporationsCorporationIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCorporationsCorporationIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCorporationsCorporationIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/][%d] getCorporationsCorporationIdNotModified ", 304)
+}
+
+func (o *GetCorporationsCorporationIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDBadRequest creates a GetCorporationsCorporationIDBadRequest with default headers values
+func NewGetCorporationsCorporationIDBadRequest() *GetCorporationsCorporationIDBadRequest {
+	return &GetCorporationsCorporationIDBadRequest{}
+}
+
+/*GetCorporationsCorporationIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCorporationsCorporationIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCorporationsCorporationIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/][%d] getCorporationsCorporationIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -111,7 +224,7 @@ func NewGetCorporationsCorporationIDNotFound() *GetCorporationsCorporationIDNotF
 Corporation not found
 */
 type GetCorporationsCorporationIDNotFound struct {
-	Payload GetCorporationsCorporationIDNotFoundBody
+	Payload *models.GetCorporationsCorporationIDNotFoundBody
 }
 
 func (o *GetCorporationsCorporationIDNotFound) Error() string {
@@ -120,8 +233,39 @@ func (o *GetCorporationsCorporationIDNotFound) Error() string {
 
 func (o *GetCorporationsCorporationIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetCorporationsCorporationIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDEnhanceYourCalm creates a GetCorporationsCorporationIDEnhanceYourCalm with default headers values
+func NewGetCorporationsCorporationIDEnhanceYourCalm() *GetCorporationsCorporationIDEnhanceYourCalm {
+	return &GetCorporationsCorporationIDEnhanceYourCalm{}
+}
+
+/*GetCorporationsCorporationIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCorporationsCorporationIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCorporationsCorporationIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/][%d] getCorporationsCorporationIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -157,390 +301,60 @@ func (o *GetCorporationsCorporationIDInternalServerError) readResponse(response 
 	return nil
 }
 
-/*GetCorporationsCorporationIDNotFoundBody get_corporations_corporation_id_not_found
-//
-// Not found
-swagger:model GetCorporationsCorporationIDNotFoundBody
+// NewGetCorporationsCorporationIDServiceUnavailable creates a GetCorporationsCorporationIDServiceUnavailable with default headers values
+func NewGetCorporationsCorporationIDServiceUnavailable() *GetCorporationsCorporationIDServiceUnavailable {
+	return &GetCorporationsCorporationIDServiceUnavailable{}
+}
+
+/*GetCorporationsCorporationIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCorporationsCorporationIDNotFoundBody struct {
-
-	// get_corporations_corporation_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetCorporationsCorporationIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCorporationsCorporationIDNotFoundBody error false */
-
-// Validate validates this get corporations corporation ID not found body
-func (o *GetCorporationsCorporationIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCorporationsCorporationIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/][%d] getCorporationsCorporationIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCorporationsCorporationIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetCorporationsCorporationIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCorporationsCorporationIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCorporationsCorporationIDGatewayTimeout creates a GetCorporationsCorporationIDGatewayTimeout with default headers values
+func NewGetCorporationsCorporationIDGatewayTimeout() *GetCorporationsCorporationIDGatewayTimeout {
+	return &GetCorporationsCorporationIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetCorporationsCorporationIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetCorporationsCorporationIDGatewayTimeout handles this case with default header values.
 
-/*GetCorporationsCorporationIDOKBody get_corporations_corporation_id_ok
-//
-// 200 ok object
-swagger:model GetCorporationsCorporationIDOKBody
+Gateway timeout
 */
-
-type GetCorporationsCorporationIDOKBody struct {
-
-	// get_corporations_corporation_id_alliance_id
-	//
-	// id of alliance that corporation is a member of, if any
-	// Required: true
-	AllianceID *int32 `json:"alliance_id"`
-
-	// get_corporations_corporation_id_ceo_id
-	//
-	// ceo_id integer
-	// Required: true
-	CeoID *int32 `json:"ceo_id"`
-
-	// get_corporations_corporation_id_corporation_description
-	//
-	// corporation_description string
-	// Required: true
-	CorporationDescription *string `json:"corporation_description"`
-
-	// get_corporations_corporation_id_corporation_name
-	//
-	// the full name of the corporation
-	// Required: true
-	CorporationName *string `json:"corporation_name"`
-
-	// get_corporations_corporation_id_creation_date
-	//
-	// creation_date string
-	// Required: true
-	CreationDate *strfmt.DateTime `json:"creation_date"`
-
-	// get_corporations_corporation_id_creator_id
-	//
-	// creator_id integer
-	// Required: true
-	CreatorID *int32 `json:"creator_id"`
-
-	// get_corporations_corporation_id_faction
-	//
-	// faction string
-	// Required: true
-	Faction *string `json:"faction"`
-
-	// get_corporations_corporation_id_member_count
-	//
-	// member_count integer
-	// Required: true
-	MemberCount *int32 `json:"member_count"`
-
-	// get_corporations_corporation_id_tax_rate
-	//
-	// tax_rate number
-	// Required: true
-	// Maximum: 1
-	// Minimum: 0
-	TaxRate *float32 `json:"tax_rate"`
-
-	// get_corporations_corporation_id_ticker
-	//
-	// the short name of the corporation
-	// Required: true
-	Ticker *string `json:"ticker"`
-
-	// get_corporations_corporation_id_url
-	//
-	// url string
-	// Required: true
-	URL *string `json:"url"`
+type GetCorporationsCorporationIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetCorporationsCorporationIDOKBody alliance_id false */
-
-/* polymorph GetCorporationsCorporationIDOKBody ceo_id false */
-
-/* polymorph GetCorporationsCorporationIDOKBody corporation_description false */
-
-/* polymorph GetCorporationsCorporationIDOKBody corporation_name false */
-
-/* polymorph GetCorporationsCorporationIDOKBody creation_date false */
-
-/* polymorph GetCorporationsCorporationIDOKBody creator_id false */
-
-/* polymorph GetCorporationsCorporationIDOKBody faction false */
-
-/* polymorph GetCorporationsCorporationIDOKBody member_count false */
-
-/* polymorph GetCorporationsCorporationIDOKBody tax_rate false */
-
-/* polymorph GetCorporationsCorporationIDOKBody ticker false */
-
-/* polymorph GetCorporationsCorporationIDOKBody url false */
-
-// Validate validates this get corporations corporation ID o k body
-func (o *GetCorporationsCorporationIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAllianceID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCeoID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCorporationDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCorporationName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCreationDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCreatorID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateFaction(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMemberCount(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTaxRate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTicker(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateURL(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCorporationsCorporationIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/][%d] getCorporationsCorporationIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCorporationsCorporationIDOKBody) validateAllianceID(formats strfmt.Registry) error {
+func (o *GetCorporationsCorporationIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"alliance_id", "body", o.AllianceID); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateCeoID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"ceo_id", "body", o.CeoID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateCorporationDescription(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"corporation_description", "body", o.CorporationDescription); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateCorporationName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"corporation_name", "body", o.CorporationName); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateCreationDate(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"creation_date", "body", o.CreationDate); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("getCorporationsCorporationIdOK"+"."+"creation_date", "body", "date-time", o.CreationDate.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateCreatorID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"creator_id", "body", o.CreatorID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var getCorporationsCorporationIdOKBodyTypeFactionPropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["Minmatar","Gallente","Caldari","Amarr"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCorporationsCorporationIdOKBodyTypeFactionPropEnum = append(getCorporationsCorporationIdOKBodyTypeFactionPropEnum, v)
-	}
-}
-
-const (
-	// GetCorporationsCorporationIDOKBodyFactionMinmatar captures enum value "Minmatar"
-	GetCorporationsCorporationIDOKBodyFactionMinmatar string = "Minmatar"
-	// GetCorporationsCorporationIDOKBodyFactionGallente captures enum value "Gallente"
-	GetCorporationsCorporationIDOKBodyFactionGallente string = "Gallente"
-	// GetCorporationsCorporationIDOKBodyFactionCaldari captures enum value "Caldari"
-	GetCorporationsCorporationIDOKBodyFactionCaldari string = "Caldari"
-	// GetCorporationsCorporationIDOKBodyFactionAmarr captures enum value "Amarr"
-	GetCorporationsCorporationIDOKBodyFactionAmarr string = "Amarr"
-)
-
-// prop value enum
-func (o *GetCorporationsCorporationIDOKBody) validateFactionEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCorporationsCorporationIdOKBodyTypeFactionPropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateFaction(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"faction", "body", o.Faction); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateFactionEnum("getCorporationsCorporationIdOK"+"."+"faction", "body", *o.Faction); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateMemberCount(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"member_count", "body", o.MemberCount); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateTaxRate(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"tax_rate", "body", o.TaxRate); err != nil {
-		return err
-	}
-
-	if err := validate.Minimum("getCorporationsCorporationIdOK"+"."+"tax_rate", "body", float64(*o.TaxRate), 0, false); err != nil {
-		return err
-	}
-
-	if err := validate.Maximum("getCorporationsCorporationIdOK"+"."+"tax_rate", "body", float64(*o.TaxRate), 1, false); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateTicker(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"ticker", "body", o.Ticker); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDOKBody) validateURL(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdOK"+"."+"url", "body", o.URL); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCorporationsCorporationIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

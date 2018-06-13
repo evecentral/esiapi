@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostUIAutopilotWaypointReader is a Reader for the PostUIAutopilotWaypoint structure.
@@ -32,6 +32,20 @@ func (o *PostUIAutopilotWaypointReader) ReadResponse(response runtime.ClientResp
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostUIAutopilotWaypointBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostUIAutopilotWaypointUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostUIAutopilotWaypointForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +53,29 @@ func (o *PostUIAutopilotWaypointReader) ReadResponse(response runtime.ClientResp
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostUIAutopilotWaypointEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostUIAutopilotWaypointInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostUIAutopilotWaypointServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostUIAutopilotWaypointGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +103,64 @@ func (o *PostUIAutopilotWaypointNoContent) Error() string {
 }
 
 func (o *PostUIAutopilotWaypointNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewPostUIAutopilotWaypointBadRequest creates a PostUIAutopilotWaypointBadRequest with default headers values
+func NewPostUIAutopilotWaypointBadRequest() *PostUIAutopilotWaypointBadRequest {
+	return &PostUIAutopilotWaypointBadRequest{}
+}
+
+/*PostUIAutopilotWaypointBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostUIAutopilotWaypointBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostUIAutopilotWaypointBadRequest) Error() string {
+	return fmt.Sprintf("[POST /ui/autopilot/waypoint/][%d] postUiAutopilotWaypointBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostUIAutopilotWaypointBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIAutopilotWaypointUnauthorized creates a PostUIAutopilotWaypointUnauthorized with default headers values
+func NewPostUIAutopilotWaypointUnauthorized() *PostUIAutopilotWaypointUnauthorized {
+	return &PostUIAutopilotWaypointUnauthorized{}
+}
+
+/*PostUIAutopilotWaypointUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostUIAutopilotWaypointUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostUIAutopilotWaypointUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /ui/autopilot/waypoint/][%d] postUiAutopilotWaypointUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostUIAutopilotWaypointUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -101,6 +194,35 @@ func (o *PostUIAutopilotWaypointForbidden) readResponse(response runtime.ClientR
 	return nil
 }
 
+// NewPostUIAutopilotWaypointEnhanceYourCalm creates a PostUIAutopilotWaypointEnhanceYourCalm with default headers values
+func NewPostUIAutopilotWaypointEnhanceYourCalm() *PostUIAutopilotWaypointEnhanceYourCalm {
+	return &PostUIAutopilotWaypointEnhanceYourCalm{}
+}
+
+/*PostUIAutopilotWaypointEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostUIAutopilotWaypointEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostUIAutopilotWaypointEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /ui/autopilot/waypoint/][%d] postUiAutopilotWaypointEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostUIAutopilotWaypointEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPostUIAutopilotWaypointInternalServerError creates a PostUIAutopilotWaypointInternalServerError with default headers values
 func NewPostUIAutopilotWaypointInternalServerError() *PostUIAutopilotWaypointInternalServerError {
 	return &PostUIAutopilotWaypointInternalServerError{}
@@ -121,6 +243,64 @@ func (o *PostUIAutopilotWaypointInternalServerError) Error() string {
 func (o *PostUIAutopilotWaypointInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIAutopilotWaypointServiceUnavailable creates a PostUIAutopilotWaypointServiceUnavailable with default headers values
+func NewPostUIAutopilotWaypointServiceUnavailable() *PostUIAutopilotWaypointServiceUnavailable {
+	return &PostUIAutopilotWaypointServiceUnavailable{}
+}
+
+/*PostUIAutopilotWaypointServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type PostUIAutopilotWaypointServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *PostUIAutopilotWaypointServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /ui/autopilot/waypoint/][%d] postUiAutopilotWaypointServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *PostUIAutopilotWaypointServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIAutopilotWaypointGatewayTimeout creates a PostUIAutopilotWaypointGatewayTimeout with default headers values
+func NewPostUIAutopilotWaypointGatewayTimeout() *PostUIAutopilotWaypointGatewayTimeout {
+	return &PostUIAutopilotWaypointGatewayTimeout{}
+}
+
+/*PostUIAutopilotWaypointGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type PostUIAutopilotWaypointGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *PostUIAutopilotWaypointGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /ui/autopilot/waypoint/][%d] postUiAutopilotWaypointGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *PostUIAutopilotWaypointGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

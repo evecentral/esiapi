@@ -91,11 +91,6 @@ for the post ui autopilot waypoint operation typically these are written to a ht
 */
 type PostUIAutopilotWaypointParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*AddToBeginning
 	  Whether this solar system should be added to the beginning of all waypoints
 
@@ -121,11 +116,6 @@ type PostUIAutopilotWaypointParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -163,17 +153,6 @@ func (o *PostUIAutopilotWaypointParams) WithHTTPClient(client *http.Client) *Pos
 // SetHTTPClient adds the HTTPClient to the post ui autopilot waypoint params
 func (o *PostUIAutopilotWaypointParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXUserAgent adds the xUserAgent to the post ui autopilot waypoint params
-func (o *PostUIAutopilotWaypointParams) WithXUserAgent(xUserAgent *string) *PostUIAutopilotWaypointParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post ui autopilot waypoint params
-func (o *PostUIAutopilotWaypointParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
 }
 
 // WithAddToBeginning adds the addToBeginning to the post ui autopilot waypoint params
@@ -231,17 +210,6 @@ func (o *PostUIAutopilotWaypointParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post ui autopilot waypoint params
-func (o *PostUIAutopilotWaypointParams) WithUserAgent(userAgent *string) *PostUIAutopilotWaypointParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post ui autopilot waypoint params
-func (o *PostUIAutopilotWaypointParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostUIAutopilotWaypointParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -249,15 +217,6 @@ func (o *PostUIAutopilotWaypointParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	// query param add_to_beginning
 	qrAddToBeginning := o.AddToBeginning
@@ -312,22 +271,6 @@ func (o *PostUIAutopilotWaypointParams) WriteToRequest(r runtime.ClientRequest, 
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

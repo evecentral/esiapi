@@ -30,11 +30,11 @@ GetCharactersCharacterIDLocation gets character location
 Information about the characters current location. Returns the current solar system id, and also the current station or structure ID if applicable.
 
 ---
-Alternate route: `/v1/characters/{character_id}/location/`
+Alternate route: `/dev/characters/{character_id}/location/`
 
 Alternate route: `/legacy/characters/{character_id}/location/`
 
-Alternate route: `/dev/characters/{character_id}/location/`
+Alternate route: `/v1/characters/{character_id}/location/`
 
 ---
 This route is cached for up to 5 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDLocation(params *GetCharactersCharacter
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/location/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDLocationReader{formats: a.formats},
@@ -71,9 +71,9 @@ GetCharactersCharacterIDOnline gets character online
 Checks if the character is currently online
 
 ---
-Alternate route: `/v1/characters/{character_id}/online/`
+Alternate route: `/dev/characters/{character_id}/online/`
 
-Alternate route: `/legacy/characters/{character_id}/online/`
+Alternate route: `/v2/characters/{character_id}/online/`
 
 ---
 This route is cached for up to 60 seconds
@@ -89,7 +89,7 @@ func (a *Client) GetCharactersCharacterIDOnline(params *GetCharactersCharacterID
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/online/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDOnlineReader{formats: a.formats},
@@ -110,11 +110,11 @@ GetCharactersCharacterIDShip gets current ship
 Get the current ship type, name and id
 
 ---
-Alternate route: `/v1/characters/{character_id}/ship/`
+Alternate route: `/dev/characters/{character_id}/ship/`
 
 Alternate route: `/legacy/characters/{character_id}/ship/`
 
-Alternate route: `/dev/characters/{character_id}/ship/`
+Alternate route: `/v1/characters/{character_id}/ship/`
 
 ---
 This route is cached for up to 5 seconds
@@ -130,7 +130,7 @@ func (a *Client) GetCharactersCharacterIDShip(params *GetCharactersCharacterIDSh
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/ship/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDShipReader{formats: a.formats},

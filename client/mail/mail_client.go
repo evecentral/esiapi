@@ -30,11 +30,11 @@ DeleteCharactersCharacterIDMailLabelsLabelID deletes a mail label
 Delete a mail label
 
 ---
-Alternate route: `/v1/characters/{character_id}/mail/labels/{label_id}/`
+Alternate route: `/dev/characters/{character_id}/mail/labels/{label_id}/`
 
 Alternate route: `/legacy/characters/{character_id}/mail/labels/{label_id}/`
 
-Alternate route: `/dev/characters/{character_id}/mail/labels/{label_id}/`
+Alternate route: `/v1/characters/{character_id}/mail/labels/{label_id}/`
 
 */
 func (a *Client) DeleteCharactersCharacterIDMailLabelsLabelID(params *DeleteCharactersCharacterIDMailLabelsLabelIDParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteCharactersCharacterIDMailLabelsLabelIDNoContent, error) {
@@ -48,7 +48,7 @@ func (a *Client) DeleteCharactersCharacterIDMailLabelsLabelID(params *DeleteChar
 		Method:             "DELETE",
 		PathPattern:        "/characters/{character_id}/mail/labels/{label_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteCharactersCharacterIDMailLabelsLabelIDReader{formats: a.formats},
@@ -69,11 +69,11 @@ DeleteCharactersCharacterIDMailMailID deletes a mail
 Delete a mail
 
 ---
-Alternate route: `/v1/characters/{character_id}/mail/{mail_id}/`
+Alternate route: `/dev/characters/{character_id}/mail/{mail_id}/`
 
 Alternate route: `/legacy/characters/{character_id}/mail/{mail_id}/`
 
-Alternate route: `/dev/characters/{character_id}/mail/{mail_id}/`
+Alternate route: `/v1/characters/{character_id}/mail/{mail_id}/`
 
 */
 func (a *Client) DeleteCharactersCharacterIDMailMailID(params *DeleteCharactersCharacterIDMailMailIDParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteCharactersCharacterIDMailMailIDNoContent, error) {
@@ -87,7 +87,7 @@ func (a *Client) DeleteCharactersCharacterIDMailMailID(params *DeleteCharactersC
 		Method:             "DELETE",
 		PathPattern:        "/characters/{character_id}/mail/{mail_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteCharactersCharacterIDMailMailIDReader{formats: a.formats},
@@ -108,11 +108,11 @@ GetCharactersCharacterIDMail returns mail headers
 Return the 50 most recent mail headers belonging to the character that match the query criteria. Queries can be filtered by label, and last_mail_id can be used to paginate backwards.
 
 ---
-Alternate route: `/v1/characters/{character_id}/mail/`
+Alternate route: `/dev/characters/{character_id}/mail/`
 
 Alternate route: `/legacy/characters/{character_id}/mail/`
 
-Alternate route: `/dev/characters/{character_id}/mail/`
+Alternate route: `/v1/characters/{character_id}/mail/`
 
 ---
 This route is cached for up to 30 seconds
@@ -128,7 +128,7 @@ func (a *Client) GetCharactersCharacterIDMail(params *GetCharactersCharacterIDMa
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/mail/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDMailReader{formats: a.formats},
@@ -149,9 +149,9 @@ GetCharactersCharacterIDMailLabels gets mail labels and unread counts
 Return a list of the users mail labels, unread counts for each label and a total unread count.
 
 ---
-Alternate route: `/v3/characters/{character_id}/mail/labels/`
-
 Alternate route: `/dev/characters/{character_id}/mail/labels/`
+
+Alternate route: `/v3/characters/{character_id}/mail/labels/`
 
 ---
 This route is cached for up to 30 seconds
@@ -167,7 +167,7 @@ func (a *Client) GetCharactersCharacterIDMailLabels(params *GetCharactersCharact
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/mail/labels/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDMailLabelsReader{formats: a.formats},
@@ -187,13 +187,12 @@ GetCharactersCharacterIDMailLists returns mailing list subscriptions
 
 Return all mailing lists that the character is subscribed to
 
-
 ---
-Alternate route: `/v1/characters/{character_id}/mail/lists/`
+Alternate route: `/dev/characters/{character_id}/mail/lists/`
 
 Alternate route: `/legacy/characters/{character_id}/mail/lists/`
 
-Alternate route: `/dev/characters/{character_id}/mail/lists/`
+Alternate route: `/v1/characters/{character_id}/mail/lists/`
 
 ---
 This route is cached for up to 120 seconds
@@ -209,7 +208,7 @@ func (a *Client) GetCharactersCharacterIDMailLists(params *GetCharactersCharacte
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/mail/lists/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDMailListsReader{formats: a.formats},
@@ -230,11 +229,11 @@ GetCharactersCharacterIDMailMailID returns a mail
 Return the contents of an EVE mail
 
 ---
-Alternate route: `/v1/characters/{character_id}/mail/{mail_id}/`
+Alternate route: `/dev/characters/{character_id}/mail/{mail_id}/`
 
 Alternate route: `/legacy/characters/{character_id}/mail/{mail_id}/`
 
-Alternate route: `/dev/characters/{character_id}/mail/{mail_id}/`
+Alternate route: `/v1/characters/{character_id}/mail/{mail_id}/`
 
 ---
 This route is cached for up to 30 seconds
@@ -250,7 +249,7 @@ func (a *Client) GetCharactersCharacterIDMailMailID(params *GetCharactersCharact
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/mail/{mail_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDMailMailIDReader{formats: a.formats},
@@ -271,11 +270,11 @@ PostCharactersCharacterIDMail sends a new mail
 Create and send a new mail
 
 ---
-Alternate route: `/v1/characters/{character_id}/mail/`
+Alternate route: `/dev/characters/{character_id}/mail/`
 
 Alternate route: `/legacy/characters/{character_id}/mail/`
 
-Alternate route: `/dev/characters/{character_id}/mail/`
+Alternate route: `/v1/characters/{character_id}/mail/`
 
 */
 func (a *Client) PostCharactersCharacterIDMail(params *PostCharactersCharacterIDMailParams, authInfo runtime.ClientAuthInfoWriter) (*PostCharactersCharacterIDMailCreated, error) {
@@ -289,7 +288,7 @@ func (a *Client) PostCharactersCharacterIDMail(params *PostCharactersCharacterID
 		Method:             "POST",
 		PathPattern:        "/characters/{character_id}/mail/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostCharactersCharacterIDMailReader{formats: a.formats},
@@ -310,11 +309,11 @@ PostCharactersCharacterIDMailLabels creates a mail label
 Create a mail label
 
 ---
-Alternate route: `/v2/characters/{character_id}/mail/labels/`
+Alternate route: `/dev/characters/{character_id}/mail/labels/`
 
 Alternate route: `/legacy/characters/{character_id}/mail/labels/`
 
-Alternate route: `/dev/characters/{character_id}/mail/labels/`
+Alternate route: `/v2/characters/{character_id}/mail/labels/`
 
 */
 func (a *Client) PostCharactersCharacterIDMailLabels(params *PostCharactersCharacterIDMailLabelsParams, authInfo runtime.ClientAuthInfoWriter) (*PostCharactersCharacterIDMailLabelsCreated, error) {
@@ -328,7 +327,7 @@ func (a *Client) PostCharactersCharacterIDMailLabels(params *PostCharactersChara
 		Method:             "POST",
 		PathPattern:        "/characters/{character_id}/mail/labels/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostCharactersCharacterIDMailLabelsReader{formats: a.formats},
@@ -349,11 +348,11 @@ PutCharactersCharacterIDMailMailID updates metadata about a mail
 Update metadata about a mail
 
 ---
-Alternate route: `/v1/characters/{character_id}/mail/{mail_id}/`
+Alternate route: `/dev/characters/{character_id}/mail/{mail_id}/`
 
 Alternate route: `/legacy/characters/{character_id}/mail/{mail_id}/`
 
-Alternate route: `/dev/characters/{character_id}/mail/{mail_id}/`
+Alternate route: `/v1/characters/{character_id}/mail/{mail_id}/`
 
 */
 func (a *Client) PutCharactersCharacterIDMailMailID(params *PutCharactersCharacterIDMailMailIDParams, authInfo runtime.ClientAuthInfoWriter) (*PutCharactersCharacterIDMailMailIDNoContent, error) {
@@ -367,7 +366,7 @@ func (a *Client) PutCharactersCharacterIDMailMailID(params *PutCharactersCharact
 		Method:             "PUT",
 		PathPattern:        "/characters/{character_id}/mail/{mail_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PutCharactersCharacterIDMailMailIDReader{formats: a.formats},

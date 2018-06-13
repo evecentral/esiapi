@@ -1,41 +1,48 @@
-hash: a144a4ddb273f9045d5f544dbd5d3ef62518008ae64f0b335f87932ec46bf37c
-updated: 2017-08-23T22:59:40.608653826-07:00
+hash: 531896204c3db6d40c09de083e919c9afc0fa6addfae640abb62b97e652741be
+updated: 2018-06-12T19:41:44.698792611-07:00
 imports:
 - name: cloud.google.com/go
-  version: e08da2b906e55a135acb4c335baefd7422ea35b0
+  version: 0fd7230b2a7505833d5f69b75cbd6c9582401479
   subpackages:
   - compute/metadata
   - datastore
   - internal
   - internal/atomiccache
   - internal/fields
+  - internal/trace
   - internal/version
 - name: github.com/asaskevich/govalidator
-  version: 15028e809df8c71964e8efa6c11e81d5c0262302
+  version: 7d2e70ef918f16bd6455529af38304d6d025c952
 - name: github.com/go-openapi/analysis
-  version: 8ed83f2ea9f00f945516462951a288eaa68bf0d6
+  version: 5957818e100395077187fb7ef3b8a28227af06c6
 - name: github.com/go-openapi/errors
-  version: 03cfca65330da08a5a440053faf994a3c682b5bf
+  version: b2b2befaf267d082d779bcef52d682a47c779517
 - name: github.com/go-openapi/jsonpointer
-  version: 779f45308c19820f1a69e9a4cd965f496e0da10f
+  version: 3a0015ad55fa9873f41605d3e8f28cd279c32ab2
 - name: github.com/go-openapi/jsonreference
-  version: 36d33bfe519efae5632669801b180bf1a245da3b
+  version: 3fb327e6747da3043567ee86abd02bb6376b6be2
 - name: github.com/go-openapi/loads
-  version: a80dea3052f00e5f032e860dd7355cd0cc67e24d
+  version: 2a2b323bab96e6b1fdee110e57d959322446e9c9
 - name: github.com/go-openapi/runtime
-  version: d6605b7c17ac3b1033ca794886e6142a4141f5b0
+  version: c0cae94704c76c8643896d8054080f91e920105b
   subpackages:
   - client
+  - logger
+  - middleware
+  - middleware/denco
+  - middleware/header
+  - middleware/untyped
+  - security
 - name: github.com/go-openapi/spec
-  version: 3faa0055dbbf2110abc1f3b4e3adbb22721e96e7
+  version: bcff419492eeeb01f76e77d2ebc714dc97b607f5
 - name: github.com/go-openapi/strfmt
-  version: 610b6cacdcde6852f4de68998bd20ce1dac85b22
+  version: 481808443b00a14745fada967cb5eeff0f9b1df2
 - name: github.com/go-openapi/swag
-  version: f3f9494671f93fcff853e3c6e9e948b3eb71e590
+  version: 811b1089cde9dad18d4d0c2d09fbdbf28dbd27a5
 - name: github.com/go-openapi/validate
-  version: 8a82927c942c94794a5cd8b8b50ce2f48a955c0c
+  version: b0a3ed684d0fdd3e1eda00433382188ce8aa7169
 - name: github.com/golang/protobuf
-  version: ab9f9a6dab164b7d1246e0e688b0ab7b94d8553e
+  version: 5831880292e721c76b58a16ecc60adc27d8e6355
   subpackages:
   - proto
   - protoc-gen-go/descriptor
@@ -46,43 +53,56 @@ imports:
   - ptypes/timestamp
   - ptypes/wrappers
 - name: github.com/googleapis/gax-go
-  version: 2cadd475a3e966ec9b77a21afc530dbacec6d613
+  version: 254b60fe060127b9fd3c420fadd0906bf0382227
 - name: github.com/mailru/easyjson
-  version: 2f5df55504ebc322e4d52d34df6a1f5b503bf26d
+  version: 3fdea8d05856a0c8df22ed4bc71b3219245e4485
   subpackages:
   - buffer
   - jlexer
   - jwriter
 - name: github.com/mitchellh/mapstructure
-  version: d0303fe809921458f417bcf828397a65db30a7e4
+  version: bb74f1db0675b241733089d5a1faa5dd8b0ef57b
 - name: github.com/PuerkitoBio/purell
-  version: 7cf257f0a33260797b0febf39f95fccd86aab2a3
+  version: 975f53781597ed779763b7b65566e74c4004d8de
 - name: github.com/PuerkitoBio/urlesc
   version: de5bf2ad457846296e2031421a34e2568e304e35
 - name: github.com/theatrus/mediate
   version: 5ef657d6d16033840e66dab2e1e48e233ccf0bc2
 - name: github.com/theatrus/ooauth2
   version: 69d8603ed24330f91b27ca59b193dedab06fe73f
+- name: go.opencensus.io
+  version: 6edeb78af2d9e4f169abb223feaef35da2e45d06
+  subpackages:
+  - internal
+  - internal/tagencoding
+  - plugin/ocgrpc
+  - stats
+  - stats/internal
+  - stats/view
+  - tag
+  - trace
+  - trace/internal
+  - trace/propagation
 - name: golang.org/x/net
-  version: 1c05540f6879653db88113bc4a2b70aec4bd491f
+  version: db08ff08e8622530d9ed3a0e8ac279f6d4c02196
   subpackages:
   - context
   - context/ctxhttp
+  - http/httpguts
   - http2
   - http2/hpack
   - idna
   - internal/timeseries
-  - lex/httplex
   - trace
 - name: golang.org/x/oauth2
-  version: 9a379c6b3e95a790ffc43293c2a78dee0d7b6e20
+  version: 1e0a3fa8ba9a5c9eb35c271780101fdaf1b205d7
   subpackages:
   - google
   - internal
   - jws
   - jwt
 - name: golang.org/x/text
-  version: e56139fd9c5bc7244c76116c68e500765bb6db6b
+  version: 5c1cf69b5978e5a34c5f9ba09a83e56acc4b7877
   subpackages:
   - secure/bidirule
   - transform
@@ -90,14 +110,16 @@ imports:
   - unicode/norm
   - width
 - name: google.golang.org/api
-  version: dd6bdadc5852eae2d133075a3690d6ad744add48
+  version: 615303b5b813ad1dfe4d9c804d8397610a6c33b9
   subpackages:
+  - googleapi
+  - googleapi/internal/uritemplates
   - internal
   - iterator
   - option
   - transport/grpc
 - name: google.golang.org/appengine
-  version: d9a072cfa7b9736e44311ef77b3e09d804bfa599
+  version: b1f26356af11148e710935ed1ac8a7f5702c7612
   subpackages:
   - internal
   - internal/app_identity
@@ -111,26 +133,35 @@ imports:
   - socket
   - urlfetch
 - name: google.golang.org/genproto
-  version: ee236bd376b077c7a89f260c026c4735b195e459
+  version: 32ee49c4dd805befd833990acba36cb75042378c
   subpackages:
   - googleapis/api/annotations
   - googleapis/datastore/v1
+  - googleapis/rpc/code
   - googleapis/rpc/status
   - googleapis/type/latlng
 - name: google.golang.org/grpc
-  version: 9b6ac7ddb739a2bdfe5692fc29284db555756acd
+  version: d11072e7ca9811b1100b80ca0269ac831f06d024
   subpackages:
+  - balancer
+  - balancer/base
+  - balancer/roundrobin
   - codes
   - connectivity
   - credentials
   - credentials/oauth
-  - grpclb/messages_only/grpc_lb_v1
+  - encoding
+  - encoding/proto
+  - grpclb/grpc_lb_v1/messages
   - grpclog
   - internal
   - keepalive
   - metadata
   - naming
   - peer
+  - resolver
+  - resolver/dns
+  - resolver/passthrough
   - stats
   - status
   - tap
@@ -141,5 +172,5 @@ imports:
   - bson
   - internal/json
 - name: gopkg.in/yaml.v2
-  version: eb3733d160e74a9c7e442f435eb3bea458e1d19f
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
 testImports: []

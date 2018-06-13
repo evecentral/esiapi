@@ -30,11 +30,11 @@ GetCharactersCharacterIDWallet gets a character s wallet balance
 Returns a character's wallet balance
 
 ---
-Alternate route: `/v1/characters/{character_id}/wallet/`
+Alternate route: `/dev/characters/{character_id}/wallet/`
 
 Alternate route: `/legacy/characters/{character_id}/wallet/`
 
-Alternate route: `/dev/characters/{character_id}/wallet/`
+Alternate route: `/v1/characters/{character_id}/wallet/`
 
 ---
 This route is cached for up to 120 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDWallet(params *GetCharactersCharacterID
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/wallet/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDWalletReader{formats: a.formats},
@@ -68,12 +68,12 @@ func (a *Client) GetCharactersCharacterIDWallet(params *GetCharactersCharacterID
 /*
 GetCharactersCharacterIDWalletJournal gets character wallet journal
 
-Retrieve character wallet journal
+Retrieve the given character's wallet journal going 30 days back
 
 ---
-Alternate route: `/v1/characters/{character_id}/wallet/journal/`
+Alternate route: `/dev/characters/{character_id}/wallet/journal/`
 
-Alternate route: `/legacy/characters/{character_id}/wallet/journal/`
+Alternate route: `/v4/characters/{character_id}/wallet/journal/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -89,7 +89,7 @@ func (a *Client) GetCharactersCharacterIDWalletJournal(params *GetCharactersChar
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/wallet/journal/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDWalletJournalReader{formats: a.formats},
@@ -110,11 +110,11 @@ GetCharactersCharacterIDWalletTransactions gets wallet transactions
 Get wallet transactions of a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/wallet/transactions/`
+Alternate route: `/dev/characters/{character_id}/wallet/transactions/`
 
 Alternate route: `/legacy/characters/{character_id}/wallet/transactions/`
 
-Alternate route: `/dev/characters/{character_id}/wallet/transactions/`
+Alternate route: `/v1/characters/{character_id}/wallet/transactions/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -130,7 +130,7 @@ func (a *Client) GetCharactersCharacterIDWalletTransactions(params *GetCharacter
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/wallet/transactions/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDWalletTransactionsReader{formats: a.formats},
@@ -151,14 +151,18 @@ GetCorporationsCorporationIDWallets returns a corporation s wallet balance
 Get a corporation's wallets
 
 ---
-Alternate route: `/v1/corporations/{corporation_id}/wallets/`
+Alternate route: `/dev/corporations/{corporation_id}/wallets/`
 
 Alternate route: `/legacy/corporations/{corporation_id}/wallets/`
 
-Alternate route: `/dev/corporations/{corporation_id}/wallets/`
+Alternate route: `/v1/corporations/{corporation_id}/wallets/`
 
 ---
 This route is cached for up to 300 seconds
+
+---
+Requires one of the following EVE corporation role(s): Accountant, Junior_Accountant
+
 */
 func (a *Client) GetCorporationsCorporationIDWallets(params *GetCorporationsCorporationIDWalletsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDWalletsOK, error) {
 	// TODO: Validate the params before sending
@@ -171,7 +175,7 @@ func (a *Client) GetCorporationsCorporationIDWallets(params *GetCorporationsCorp
 		Method:             "GET",
 		PathPattern:        "/corporations/{corporation_id}/wallets/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCorporationsCorporationIDWalletsReader{formats: a.formats},
@@ -183,6 +187,94 @@ func (a *Client) GetCorporationsCorporationIDWallets(params *GetCorporationsCorp
 		return nil, err
 	}
 	return result.(*GetCorporationsCorporationIDWalletsOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDWalletsDivisionJournal gets corporation wallet journal
+
+Retrieve the given corporation's wallet journal for the given division going 30 days back
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/wallets/{division}/journal/`
+
+Alternate route: `/v3/corporations/{corporation_id}/wallets/{division}/journal/`
+
+---
+This route is cached for up to 3600 seconds
+
+---
+Requires one of the following EVE corporation role(s): Accountant, Junior_Accountant
+
+*/
+func (a *Client) GetCorporationsCorporationIDWalletsDivisionJournal(params *GetCorporationsCorporationIDWalletsDivisionJournalParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDWalletsDivisionJournalOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDWalletsDivisionJournalParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_wallets_division_journal",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/wallets/{division}/journal/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDWalletsDivisionJournalReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDWalletsDivisionJournalOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDWalletsDivisionTransactions gets corporation wallet transactions
+
+Get wallet transactions of a corporation
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/wallets/{division}/transactions/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/wallets/{division}/transactions/`
+
+Alternate route: `/v1/corporations/{corporation_id}/wallets/{division}/transactions/`
+
+---
+This route is cached for up to 3600 seconds
+
+---
+Requires one of the following EVE corporation role(s): Accountant, Junior_Accountant
+
+*/
+func (a *Client) GetCorporationsCorporationIDWalletsDivisionTransactions(params *GetCorporationsCorporationIDWalletsDivisionTransactionsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDWalletsDivisionTransactionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDWalletsDivisionTransactionsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_wallets_division_transactions",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/wallets/{division}/transactions/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDWalletsDivisionTransactionsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDWalletsDivisionTransactionsOK), nil
 
 }
 

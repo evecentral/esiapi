@@ -12,11 +12,10 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDBookmarksReader is a Reader for the GetCharactersCharacterIDBookmarks structure.
@@ -35,8 +34,36 @@ func (o *GetCharactersCharacterIDBookmarksReader) ReadResponse(response runtime.
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDBookmarksNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDBookmarksBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDBookmarksUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDBookmarksForbidden()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCharactersCharacterIDBookmarksEnhanceYourCalm()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +76,20 @@ func (o *GetCharactersCharacterIDBookmarksReader) ReadResponse(response runtime.
 		}
 		return nil, result
 
+	case 503:
+		result := NewGetCharactersCharacterIDBookmarksServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDBookmarksGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -56,7 +97,9 @@ func (o *GetCharactersCharacterIDBookmarksReader) ReadResponse(response runtime.
 
 // NewGetCharactersCharacterIDBookmarksOK creates a GetCharactersCharacterIDBookmarksOK with default headers values
 func NewGetCharactersCharacterIDBookmarksOK() *GetCharactersCharacterIDBookmarksOK {
-	return &GetCharactersCharacterIDBookmarksOK{}
+	return &GetCharactersCharacterIDBookmarksOK{
+		XPages: 1,
+	}
 }
 
 /*GetCharactersCharacterIDBookmarksOK handles this case with default header values.
@@ -67,14 +110,20 @@ type GetCharactersCharacterIDBookmarksOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
 	/*RFC7231 formatted datetime string
 	 */
 	LastModified string
+	/*Maximum page number
+	 */
+	XPages int32
 
-	Payload []*GetCharactersCharacterIDBookmarksOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDBookmarksOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDBookmarksOK) Error() string {
@@ -86,14 +135,127 @@ func (o *GetCharactersCharacterIDBookmarksOK) readResponse(response runtime.Clie
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	// response header X-Pages
+	xPages, err := swag.ConvertInt32(response.GetHeader("X-Pages"))
+	if err != nil {
+		return errors.InvalidType("X-Pages", "header", "int32", response.GetHeader("X-Pages"))
+	}
+	o.XPages = xPages
+
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBookmarksNotModified creates a GetCharactersCharacterIDBookmarksNotModified with default headers values
+func NewGetCharactersCharacterIDBookmarksNotModified() *GetCharactersCharacterIDBookmarksNotModified {
+	return &GetCharactersCharacterIDBookmarksNotModified{}
+}
+
+/*GetCharactersCharacterIDBookmarksNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDBookmarksNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDBookmarksNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/][%d] getCharactersCharacterIdBookmarksNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDBookmarksNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBookmarksBadRequest creates a GetCharactersCharacterIDBookmarksBadRequest with default headers values
+func NewGetCharactersCharacterIDBookmarksBadRequest() *GetCharactersCharacterIDBookmarksBadRequest {
+	return &GetCharactersCharacterIDBookmarksBadRequest{}
+}
+
+/*GetCharactersCharacterIDBookmarksBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDBookmarksBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDBookmarksBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/][%d] getCharactersCharacterIdBookmarksBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBookmarksBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBookmarksUnauthorized creates a GetCharactersCharacterIDBookmarksUnauthorized with default headers values
+func NewGetCharactersCharacterIDBookmarksUnauthorized() *GetCharactersCharacterIDBookmarksUnauthorized {
+	return &GetCharactersCharacterIDBookmarksUnauthorized{}
+}
+
+/*GetCharactersCharacterIDBookmarksUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDBookmarksUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDBookmarksUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/][%d] getCharactersCharacterIdBookmarksUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBookmarksUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +282,35 @@ func (o *GetCharactersCharacterIDBookmarksForbidden) Error() string {
 func (o *GetCharactersCharacterIDBookmarksForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBookmarksEnhanceYourCalm creates a GetCharactersCharacterIDBookmarksEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDBookmarksEnhanceYourCalm() *GetCharactersCharacterIDBookmarksEnhanceYourCalm {
+	return &GetCharactersCharacterIDBookmarksEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDBookmarksEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDBookmarksEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDBookmarksEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/][%d] getCharactersCharacterIdBookmarksEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBookmarksEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,513 +349,60 @@ func (o *GetCharactersCharacterIDBookmarksInternalServerError) readResponse(resp
 	return nil
 }
 
-/*GetCharactersCharacterIDBookmarksOKBodyItems0 get_characters_character_id_bookmarks_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDBookmarksOKBodyItems0
+// NewGetCharactersCharacterIDBookmarksServiceUnavailable creates a GetCharactersCharacterIDBookmarksServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDBookmarksServiceUnavailable() *GetCharactersCharacterIDBookmarksServiceUnavailable {
+	return &GetCharactersCharacterIDBookmarksServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDBookmarksServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDBookmarksOKBodyItems0 struct {
-
-	// get_characters_character_id_bookmarks_bookmark_id
-	//
-	// bookmark_id integer
-	// Required: true
-	BookmarkID *int64 `json:"bookmark_id"`
-
-	// get_characters_character_id_bookmarks_create_date
-	//
-	// create_date string
-	// Required: true
-	CreateDate *strfmt.DateTime `json:"create_date"`
-
-	// get_characters_character_id_bookmarks_creator_id
-	//
-	// creator_id integer
-	// Required: true
-	CreatorID *int32 `json:"creator_id"`
-
-	// get_characters_character_id_bookmarks_folder_id
-	//
-	// folder_id integer
-	FolderID int32 `json:"folder_id,omitempty"`
-
-	// get_characters_character_id_bookmarks_memo
-	//
-	// memo string
-	// Required: true
-	Memo *string `json:"memo"`
-
-	// get_characters_character_id_bookmarks_note
-	//
-	// note string
-	// Required: true
-	Note *string `json:"note"`
-
-	// get_characters_character_id_bookmarks_owner_id
-	//
-	// owner_id integer
-	// Required: true
-	OwnerID *int32 `json:"owner_id"`
-
-	// target
-	// Required: true
-	Target *GetCharactersCharacterIDBookmarksOKBodyItems0Target `json:"target"`
+type GetCharactersCharacterIDBookmarksServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0 bookmark_id false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0 create_date false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0 creator_id false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0 folder_id false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0 memo false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0 note false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0 owner_id false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0 target false */
-
-// Validate validates this get characters character ID bookmarks o k body items0
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateBookmarkID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCreateDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCreatorID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMemo(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateNote(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOwnerID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTarget(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDBookmarksServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/][%d] getCharactersCharacterIdBookmarksServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) validateBookmarkID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDBookmarksServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("bookmark_id", "body", o.BookmarkID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) validateCreateDate(formats strfmt.Registry) error {
-
-	if err := validate.Required("create_date", "body", o.CreateDate); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("create_date", "body", "date-time", o.CreateDate.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDBookmarksGatewayTimeout creates a GetCharactersCharacterIDBookmarksGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDBookmarksGatewayTimeout() *GetCharactersCharacterIDBookmarksGatewayTimeout {
+	return &GetCharactersCharacterIDBookmarksGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) validateCreatorID(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDBookmarksGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("creator_id", "body", o.CreatorID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) validateMemo(formats strfmt.Registry) error {
-
-	if err := validate.Required("memo", "body", o.Memo); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) validateNote(formats strfmt.Registry) error {
-
-	if err := validate.Required("note", "body", o.Note); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) validateOwnerID(formats strfmt.Registry) error {
-
-	if err := validate.Required("owner_id", "body", o.OwnerID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) validateTarget(formats strfmt.Registry) error {
-
-	if err := validate.Required("target", "body", o.Target); err != nil {
-		return err
-	}
-
-	if o.Target != nil {
-
-		if err := o.Target.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("target")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDBookmarksOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetCharactersCharacterIDBookmarksOKBodyItems0Target get_characters_character_id_bookmarks_target
-//
-// target object
-swagger:model GetCharactersCharacterIDBookmarksOKBodyItems0Target
+Gateway timeout
 */
-
-type GetCharactersCharacterIDBookmarksOKBodyItems0Target struct {
-
-	// coordinates
-	Coordinates *GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates `json:"coordinates,omitempty"`
-
-	// item
-	Item *GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem `json:"item,omitempty"`
-
-	// get_characters_character_id_bookmarks_location_id
-	//
-	// location_id integer
-	// Required: true
-	LocationID *int64 `json:"location_id"`
+type GetCharactersCharacterIDBookmarksGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0Target coordinates false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0Target item false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0Target location_id false */
-
-// Validate validates this get characters character ID bookmarks o k body items0 target
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0Target) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCoordinates(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateItem(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLocationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDBookmarksGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/][%d] getCharactersCharacterIdBookmarksGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0Target) validateCoordinates(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDBookmarksGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if swag.IsZero(o.Coordinates) { // not required
-		return nil
-	}
+	o.Payload = new(models.GatewayTimeout)
 
-	if o.Coordinates != nil {
-
-		if err := o.Coordinates.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("target" + "." + "coordinates")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0Target) validateItem(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.Item) { // not required
-		return nil
-	}
-
-	if o.Item != nil {
-
-		if err := o.Item.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("target" + "." + "item")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0Target) validateLocationID(formats strfmt.Registry) error {
-
-	if err := validate.Required("target"+"."+"location_id", "body", o.LocationID); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0Target) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0Target) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDBookmarksOKBodyItems0Target
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates get_characters_character_id_bookmarks_coordinates
-//
-// coordinates object
-swagger:model GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates
-*/
-
-type GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates struct {
-
-	// get_characters_character_id_bookmarks_x
-	//
-	// x number
-	// Required: true
-	X *float64 `json:"x"`
-
-	// get_characters_character_id_bookmarks_y
-	//
-	// y number
-	// Required: true
-	Y *float64 `json:"y"`
-
-	// get_characters_character_id_bookmarks_z
-	//
-	// z number
-	// Required: true
-	Z *float64 `json:"z"`
-}
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates x false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates y false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates z false */
-
-// Validate validates this get characters character ID bookmarks o k body items0 target coordinates
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateX(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateY(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateZ(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates) validateX(formats strfmt.Registry) error {
-
-	if err := validate.Required("target"+"."+"coordinates"+"."+"x", "body", o.X); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates) validateY(formats strfmt.Registry) error {
-
-	if err := validate.Required("target"+"."+"coordinates"+"."+"y", "body", o.Y); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates) validateZ(formats strfmt.Registry) error {
-
-	if err := validate.Required("target"+"."+"coordinates"+"."+"z", "body", o.Z); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDBookmarksOKBodyItems0TargetCoordinates
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem get_characters_character_id_bookmarks_item
-//
-// item object
-swagger:model GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem
-*/
-
-type GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem struct {
-
-	// get_characters_character_id_bookmarks_item_id
-	//
-	// item_id integer
-	// Required: true
-	ItemID *int64 `json:"item_id"`
-
-	// get_characters_character_id_bookmarks_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
-}
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem item_id false */
-
-/* polymorph GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem type_id false */
-
-// Validate validates this get characters character ID bookmarks o k body items0 target item
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateItemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem) validateItemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("target"+"."+"item"+"."+"item_id", "body", o.ItemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("target"+"."+"item"+"."+"type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDBookmarksOKBodyItems0TargetItem
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

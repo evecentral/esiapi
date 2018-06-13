@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDShipReader is a Reader for the GetCharactersCharacterIDShip structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDShipReader) ReadResponse(response runtime.Clien
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDShipNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDShipBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDShipUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDShipForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCharactersCharacterIDShipReader) ReadResponse(response runtime.Clien
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDShipEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDShipInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDShipServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDShipGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,9 @@ type GetCharactersCharacterIDShipOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +116,7 @@ type GetCharactersCharacterIDShipOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDShipOKBody
+	Payload *models.GetCharactersCharacterIDShipOKBody
 }
 
 func (o *GetCharactersCharacterIDShipOK) Error() string {
@@ -86,14 +128,122 @@ func (o *GetCharactersCharacterIDShipOK) readResponse(response runtime.ClientRes
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDShipOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDShipNotModified creates a GetCharactersCharacterIDShipNotModified with default headers values
+func NewGetCharactersCharacterIDShipNotModified() *GetCharactersCharacterIDShipNotModified {
+	return &GetCharactersCharacterIDShipNotModified{}
+}
+
+/*GetCharactersCharacterIDShipNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDShipNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDShipNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/ship/][%d] getCharactersCharacterIdShipNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDShipNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDShipBadRequest creates a GetCharactersCharacterIDShipBadRequest with default headers values
+func NewGetCharactersCharacterIDShipBadRequest() *GetCharactersCharacterIDShipBadRequest {
+	return &GetCharactersCharacterIDShipBadRequest{}
+}
+
+/*GetCharactersCharacterIDShipBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDShipBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDShipBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/ship/][%d] getCharactersCharacterIdShipBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDShipBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDShipUnauthorized creates a GetCharactersCharacterIDShipUnauthorized with default headers values
+func NewGetCharactersCharacterIDShipUnauthorized() *GetCharactersCharacterIDShipUnauthorized {
+	return &GetCharactersCharacterIDShipUnauthorized{}
+}
+
+/*GetCharactersCharacterIDShipUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDShipUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDShipUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/ship/][%d] getCharactersCharacterIdShipUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDShipUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +270,35 @@ func (o *GetCharactersCharacterIDShipForbidden) Error() string {
 func (o *GetCharactersCharacterIDShipForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDShipEnhanceYourCalm creates a GetCharactersCharacterIDShipEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDShipEnhanceYourCalm() *GetCharactersCharacterIDShipEnhanceYourCalm {
+	return &GetCharactersCharacterIDShipEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDShipEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDShipEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDShipEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/ship/][%d] getCharactersCharacterIdShipEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDShipEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,105 +337,60 @@ func (o *GetCharactersCharacterIDShipInternalServerError) readResponse(response 
 	return nil
 }
 
-/*GetCharactersCharacterIDShipOKBody get_characters_character_id_ship_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDShipOKBody
+// NewGetCharactersCharacterIDShipServiceUnavailable creates a GetCharactersCharacterIDShipServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDShipServiceUnavailable() *GetCharactersCharacterIDShipServiceUnavailable {
+	return &GetCharactersCharacterIDShipServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDShipServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDShipOKBody struct {
-
-	// get_characters_character_id_ship_ship_item_id
-	//
-	// Item id's are unique to a ship and persist until it is repackaged. This value can be used to track repeated uses of a ship, or detect when a pilot changes into a different instance of the same ship type.
-	// Required: true
-	ShipItemID *int64 `json:"ship_item_id"`
-
-	// get_characters_character_id_ship_ship_name
-	//
-	// ship_name string
-	// Required: true
-	ShipName *string `json:"ship_name"`
-
-	// get_characters_character_id_ship_ship_type_id
-	//
-	// ship_type_id integer
-	// Required: true
-	ShipTypeID *int32 `json:"ship_type_id"`
+type GetCharactersCharacterIDShipServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDShipOKBody ship_item_id false */
-
-/* polymorph GetCharactersCharacterIDShipOKBody ship_name false */
-
-/* polymorph GetCharactersCharacterIDShipOKBody ship_type_id false */
-
-// Validate validates this get characters character ID ship o k body
-func (o *GetCharactersCharacterIDShipOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateShipItemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateShipName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateShipTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDShipServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/ship/][%d] getCharactersCharacterIdShipServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDShipOKBody) validateShipItemID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDShipServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdShipOK"+"."+"ship_item_id", "body", o.ShipItemID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDShipOKBody) validateShipName(formats strfmt.Registry) error {
+// NewGetCharactersCharacterIDShipGatewayTimeout creates a GetCharactersCharacterIDShipGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDShipGatewayTimeout() *GetCharactersCharacterIDShipGatewayTimeout {
+	return &GetCharactersCharacterIDShipGatewayTimeout{}
+}
 
-	if err := validate.Required("getCharactersCharacterIdShipOK"+"."+"ship_name", "body", o.ShipName); err != nil {
+/*GetCharactersCharacterIDShipGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDShipGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDShipGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/ship/][%d] getCharactersCharacterIdShipGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDShipGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDShipOKBody) validateShipTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdShipOK"+"."+"ship_type_id", "body", o.ShipTypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDShipOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDShipOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDShipOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

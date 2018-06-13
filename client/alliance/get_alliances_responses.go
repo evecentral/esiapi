@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetAlliancesReader is a Reader for the GetAlliances structure.
@@ -32,8 +32,43 @@ func (o *GetAlliancesReader) ReadResponse(response runtime.ClientResponse, consu
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetAlliancesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetAlliancesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetAlliancesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetAlliancesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetAlliancesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetAlliancesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetAlliancesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetAlliancesOK) readResponse(response runtime.ClientResponse, consumer 
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetAlliancesOK) readResponse(response runtime.ClientResponse, consumer 
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetAlliancesNotModified creates a GetAlliancesNotModified with default headers values
+func NewGetAlliancesNotModified() *GetAlliancesNotModified {
+	return &GetAlliancesNotModified{}
+}
+
+/*GetAlliancesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetAlliancesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetAlliancesNotModified) Error() string {
+	return fmt.Sprintf("[GET /alliances/][%d] getAlliancesNotModified ", 304)
+}
+
+func (o *GetAlliancesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetAlliancesBadRequest creates a GetAlliancesBadRequest with default headers values
+func NewGetAlliancesBadRequest() *GetAlliancesBadRequest {
+	return &GetAlliancesBadRequest{}
+}
+
+/*GetAlliancesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetAlliancesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetAlliancesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /alliances/][%d] getAlliancesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetAlliancesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetAlliancesEnhanceYourCalm creates a GetAlliancesEnhanceYourCalm with default headers values
+func NewGetAlliancesEnhanceYourCalm() *GetAlliancesEnhanceYourCalm {
+	return &GetAlliancesEnhanceYourCalm{}
+}
+
+/*GetAlliancesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetAlliancesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetAlliancesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /alliances/][%d] getAlliancesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetAlliancesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetAlliancesInternalServerError) Error() string {
 func (o *GetAlliancesInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetAlliancesServiceUnavailable creates a GetAlliancesServiceUnavailable with default headers values
+func NewGetAlliancesServiceUnavailable() *GetAlliancesServiceUnavailable {
+	return &GetAlliancesServiceUnavailable{}
+}
+
+/*GetAlliancesServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetAlliancesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetAlliancesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /alliances/][%d] getAlliancesServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetAlliancesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetAlliancesGatewayTimeout creates a GetAlliancesGatewayTimeout with default headers values
+func NewGetAlliancesGatewayTimeout() *GetAlliancesGatewayTimeout {
+	return &GetAlliancesGatewayTimeout{}
+}
+
+/*GetAlliancesGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetAlliancesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetAlliancesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /alliances/][%d] getAlliancesGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetAlliancesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

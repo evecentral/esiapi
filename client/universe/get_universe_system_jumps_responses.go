@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseSystemJumpsReader is a Reader for the GetUniverseSystemJumps structure.
@@ -35,8 +32,43 @@ func (o *GetUniverseSystemJumpsReader) ReadResponse(response runtime.ClientRespo
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseSystemJumpsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseSystemJumpsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetUniverseSystemJumpsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseSystemJumpsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseSystemJumpsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseSystemJumpsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetUniverseSystemJumpsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetUniverseSystemJumpsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetUniverseSystemJumpsOKBodyItems0
+	Payload []*models.GetUniverseSystemJumpsOKBodyItems
 }
 
 func (o *GetUniverseSystemJumpsOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetUniverseSystemJumpsOK) readResponse(response runtime.ClientResponse,
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetUniverseSystemJumpsOK) readResponse(response runtime.ClientResponse,
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseSystemJumpsNotModified creates a GetUniverseSystemJumpsNotModified with default headers values
+func NewGetUniverseSystemJumpsNotModified() *GetUniverseSystemJumpsNotModified {
+	return &GetUniverseSystemJumpsNotModified{}
+}
+
+/*GetUniverseSystemJumpsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseSystemJumpsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseSystemJumpsNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/system_jumps/][%d] getUniverseSystemJumpsNotModified ", 304)
+}
+
+func (o *GetUniverseSystemJumpsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseSystemJumpsBadRequest creates a GetUniverseSystemJumpsBadRequest with default headers values
+func NewGetUniverseSystemJumpsBadRequest() *GetUniverseSystemJumpsBadRequest {
+	return &GetUniverseSystemJumpsBadRequest{}
+}
+
+/*GetUniverseSystemJumpsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseSystemJumpsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseSystemJumpsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/system_jumps/][%d] getUniverseSystemJumpsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseSystemJumpsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseSystemJumpsEnhanceYourCalm creates a GetUniverseSystemJumpsEnhanceYourCalm with default headers values
+func NewGetUniverseSystemJumpsEnhanceYourCalm() *GetUniverseSystemJumpsEnhanceYourCalm {
+	return &GetUniverseSystemJumpsEnhanceYourCalm{}
+}
+
+/*GetUniverseSystemJumpsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseSystemJumpsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseSystemJumpsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/system_jumps/][%d] getUniverseSystemJumpsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseSystemJumpsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,83 +263,60 @@ func (o *GetUniverseSystemJumpsInternalServerError) readResponse(response runtim
 	return nil
 }
 
-/*GetUniverseSystemJumpsOKBodyItems0 get_universe_system_jumps_200_ok
-//
-// 200 ok object
-swagger:model GetUniverseSystemJumpsOKBodyItems0
+// NewGetUniverseSystemJumpsServiceUnavailable creates a GetUniverseSystemJumpsServiceUnavailable with default headers values
+func NewGetUniverseSystemJumpsServiceUnavailable() *GetUniverseSystemJumpsServiceUnavailable {
+	return &GetUniverseSystemJumpsServiceUnavailable{}
+}
+
+/*GetUniverseSystemJumpsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseSystemJumpsOKBodyItems0 struct {
-
-	// get_universe_system_jumps_ship_jumps
-	//
-	// ship_jumps integer
-	// Required: true
-	ShipJumps *int32 `json:"ship_jumps"`
-
-	// get_universe_system_jumps_system_id
-	//
-	// system_id integer
-	// Required: true
-	SystemID *int32 `json:"system_id"`
+type GetUniverseSystemJumpsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseSystemJumpsOKBodyItems0 ship_jumps false */
-
-/* polymorph GetUniverseSystemJumpsOKBodyItems0 system_id false */
-
-// Validate validates this get universe system jumps o k body items0
-func (o *GetUniverseSystemJumpsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateShipJumps(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseSystemJumpsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/system_jumps/][%d] getUniverseSystemJumpsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseSystemJumpsOKBodyItems0) validateShipJumps(formats strfmt.Registry) error {
+func (o *GetUniverseSystemJumpsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("ship_jumps", "body", o.ShipJumps); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetUniverseSystemJumpsOKBodyItems0) validateSystemID(formats strfmt.Registry) error {
+// NewGetUniverseSystemJumpsGatewayTimeout creates a GetUniverseSystemJumpsGatewayTimeout with default headers values
+func NewGetUniverseSystemJumpsGatewayTimeout() *GetUniverseSystemJumpsGatewayTimeout {
+	return &GetUniverseSystemJumpsGatewayTimeout{}
+}
 
-	if err := validate.Required("system_id", "body", o.SystemID); err != nil {
+/*GetUniverseSystemJumpsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetUniverseSystemJumpsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetUniverseSystemJumpsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/system_jumps/][%d] getUniverseSystemJumpsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetUniverseSystemJumpsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseSystemJumpsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseSystemJumpsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetUniverseSystemJumpsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

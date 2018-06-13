@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseSchematicsSchematicIDReader is a Reader for the GetUniverseSchematicsSchematicID structure.
@@ -35,6 +32,20 @@ func (o *GetUniverseSchematicsSchematicIDReader) ReadResponse(response runtime.C
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseSchematicsSchematicIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseSchematicsSchematicIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetUniverseSchematicsSchematicIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetUniverseSchematicsSchematicIDReader) ReadResponse(response runtime.C
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetUniverseSchematicsSchematicIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseSchematicsSchematicIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseSchematicsSchematicIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseSchematicsSchematicIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +99,9 @@ type GetUniverseSchematicsSchematicIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +109,7 @@ type GetUniverseSchematicsSchematicIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetUniverseSchematicsSchematicIDOKBody
+	Payload *models.GetUniverseSchematicsSchematicIDOKBody
 }
 
 func (o *GetUniverseSchematicsSchematicIDOK) Error() string {
@@ -86,14 +121,93 @@ func (o *GetUniverseSchematicsSchematicIDOK) readResponse(response runtime.Clien
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetUniverseSchematicsSchematicIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseSchematicsSchematicIDNotModified creates a GetUniverseSchematicsSchematicIDNotModified with default headers values
+func NewGetUniverseSchematicsSchematicIDNotModified() *GetUniverseSchematicsSchematicIDNotModified {
+	return &GetUniverseSchematicsSchematicIDNotModified{}
+}
+
+/*GetUniverseSchematicsSchematicIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseSchematicsSchematicIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseSchematicsSchematicIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/schematics/{schematic_id}/][%d] getUniverseSchematicsSchematicIdNotModified ", 304)
+}
+
+func (o *GetUniverseSchematicsSchematicIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseSchematicsSchematicIDBadRequest creates a GetUniverseSchematicsSchematicIDBadRequest with default headers values
+func NewGetUniverseSchematicsSchematicIDBadRequest() *GetUniverseSchematicsSchematicIDBadRequest {
+	return &GetUniverseSchematicsSchematicIDBadRequest{}
+}
+
+/*GetUniverseSchematicsSchematicIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseSchematicsSchematicIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseSchematicsSchematicIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/schematics/{schematic_id}/][%d] getUniverseSchematicsSchematicIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseSchematicsSchematicIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +224,7 @@ func NewGetUniverseSchematicsSchematicIDNotFound() *GetUniverseSchematicsSchemat
 Schematic not found
 */
 type GetUniverseSchematicsSchematicIDNotFound struct {
-	Payload GetUniverseSchematicsSchematicIDNotFoundBody
+	Payload *models.GetUniverseSchematicsSchematicIDNotFoundBody
 }
 
 func (o *GetUniverseSchematicsSchematicIDNotFound) Error() string {
@@ -119,8 +233,39 @@ func (o *GetUniverseSchematicsSchematicIDNotFound) Error() string {
 
 func (o *GetUniverseSchematicsSchematicIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetUniverseSchematicsSchematicIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseSchematicsSchematicIDEnhanceYourCalm creates a GetUniverseSchematicsSchematicIDEnhanceYourCalm with default headers values
+func NewGetUniverseSchematicsSchematicIDEnhanceYourCalm() *GetUniverseSchematicsSchematicIDEnhanceYourCalm {
+	return &GetUniverseSchematicsSchematicIDEnhanceYourCalm{}
+}
+
+/*GetUniverseSchematicsSchematicIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseSchematicsSchematicIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseSchematicsSchematicIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/schematics/{schematic_id}/][%d] getUniverseSchematicsSchematicIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseSchematicsSchematicIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,142 +301,60 @@ func (o *GetUniverseSchematicsSchematicIDInternalServerError) readResponse(respo
 	return nil
 }
 
-/*GetUniverseSchematicsSchematicIDNotFoundBody get_universe_schematics_schematic_id_not_found
-//
-// Schematic not found
-swagger:model GetUniverseSchematicsSchematicIDNotFoundBody
+// NewGetUniverseSchematicsSchematicIDServiceUnavailable creates a GetUniverseSchematicsSchematicIDServiceUnavailable with default headers values
+func NewGetUniverseSchematicsSchematicIDServiceUnavailable() *GetUniverseSchematicsSchematicIDServiceUnavailable {
+	return &GetUniverseSchematicsSchematicIDServiceUnavailable{}
+}
+
+/*GetUniverseSchematicsSchematicIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseSchematicsSchematicIDNotFoundBody struct {
-
-	// get_universe_schematics_schematic_id_error
-	//
-	// error message
-	// Required: true
-	Error *string `json:"error"`
+type GetUniverseSchematicsSchematicIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseSchematicsSchematicIDNotFoundBody error false */
-
-// Validate validates this get universe schematics schematic ID not found body
-func (o *GetUniverseSchematicsSchematicIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseSchematicsSchematicIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/schematics/{schematic_id}/][%d] getUniverseSchematicsSchematicIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseSchematicsSchematicIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetUniverseSchematicsSchematicIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseSchematicsSchematicIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetUniverseSchematicsSchematicIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetUniverseSchematicsSchematicIDGatewayTimeout creates a GetUniverseSchematicsSchematicIDGatewayTimeout with default headers values
+func NewGetUniverseSchematicsSchematicIDGatewayTimeout() *GetUniverseSchematicsSchematicIDGatewayTimeout {
+	return &GetUniverseSchematicsSchematicIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetUniverseSchematicsSchematicIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseSchematicsSchematicIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetUniverseSchematicsSchematicIDGatewayTimeout handles this case with default header values.
 
-/*GetUniverseSchematicsSchematicIDOKBody get_universe_schematics_schematic_id_ok
-//
-// 200 ok object
-swagger:model GetUniverseSchematicsSchematicIDOKBody
+Gateway timeout
 */
-
-type GetUniverseSchematicsSchematicIDOKBody struct {
-
-	// get_universe_schematics_schematic_id_cycle_time
-	//
-	// Time in seconds to process a run
-	// Required: true
-	CycleTime *int32 `json:"cycle_time"`
-
-	// get_universe_schematics_schematic_id_schematic_name
-	//
-	// schematic_name string
-	// Required: true
-	SchematicName *string `json:"schematic_name"`
+type GetUniverseSchematicsSchematicIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetUniverseSchematicsSchematicIDOKBody cycle_time false */
-
-/* polymorph GetUniverseSchematicsSchematicIDOKBody schematic_name false */
-
-// Validate validates this get universe schematics schematic ID o k body
-func (o *GetUniverseSchematicsSchematicIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCycleTime(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSchematicName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseSchematicsSchematicIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/schematics/{schematic_id}/][%d] getUniverseSchematicsSchematicIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetUniverseSchematicsSchematicIDOKBody) validateCycleTime(formats strfmt.Registry) error {
+func (o *GetUniverseSchematicsSchematicIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseSchematicsSchematicIdOK"+"."+"cycle_time", "body", o.CycleTime); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseSchematicsSchematicIDOKBody) validateSchematicName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseSchematicsSchematicIdOK"+"."+"schematic_name", "body", o.SchematicName); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseSchematicsSchematicIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseSchematicsSchematicIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseSchematicsSchematicIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

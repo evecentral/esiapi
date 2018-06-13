@@ -9,11 +9,13 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseGroupsReader is a Reader for the GetUniverseGroups structure.
@@ -32,8 +34,43 @@ func (o *GetUniverseGroupsReader) ReadResponse(response runtime.ClientResponse, 
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseGroupsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseGroupsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetUniverseGroupsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseGroupsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseGroupsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseGroupsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -46,7 +83,9 @@ func (o *GetUniverseGroupsReader) ReadResponse(response runtime.ClientResponse, 
 
 // NewGetUniverseGroupsOK creates a GetUniverseGroupsOK with default headers values
 func NewGetUniverseGroupsOK() *GetUniverseGroupsOK {
-	return &GetUniverseGroupsOK{}
+	return &GetUniverseGroupsOK{
+		XPages: 1,
+	}
 }
 
 /*GetUniverseGroupsOK handles this case with default header values.
@@ -57,12 +96,18 @@ type GetUniverseGroupsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
 	/*RFC7231 formatted datetime string
 	 */
 	LastModified string
+	/*Maximum page number
+	 */
+	XPages int32
 
 	Payload []int32
 }
@@ -76,14 +121,127 @@ func (o *GetUniverseGroupsOK) readResponse(response runtime.ClientResponse, cons
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	// response header X-Pages
+	xPages, err := swag.ConvertInt32(response.GetHeader("X-Pages"))
+	if err != nil {
+		return errors.InvalidType("X-Pages", "header", "int32", response.GetHeader("X-Pages"))
+	}
+	o.XPages = xPages
+
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseGroupsNotModified creates a GetUniverseGroupsNotModified with default headers values
+func NewGetUniverseGroupsNotModified() *GetUniverseGroupsNotModified {
+	return &GetUniverseGroupsNotModified{}
+}
+
+/*GetUniverseGroupsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseGroupsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseGroupsNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/groups/][%d] getUniverseGroupsNotModified ", 304)
+}
+
+func (o *GetUniverseGroupsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseGroupsBadRequest creates a GetUniverseGroupsBadRequest with default headers values
+func NewGetUniverseGroupsBadRequest() *GetUniverseGroupsBadRequest {
+	return &GetUniverseGroupsBadRequest{}
+}
+
+/*GetUniverseGroupsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseGroupsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseGroupsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/groups/][%d] getUniverseGroupsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseGroupsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseGroupsEnhanceYourCalm creates a GetUniverseGroupsEnhanceYourCalm with default headers values
+func NewGetUniverseGroupsEnhanceYourCalm() *GetUniverseGroupsEnhanceYourCalm {
+	return &GetUniverseGroupsEnhanceYourCalm{}
+}
+
+/*GetUniverseGroupsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseGroupsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseGroupsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/groups/][%d] getUniverseGroupsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseGroupsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +268,64 @@ func (o *GetUniverseGroupsInternalServerError) Error() string {
 func (o *GetUniverseGroupsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseGroupsServiceUnavailable creates a GetUniverseGroupsServiceUnavailable with default headers values
+func NewGetUniverseGroupsServiceUnavailable() *GetUniverseGroupsServiceUnavailable {
+	return &GetUniverseGroupsServiceUnavailable{}
+}
+
+/*GetUniverseGroupsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetUniverseGroupsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetUniverseGroupsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/groups/][%d] getUniverseGroupsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetUniverseGroupsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseGroupsGatewayTimeout creates a GetUniverseGroupsGatewayTimeout with default headers values
+func NewGetUniverseGroupsGatewayTimeout() *GetUniverseGroupsGatewayTimeout {
+	return &GetUniverseGroupsGatewayTimeout{}
+}
+
+/*GetUniverseGroupsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetUniverseGroupsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetUniverseGroupsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/groups/][%d] getUniverseGroupsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetUniverseGroupsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

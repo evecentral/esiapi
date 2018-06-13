@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetMarketsRegionIDHistoryReader is a Reader for the GetMarketsRegionIDHistory structure.
@@ -35,6 +32,34 @@ func (o *GetMarketsRegionIDHistoryReader) ReadResponse(response runtime.ClientRe
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetMarketsRegionIDHistoryNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetMarketsRegionIDHistoryBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 404:
+		result := NewGetMarketsRegionIDHistoryNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetMarketsRegionIDHistoryEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 422:
 		result := NewGetMarketsRegionIDHistoryUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -44,6 +69,27 @@ func (o *GetMarketsRegionIDHistoryReader) ReadResponse(response runtime.ClientRe
 
 	case 500:
 		result := NewGetMarketsRegionIDHistoryInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetMarketsRegionIDHistoryServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetMarketsRegionIDHistoryGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 520:
+		result := NewGetMarketsRegionIDHistory()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +113,9 @@ type GetMarketsRegionIDHistoryOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +123,7 @@ type GetMarketsRegionIDHistoryOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetMarketsRegionIDHistoryOKBodyItems0
+	Payload []*models.GetMarketsRegionIDHistoryOKBodyItems
 }
 
 func (o *GetMarketsRegionIDHistoryOK) Error() string {
@@ -86,6 +135,9 @@ func (o *GetMarketsRegionIDHistoryOK) readResponse(response runtime.ClientRespon
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +146,138 @@ func (o *GetMarketsRegionIDHistoryOK) readResponse(response runtime.ClientRespon
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsRegionIDHistoryNotModified creates a GetMarketsRegionIDHistoryNotModified with default headers values
+func NewGetMarketsRegionIDHistoryNotModified() *GetMarketsRegionIDHistoryNotModified {
+	return &GetMarketsRegionIDHistoryNotModified{}
+}
+
+/*GetMarketsRegionIDHistoryNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetMarketsRegionIDHistoryNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetMarketsRegionIDHistoryNotModified) Error() string {
+	return fmt.Sprintf("[GET /markets/{region_id}/history/][%d] getMarketsRegionIdHistoryNotModified ", 304)
+}
+
+func (o *GetMarketsRegionIDHistoryNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetMarketsRegionIDHistoryBadRequest creates a GetMarketsRegionIDHistoryBadRequest with default headers values
+func NewGetMarketsRegionIDHistoryBadRequest() *GetMarketsRegionIDHistoryBadRequest {
+	return &GetMarketsRegionIDHistoryBadRequest{}
+}
+
+/*GetMarketsRegionIDHistoryBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetMarketsRegionIDHistoryBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetMarketsRegionIDHistoryBadRequest) Error() string {
+	return fmt.Sprintf("[GET /markets/{region_id}/history/][%d] getMarketsRegionIdHistoryBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetMarketsRegionIDHistoryBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsRegionIDHistoryNotFound creates a GetMarketsRegionIDHistoryNotFound with default headers values
+func NewGetMarketsRegionIDHistoryNotFound() *GetMarketsRegionIDHistoryNotFound {
+	return &GetMarketsRegionIDHistoryNotFound{}
+}
+
+/*GetMarketsRegionIDHistoryNotFound handles this case with default header values.
+
+Type not found
+*/
+type GetMarketsRegionIDHistoryNotFound struct {
+	Payload *models.GetMarketsRegionIDHistoryNotFoundBody
+}
+
+func (o *GetMarketsRegionIDHistoryNotFound) Error() string {
+	return fmt.Sprintf("[GET /markets/{region_id}/history/][%d] getMarketsRegionIdHistoryNotFound  %+v", 404, o.Payload)
+}
+
+func (o *GetMarketsRegionIDHistoryNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GetMarketsRegionIDHistoryNotFoundBody)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsRegionIDHistoryEnhanceYourCalm creates a GetMarketsRegionIDHistoryEnhanceYourCalm with default headers values
+func NewGetMarketsRegionIDHistoryEnhanceYourCalm() *GetMarketsRegionIDHistoryEnhanceYourCalm {
+	return &GetMarketsRegionIDHistoryEnhanceYourCalm{}
+}
+
+/*GetMarketsRegionIDHistoryEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetMarketsRegionIDHistoryEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetMarketsRegionIDHistoryEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /markets/{region_id}/history/][%d] getMarketsRegionIdHistoryEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetMarketsRegionIDHistoryEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +294,7 @@ func NewGetMarketsRegionIDHistoryUnprocessableEntity() *GetMarketsRegionIDHistor
 Not found
 */
 type GetMarketsRegionIDHistoryUnprocessableEntity struct {
-	Payload GetMarketsRegionIDHistoryUnprocessableEntityBody
+	Payload *models.GetMarketsRegionIDHistoryUnprocessableEntityBody
 }
 
 func (o *GetMarketsRegionIDHistoryUnprocessableEntity) Error() string {
@@ -119,8 +303,10 @@ func (o *GetMarketsRegionIDHistoryUnprocessableEntity) Error() string {
 
 func (o *GetMarketsRegionIDHistoryUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetMarketsRegionIDHistoryUnprocessableEntityBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,234 +342,89 @@ func (o *GetMarketsRegionIDHistoryInternalServerError) readResponse(response run
 	return nil
 }
 
-/*GetMarketsRegionIDHistoryOKBodyItems0 get_markets_region_id_history_200_ok
-//
-// 200 ok object
-swagger:model GetMarketsRegionIDHistoryOKBodyItems0
+// NewGetMarketsRegionIDHistoryServiceUnavailable creates a GetMarketsRegionIDHistoryServiceUnavailable with default headers values
+func NewGetMarketsRegionIDHistoryServiceUnavailable() *GetMarketsRegionIDHistoryServiceUnavailable {
+	return &GetMarketsRegionIDHistoryServiceUnavailable{}
+}
+
+/*GetMarketsRegionIDHistoryServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetMarketsRegionIDHistoryOKBodyItems0 struct {
-
-	// get_markets_region_id_history_average
-	//
-	// average number
-	// Required: true
-	Average *float32 `json:"average"`
-
-	// get_markets_region_id_history_date
-	//
-	// The date of this historical statistic entry
-	// Required: true
-	Date *strfmt.Date `json:"date"`
-
-	// get_markets_region_id_history_highest
-	//
-	// highest number
-	// Required: true
-	Highest *float32 `json:"highest"`
-
-	// get_markets_region_id_history_lowest
-	//
-	// lowest number
-	// Required: true
-	Lowest *float32 `json:"lowest"`
-
-	// get_markets_region_id_history_order_count
-	//
-	// Total number of orders happened that day
-	// Required: true
-	OrderCount *int64 `json:"order_count"`
-
-	// get_markets_region_id_history_volume
-	//
-	// Total
-	// Required: true
-	Volume *int64 `json:"volume"`
+type GetMarketsRegionIDHistoryServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetMarketsRegionIDHistoryOKBodyItems0 average false */
-
-/* polymorph GetMarketsRegionIDHistoryOKBodyItems0 date false */
-
-/* polymorph GetMarketsRegionIDHistoryOKBodyItems0 highest false */
-
-/* polymorph GetMarketsRegionIDHistoryOKBodyItems0 lowest false */
-
-/* polymorph GetMarketsRegionIDHistoryOKBodyItems0 order_count false */
-
-/* polymorph GetMarketsRegionIDHistoryOKBodyItems0 volume false */
-
-// Validate validates this get markets region ID history o k body items0
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAverage(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateHighest(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLowest(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOrderCount(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVolume(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetMarketsRegionIDHistoryServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /markets/{region_id}/history/][%d] getMarketsRegionIdHistoryServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) validateAverage(formats strfmt.Registry) error {
+func (o *GetMarketsRegionIDHistoryServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("average", "body", o.Average); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) validateDate(formats strfmt.Registry) error {
-
-	if err := validate.Required("date", "body", o.Date); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("date", "body", "date", o.Date.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetMarketsRegionIDHistoryGatewayTimeout creates a GetMarketsRegionIDHistoryGatewayTimeout with default headers values
+func NewGetMarketsRegionIDHistoryGatewayTimeout() *GetMarketsRegionIDHistoryGatewayTimeout {
+	return &GetMarketsRegionIDHistoryGatewayTimeout{}
 }
 
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) validateHighest(formats strfmt.Registry) error {
+/*GetMarketsRegionIDHistoryGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("highest", "body", o.Highest); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) validateLowest(formats strfmt.Registry) error {
-
-	if err := validate.Required("lowest", "body", o.Lowest); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) validateOrderCount(formats strfmt.Registry) error {
-
-	if err := validate.Required("order_count", "body", o.OrderCount); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) validateVolume(formats strfmt.Registry) error {
-
-	if err := validate.Required("volume", "body", o.Volume); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetMarketsRegionIDHistoryOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetMarketsRegionIDHistoryOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetMarketsRegionIDHistoryUnprocessableEntityBody get_markets_region_id_history_unprocessable_entity
-//
-// Unprocessable entity
-swagger:model GetMarketsRegionIDHistoryUnprocessableEntityBody
+Gateway timeout
 */
-
-type GetMarketsRegionIDHistoryUnprocessableEntityBody struct {
-
-	// get_markets_region_id_history_422_unprocessable_entity
-	//
-	// Unprocessable entity message
-	// Required: true
-	Error *string `json:"error"`
+type GetMarketsRegionIDHistoryGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetMarketsRegionIDHistoryUnprocessableEntityBody error false */
-
-// Validate validates this get markets region ID history unprocessable entity body
-func (o *GetMarketsRegionIDHistoryUnprocessableEntityBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetMarketsRegionIDHistoryGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /markets/{region_id}/history/][%d] getMarketsRegionIdHistoryGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetMarketsRegionIDHistoryUnprocessableEntityBody) validateError(formats strfmt.Registry) error {
+func (o *GetMarketsRegionIDHistoryGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getMarketsRegionIdHistoryUnprocessableEntity"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetMarketsRegionIDHistoryUnprocessableEntityBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetMarketsRegionIDHistory creates a GetMarketsRegionIDHistory with default headers values
+func NewGetMarketsRegionIDHistory() *GetMarketsRegionIDHistory {
+	return &GetMarketsRegionIDHistory{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetMarketsRegionIDHistoryUnprocessableEntityBody) UnmarshalBinary(b []byte) error {
-	var res GetMarketsRegionIDHistoryUnprocessableEntityBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*GetMarketsRegionIDHistory handles this case with default header values.
+
+Internal error thrown from the EVE server.
+*/
+type GetMarketsRegionIDHistory struct {
+	Payload *models.GetMarketsRegionIDHistoryBody
+}
+
+func (o *GetMarketsRegionIDHistory) Error() string {
+	return fmt.Sprintf("[GET /markets/{region_id}/history/][%d] getMarketsRegionIdHistory  %+v", 520, o.Payload)
+}
+
+func (o *GetMarketsRegionIDHistory) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GetMarketsRegionIDHistoryBody)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

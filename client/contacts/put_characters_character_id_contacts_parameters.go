@@ -24,12 +24,10 @@ import (
 func NewPutCharactersCharacterIDContactsParams() *PutCharactersCharacterIDContactsParams {
 	var (
 		datasourceDefault = string("tranquility")
-		labelIDDefault    = int64(0)
 		watchedDefault    = bool(false)
 	)
 	return &PutCharactersCharacterIDContactsParams{
 		Datasource: &datasourceDefault,
-		LabelID:    &labelIDDefault,
 		Watched:    &watchedDefault,
 
 		timeout: cr.DefaultTimeout,
@@ -41,12 +39,10 @@ func NewPutCharactersCharacterIDContactsParams() *PutCharactersCharacterIDContac
 func NewPutCharactersCharacterIDContactsParamsWithTimeout(timeout time.Duration) *PutCharactersCharacterIDContactsParams {
 	var (
 		datasourceDefault = string("tranquility")
-		labelIDDefault    = int64(0)
 		watchedDefault    = bool(false)
 	)
 	return &PutCharactersCharacterIDContactsParams{
 		Datasource: &datasourceDefault,
-		LabelID:    &labelIDDefault,
 		Watched:    &watchedDefault,
 
 		timeout: timeout,
@@ -58,12 +54,10 @@ func NewPutCharactersCharacterIDContactsParamsWithTimeout(timeout time.Duration)
 func NewPutCharactersCharacterIDContactsParamsWithContext(ctx context.Context) *PutCharactersCharacterIDContactsParams {
 	var (
 		datasourceDefault = string("tranquility")
-		labelIdDefault    = int64(0)
 		watchedDefault    = bool(false)
 	)
 	return &PutCharactersCharacterIDContactsParams{
 		Datasource: &datasourceDefault,
-		LabelID:    &labelIdDefault,
 		Watched:    &watchedDefault,
 
 		Context: ctx,
@@ -75,12 +69,10 @@ func NewPutCharactersCharacterIDContactsParamsWithContext(ctx context.Context) *
 func NewPutCharactersCharacterIDContactsParamsWithHTTPClient(client *http.Client) *PutCharactersCharacterIDContactsParams {
 	var (
 		datasourceDefault = string("tranquility")
-		labelIdDefault    = int64(0)
 		watchedDefault    = bool(false)
 	)
 	return &PutCharactersCharacterIDContactsParams{
 		Datasource: &datasourceDefault,
-		LabelID:    &labelIdDefault,
 		Watched:    &watchedDefault,
 		HTTPClient: client,
 	}
@@ -91,18 +83,13 @@ for the put characters character id contacts operation typically these are writt
 */
 type PutCharactersCharacterIDContactsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*CharacterID
 	  An EVE character ID
 
 	*/
 	CharacterID int32
 	/*ContactIds
-	  A list of contacts to edit
+	  A list of contacts
 
 	*/
 	ContactIds []int32
@@ -111,11 +98,11 @@ type PutCharactersCharacterIDContactsParams struct {
 
 	*/
 	Datasource *string
-	/*LabelID
-	  Add a custom label to the contact, use 0 for clearing label
+	/*LabelIds
+	  Add custom labels to the contact
 
 	*/
-	LabelID *int64
+	LabelIds []int64
 	/*Standing
 	  Standing for the contact
 
@@ -126,11 +113,6 @@ type PutCharactersCharacterIDContactsParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 	/*Watched
 	  Whether the contact should be watched, note this is only effective on characters
 
@@ -175,17 +157,6 @@ func (o *PutCharactersCharacterIDContactsParams) SetHTTPClient(client *http.Clie
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the put characters character id contacts params
-func (o *PutCharactersCharacterIDContactsParams) WithXUserAgent(xUserAgent *string) *PutCharactersCharacterIDContactsParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the put characters character id contacts params
-func (o *PutCharactersCharacterIDContactsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithCharacterID adds the characterID to the put characters character id contacts params
 func (o *PutCharactersCharacterIDContactsParams) WithCharacterID(characterID int32) *PutCharactersCharacterIDContactsParams {
 	o.SetCharacterID(characterID)
@@ -219,15 +190,15 @@ func (o *PutCharactersCharacterIDContactsParams) SetDatasource(datasource *strin
 	o.Datasource = datasource
 }
 
-// WithLabelID adds the labelID to the put characters character id contacts params
-func (o *PutCharactersCharacterIDContactsParams) WithLabelID(labelID *int64) *PutCharactersCharacterIDContactsParams {
-	o.SetLabelID(labelID)
+// WithLabelIds adds the labelIds to the put characters character id contacts params
+func (o *PutCharactersCharacterIDContactsParams) WithLabelIds(labelIds []int64) *PutCharactersCharacterIDContactsParams {
+	o.SetLabelIds(labelIds)
 	return o
 }
 
-// SetLabelID adds the labelId to the put characters character id contacts params
-func (o *PutCharactersCharacterIDContactsParams) SetLabelID(labelID *int64) {
-	o.LabelID = labelID
+// SetLabelIds adds the labelIds to the put characters character id contacts params
+func (o *PutCharactersCharacterIDContactsParams) SetLabelIds(labelIds []int64) {
+	o.LabelIds = labelIds
 }
 
 // WithStanding adds the standing to the put characters character id contacts params
@@ -252,17 +223,6 @@ func (o *PutCharactersCharacterIDContactsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the put characters character id contacts params
-func (o *PutCharactersCharacterIDContactsParams) WithUserAgent(userAgent *string) *PutCharactersCharacterIDContactsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the put characters character id contacts params
-func (o *PutCharactersCharacterIDContactsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WithWatched adds the watched to the put characters character id contacts params
 func (o *PutCharactersCharacterIDContactsParams) WithWatched(watched *bool) *PutCharactersCharacterIDContactsParams {
 	o.SetWatched(watched)
@@ -282,22 +242,15 @@ func (o *PutCharactersCharacterIDContactsParams) WriteToRequest(r runtime.Client
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
-
 	// path param character_id
 	if err := r.SetPathParam("character_id", swag.FormatInt32(o.CharacterID)); err != nil {
 		return err
 	}
 
-	if err := r.SetBodyParam(o.ContactIds); err != nil {
-		return err
+	if o.ContactIds != nil {
+		if err := r.SetBodyParam(o.ContactIds); err != nil {
+			return err
+		}
 	}
 
 	if o.Datasource != nil {
@@ -316,20 +269,15 @@ func (o *PutCharactersCharacterIDContactsParams) WriteToRequest(r runtime.Client
 
 	}
 
-	if o.LabelID != nil {
+	var valuesLabelIds []string
+	for _, v := range o.LabelIds {
+		valuesLabelIds = append(valuesLabelIds, swag.FormatInt64(v))
+	}
 
-		// query param label_id
-		var qrLabelID int64
-		if o.LabelID != nil {
-			qrLabelID = *o.LabelID
-		}
-		qLabelID := swag.FormatInt64(qrLabelID)
-		if qLabelID != "" {
-			if err := r.SetQueryParam("label_id", qLabelID); err != nil {
-				return err
-			}
-		}
-
+	joinedLabelIds := swag.JoinByFormat(valuesLabelIds, "")
+	// query array param label_ids
+	if err := r.SetQueryParam("label_ids", joinedLabelIds...); err != nil {
+		return err
 	}
 
 	// query param standing
@@ -351,22 +299,6 @@ func (o *PutCharactersCharacterIDContactsParams) WriteToRequest(r runtime.Client
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

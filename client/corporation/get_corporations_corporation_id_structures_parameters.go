@@ -23,14 +23,16 @@ import (
 // with the default values initialized.
 func NewGetCorporationsCorporationIDStructuresParams() *GetCorporationsCorporationIDStructuresParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		pageDefault       = int32(1)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		pageDefault           = int32(1)
 	)
 	return &GetCorporationsCorporationIDStructuresParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Page:       &pageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Page:           &pageDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -40,14 +42,16 @@ func NewGetCorporationsCorporationIDStructuresParams() *GetCorporationsCorporati
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetCorporationsCorporationIDStructuresParamsWithTimeout(timeout time.Duration) *GetCorporationsCorporationIDStructuresParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		pageDefault       = int32(1)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		pageDefault           = int32(1)
 	)
 	return &GetCorporationsCorporationIDStructuresParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Page:       &pageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Page:           &pageDefault,
 
 		timeout: timeout,
 	}
@@ -57,14 +61,16 @@ func NewGetCorporationsCorporationIDStructuresParamsWithTimeout(timeout time.Dur
 // with the default values initialized, and the ability to set a context for a request
 func NewGetCorporationsCorporationIDStructuresParamsWithContext(ctx context.Context) *GetCorporationsCorporationIDStructuresParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		pageDefault       = int32(1)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		pageDefault           = int32(1)
 	)
 	return &GetCorporationsCorporationIDStructuresParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Page:       &pageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Page:           &pageDefault,
 
 		Context: ctx,
 	}
@@ -74,15 +80,17 @@ func NewGetCorporationsCorporationIDStructuresParamsWithContext(ctx context.Cont
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetCorporationsCorporationIDStructuresParamsWithHTTPClient(client *http.Client) *GetCorporationsCorporationIDStructuresParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		pageDefault       = int32(1)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		pageDefault           = int32(1)
 	)
 	return &GetCorporationsCorporationIDStructuresParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Page:       &pageDefault,
-		HTTPClient: client,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Page:           &pageDefault,
+		HTTPClient:     client,
 	}
 }
 
@@ -91,11 +99,16 @@ for the get corporations corporation id structures operation typically these are
 */
 type GetCorporationsCorporationIDStructuresParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*AcceptLanguage
+	  Language to use in the response
 
 	*/
-	XUserAgent *string
+	AcceptLanguage *string
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
+
+	*/
+	IfNoneMatch *string
 	/*CorporationID
 	  An EVE corporation ID
 
@@ -107,7 +120,7 @@ type GetCorporationsCorporationIDStructuresParams struct {
 	*/
 	Datasource *string
 	/*Language
-	  Language to use in the response
+	  Language to use in the response, takes precedence over Accept-Language
 
 	*/
 	Language *string
@@ -121,11 +134,6 @@ type GetCorporationsCorporationIDStructuresParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -165,15 +173,26 @@ func (o *GetCorporationsCorporationIDStructuresParams) SetHTTPClient(client *htt
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get corporations corporation id structures params
-func (o *GetCorporationsCorporationIDStructuresParams) WithXUserAgent(xUserAgent *string) *GetCorporationsCorporationIDStructuresParams {
-	o.SetXUserAgent(xUserAgent)
+// WithAcceptLanguage adds the acceptLanguage to the get corporations corporation id structures params
+func (o *GetCorporationsCorporationIDStructuresParams) WithAcceptLanguage(acceptLanguage *string) *GetCorporationsCorporationIDStructuresParams {
+	o.SetAcceptLanguage(acceptLanguage)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get corporations corporation id structures params
-func (o *GetCorporationsCorporationIDStructuresParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetAcceptLanguage adds the acceptLanguage to the get corporations corporation id structures params
+func (o *GetCorporationsCorporationIDStructuresParams) SetAcceptLanguage(acceptLanguage *string) {
+	o.AcceptLanguage = acceptLanguage
+}
+
+// WithIfNoneMatch adds the ifNoneMatch to the get corporations corporation id structures params
+func (o *GetCorporationsCorporationIDStructuresParams) WithIfNoneMatch(ifNoneMatch *string) *GetCorporationsCorporationIDStructuresParams {
+	o.SetIfNoneMatch(ifNoneMatch)
+	return o
+}
+
+// SetIfNoneMatch adds the ifNoneMatch to the get corporations corporation id structures params
+func (o *GetCorporationsCorporationIDStructuresParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCorporationID adds the corporationID to the get corporations corporation id structures params
@@ -231,17 +250,6 @@ func (o *GetCorporationsCorporationIDStructuresParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the get corporations corporation id structures params
-func (o *GetCorporationsCorporationIDStructuresParams) WithUserAgent(userAgent *string) *GetCorporationsCorporationIDStructuresParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get corporations corporation id structures params
-func (o *GetCorporationsCorporationIDStructuresParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCorporationsCorporationIDStructuresParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -250,10 +258,19 @@ func (o *GetCorporationsCorporationIDStructuresParams) WriteToRequest(r runtime.
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.AcceptLanguage != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param Accept-Language
+		if err := r.SetHeaderParam("Accept-Language", *o.AcceptLanguage); err != nil {
+			return err
+		}
+
+	}
+
+	if o.IfNoneMatch != nil {
+
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -322,22 +339,6 @@ func (o *GetCorporationsCorporationIDStructuresParams) WriteToRequest(r runtime.
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

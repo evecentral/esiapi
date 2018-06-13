@@ -30,9 +30,9 @@ GetCharactersCharacterID gets character s public information
 Public information about a character
 
 ---
-Alternate route: `/v4/characters/{character_id}/`
-
 Alternate route: `/dev/characters/{character_id}/`
+
+Alternate route: `/v4/characters/{character_id}/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -48,7 +48,7 @@ func (a *Client) GetCharactersCharacterID(params *GetCharactersCharacterIDParams
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDReader{formats: a.formats},
@@ -68,11 +68,11 @@ GetCharactersCharacterIDAgentsResearch gets agents research
 Return a list of agents research information for a character. The formula for finding the current research points with an agent is: currentPoints = remainderPoints + pointsPerDay * days(currentTime - researchStartDate)
 
 ---
-Alternate route: `/v1/characters/{character_id}/agents_research/`
+Alternate route: `/dev/characters/{character_id}/agents_research/`
 
 Alternate route: `/legacy/characters/{character_id}/agents_research/`
 
-Alternate route: `/dev/characters/{character_id}/agents_research/`
+Alternate route: `/v1/characters/{character_id}/agents_research/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -88,7 +88,7 @@ func (a *Client) GetCharactersCharacterIDAgentsResearch(params *GetCharactersCha
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/agents_research/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDAgentsResearchReader{formats: a.formats},
@@ -106,14 +106,12 @@ func (a *Client) GetCharactersCharacterIDAgentsResearch(params *GetCharactersCha
 /*
 GetCharactersCharacterIDBlueprints gets blueprints
 
-Return a list of blueprints the character has
+Return a list of blueprints the character owns
 
 ---
-Alternate route: `/v1/characters/{character_id}/blueprints/`
-
-Alternate route: `/legacy/characters/{character_id}/blueprints/`
-
 Alternate route: `/dev/characters/{character_id}/blueprints/`
+
+Alternate route: `/v2/characters/{character_id}/blueprints/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -129,7 +127,7 @@ func (a *Client) GetCharactersCharacterIDBlueprints(params *GetCharactersCharact
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/blueprints/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDBlueprintsReader{formats: a.formats},
@@ -145,57 +143,16 @@ func (a *Client) GetCharactersCharacterIDBlueprints(params *GetCharactersCharact
 }
 
 /*
-GetCharactersCharacterIDChatChannels gets chat channels
-
-Return chat channels that a character is the owner or an operator of
-
----
-Alternate route: `/v1/characters/{character_id}/chat_channels/`
-
-Alternate route: `/legacy/characters/{character_id}/chat_channels/`
-
-Alternate route: `/dev/characters/{character_id}/chat_channels/`
-
----
-This route is cached for up to 300 seconds
-*/
-func (a *Client) GetCharactersCharacterIDChatChannels(params *GetCharactersCharacterIDChatChannelsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDChatChannelsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewGetCharactersCharacterIDChatChannelsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "get_characters_character_id_chat_channels",
-		Method:             "GET",
-		PathPattern:        "/characters/{character_id}/chat_channels/",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
-		Schemes:            []string{"https"},
-		Params:             params,
-		Reader:             &GetCharactersCharacterIDChatChannelsReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return result.(*GetCharactersCharacterIDChatChannelsOK), nil
-
-}
-
-/*
 GetCharactersCharacterIDCorporationhistory gets corporation history
 
 Get a list of all the corporations a character has been a member of
 
 ---
-Alternate route: `/v1/characters/{character_id}/corporationhistory/`
+Alternate route: `/dev/characters/{character_id}/corporationhistory/`
 
 Alternate route: `/legacy/characters/{character_id}/corporationhistory/`
 
-Alternate route: `/dev/characters/{character_id}/corporationhistory/`
+Alternate route: `/v1/characters/{character_id}/corporationhistory/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -211,7 +168,7 @@ func (a *Client) GetCharactersCharacterIDCorporationhistory(params *GetCharacter
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/corporationhistory/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDCorporationhistoryReader{formats: a.formats},
@@ -231,11 +188,11 @@ GetCharactersCharacterIDFatigue gets jump fatigue
 Return a character's jump activation and fatigue information
 
 ---
-Alternate route: `/v1/characters/{character_id}/fatigue/`
+Alternate route: `/dev/characters/{character_id}/fatigue/`
 
 Alternate route: `/legacy/characters/{character_id}/fatigue/`
 
-Alternate route: `/dev/characters/{character_id}/fatigue/`
+Alternate route: `/v1/characters/{character_id}/fatigue/`
 
 ---
 This route is cached for up to 300 seconds
@@ -251,7 +208,7 @@ func (a *Client) GetCharactersCharacterIDFatigue(params *GetCharactersCharacterI
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/fatigue/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDFatigueReader{formats: a.formats},
@@ -272,11 +229,11 @@ GetCharactersCharacterIDMedals gets medals
 Return a list of medals the character has
 
 ---
-Alternate route: `/v1/characters/{character_id}/medals/`
+Alternate route: `/dev/characters/{character_id}/medals/`
 
 Alternate route: `/legacy/characters/{character_id}/medals/`
 
-Alternate route: `/dev/characters/{character_id}/medals/`
+Alternate route: `/v1/characters/{character_id}/medals/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -292,7 +249,7 @@ func (a *Client) GetCharactersCharacterIDMedals(params *GetCharactersCharacterID
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/medals/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDMedalsReader{formats: a.formats},
@@ -308,14 +265,94 @@ func (a *Client) GetCharactersCharacterIDMedals(params *GetCharactersCharacterID
 }
 
 /*
+GetCharactersCharacterIDNotifications gets character notifications
+
+Return character notifications
+
+---
+Alternate route: `/dev/characters/{character_id}/notifications/`
+
+Alternate route: `/v2/characters/{character_id}/notifications/`
+
+---
+This route is cached for up to 600 seconds
+*/
+func (a *Client) GetCharactersCharacterIDNotifications(params *GetCharactersCharacterIDNotificationsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDNotificationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCharactersCharacterIDNotificationsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_characters_character_id_notifications",
+		Method:             "GET",
+		PathPattern:        "/characters/{character_id}/notifications/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCharactersCharacterIDNotificationsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCharactersCharacterIDNotificationsOK), nil
+
+}
+
+/*
+GetCharactersCharacterIDNotificationsContacts gets new contact notifications
+
+Return notifications about having been added to someone's contact list
+
+---
+Alternate route: `/dev/characters/{character_id}/notifications/contacts/`
+
+Alternate route: `/legacy/characters/{character_id}/notifications/contacts/`
+
+Alternate route: `/v1/characters/{character_id}/notifications/contacts/`
+
+---
+This route is cached for up to 600 seconds
+*/
+func (a *Client) GetCharactersCharacterIDNotificationsContacts(params *GetCharactersCharacterIDNotificationsContactsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDNotificationsContactsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCharactersCharacterIDNotificationsContactsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_characters_character_id_notifications_contacts",
+		Method:             "GET",
+		PathPattern:        "/characters/{character_id}/notifications/contacts/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCharactersCharacterIDNotificationsContactsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCharactersCharacterIDNotificationsContactsOK), nil
+
+}
+
+/*
 GetCharactersCharacterIDPortrait gets character portraits
 
 Get portrait urls for a character
 
 ---
-Alternate route: `/v2/characters/{character_id}/portrait/`
-
 Alternate route: `/dev/characters/{character_id}/portrait/`
+
+Alternate route: `/v2/characters/{character_id}/portrait/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -331,7 +368,7 @@ func (a *Client) GetCharactersCharacterIDPortrait(params *GetCharactersCharacter
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/portrait/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDPortraitReader{formats: a.formats},
@@ -351,11 +388,9 @@ GetCharactersCharacterIDRoles gets character corporation roles
 Returns a character's corporation roles
 
 ---
-Alternate route: `/v1/characters/{character_id}/roles/`
-
-Alternate route: `/legacy/characters/{character_id}/roles/`
-
 Alternate route: `/dev/characters/{character_id}/roles/`
+
+Alternate route: `/v2/characters/{character_id}/roles/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -371,7 +406,7 @@ func (a *Client) GetCharactersCharacterIDRoles(params *GetCharactersCharacterIDR
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/roles/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDRolesReader{formats: a.formats},
@@ -392,11 +427,11 @@ GetCharactersCharacterIDStandings gets standings
 Return character standings from agents, NPC corporations, and factions
 
 ---
-Alternate route: `/v1/characters/{character_id}/standings/`
+Alternate route: `/dev/characters/{character_id}/standings/`
 
 Alternate route: `/legacy/characters/{character_id}/standings/`
 
-Alternate route: `/dev/characters/{character_id}/standings/`
+Alternate route: `/v1/characters/{character_id}/standings/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -412,7 +447,7 @@ func (a *Client) GetCharactersCharacterIDStandings(params *GetCharactersCharacte
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/standings/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDStandingsReader{formats: a.formats},
@@ -428,16 +463,96 @@ func (a *Client) GetCharactersCharacterIDStandings(params *GetCharactersCharacte
 }
 
 /*
+GetCharactersCharacterIDStats yearlies aggregate stats
+
+Returns aggregate yearly stats for a character
+
+---
+Alternate route: `/dev/characters/{character_id}/stats/`
+
+Alternate route: `/v2/characters/{character_id}/stats/`
+
+---
+This route is cached for up to 86400 seconds
+*/
+func (a *Client) GetCharactersCharacterIDStats(params *GetCharactersCharacterIDStatsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDStatsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCharactersCharacterIDStatsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_characters_character_id_stats",
+		Method:             "GET",
+		PathPattern:        "/characters/{character_id}/stats/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCharactersCharacterIDStatsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCharactersCharacterIDStatsOK), nil
+
+}
+
+/*
+GetCharactersCharacterIDTitles gets character corporation titles
+
+Returns a character's titles
+
+---
+Alternate route: `/dev/characters/{character_id}/titles/`
+
+Alternate route: `/legacy/characters/{character_id}/titles/`
+
+Alternate route: `/v1/characters/{character_id}/titles/`
+
+---
+This route is cached for up to 3600 seconds
+*/
+func (a *Client) GetCharactersCharacterIDTitles(params *GetCharactersCharacterIDTitlesParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDTitlesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCharactersCharacterIDTitlesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_characters_character_id_titles",
+		Method:             "GET",
+		PathPattern:        "/characters/{character_id}/titles/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCharactersCharacterIDTitlesReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCharactersCharacterIDTitlesOK), nil
+
+}
+
+/*
 GetCharactersNames gets character names
 
 Resolve a set of character IDs to character names
 
 ---
-Alternate route: `/v1/characters/names/`
+Alternate route: `/dev/characters/names/`
 
 Alternate route: `/legacy/characters/names/`
 
-Alternate route: `/dev/characters/names/`
+Alternate route: `/v1/characters/names/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -453,7 +568,7 @@ func (a *Client) GetCharactersNames(params *GetCharactersNamesParams) (*GetChara
 		Method:             "GET",
 		PathPattern:        "/characters/names/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersNamesReader{formats: a.formats},
@@ -473,11 +588,11 @@ PostCharactersAffiliation characters affiliation
 Bulk lookup of character IDs to corporation, alliance and faction
 
 ---
-Alternate route: `/v1/characters/affiliation/`
+Alternate route: `/dev/characters/affiliation/`
 
 Alternate route: `/legacy/characters/affiliation/`
 
-Alternate route: `/dev/characters/affiliation/`
+Alternate route: `/v1/characters/affiliation/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -493,7 +608,7 @@ func (a *Client) PostCharactersAffiliation(params *PostCharactersAffiliationPara
 		Method:             "POST",
 		PathPattern:        "/characters/affiliation/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostCharactersAffiliationReader{formats: a.formats},
@@ -513,9 +628,9 @@ PostCharactersCharacterIDCspa calculates a c s p a charge cost
 Takes a source character ID in the url and a set of target character ID's in the body, returns a CSPA charge cost
 
 ---
-Alternate route: `/v3/characters/{character_id}/cspa/`
+Alternate route: `/dev/characters/{character_id}/cspa/`
 
-Alternate route: `/legacy/characters/{character_id}/cspa/`
+Alternate route: `/v4/characters/{character_id}/cspa/`
 
 */
 func (a *Client) PostCharactersCharacterIDCspa(params *PostCharactersCharacterIDCspaParams, authInfo runtime.ClientAuthInfoWriter) (*PostCharactersCharacterIDCspaCreated, error) {
@@ -529,7 +644,7 @@ func (a *Client) PostCharactersCharacterIDCspa(params *PostCharactersCharacterID
 		Method:             "POST",
 		PathPattern:        "/characters/{character_id}/cspa/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostCharactersCharacterIDCspaReader{formats: a.formats},

@@ -30,11 +30,11 @@ GetSovereigntyCampaigns lists sovereignty campaigns
 Shows sovereignty data for campaigns.
 
 ---
-Alternate route: `/v1/sovereignty/campaigns/`
+Alternate route: `/dev/sovereignty/campaigns/`
 
 Alternate route: `/legacy/sovereignty/campaigns/`
 
-Alternate route: `/dev/sovereignty/campaigns/`
+Alternate route: `/v1/sovereignty/campaigns/`
 
 ---
 This route is cached for up to 5 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetSovereigntyCampaigns(params *GetSovereigntyCampaignsParams) 
 		Method:             "GET",
 		PathPattern:        "/sovereignty/campaigns/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetSovereigntyCampaignsReader{formats: a.formats},
@@ -70,11 +70,11 @@ GetSovereigntyMap lists sovereignty of systems
 Shows sovereignty information for solar systems
 
 ---
-Alternate route: `/v1/sovereignty/map/`
+Alternate route: `/dev/sovereignty/map/`
 
 Alternate route: `/legacy/sovereignty/map/`
 
-Alternate route: `/dev/sovereignty/map/`
+Alternate route: `/v1/sovereignty/map/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -90,7 +90,7 @@ func (a *Client) GetSovereigntyMap(params *GetSovereigntyMapParams) (*GetSoverei
 		Method:             "GET",
 		PathPattern:        "/sovereignty/map/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetSovereigntyMapReader{formats: a.formats},
@@ -110,11 +110,11 @@ GetSovereigntyStructures lists sovereignty structures
 Shows sovereignty data for structures.
 
 ---
-Alternate route: `/v1/sovereignty/structures/`
+Alternate route: `/dev/sovereignty/structures/`
 
 Alternate route: `/legacy/sovereignty/structures/`
 
-Alternate route: `/dev/sovereignty/structures/`
+Alternate route: `/v1/sovereignty/structures/`
 
 ---
 This route is cached for up to 120 seconds
@@ -130,7 +130,7 @@ func (a *Client) GetSovereigntyStructures(params *GetSovereigntyStructuresParams
 		Method:             "GET",
 		PathPattern:        "/sovereignty/structures/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetSovereigntyStructuresReader{formats: a.formats},

@@ -75,11 +75,6 @@ for the post fleets fleet id wings wing id squads operation typically these are 
 */
 type PostFleetsFleetIDWingsWingIDSquadsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -95,11 +90,6 @@ type PostFleetsFleetIDWingsWingIDSquadsParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 	/*WingID
 	  The wing_id to create squad in
 
@@ -144,17 +134,6 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsParams) SetHTTPClient(client *http.Cl
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post fleets fleet id wings wing id squads params
-func (o *PostFleetsFleetIDWingsWingIDSquadsParams) WithXUserAgent(xUserAgent *string) *PostFleetsFleetIDWingsWingIDSquadsParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post fleets fleet id wings wing id squads params
-func (o *PostFleetsFleetIDWingsWingIDSquadsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the post fleets fleet id wings wing id squads params
 func (o *PostFleetsFleetIDWingsWingIDSquadsParams) WithDatasource(datasource *string) *PostFleetsFleetIDWingsWingIDSquadsParams {
 	o.SetDatasource(datasource)
@@ -188,17 +167,6 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post fleets fleet id wings wing id squads params
-func (o *PostFleetsFleetIDWingsWingIDSquadsParams) WithUserAgent(userAgent *string) *PostFleetsFleetIDWingsWingIDSquadsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post fleets fleet id wings wing id squads params
-func (o *PostFleetsFleetIDWingsWingIDSquadsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WithWingID adds the wingID to the post fleets fleet id wings wing id squads params
 func (o *PostFleetsFleetIDWingsWingIDSquadsParams) WithWingID(wingID int64) *PostFleetsFleetIDWingsWingIDSquadsParams {
 	o.SetWingID(wingID)
@@ -217,15 +185,6 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsParams) WriteToRequest(r runtime.Clie
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -258,22 +217,6 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsParams) WriteToRequest(r runtime.Clie
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

@@ -22,12 +22,14 @@ import (
 // with the default values initialized.
 func NewGetUniverseRacesParams() *GetUniverseRacesParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
 	)
 	return &GetUniverseRacesParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -37,12 +39,14 @@ func NewGetUniverseRacesParams() *GetUniverseRacesParams {
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetUniverseRacesParamsWithTimeout(timeout time.Duration) *GetUniverseRacesParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
 	)
 	return &GetUniverseRacesParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
 
 		timeout: timeout,
 	}
@@ -52,12 +56,14 @@ func NewGetUniverseRacesParamsWithTimeout(timeout time.Duration) *GetUniverseRac
 // with the default values initialized, and the ability to set a context for a request
 func NewGetUniverseRacesParamsWithContext(ctx context.Context) *GetUniverseRacesParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
 	)
 	return &GetUniverseRacesParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
 
 		Context: ctx,
 	}
@@ -67,13 +73,15 @@ func NewGetUniverseRacesParamsWithContext(ctx context.Context) *GetUniverseRaces
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetUniverseRacesParamsWithHTTPClient(client *http.Client) *GetUniverseRacesParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
 	)
 	return &GetUniverseRacesParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		HTTPClient: client,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		HTTPClient:     client,
 	}
 }
 
@@ -82,26 +90,26 @@ for the get universe races operation typically these are written to a http.Reque
 */
 type GetUniverseRacesParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*AcceptLanguage
+	  Language to use in the response
 
 	*/
-	XUserAgent *string
+	AcceptLanguage *string
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
+
+	*/
+	IfNoneMatch *string
 	/*Datasource
 	  The server name you would like data from
 
 	*/
 	Datasource *string
 	/*Language
-	  Language to use in the response
+	  Language to use in the response, takes precedence over Accept-Language
 
 	*/
 	Language *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -141,15 +149,26 @@ func (o *GetUniverseRacesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get universe races params
-func (o *GetUniverseRacesParams) WithXUserAgent(xUserAgent *string) *GetUniverseRacesParams {
-	o.SetXUserAgent(xUserAgent)
+// WithAcceptLanguage adds the acceptLanguage to the get universe races params
+func (o *GetUniverseRacesParams) WithAcceptLanguage(acceptLanguage *string) *GetUniverseRacesParams {
+	o.SetAcceptLanguage(acceptLanguage)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get universe races params
-func (o *GetUniverseRacesParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetAcceptLanguage adds the acceptLanguage to the get universe races params
+func (o *GetUniverseRacesParams) SetAcceptLanguage(acceptLanguage *string) {
+	o.AcceptLanguage = acceptLanguage
+}
+
+// WithIfNoneMatch adds the ifNoneMatch to the get universe races params
+func (o *GetUniverseRacesParams) WithIfNoneMatch(ifNoneMatch *string) *GetUniverseRacesParams {
+	o.SetIfNoneMatch(ifNoneMatch)
+	return o
+}
+
+// SetIfNoneMatch adds the ifNoneMatch to the get universe races params
+func (o *GetUniverseRacesParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithDatasource adds the datasource to the get universe races params
@@ -174,17 +193,6 @@ func (o *GetUniverseRacesParams) SetLanguage(language *string) {
 	o.Language = language
 }
 
-// WithUserAgent adds the userAgent to the get universe races params
-func (o *GetUniverseRacesParams) WithUserAgent(userAgent *string) *GetUniverseRacesParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get universe races params
-func (o *GetUniverseRacesParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetUniverseRacesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -193,10 +201,19 @@ func (o *GetUniverseRacesParams) WriteToRequest(r runtime.ClientRequest, reg str
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.AcceptLanguage != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param Accept-Language
+		if err := r.SetHeaderParam("Accept-Language", *o.AcceptLanguage); err != nil {
+			return err
+		}
+
+	}
+
+	if o.IfNoneMatch != nil {
+
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -228,22 +245,6 @@ func (o *GetUniverseRacesParams) WriteToRequest(r runtime.ClientRequest, reg str
 		qLanguage := qrLanguage
 		if qLanguage != "" {
 			if err := r.SetQueryParam("language", qLanguage); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

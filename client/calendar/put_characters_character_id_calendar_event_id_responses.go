@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PutCharactersCharacterIDCalendarEventIDReader is a Reader for the PutCharactersCharacterIDCalendarEventID structure.
@@ -33,6 +32,20 @@ func (o *PutCharactersCharacterIDCalendarEventIDReader) ReadResponse(response ru
 		}
 		return result, nil
 
+	case 400:
+		result := NewPutCharactersCharacterIDCalendarEventIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPutCharactersCharacterIDCalendarEventIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPutCharactersCharacterIDCalendarEventIDForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -40,8 +53,29 @@ func (o *PutCharactersCharacterIDCalendarEventIDReader) ReadResponse(response ru
 		}
 		return nil, result
 
+	case 420:
+		result := NewPutCharactersCharacterIDCalendarEventIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPutCharactersCharacterIDCalendarEventIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPutCharactersCharacterIDCalendarEventIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPutCharactersCharacterIDCalendarEventIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -73,6 +107,64 @@ func (o *PutCharactersCharacterIDCalendarEventIDNoContent) readResponse(response
 	return nil
 }
 
+// NewPutCharactersCharacterIDCalendarEventIDBadRequest creates a PutCharactersCharacterIDCalendarEventIDBadRequest with default headers values
+func NewPutCharactersCharacterIDCalendarEventIDBadRequest() *PutCharactersCharacterIDCalendarEventIDBadRequest {
+	return &PutCharactersCharacterIDCalendarEventIDBadRequest{}
+}
+
+/*PutCharactersCharacterIDCalendarEventIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PutCharactersCharacterIDCalendarEventIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PutCharactersCharacterIDCalendarEventIDBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/calendar/{event_id}/][%d] putCharactersCharacterIdCalendarEventIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDCalendarEventIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDCalendarEventIDUnauthorized creates a PutCharactersCharacterIDCalendarEventIDUnauthorized with default headers values
+func NewPutCharactersCharacterIDCalendarEventIDUnauthorized() *PutCharactersCharacterIDCalendarEventIDUnauthorized {
+	return &PutCharactersCharacterIDCalendarEventIDUnauthorized{}
+}
+
+/*PutCharactersCharacterIDCalendarEventIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PutCharactersCharacterIDCalendarEventIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PutCharactersCharacterIDCalendarEventIDUnauthorized) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/calendar/{event_id}/][%d] putCharactersCharacterIdCalendarEventIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDCalendarEventIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPutCharactersCharacterIDCalendarEventIDForbidden creates a PutCharactersCharacterIDCalendarEventIDForbidden with default headers values
 func NewPutCharactersCharacterIDCalendarEventIDForbidden() *PutCharactersCharacterIDCalendarEventIDForbidden {
 	return &PutCharactersCharacterIDCalendarEventIDForbidden{}
@@ -93,6 +185,35 @@ func (o *PutCharactersCharacterIDCalendarEventIDForbidden) Error() string {
 func (o *PutCharactersCharacterIDCalendarEventIDForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDCalendarEventIDEnhanceYourCalm creates a PutCharactersCharacterIDCalendarEventIDEnhanceYourCalm with default headers values
+func NewPutCharactersCharacterIDCalendarEventIDEnhanceYourCalm() *PutCharactersCharacterIDCalendarEventIDEnhanceYourCalm {
+	return &PutCharactersCharacterIDCalendarEventIDEnhanceYourCalm{}
+}
+
+/*PutCharactersCharacterIDCalendarEventIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PutCharactersCharacterIDCalendarEventIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PutCharactersCharacterIDCalendarEventIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/calendar/{event_id}/][%d] putCharactersCharacterIdCalendarEventIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDCalendarEventIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -131,37 +252,60 @@ func (o *PutCharactersCharacterIDCalendarEventIDInternalServerError) readRespons
 	return nil
 }
 
-/*PutCharactersCharacterIDCalendarEventIDBody put_characters_character_id_calendar_event_id_response
-//
-// response schema
-swagger:model PutCharactersCharacterIDCalendarEventIDBody
+// NewPutCharactersCharacterIDCalendarEventIDServiceUnavailable creates a PutCharactersCharacterIDCalendarEventIDServiceUnavailable with default headers values
+func NewPutCharactersCharacterIDCalendarEventIDServiceUnavailable() *PutCharactersCharacterIDCalendarEventIDServiceUnavailable {
+	return &PutCharactersCharacterIDCalendarEventIDServiceUnavailable{}
+}
+
+/*PutCharactersCharacterIDCalendarEventIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PutCharactersCharacterIDCalendarEventIDBody struct {
-
-	// put_characters_character_id_calendar_event_id_response
-	//
-	// response string
-	// Required: true
-	Response *string `json:"response"`
+type PutCharactersCharacterIDCalendarEventIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PutCharactersCharacterIDCalendarEventIDBody response false */
-
-// MarshalBinary interface implementation
-func (o *PutCharactersCharacterIDCalendarEventIDBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *PutCharactersCharacterIDCalendarEventIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/calendar/{event_id}/][%d] putCharactersCharacterIdCalendarEventIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *PutCharactersCharacterIDCalendarEventIDBody) UnmarshalBinary(b []byte) error {
-	var res PutCharactersCharacterIDCalendarEventIDBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *PutCharactersCharacterIDCalendarEventIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDCalendarEventIDGatewayTimeout creates a PutCharactersCharacterIDCalendarEventIDGatewayTimeout with default headers values
+func NewPutCharactersCharacterIDCalendarEventIDGatewayTimeout() *PutCharactersCharacterIDCalendarEventIDGatewayTimeout {
+	return &PutCharactersCharacterIDCalendarEventIDGatewayTimeout{}
+}
+
+/*PutCharactersCharacterIDCalendarEventIDGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type PutCharactersCharacterIDCalendarEventIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *PutCharactersCharacterIDCalendarEventIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/calendar/{event_id}/][%d] putCharactersCharacterIdCalendarEventIdGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDCalendarEventIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
 	return nil
 }

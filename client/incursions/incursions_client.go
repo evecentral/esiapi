@@ -30,11 +30,11 @@ GetIncursions lists incursions
 Return a list of current incursions
 
 ---
-Alternate route: `/v1/incursions/`
+Alternate route: `/dev/incursions/`
 
 Alternate route: `/legacy/incursions/`
 
-Alternate route: `/dev/incursions/`
+Alternate route: `/v1/incursions/`
 
 ---
 This route is cached for up to 300 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetIncursions(params *GetIncursionsParams) (*GetIncursionsOK, e
 		Method:             "GET",
 		PathPattern:        "/incursions/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetIncursionsReader{formats: a.formats},

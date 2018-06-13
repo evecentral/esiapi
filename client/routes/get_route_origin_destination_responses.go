@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetRouteOriginDestinationReader is a Reader for the GetRouteOriginDestination structure.
@@ -35,6 +32,20 @@ func (o *GetRouteOriginDestinationReader) ReadResponse(response runtime.ClientRe
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetRouteOriginDestinationNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetRouteOriginDestinationBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetRouteOriginDestinationNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetRouteOriginDestinationReader) ReadResponse(response runtime.ClientRe
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetRouteOriginDestinationEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetRouteOriginDestinationInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetRouteOriginDestinationServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetRouteOriginDestinationGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +99,9 @@ type GetRouteOriginDestinationOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -86,6 +121,9 @@ func (o *GetRouteOriginDestinationOK) readResponse(response runtime.ClientRespon
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +132,80 @@ func (o *GetRouteOriginDestinationOK) readResponse(response runtime.ClientRespon
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetRouteOriginDestinationNotModified creates a GetRouteOriginDestinationNotModified with default headers values
+func NewGetRouteOriginDestinationNotModified() *GetRouteOriginDestinationNotModified {
+	return &GetRouteOriginDestinationNotModified{}
+}
+
+/*GetRouteOriginDestinationNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetRouteOriginDestinationNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetRouteOriginDestinationNotModified) Error() string {
+	return fmt.Sprintf("[GET /route/{origin}/{destination}/][%d] getRouteOriginDestinationNotModified ", 304)
+}
+
+func (o *GetRouteOriginDestinationNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetRouteOriginDestinationBadRequest creates a GetRouteOriginDestinationBadRequest with default headers values
+func NewGetRouteOriginDestinationBadRequest() *GetRouteOriginDestinationBadRequest {
+	return &GetRouteOriginDestinationBadRequest{}
+}
+
+/*GetRouteOriginDestinationBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetRouteOriginDestinationBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetRouteOriginDestinationBadRequest) Error() string {
+	return fmt.Sprintf("[GET /route/{origin}/{destination}/][%d] getRouteOriginDestinationBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetRouteOriginDestinationBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +222,7 @@ func NewGetRouteOriginDestinationNotFound() *GetRouteOriginDestinationNotFound {
 No route found
 */
 type GetRouteOriginDestinationNotFound struct {
-	Payload GetRouteOriginDestinationNotFoundBody
+	Payload *models.GetRouteOriginDestinationNotFoundBody
 }
 
 func (o *GetRouteOriginDestinationNotFound) Error() string {
@@ -119,8 +231,39 @@ func (o *GetRouteOriginDestinationNotFound) Error() string {
 
 func (o *GetRouteOriginDestinationNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetRouteOriginDestinationNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetRouteOriginDestinationEnhanceYourCalm creates a GetRouteOriginDestinationEnhanceYourCalm with default headers values
+func NewGetRouteOriginDestinationEnhanceYourCalm() *GetRouteOriginDestinationEnhanceYourCalm {
+	return &GetRouteOriginDestinationEnhanceYourCalm{}
+}
+
+/*GetRouteOriginDestinationEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetRouteOriginDestinationEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetRouteOriginDestinationEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /route/{origin}/{destination}/][%d] getRouteOriginDestinationEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetRouteOriginDestinationEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,61 +299,60 @@ func (o *GetRouteOriginDestinationInternalServerError) readResponse(response run
 	return nil
 }
 
-/*GetRouteOriginDestinationNotFoundBody get_route_origin_destination_not_found
-//
-// Not found
-swagger:model GetRouteOriginDestinationNotFoundBody
+// NewGetRouteOriginDestinationServiceUnavailable creates a GetRouteOriginDestinationServiceUnavailable with default headers values
+func NewGetRouteOriginDestinationServiceUnavailable() *GetRouteOriginDestinationServiceUnavailable {
+	return &GetRouteOriginDestinationServiceUnavailable{}
+}
+
+/*GetRouteOriginDestinationServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetRouteOriginDestinationNotFoundBody struct {
-
-	// get_route_origin_destination_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetRouteOriginDestinationServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetRouteOriginDestinationNotFoundBody error false */
-
-// Validate validates this get route origin destination not found body
-func (o *GetRouteOriginDestinationNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetRouteOriginDestinationServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /route/{origin}/{destination}/][%d] getRouteOriginDestinationServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetRouteOriginDestinationNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetRouteOriginDestinationServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getRouteOriginDestinationNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetRouteOriginDestinationNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetRouteOriginDestinationGatewayTimeout creates a GetRouteOriginDestinationGatewayTimeout with default headers values
+func NewGetRouteOriginDestinationGatewayTimeout() *GetRouteOriginDestinationGatewayTimeout {
+	return &GetRouteOriginDestinationGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetRouteOriginDestinationNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetRouteOriginDestinationNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*GetRouteOriginDestinationGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetRouteOriginDestinationGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetRouteOriginDestinationGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /route/{origin}/{destination}/][%d] getRouteOriginDestinationGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetRouteOriginDestinationGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

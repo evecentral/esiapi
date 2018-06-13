@@ -75,11 +75,11 @@ for the get corporations corporation id icons operation typically these are writ
 */
 type GetCorporationsCorporationIDIconsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CorporationID
 	  An EVE corporation ID
 
@@ -90,11 +90,6 @@ type GetCorporationsCorporationIDIconsParams struct {
 
 	*/
 	Datasource *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetCorporationsCorporationIDIconsParams) SetHTTPClient(client *http.Cli
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get corporations corporation id icons params
-func (o *GetCorporationsCorporationIDIconsParams) WithXUserAgent(xUserAgent *string) *GetCorporationsCorporationIDIconsParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get corporations corporation id icons params
+func (o *GetCorporationsCorporationIDIconsParams) WithIfNoneMatch(ifNoneMatch *string) *GetCorporationsCorporationIDIconsParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get corporations corporation id icons params
-func (o *GetCorporationsCorporationIDIconsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get corporations corporation id icons params
+func (o *GetCorporationsCorporationIDIconsParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCorporationID adds the corporationID to the get corporations corporation id icons params
@@ -167,17 +162,6 @@ func (o *GetCorporationsCorporationIDIconsParams) SetDatasource(datasource *stri
 	o.Datasource = datasource
 }
 
-// WithUserAgent adds the userAgent to the get corporations corporation id icons params
-func (o *GetCorporationsCorporationIDIconsParams) WithUserAgent(userAgent *string) *GetCorporationsCorporationIDIconsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get corporations corporation id icons params
-func (o *GetCorporationsCorporationIDIconsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCorporationsCorporationIDIconsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetCorporationsCorporationIDIconsParams) WriteToRequest(r runtime.Clien
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -210,22 +194,6 @@ func (o *GetCorporationsCorporationIDIconsParams) WriteToRequest(r runtime.Clien
 		qDatasource := qrDatasource
 		if qDatasource != "" {
 			if err := r.SetQueryParam("datasource", qDatasource); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

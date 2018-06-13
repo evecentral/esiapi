@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseConstellationsReader is a Reader for the GetUniverseConstellations structure.
@@ -32,8 +32,43 @@ func (o *GetUniverseConstellationsReader) ReadResponse(response runtime.ClientRe
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseConstellationsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseConstellationsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetUniverseConstellationsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseConstellationsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseConstellationsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseConstellationsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetUniverseConstellationsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetUniverseConstellationsOK) readResponse(response runtime.ClientRespon
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetUniverseConstellationsOK) readResponse(response runtime.ClientRespon
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseConstellationsNotModified creates a GetUniverseConstellationsNotModified with default headers values
+func NewGetUniverseConstellationsNotModified() *GetUniverseConstellationsNotModified {
+	return &GetUniverseConstellationsNotModified{}
+}
+
+/*GetUniverseConstellationsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseConstellationsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseConstellationsNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/][%d] getUniverseConstellationsNotModified ", 304)
+}
+
+func (o *GetUniverseConstellationsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseConstellationsBadRequest creates a GetUniverseConstellationsBadRequest with default headers values
+func NewGetUniverseConstellationsBadRequest() *GetUniverseConstellationsBadRequest {
+	return &GetUniverseConstellationsBadRequest{}
+}
+
+/*GetUniverseConstellationsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseConstellationsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseConstellationsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/][%d] getUniverseConstellationsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseConstellationsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseConstellationsEnhanceYourCalm creates a GetUniverseConstellationsEnhanceYourCalm with default headers values
+func NewGetUniverseConstellationsEnhanceYourCalm() *GetUniverseConstellationsEnhanceYourCalm {
+	return &GetUniverseConstellationsEnhanceYourCalm{}
+}
+
+/*GetUniverseConstellationsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseConstellationsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseConstellationsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/][%d] getUniverseConstellationsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseConstellationsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetUniverseConstellationsInternalServerError) Error() string {
 func (o *GetUniverseConstellationsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseConstellationsServiceUnavailable creates a GetUniverseConstellationsServiceUnavailable with default headers values
+func NewGetUniverseConstellationsServiceUnavailable() *GetUniverseConstellationsServiceUnavailable {
+	return &GetUniverseConstellationsServiceUnavailable{}
+}
+
+/*GetUniverseConstellationsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetUniverseConstellationsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetUniverseConstellationsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/][%d] getUniverseConstellationsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetUniverseConstellationsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseConstellationsGatewayTimeout creates a GetUniverseConstellationsGatewayTimeout with default headers values
+func NewGetUniverseConstellationsGatewayTimeout() *GetUniverseConstellationsGatewayTimeout {
+	return &GetUniverseConstellationsGatewayTimeout{}
+}
+
+/*GetUniverseConstellationsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetUniverseConstellationsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetUniverseConstellationsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/][%d] getUniverseConstellationsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetUniverseConstellationsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

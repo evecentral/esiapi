@@ -30,11 +30,11 @@ GetWars lists wars
 Return a list of wars
 
 ---
-Alternate route: `/v1/wars/`
+Alternate route: `/dev/wars/`
 
 Alternate route: `/legacy/wars/`
 
-Alternate route: `/dev/wars/`
+Alternate route: `/v1/wars/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetWars(params *GetWarsParams) (*GetWarsOK, error) {
 		Method:             "GET",
 		PathPattern:        "/wars/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetWarsReader{formats: a.formats},
@@ -70,11 +70,11 @@ GetWarsWarID gets war information
 Return details about a war
 
 ---
-Alternate route: `/v1/wars/{war_id}/`
+Alternate route: `/dev/wars/{war_id}/`
 
 Alternate route: `/legacy/wars/{war_id}/`
 
-Alternate route: `/dev/wars/{war_id}/`
+Alternate route: `/v1/wars/{war_id}/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -90,7 +90,7 @@ func (a *Client) GetWarsWarID(params *GetWarsWarIDParams) (*GetWarsWarIDOK, erro
 		Method:             "GET",
 		PathPattern:        "/wars/{war_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetWarsWarIDReader{formats: a.formats},
@@ -110,11 +110,11 @@ GetWarsWarIDKillmails lists kills for a war
 Return a list of kills related to a war
 
 ---
-Alternate route: `/v1/wars/{war_id}/killmails/`
+Alternate route: `/dev/wars/{war_id}/killmails/`
 
 Alternate route: `/legacy/wars/{war_id}/killmails/`
 
-Alternate route: `/dev/wars/{war_id}/killmails/`
+Alternate route: `/v1/wars/{war_id}/killmails/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -130,7 +130,7 @@ func (a *Client) GetWarsWarIDKillmails(params *GetWarsWarIDKillmailsParams) (*Ge
 		Method:             "GET",
 		PathPattern:        "/wars/{war_id}/killmails/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetWarsWarIDKillmailsReader{formats: a.formats},

@@ -75,11 +75,6 @@ for the delete characters character id fittings fitting id operation typically t
 */
 type DeleteCharactersCharacterIDFittingsFittingIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -100,11 +95,6 @@ type DeleteCharactersCharacterIDFittingsFittingIDParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -142,17 +132,6 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) WithHTTPClient(clie
 // SetHTTPClient adds the HTTPClient to the delete characters character id fittings fitting id params
 func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXUserAgent adds the xUserAgent to the delete characters character id fittings fitting id params
-func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) WithXUserAgent(xUserAgent *string) *DeleteCharactersCharacterIDFittingsFittingIDParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the delete characters character id fittings fitting id params
-func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
 }
 
 // WithCharacterID adds the characterID to the delete characters character id fittings fitting id params
@@ -199,17 +178,6 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) SetToken(token *str
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the delete characters character id fittings fitting id params
-func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) WithUserAgent(userAgent *string) *DeleteCharactersCharacterIDFittingsFittingIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the delete characters character id fittings fitting id params
-func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -217,15 +185,6 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) WriteToRequest(r ru
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	// path param character_id
 	if err := r.SetPathParam("character_id", swag.FormatInt32(o.CharacterID)); err != nil {
@@ -263,22 +222,6 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDParams) WriteToRequest(r ru
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCorporationsCorporationIDWalletsReader is a Reader for the GetCorporationsCorporationIDWallets structure.
@@ -35,6 +32,27 @@ func (o *GetCorporationsCorporationIDWalletsReader) ReadResponse(response runtim
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCorporationsCorporationIDWalletsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCorporationsCorporationIDWalletsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCorporationsCorporationIDWalletsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCorporationsCorporationIDWalletsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCorporationsCorporationIDWalletsReader) ReadResponse(response runtim
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCorporationsCorporationIDWalletsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCorporationsCorporationIDWalletsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCorporationsCorporationIDWalletsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCorporationsCorporationIDWalletsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,9 @@ type GetCorporationsCorporationIDWalletsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +116,7 @@ type GetCorporationsCorporationIDWalletsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCorporationsCorporationIDWalletsOKBodyItems0
+	Payload []*models.GetCorporationsCorporationIDWalletsOKBodyItems
 }
 
 func (o *GetCorporationsCorporationIDWalletsOK) Error() string {
@@ -86,6 +128,9 @@ func (o *GetCorporationsCorporationIDWalletsOK) readResponse(response runtime.Cl
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +139,109 @@ func (o *GetCorporationsCorporationIDWalletsOK) readResponse(response runtime.Cl
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDWalletsNotModified creates a GetCorporationsCorporationIDWalletsNotModified with default headers values
+func NewGetCorporationsCorporationIDWalletsNotModified() *GetCorporationsCorporationIDWalletsNotModified {
+	return &GetCorporationsCorporationIDWalletsNotModified{}
+}
+
+/*GetCorporationsCorporationIDWalletsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCorporationsCorporationIDWalletsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCorporationsCorporationIDWalletsNotModified) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/wallets/][%d] getCorporationsCorporationIdWalletsNotModified ", 304)
+}
+
+func (o *GetCorporationsCorporationIDWalletsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDWalletsBadRequest creates a GetCorporationsCorporationIDWalletsBadRequest with default headers values
+func NewGetCorporationsCorporationIDWalletsBadRequest() *GetCorporationsCorporationIDWalletsBadRequest {
+	return &GetCorporationsCorporationIDWalletsBadRequest{}
+}
+
+/*GetCorporationsCorporationIDWalletsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCorporationsCorporationIDWalletsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCorporationsCorporationIDWalletsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/wallets/][%d] getCorporationsCorporationIdWalletsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDWalletsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDWalletsUnauthorized creates a GetCorporationsCorporationIDWalletsUnauthorized with default headers values
+func NewGetCorporationsCorporationIDWalletsUnauthorized() *GetCorporationsCorporationIDWalletsUnauthorized {
+	return &GetCorporationsCorporationIDWalletsUnauthorized{}
+}
+
+/*GetCorporationsCorporationIDWalletsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCorporationsCorporationIDWalletsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCorporationsCorporationIDWalletsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/wallets/][%d] getCorporationsCorporationIdWalletsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDWalletsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +268,35 @@ func (o *GetCorporationsCorporationIDWalletsForbidden) Error() string {
 func (o *GetCorporationsCorporationIDWalletsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDWalletsEnhanceYourCalm creates a GetCorporationsCorporationIDWalletsEnhanceYourCalm with default headers values
+func NewGetCorporationsCorporationIDWalletsEnhanceYourCalm() *GetCorporationsCorporationIDWalletsEnhanceYourCalm {
+	return &GetCorporationsCorporationIDWalletsEnhanceYourCalm{}
+}
+
+/*GetCorporationsCorporationIDWalletsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCorporationsCorporationIDWalletsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCorporationsCorporationIDWalletsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/wallets/][%d] getCorporationsCorporationIdWalletsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDWalletsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,93 +335,60 @@ func (o *GetCorporationsCorporationIDWalletsInternalServerError) readResponse(re
 	return nil
 }
 
-/*GetCorporationsCorporationIDWalletsOKBodyItems0 get_corporations_corporation_id_wallets_200_ok
-//
-// 200 ok object
-swagger:model GetCorporationsCorporationIDWalletsOKBodyItems0
+// NewGetCorporationsCorporationIDWalletsServiceUnavailable creates a GetCorporationsCorporationIDWalletsServiceUnavailable with default headers values
+func NewGetCorporationsCorporationIDWalletsServiceUnavailable() *GetCorporationsCorporationIDWalletsServiceUnavailable {
+	return &GetCorporationsCorporationIDWalletsServiceUnavailable{}
+}
+
+/*GetCorporationsCorporationIDWalletsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCorporationsCorporationIDWalletsOKBodyItems0 struct {
-
-	// get_corporations_corporation_id_wallets_balance
-	//
-	// balance number
-	// Required: true
-	Balance *float32 `json:"balance"`
-
-	// get_corporations_corporation_id_wallets_division
-	//
-	// division integer
-	// Required: true
-	// Maximum: 7
-	// Minimum: 1
-	Division *int32 `json:"division"`
+type GetCorporationsCorporationIDWalletsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCorporationsCorporationIDWalletsOKBodyItems0 balance false */
-
-/* polymorph GetCorporationsCorporationIDWalletsOKBodyItems0 division false */
-
-// Validate validates this get corporations corporation ID wallets o k body items0
-func (o *GetCorporationsCorporationIDWalletsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateBalance(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDivision(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCorporationsCorporationIDWalletsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/wallets/][%d] getCorporationsCorporationIdWalletsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCorporationsCorporationIDWalletsOKBodyItems0) validateBalance(formats strfmt.Registry) error {
+func (o *GetCorporationsCorporationIDWalletsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("balance", "body", o.Balance); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCorporationsCorporationIDWalletsOKBodyItems0) validateDivision(formats strfmt.Registry) error {
-
-	if err := validate.Required("division", "body", o.Division); err != nil {
-		return err
-	}
-
-	if err := validate.MinimumInt("division", "body", int64(*o.Division), 1, false); err != nil {
-		return err
-	}
-
-	if err := validate.MaximumInt("division", "body", int64(*o.Division), 7, false); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCorporationsCorporationIDWalletsGatewayTimeout creates a GetCorporationsCorporationIDWalletsGatewayTimeout with default headers values
+func NewGetCorporationsCorporationIDWalletsGatewayTimeout() *GetCorporationsCorporationIDWalletsGatewayTimeout {
+	return &GetCorporationsCorporationIDWalletsGatewayTimeout{}
 }
 
-// MarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDWalletsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+/*GetCorporationsCorporationIDWalletsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCorporationsCorporationIDWalletsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDWalletsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCorporationsCorporationIDWalletsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *GetCorporationsCorporationIDWalletsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/wallets/][%d] getCorporationsCorporationIdWalletsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDWalletsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostCharactersCharacterIDCspaReader is a Reader for the PostCharactersCharacterIDCspa structure.
@@ -35,6 +32,20 @@ func (o *PostCharactersCharacterIDCspaReader) ReadResponse(response runtime.Clie
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostCharactersCharacterIDCspaBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostCharactersCharacterIDCspaUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostCharactersCharacterIDCspaForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *PostCharactersCharacterIDCspaReader) ReadResponse(response runtime.Clie
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostCharactersCharacterIDCspaEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostCharactersCharacterIDCspaInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostCharactersCharacterIDCspaServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostCharactersCharacterIDCspaGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -61,10 +93,10 @@ func NewPostCharactersCharacterIDCspaCreated() *PostCharactersCharacterIDCspaCre
 
 /*PostCharactersCharacterIDCspaCreated handles this case with default header values.
 
-Aggregate cost of sending a mail from the source character to the target characters, in ISK hundredths
+Aggregate cost of sending a mail from the source character to the target characters, in ISK
 */
 type PostCharactersCharacterIDCspaCreated struct {
-	Payload PostCharactersCharacterIDCspaCreatedBody
+	Payload float32
 }
 
 func (o *PostCharactersCharacterIDCspaCreated) Error() string {
@@ -75,6 +107,64 @@ func (o *PostCharactersCharacterIDCspaCreated) readResponse(response runtime.Cli
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDCspaBadRequest creates a PostCharactersCharacterIDCspaBadRequest with default headers values
+func NewPostCharactersCharacterIDCspaBadRequest() *PostCharactersCharacterIDCspaBadRequest {
+	return &PostCharactersCharacterIDCspaBadRequest{}
+}
+
+/*PostCharactersCharacterIDCspaBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostCharactersCharacterIDCspaBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostCharactersCharacterIDCspaBadRequest) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/cspa/][%d] postCharactersCharacterIdCspaBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDCspaBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDCspaUnauthorized creates a PostCharactersCharacterIDCspaUnauthorized with default headers values
+func NewPostCharactersCharacterIDCspaUnauthorized() *PostCharactersCharacterIDCspaUnauthorized {
+	return &PostCharactersCharacterIDCspaUnauthorized{}
+}
+
+/*PostCharactersCharacterIDCspaUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostCharactersCharacterIDCspaUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostCharactersCharacterIDCspaUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/cspa/][%d] postCharactersCharacterIdCspaUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDCspaUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -101,6 +191,35 @@ func (o *PostCharactersCharacterIDCspaForbidden) Error() string {
 func (o *PostCharactersCharacterIDCspaForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDCspaEnhanceYourCalm creates a PostCharactersCharacterIDCspaEnhanceYourCalm with default headers values
+func NewPostCharactersCharacterIDCspaEnhanceYourCalm() *PostCharactersCharacterIDCspaEnhanceYourCalm {
+	return &PostCharactersCharacterIDCspaEnhanceYourCalm{}
+}
+
+/*PostCharactersCharacterIDCspaEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostCharactersCharacterIDCspaEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostCharactersCharacterIDCspaEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/cspa/][%d] postCharactersCharacterIdCspaEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDCspaEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -139,99 +258,60 @@ func (o *PostCharactersCharacterIDCspaInternalServerError) readResponse(response
 	return nil
 }
 
-/*PostCharactersCharacterIDCspaBody post_characters_character_id_cspa_characters
-//
-// characters object
-swagger:model PostCharactersCharacterIDCspaBody
+// NewPostCharactersCharacterIDCspaServiceUnavailable creates a PostCharactersCharacterIDCspaServiceUnavailable with default headers values
+func NewPostCharactersCharacterIDCspaServiceUnavailable() *PostCharactersCharacterIDCspaServiceUnavailable {
+	return &PostCharactersCharacterIDCspaServiceUnavailable{}
+}
+
+/*PostCharactersCharacterIDCspaServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostCharactersCharacterIDCspaBody struct {
-
-	// post_characters_character_id_cspa_characters
-	//
-	// characters array
-	// Required: true
-	// Max Items: 100
-	// Min Items: 1
-	// Unique: true
-	Characters []int32 `json:"characters"`
+type PostCharactersCharacterIDCspaServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostCharactersCharacterIDCspaBody characters false */
-
-// MarshalBinary interface implementation
-func (o *PostCharactersCharacterIDCspaBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *PostCharactersCharacterIDCspaServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/cspa/][%d] postCharactersCharacterIdCspaServiceUnavailable  %+v", 503, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostCharactersCharacterIDCspaBody) UnmarshalBinary(b []byte) error {
-	var res PostCharactersCharacterIDCspaBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *PostCharactersCharacterIDCspaServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }
 
-/*PostCharactersCharacterIDCspaCreatedBody post_characters_character_id_cspa_created
-//
-// 201 created object
-swagger:model PostCharactersCharacterIDCspaCreatedBody
+// NewPostCharactersCharacterIDCspaGatewayTimeout creates a PostCharactersCharacterIDCspaGatewayTimeout with default headers values
+func NewPostCharactersCharacterIDCspaGatewayTimeout() *PostCharactersCharacterIDCspaGatewayTimeout {
+	return &PostCharactersCharacterIDCspaGatewayTimeout{}
+}
+
+/*PostCharactersCharacterIDCspaGatewayTimeout handles this case with default header values.
+
+Gateway timeout
 */
-
-type PostCharactersCharacterIDCspaCreatedBody struct {
-
-	// post_characters_character_id_cspa_cost
-	//
-	// cost integer
-	// Required: true
-	Cost *int64 `json:"cost"`
+type PostCharactersCharacterIDCspaGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PostCharactersCharacterIDCspaCreatedBody cost false */
-
-// Validate validates this post characters character ID cspa created body
-func (o *PostCharactersCharacterIDCspaCreatedBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCost(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostCharactersCharacterIDCspaGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/cspa/][%d] postCharactersCharacterIdCspaGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *PostCharactersCharacterIDCspaCreatedBody) validateCost(formats strfmt.Registry) error {
+func (o *PostCharactersCharacterIDCspaGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postCharactersCharacterIdCspaCreated"+"."+"cost", "body", o.Cost); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *PostCharactersCharacterIDCspaCreatedBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *PostCharactersCharacterIDCspaCreatedBody) UnmarshalBinary(b []byte) error {
-	var res PostCharactersCharacterIDCspaCreatedBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDAttributesReader is a Reader for the GetCharactersCharacterIDAttributes structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDAttributesReader) ReadResponse(response runtime
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDAttributesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDAttributesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDAttributesUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDAttributesForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCharactersCharacterIDAttributesReader) ReadResponse(response runtime
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDAttributesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDAttributesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDAttributesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDAttributesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,9 @@ type GetCharactersCharacterIDAttributesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +116,7 @@ type GetCharactersCharacterIDAttributesOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDAttributesOKBody
+	Payload *models.GetCharactersCharacterIDAttributesOKBody
 }
 
 func (o *GetCharactersCharacterIDAttributesOK) Error() string {
@@ -86,14 +128,122 @@ func (o *GetCharactersCharacterIDAttributesOK) readResponse(response runtime.Cli
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDAttributesOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDAttributesNotModified creates a GetCharactersCharacterIDAttributesNotModified with default headers values
+func NewGetCharactersCharacterIDAttributesNotModified() *GetCharactersCharacterIDAttributesNotModified {
+	return &GetCharactersCharacterIDAttributesNotModified{}
+}
+
+/*GetCharactersCharacterIDAttributesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDAttributesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDAttributesNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/attributes/][%d] getCharactersCharacterIdAttributesNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDAttributesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDAttributesBadRequest creates a GetCharactersCharacterIDAttributesBadRequest with default headers values
+func NewGetCharactersCharacterIDAttributesBadRequest() *GetCharactersCharacterIDAttributesBadRequest {
+	return &GetCharactersCharacterIDAttributesBadRequest{}
+}
+
+/*GetCharactersCharacterIDAttributesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDAttributesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDAttributesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/attributes/][%d] getCharactersCharacterIdAttributesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDAttributesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDAttributesUnauthorized creates a GetCharactersCharacterIDAttributesUnauthorized with default headers values
+func NewGetCharactersCharacterIDAttributesUnauthorized() *GetCharactersCharacterIDAttributesUnauthorized {
+	return &GetCharactersCharacterIDAttributesUnauthorized{}
+}
+
+/*GetCharactersCharacterIDAttributesUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDAttributesUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDAttributesUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/attributes/][%d] getCharactersCharacterIdAttributesUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDAttributesUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +270,35 @@ func (o *GetCharactersCharacterIDAttributesForbidden) Error() string {
 func (o *GetCharactersCharacterIDAttributesForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDAttributesEnhanceYourCalm creates a GetCharactersCharacterIDAttributesEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDAttributesEnhanceYourCalm() *GetCharactersCharacterIDAttributesEnhanceYourCalm {
+	return &GetCharactersCharacterIDAttributesEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDAttributesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDAttributesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDAttributesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/attributes/][%d] getCharactersCharacterIdAttributesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDAttributesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,223 +337,60 @@ func (o *GetCharactersCharacterIDAttributesInternalServerError) readResponse(res
 	return nil
 }
 
-/*GetCharactersCharacterIDAttributesOKBody get_characters_character_id_attributes_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDAttributesOKBody
+// NewGetCharactersCharacterIDAttributesServiceUnavailable creates a GetCharactersCharacterIDAttributesServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDAttributesServiceUnavailable() *GetCharactersCharacterIDAttributesServiceUnavailable {
+	return &GetCharactersCharacterIDAttributesServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDAttributesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDAttributesOKBody struct {
-
-	// get_characters_character_id_attributes_accrued_remap_cooldown_date
-	//
-	// Neural remapping cooldown after a character uses remap accrued over time
-	// Required: true
-	AccruedRemapCooldownDate *strfmt.DateTime `json:"accrued_remap_cooldown_date"`
-
-	// get_characters_character_id_attributes_bonus_remaps
-	//
-	// Number of available bonus character neural remaps
-	// Required: true
-	BonusRemaps *int32 `json:"bonus_remaps"`
-
-	// get_characters_character_id_attributes_charisma
-	//
-	// charisma integer
-	// Required: true
-	Charisma *int32 `json:"charisma"`
-
-	// get_characters_character_id_attributes_intelligence
-	//
-	// intelligence integer
-	// Required: true
-	Intelligence *int32 `json:"intelligence"`
-
-	// get_characters_character_id_attributes_last_remap_date
-	//
-	// Datetime of last neural remap, including usage of bonus remaps
-	// Required: true
-	LastRemapDate *strfmt.DateTime `json:"last_remap_date"`
-
-	// get_characters_character_id_attributes_memory
-	//
-	// memory integer
-	// Required: true
-	Memory *int32 `json:"memory"`
-
-	// get_characters_character_id_attributes_perception
-	//
-	// perception integer
-	// Required: true
-	Perception *int32 `json:"perception"`
-
-	// get_characters_character_id_attributes_willpower
-	//
-	// willpower integer
-	// Required: true
-	Willpower *int32 `json:"willpower"`
+type GetCharactersCharacterIDAttributesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDAttributesOKBody accrued_remap_cooldown_date false */
-
-/* polymorph GetCharactersCharacterIDAttributesOKBody bonus_remaps false */
-
-/* polymorph GetCharactersCharacterIDAttributesOKBody charisma false */
-
-/* polymorph GetCharactersCharacterIDAttributesOKBody intelligence false */
-
-/* polymorph GetCharactersCharacterIDAttributesOKBody last_remap_date false */
-
-/* polymorph GetCharactersCharacterIDAttributesOKBody memory false */
-
-/* polymorph GetCharactersCharacterIDAttributesOKBody perception false */
-
-/* polymorph GetCharactersCharacterIDAttributesOKBody willpower false */
-
-// Validate validates this get characters character ID attributes o k body
-func (o *GetCharactersCharacterIDAttributesOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAccruedRemapCooldownDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateBonusRemaps(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCharisma(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIntelligence(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLastRemapDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMemory(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePerception(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateWillpower(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDAttributesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/attributes/][%d] getCharactersCharacterIdAttributesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDAttributesOKBody) validateAccruedRemapCooldownDate(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDAttributesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdAttributesOK"+"."+"accrued_remap_cooldown_date", "body", o.AccruedRemapCooldownDate); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	if err := validate.FormatOf("getCharactersCharacterIdAttributesOK"+"."+"accrued_remap_cooldown_date", "body", "date-time", o.AccruedRemapCooldownDate.String(), formats); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDAttributesOKBody) validateBonusRemaps(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdAttributesOK"+"."+"bonus_remaps", "body", o.BonusRemaps); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDAttributesGatewayTimeout creates a GetCharactersCharacterIDAttributesGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDAttributesGatewayTimeout() *GetCharactersCharacterIDAttributesGatewayTimeout {
+	return &GetCharactersCharacterIDAttributesGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDAttributesOKBody) validateCharisma(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDAttributesGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("getCharactersCharacterIdAttributesOK"+"."+"charisma", "body", o.Charisma); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDAttributesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetCharactersCharacterIDAttributesOKBody) validateIntelligence(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdAttributesOK"+"."+"intelligence", "body", o.Intelligence); err != nil {
-		return err
-	}
-
-	return nil
+func (o *GetCharactersCharacterIDAttributesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/attributes/][%d] getCharactersCharacterIdAttributesGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDAttributesOKBody) validateLastRemapDate(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDAttributesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdAttributesOK"+"."+"last_remap_date", "body", o.LastRemapDate); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	if err := validate.FormatOf("getCharactersCharacterIdAttributesOK"+"."+"last_remap_date", "body", "date-time", o.LastRemapDate.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDAttributesOKBody) validateMemory(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdAttributesOK"+"."+"memory", "body", o.Memory); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDAttributesOKBody) validatePerception(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdAttributesOK"+"."+"perception", "body", o.Perception); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDAttributesOKBody) validateWillpower(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdAttributesOK"+"."+"willpower", "body", o.Willpower); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDAttributesOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDAttributesOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDAttributesOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -17,6 +17,8 @@ import (
 	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPostCharactersCharacterIDFittingsParams creates a new PostCharactersCharacterIDFittingsParams object
@@ -75,11 +77,6 @@ for the post characters character id fittings operation typically these are writ
 */
 type PostCharactersCharacterIDFittingsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -94,17 +91,12 @@ type PostCharactersCharacterIDFittingsParams struct {
 	  Details about the new fitting
 
 	*/
-	Fitting PostCharactersCharacterIDFittingsBody
+	Fitting *models.PostCharactersCharacterIDFittingsParamsBody
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -144,17 +136,6 @@ func (o *PostCharactersCharacterIDFittingsParams) SetHTTPClient(client *http.Cli
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post characters character id fittings params
-func (o *PostCharactersCharacterIDFittingsParams) WithXUserAgent(xUserAgent *string) *PostCharactersCharacterIDFittingsParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post characters character id fittings params
-func (o *PostCharactersCharacterIDFittingsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithCharacterID adds the characterID to the post characters character id fittings params
 func (o *PostCharactersCharacterIDFittingsParams) WithCharacterID(characterID int32) *PostCharactersCharacterIDFittingsParams {
 	o.SetCharacterID(characterID)
@@ -178,13 +159,13 @@ func (o *PostCharactersCharacterIDFittingsParams) SetDatasource(datasource *stri
 }
 
 // WithFitting adds the fitting to the post characters character id fittings params
-func (o *PostCharactersCharacterIDFittingsParams) WithFitting(fitting PostCharactersCharacterIDFittingsBody) *PostCharactersCharacterIDFittingsParams {
+func (o *PostCharactersCharacterIDFittingsParams) WithFitting(fitting *models.PostCharactersCharacterIDFittingsParamsBody) *PostCharactersCharacterIDFittingsParams {
 	o.SetFitting(fitting)
 	return o
 }
 
 // SetFitting adds the fitting to the post characters character id fittings params
-func (o *PostCharactersCharacterIDFittingsParams) SetFitting(fitting PostCharactersCharacterIDFittingsBody) {
+func (o *PostCharactersCharacterIDFittingsParams) SetFitting(fitting *models.PostCharactersCharacterIDFittingsParamsBody) {
 	o.Fitting = fitting
 }
 
@@ -199,17 +180,6 @@ func (o *PostCharactersCharacterIDFittingsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post characters character id fittings params
-func (o *PostCharactersCharacterIDFittingsParams) WithUserAgent(userAgent *string) *PostCharactersCharacterIDFittingsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post characters character id fittings params
-func (o *PostCharactersCharacterIDFittingsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostCharactersCharacterIDFittingsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -217,15 +187,6 @@ func (o *PostCharactersCharacterIDFittingsParams) WriteToRequest(r runtime.Clien
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	// path param character_id
 	if err := r.SetPathParam("character_id", swag.FormatInt32(o.CharacterID)); err != nil {
@@ -248,8 +209,10 @@ func (o *PostCharactersCharacterIDFittingsParams) WriteToRequest(r runtime.Clien
 
 	}
 
-	if err := r.SetBodyParam(o.Fitting); err != nil {
-		return err
+	if o.Fitting != nil {
+		if err := r.SetBodyParam(o.Fitting); err != nil {
+			return err
+		}
 	}
 
 	if o.Token != nil {
@@ -262,22 +225,6 @@ func (o *PostCharactersCharacterIDFittingsParams) WriteToRequest(r runtime.Clien
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

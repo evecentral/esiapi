@@ -75,11 +75,11 @@ for the get universe stars star id operation typically these are written to a ht
 */
 type GetUniverseStarsStarIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -90,11 +90,6 @@ type GetUniverseStarsStarIDParams struct {
 
 	*/
 	StarID int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetUniverseStarsStarIDParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get universe stars star id params
-func (o *GetUniverseStarsStarIDParams) WithXUserAgent(xUserAgent *string) *GetUniverseStarsStarIDParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get universe stars star id params
+func (o *GetUniverseStarsStarIDParams) WithIfNoneMatch(ifNoneMatch *string) *GetUniverseStarsStarIDParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get universe stars star id params
-func (o *GetUniverseStarsStarIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get universe stars star id params
+func (o *GetUniverseStarsStarIDParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithDatasource adds the datasource to the get universe stars star id params
@@ -167,17 +162,6 @@ func (o *GetUniverseStarsStarIDParams) SetStarID(starID int32) {
 	o.StarID = starID
 }
 
-// WithUserAgent adds the userAgent to the get universe stars star id params
-func (o *GetUniverseStarsStarIDParams) WithUserAgent(userAgent *string) *GetUniverseStarsStarIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get universe stars star id params
-func (o *GetUniverseStarsStarIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetUniverseStarsStarIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetUniverseStarsStarIDParams) WriteToRequest(r runtime.ClientRequest, r
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -214,22 +198,6 @@ func (o *GetUniverseStarsStarIDParams) WriteToRequest(r runtime.ClientRequest, r
 	// path param star_id
 	if err := r.SetPathParam("star_id", swag.FormatInt32(o.StarID)); err != nil {
 		return err
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	if len(res) > 0 {

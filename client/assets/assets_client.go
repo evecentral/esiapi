@@ -30,11 +30,9 @@ GetCharactersCharacterIDAssets gets character assets
 Return a list of the characters assets
 
 ---
-Alternate route: `/v1/characters/{character_id}/assets/`
-
-Alternate route: `/legacy/characters/{character_id}/assets/`
-
 Alternate route: `/dev/characters/{character_id}/assets/`
+
+Alternate route: `/v3/characters/{character_id}/assets/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -50,7 +48,7 @@ func (a *Client) GetCharactersCharacterIDAssets(params *GetCharactersCharacterID
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/assets/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDAssetsReader{formats: a.formats},
@@ -62,6 +60,209 @@ func (a *Client) GetCharactersCharacterIDAssets(params *GetCharactersCharacterID
 		return nil, err
 	}
 	return result.(*GetCharactersCharacterIDAssetsOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDAssets gets corporation assets
+
+Return a list of the corporation assets
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/assets/`
+
+Alternate route: `/v3/corporations/{corporation_id}/assets/`
+
+---
+This route is cached for up to 3600 seconds
+
+---
+Requires one of the following EVE corporation role(s): Director
+
+*/
+func (a *Client) GetCorporationsCorporationIDAssets(params *GetCorporationsCorporationIDAssetsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDAssetsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDAssetsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_assets",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/assets/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDAssetsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDAssetsOK), nil
+
+}
+
+/*
+PostCharactersCharacterIDAssetsLocations gets character asset locations
+
+Return locations for a set of item ids, which you can get from character assets endpoint. Coordinates for items in hangars or stations are set to (0,0,0)
+
+---
+Alternate route: `/dev/characters/{character_id}/assets/locations/`
+
+Alternate route: `/v2/characters/{character_id}/assets/locations/`
+
+*/
+func (a *Client) PostCharactersCharacterIDAssetsLocations(params *PostCharactersCharacterIDAssetsLocationsParams, authInfo runtime.ClientAuthInfoWriter) (*PostCharactersCharacterIDAssetsLocationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPostCharactersCharacterIDAssetsLocationsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "post_characters_character_id_assets_locations",
+		Method:             "POST",
+		PathPattern:        "/characters/{character_id}/assets/locations/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PostCharactersCharacterIDAssetsLocationsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PostCharactersCharacterIDAssetsLocationsOK), nil
+
+}
+
+/*
+PostCharactersCharacterIDAssetsNames gets character asset names
+
+Return names for a set of item ids, which you can get from character assets endpoint. Typically used for items that can customize names, like containers or ships.
+
+---
+Alternate route: `/dev/characters/{character_id}/assets/names/`
+
+Alternate route: `/legacy/characters/{character_id}/assets/names/`
+
+Alternate route: `/v1/characters/{character_id}/assets/names/`
+
+*/
+func (a *Client) PostCharactersCharacterIDAssetsNames(params *PostCharactersCharacterIDAssetsNamesParams, authInfo runtime.ClientAuthInfoWriter) (*PostCharactersCharacterIDAssetsNamesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPostCharactersCharacterIDAssetsNamesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "post_characters_character_id_assets_names",
+		Method:             "POST",
+		PathPattern:        "/characters/{character_id}/assets/names/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PostCharactersCharacterIDAssetsNamesReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PostCharactersCharacterIDAssetsNamesOK), nil
+
+}
+
+/*
+PostCorporationsCorporationIDAssetsLocations gets corporation asset locations
+
+Return locations for a set of item ids, which you can get from corporation assets endpoint. Coordinates for items in hangars or stations are set to (0,0,0)
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/assets/locations/`
+
+Alternate route: `/v2/corporations/{corporation_id}/assets/locations/`
+
+
+---
+Requires one of the following EVE corporation role(s): Director
+
+*/
+func (a *Client) PostCorporationsCorporationIDAssetsLocations(params *PostCorporationsCorporationIDAssetsLocationsParams, authInfo runtime.ClientAuthInfoWriter) (*PostCorporationsCorporationIDAssetsLocationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPostCorporationsCorporationIDAssetsLocationsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "post_corporations_corporation_id_assets_locations",
+		Method:             "POST",
+		PathPattern:        "/corporations/{corporation_id}/assets/locations/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PostCorporationsCorporationIDAssetsLocationsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PostCorporationsCorporationIDAssetsLocationsOK), nil
+
+}
+
+/*
+PostCorporationsCorporationIDAssetsNames gets coporation asset names
+
+Return names for a set of item ids, which you can get from corporation assets endpoint. Only valid for items that can customize names, like containers or ships.
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/assets/names/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/assets/names/`
+
+Alternate route: `/v1/corporations/{corporation_id}/assets/names/`
+
+
+---
+Requires one of the following EVE corporation role(s): Director
+
+*/
+func (a *Client) PostCorporationsCorporationIDAssetsNames(params *PostCorporationsCorporationIDAssetsNamesParams, authInfo runtime.ClientAuthInfoWriter) (*PostCorporationsCorporationIDAssetsNamesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPostCorporationsCorporationIDAssetsNamesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "post_corporations_corporation_id_assets_names",
+		Method:             "POST",
+		PathPattern:        "/corporations/{corporation_id}/assets/names/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PostCorporationsCorporationIDAssetsNamesReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PostCorporationsCorporationIDAssetsNamesOK), nil
 
 }
 

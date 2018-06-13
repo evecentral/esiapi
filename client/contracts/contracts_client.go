@@ -30,11 +30,11 @@ GetCharactersCharacterIDContracts gets contracts
 Returns contracts available to a character, only if the character is issuer, acceptor or assignee. Only returns contracts no older than 30 days, or if the status is "in_progress".
 
 ---
-Alternate route: `/v1/characters/{character_id}/contracts/`
+Alternate route: `/dev/characters/{character_id}/contracts/`
 
 Alternate route: `/legacy/characters/{character_id}/contracts/`
 
-Alternate route: `/dev/characters/{character_id}/contracts/`
+Alternate route: `/v1/characters/{character_id}/contracts/`
 
 ---
 This route is cached for up to 300 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDContracts(params *GetCharactersCharacte
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/contracts/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDContractsReader{formats: a.formats},
@@ -71,11 +71,11 @@ GetCharactersCharacterIDContractsContractIDBids gets contract bids
 Lists bids on a particular auction contract
 
 ---
-Alternate route: `/v1/characters/{character_id}/contracts/{contract_id}/bids/`
+Alternate route: `/dev/characters/{character_id}/contracts/{contract_id}/bids/`
 
 Alternate route: `/legacy/characters/{character_id}/contracts/{contract_id}/bids/`
 
-Alternate route: `/dev/characters/{character_id}/contracts/{contract_id}/bids/`
+Alternate route: `/v1/characters/{character_id}/contracts/{contract_id}/bids/`
 
 ---
 This route is cached for up to 300 seconds
@@ -91,7 +91,7 @@ func (a *Client) GetCharactersCharacterIDContractsContractIDBids(params *GetChar
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/contracts/{contract_id}/bids/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDContractsContractIDBidsReader{formats: a.formats},
@@ -109,14 +109,14 @@ func (a *Client) GetCharactersCharacterIDContractsContractIDBids(params *GetChar
 /*
 GetCharactersCharacterIDContractsContractIDItems gets contract items
 
-Lists Items and details of a particular contract
+Lists items of a particular contract
 
 ---
-Alternate route: `/v1/characters/{character_id}/contracts/{contract_id}/items/`
+Alternate route: `/dev/characters/{character_id}/contracts/{contract_id}/items/`
 
 Alternate route: `/legacy/characters/{character_id}/contracts/{contract_id}/items/`
 
-Alternate route: `/dev/characters/{character_id}/contracts/{contract_id}/items/`
+Alternate route: `/v1/characters/{character_id}/contracts/{contract_id}/items/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -132,7 +132,7 @@ func (a *Client) GetCharactersCharacterIDContractsContractIDItems(params *GetCha
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/contracts/{contract_id}/items/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDContractsContractIDItemsReader{formats: a.formats},
@@ -144,6 +144,129 @@ func (a *Client) GetCharactersCharacterIDContractsContractIDItems(params *GetCha
 		return nil, err
 	}
 	return result.(*GetCharactersCharacterIDContractsContractIDItemsOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDContracts gets corporation contracts
+
+Returns contracts available to a corporation, only if the corporation is issuer, acceptor or assignee. Only returns contracts no older than 30 days, or if the status is "in_progress".
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/contracts/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/contracts/`
+
+Alternate route: `/v1/corporations/{corporation_id}/contracts/`
+
+---
+This route is cached for up to 300 seconds
+*/
+func (a *Client) GetCorporationsCorporationIDContracts(params *GetCorporationsCorporationIDContractsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDContractsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDContractsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_contracts",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/contracts/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDContractsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDContractsOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDContractsContractIDBids gets corporation contract bids
+
+Lists bids on a particular auction contract
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/contracts/{contract_id}/bids/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/contracts/{contract_id}/bids/`
+
+Alternate route: `/v1/corporations/{corporation_id}/contracts/{contract_id}/bids/`
+
+---
+This route is cached for up to 3600 seconds
+*/
+func (a *Client) GetCorporationsCorporationIDContractsContractIDBids(params *GetCorporationsCorporationIDContractsContractIDBidsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDContractsContractIDBidsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDContractsContractIDBidsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_contracts_contract_id_bids",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/contracts/{contract_id}/bids/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDContractsContractIDBidsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDContractsContractIDBidsOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDContractsContractIDItems gets corporation contract items
+
+Lists items of a particular contract
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/contracts/{contract_id}/items/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/contracts/{contract_id}/items/`
+
+Alternate route: `/v1/corporations/{corporation_id}/contracts/{contract_id}/items/`
+
+---
+This route is cached for up to 3600 seconds
+*/
+func (a *Client) GetCorporationsCorporationIDContractsContractIDItems(params *GetCorporationsCorporationIDContractsContractIDItemsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDContractsContractIDItemsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDContractsContractIDItemsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_contracts_contract_id_items",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/contracts/{contract_id}/items/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDContractsContractIDItemsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDContractsContractIDItemsOK), nil
 
 }
 

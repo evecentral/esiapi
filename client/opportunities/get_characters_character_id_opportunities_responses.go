@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDOpportunitiesReader is a Reader for the GetCharactersCharacterIDOpportunities structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDOpportunitiesReader) ReadResponse(response runt
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDOpportunitiesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDOpportunitiesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDOpportunitiesUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDOpportunitiesForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCharactersCharacterIDOpportunitiesReader) ReadResponse(response runt
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDOpportunitiesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDOpportunitiesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDOpportunitiesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDOpportunitiesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,9 @@ type GetCharactersCharacterIDOpportunitiesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +116,7 @@ type GetCharactersCharacterIDOpportunitiesOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDOpportunitiesOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDOpportunitiesOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDOpportunitiesOK) Error() string {
@@ -86,6 +128,9 @@ func (o *GetCharactersCharacterIDOpportunitiesOK) readResponse(response runtime.
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +139,109 @@ func (o *GetCharactersCharacterIDOpportunitiesOK) readResponse(response runtime.
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDOpportunitiesNotModified creates a GetCharactersCharacterIDOpportunitiesNotModified with default headers values
+func NewGetCharactersCharacterIDOpportunitiesNotModified() *GetCharactersCharacterIDOpportunitiesNotModified {
+	return &GetCharactersCharacterIDOpportunitiesNotModified{}
+}
+
+/*GetCharactersCharacterIDOpportunitiesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDOpportunitiesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/opportunities/][%d] getCharactersCharacterIdOpportunitiesNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDOpportunitiesBadRequest creates a GetCharactersCharacterIDOpportunitiesBadRequest with default headers values
+func NewGetCharactersCharacterIDOpportunitiesBadRequest() *GetCharactersCharacterIDOpportunitiesBadRequest {
+	return &GetCharactersCharacterIDOpportunitiesBadRequest{}
+}
+
+/*GetCharactersCharacterIDOpportunitiesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDOpportunitiesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/opportunities/][%d] getCharactersCharacterIdOpportunitiesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDOpportunitiesUnauthorized creates a GetCharactersCharacterIDOpportunitiesUnauthorized with default headers values
+func NewGetCharactersCharacterIDOpportunitiesUnauthorized() *GetCharactersCharacterIDOpportunitiesUnauthorized {
+	return &GetCharactersCharacterIDOpportunitiesUnauthorized{}
+}
+
+/*GetCharactersCharacterIDOpportunitiesUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDOpportunitiesUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/opportunities/][%d] getCharactersCharacterIdOpportunitiesUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +268,35 @@ func (o *GetCharactersCharacterIDOpportunitiesForbidden) Error() string {
 func (o *GetCharactersCharacterIDOpportunitiesForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDOpportunitiesEnhanceYourCalm creates a GetCharactersCharacterIDOpportunitiesEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDOpportunitiesEnhanceYourCalm() *GetCharactersCharacterIDOpportunitiesEnhanceYourCalm {
+	return &GetCharactersCharacterIDOpportunitiesEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDOpportunitiesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDOpportunitiesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/opportunities/][%d] getCharactersCharacterIdOpportunitiesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,87 +335,60 @@ func (o *GetCharactersCharacterIDOpportunitiesInternalServerError) readResponse(
 	return nil
 }
 
-/*GetCharactersCharacterIDOpportunitiesOKBodyItems0 get_characters_character_id_opportunities_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDOpportunitiesOKBodyItems0
+// NewGetCharactersCharacterIDOpportunitiesServiceUnavailable creates a GetCharactersCharacterIDOpportunitiesServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDOpportunitiesServiceUnavailable() *GetCharactersCharacterIDOpportunitiesServiceUnavailable {
+	return &GetCharactersCharacterIDOpportunitiesServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDOpportunitiesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDOpportunitiesOKBodyItems0 struct {
-
-	// get_characters_character_id_opportunities_completed_at
-	//
-	// completed_at string
-	// Required: true
-	CompletedAt *strfmt.DateTime `json:"completed_at"`
-
-	// get_characters_character_id_opportunities_task_id
-	//
-	// task_id integer
-	// Required: true
-	TaskID *int32 `json:"task_id"`
+type GetCharactersCharacterIDOpportunitiesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDOpportunitiesOKBodyItems0 completed_at false */
-
-/* polymorph GetCharactersCharacterIDOpportunitiesOKBodyItems0 task_id false */
-
-// Validate validates this get characters character ID opportunities o k body items0
-func (o *GetCharactersCharacterIDOpportunitiesOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCompletedAt(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTaskID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDOpportunitiesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/opportunities/][%d] getCharactersCharacterIdOpportunitiesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDOpportunitiesOKBodyItems0) validateCompletedAt(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDOpportunitiesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("completed_at", "body", o.CompletedAt); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	if err := validate.FormatOf("completed_at", "body", "date-time", o.CompletedAt.String(), formats); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDOpportunitiesOKBodyItems0) validateTaskID(formats strfmt.Registry) error {
+// NewGetCharactersCharacterIDOpportunitiesGatewayTimeout creates a GetCharactersCharacterIDOpportunitiesGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDOpportunitiesGatewayTimeout() *GetCharactersCharacterIDOpportunitiesGatewayTimeout {
+	return &GetCharactersCharacterIDOpportunitiesGatewayTimeout{}
+}
 
-	if err := validate.Required("task_id", "body", o.TaskID); err != nil {
+/*GetCharactersCharacterIDOpportunitiesGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDOpportunitiesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/opportunities/][%d] getCharactersCharacterIdOpportunitiesGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDOpportunitiesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDOpportunitiesOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDOpportunitiesOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDOpportunitiesOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -17,6 +17,8 @@ import (
 	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPutCharactersCharacterIDCalendarEventIDParams creates a new PutCharactersCharacterIDCalendarEventIDParams object
@@ -75,11 +77,6 @@ for the put characters character id calendar event id operation typically these 
 */
 type PutCharactersCharacterIDCalendarEventIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -99,17 +96,12 @@ type PutCharactersCharacterIDCalendarEventIDParams struct {
 	  The response value to set, overriding current value.
 
 	*/
-	Response PutCharactersCharacterIDCalendarEventIDBody
+	Response *models.PutCharactersCharacterIDCalendarEventIDParamsBody
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -149,17 +141,6 @@ func (o *PutCharactersCharacterIDCalendarEventIDParams) SetHTTPClient(client *ht
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the put characters character id calendar event id params
-func (o *PutCharactersCharacterIDCalendarEventIDParams) WithXUserAgent(xUserAgent *string) *PutCharactersCharacterIDCalendarEventIDParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the put characters character id calendar event id params
-func (o *PutCharactersCharacterIDCalendarEventIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithCharacterID adds the characterID to the put characters character id calendar event id params
 func (o *PutCharactersCharacterIDCalendarEventIDParams) WithCharacterID(characterID int32) *PutCharactersCharacterIDCalendarEventIDParams {
 	o.SetCharacterID(characterID)
@@ -194,13 +175,13 @@ func (o *PutCharactersCharacterIDCalendarEventIDParams) SetEventID(eventID int32
 }
 
 // WithResponse adds the response to the put characters character id calendar event id params
-func (o *PutCharactersCharacterIDCalendarEventIDParams) WithResponse(response PutCharactersCharacterIDCalendarEventIDBody) *PutCharactersCharacterIDCalendarEventIDParams {
+func (o *PutCharactersCharacterIDCalendarEventIDParams) WithResponse(response *models.PutCharactersCharacterIDCalendarEventIDParamsBody) *PutCharactersCharacterIDCalendarEventIDParams {
 	o.SetResponse(response)
 	return o
 }
 
 // SetResponse adds the response to the put characters character id calendar event id params
-func (o *PutCharactersCharacterIDCalendarEventIDParams) SetResponse(response PutCharactersCharacterIDCalendarEventIDBody) {
+func (o *PutCharactersCharacterIDCalendarEventIDParams) SetResponse(response *models.PutCharactersCharacterIDCalendarEventIDParamsBody) {
 	o.Response = response
 }
 
@@ -215,17 +196,6 @@ func (o *PutCharactersCharacterIDCalendarEventIDParams) SetToken(token *string) 
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the put characters character id calendar event id params
-func (o *PutCharactersCharacterIDCalendarEventIDParams) WithUserAgent(userAgent *string) *PutCharactersCharacterIDCalendarEventIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the put characters character id calendar event id params
-func (o *PutCharactersCharacterIDCalendarEventIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PutCharactersCharacterIDCalendarEventIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -233,15 +203,6 @@ func (o *PutCharactersCharacterIDCalendarEventIDParams) WriteToRequest(r runtime
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	// path param character_id
 	if err := r.SetPathParam("character_id", swag.FormatInt32(o.CharacterID)); err != nil {
@@ -269,8 +230,10 @@ func (o *PutCharactersCharacterIDCalendarEventIDParams) WriteToRequest(r runtime
 		return err
 	}
 
-	if err := r.SetBodyParam(o.Response); err != nil {
-		return err
+	if o.Response != nil {
+		if err := r.SetBodyParam(o.Response); err != nil {
+			return err
+		}
 	}
 
 	if o.Token != nil {
@@ -283,22 +246,6 @@ func (o *PutCharactersCharacterIDCalendarEventIDParams) WriteToRequest(r runtime
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

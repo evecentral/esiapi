@@ -1,5 +1,11 @@
 package: github.com/evecentral/esiapi
 import:
+- package: cloud.google.com/go
+  version: ^0.23.0
+  subpackages:
+  - datastore
+- package: github.com/go-openapi/spec
+  version: bcff419492eeeb01f76e77d2ebc714dc97b607f5
 - package: github.com/go-openapi/errors
 - package: github.com/go-openapi/runtime
   subpackages:
@@ -12,6 +18,7 @@ import:
 - package: golang.org/x/net
   subpackages:
   - context
-- package: cloud.google.com/go
-  subpackages:
-  - datastore
+- package: go.opencensus.io
+  version: ~0.13.0
+- package: google.golang.org/grpc
+  version: ~1.11.3

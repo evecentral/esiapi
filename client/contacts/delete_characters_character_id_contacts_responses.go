@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // DeleteCharactersCharacterIDContactsReader is a Reader for the DeleteCharactersCharacterIDContacts structure.
@@ -32,6 +32,20 @@ func (o *DeleteCharactersCharacterIDContactsReader) ReadResponse(response runtim
 		}
 		return result, nil
 
+	case 400:
+		result := NewDeleteCharactersCharacterIDContactsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewDeleteCharactersCharacterIDContactsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewDeleteCharactersCharacterIDContactsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +53,29 @@ func (o *DeleteCharactersCharacterIDContactsReader) ReadResponse(response runtim
 		}
 		return nil, result
 
+	case 420:
+		result := NewDeleteCharactersCharacterIDContactsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewDeleteCharactersCharacterIDContactsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewDeleteCharactersCharacterIDContactsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewDeleteCharactersCharacterIDContactsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +103,64 @@ func (o *DeleteCharactersCharacterIDContactsNoContent) Error() string {
 }
 
 func (o *DeleteCharactersCharacterIDContactsNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDContactsBadRequest creates a DeleteCharactersCharacterIDContactsBadRequest with default headers values
+func NewDeleteCharactersCharacterIDContactsBadRequest() *DeleteCharactersCharacterIDContactsBadRequest {
+	return &DeleteCharactersCharacterIDContactsBadRequest{}
+}
+
+/*DeleteCharactersCharacterIDContactsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type DeleteCharactersCharacterIDContactsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *DeleteCharactersCharacterIDContactsBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/contacts/][%d] deleteCharactersCharacterIdContactsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDContactsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDContactsUnauthorized creates a DeleteCharactersCharacterIDContactsUnauthorized with default headers values
+func NewDeleteCharactersCharacterIDContactsUnauthorized() *DeleteCharactersCharacterIDContactsUnauthorized {
+	return &DeleteCharactersCharacterIDContactsUnauthorized{}
+}
+
+/*DeleteCharactersCharacterIDContactsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type DeleteCharactersCharacterIDContactsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *DeleteCharactersCharacterIDContactsUnauthorized) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/contacts/][%d] deleteCharactersCharacterIdContactsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDContactsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -101,6 +194,35 @@ func (o *DeleteCharactersCharacterIDContactsForbidden) readResponse(response run
 	return nil
 }
 
+// NewDeleteCharactersCharacterIDContactsEnhanceYourCalm creates a DeleteCharactersCharacterIDContactsEnhanceYourCalm with default headers values
+func NewDeleteCharactersCharacterIDContactsEnhanceYourCalm() *DeleteCharactersCharacterIDContactsEnhanceYourCalm {
+	return &DeleteCharactersCharacterIDContactsEnhanceYourCalm{}
+}
+
+/*DeleteCharactersCharacterIDContactsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type DeleteCharactersCharacterIDContactsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *DeleteCharactersCharacterIDContactsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/contacts/][%d] deleteCharactersCharacterIdContactsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDContactsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewDeleteCharactersCharacterIDContactsInternalServerError creates a DeleteCharactersCharacterIDContactsInternalServerError with default headers values
 func NewDeleteCharactersCharacterIDContactsInternalServerError() *DeleteCharactersCharacterIDContactsInternalServerError {
 	return &DeleteCharactersCharacterIDContactsInternalServerError{}
@@ -121,6 +243,64 @@ func (o *DeleteCharactersCharacterIDContactsInternalServerError) Error() string 
 func (o *DeleteCharactersCharacterIDContactsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDContactsServiceUnavailable creates a DeleteCharactersCharacterIDContactsServiceUnavailable with default headers values
+func NewDeleteCharactersCharacterIDContactsServiceUnavailable() *DeleteCharactersCharacterIDContactsServiceUnavailable {
+	return &DeleteCharactersCharacterIDContactsServiceUnavailable{}
+}
+
+/*DeleteCharactersCharacterIDContactsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type DeleteCharactersCharacterIDContactsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *DeleteCharactersCharacterIDContactsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/contacts/][%d] deleteCharactersCharacterIdContactsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDContactsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDContactsGatewayTimeout creates a DeleteCharactersCharacterIDContactsGatewayTimeout with default headers values
+func NewDeleteCharactersCharacterIDContactsGatewayTimeout() *DeleteCharactersCharacterIDContactsGatewayTimeout {
+	return &DeleteCharactersCharacterIDContactsGatewayTimeout{}
+}
+
+/*DeleteCharactersCharacterIDContactsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type DeleteCharactersCharacterIDContactsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *DeleteCharactersCharacterIDContactsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/contacts/][%d] deleteCharactersCharacterIdContactsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDContactsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

@@ -24,11 +24,11 @@ import (
 func NewGetCharactersCharacterIDKillmailsRecentParams() *GetCharactersCharacterIDKillmailsRecentParams {
 	var (
 		datasourceDefault = string("tranquility")
-		maxCountDefault   = int32(50)
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDKillmailsRecentParams{
 		Datasource: &datasourceDefault,
-		MaxCount:   &maxCountDefault,
+		Page:       &pageDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -39,11 +39,11 @@ func NewGetCharactersCharacterIDKillmailsRecentParams() *GetCharactersCharacterI
 func NewGetCharactersCharacterIDKillmailsRecentParamsWithTimeout(timeout time.Duration) *GetCharactersCharacterIDKillmailsRecentParams {
 	var (
 		datasourceDefault = string("tranquility")
-		maxCountDefault   = int32(50)
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDKillmailsRecentParams{
 		Datasource: &datasourceDefault,
-		MaxCount:   &maxCountDefault,
+		Page:       &pageDefault,
 
 		timeout: timeout,
 	}
@@ -54,11 +54,11 @@ func NewGetCharactersCharacterIDKillmailsRecentParamsWithTimeout(timeout time.Du
 func NewGetCharactersCharacterIDKillmailsRecentParamsWithContext(ctx context.Context) *GetCharactersCharacterIDKillmailsRecentParams {
 	var (
 		datasourceDefault = string("tranquility")
-		maxCountDefault   = int32(50)
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDKillmailsRecentParams{
 		Datasource: &datasourceDefault,
-		MaxCount:   &maxCountDefault,
+		Page:       &pageDefault,
 
 		Context: ctx,
 	}
@@ -69,11 +69,11 @@ func NewGetCharactersCharacterIDKillmailsRecentParamsWithContext(ctx context.Con
 func NewGetCharactersCharacterIDKillmailsRecentParamsWithHTTPClient(client *http.Client) *GetCharactersCharacterIDKillmailsRecentParams {
 	var (
 		datasourceDefault = string("tranquility")
-		maxCountDefault   = int32(50)
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDKillmailsRecentParams{
 		Datasource: &datasourceDefault,
-		MaxCount:   &maxCountDefault,
+		Page:       &pageDefault,
 		HTTPClient: client,
 	}
 }
@@ -83,11 +83,11 @@ for the get characters character id killmails recent operation typically these a
 */
 type GetCharactersCharacterIDKillmailsRecentParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -98,27 +98,16 @@ type GetCharactersCharacterIDKillmailsRecentParams struct {
 
 	*/
 	Datasource *string
-	/*MaxCount
-	  How many killmails to return at maximum
+	/*Page
+	  Which page of results to return
 
 	*/
-	MaxCount *int32
-	/*MaxKillID
-	  Only return killmails with ID smaller than this.
-
-
-	*/
-	MaxKillID *int32
+	Page *int32
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -158,15 +147,15 @@ func (o *GetCharactersCharacterIDKillmailsRecentParams) SetHTTPClient(client *ht
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get characters character id killmails recent params
-func (o *GetCharactersCharacterIDKillmailsRecentParams) WithXUserAgent(xUserAgent *string) *GetCharactersCharacterIDKillmailsRecentParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get characters character id killmails recent params
+func (o *GetCharactersCharacterIDKillmailsRecentParams) WithIfNoneMatch(ifNoneMatch *string) *GetCharactersCharacterIDKillmailsRecentParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get characters character id killmails recent params
-func (o *GetCharactersCharacterIDKillmailsRecentParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get characters character id killmails recent params
+func (o *GetCharactersCharacterIDKillmailsRecentParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCharacterID adds the characterID to the get characters character id killmails recent params
@@ -191,26 +180,15 @@ func (o *GetCharactersCharacterIDKillmailsRecentParams) SetDatasource(datasource
 	o.Datasource = datasource
 }
 
-// WithMaxCount adds the maxCount to the get characters character id killmails recent params
-func (o *GetCharactersCharacterIDKillmailsRecentParams) WithMaxCount(maxCount *int32) *GetCharactersCharacterIDKillmailsRecentParams {
-	o.SetMaxCount(maxCount)
+// WithPage adds the page to the get characters character id killmails recent params
+func (o *GetCharactersCharacterIDKillmailsRecentParams) WithPage(page *int32) *GetCharactersCharacterIDKillmailsRecentParams {
+	o.SetPage(page)
 	return o
 }
 
-// SetMaxCount adds the maxCount to the get characters character id killmails recent params
-func (o *GetCharactersCharacterIDKillmailsRecentParams) SetMaxCount(maxCount *int32) {
-	o.MaxCount = maxCount
-}
-
-// WithMaxKillID adds the maxKillID to the get characters character id killmails recent params
-func (o *GetCharactersCharacterIDKillmailsRecentParams) WithMaxKillID(maxKillID *int32) *GetCharactersCharacterIDKillmailsRecentParams {
-	o.SetMaxKillID(maxKillID)
-	return o
-}
-
-// SetMaxKillID adds the maxKillId to the get characters character id killmails recent params
-func (o *GetCharactersCharacterIDKillmailsRecentParams) SetMaxKillID(maxKillID *int32) {
-	o.MaxKillID = maxKillID
+// SetPage adds the page to the get characters character id killmails recent params
+func (o *GetCharactersCharacterIDKillmailsRecentParams) SetPage(page *int32) {
+	o.Page = page
 }
 
 // WithToken adds the token to the get characters character id killmails recent params
@@ -224,17 +202,6 @@ func (o *GetCharactersCharacterIDKillmailsRecentParams) SetToken(token *string) 
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the get characters character id killmails recent params
-func (o *GetCharactersCharacterIDKillmailsRecentParams) WithUserAgent(userAgent *string) *GetCharactersCharacterIDKillmailsRecentParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get characters character id killmails recent params
-func (o *GetCharactersCharacterIDKillmailsRecentParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCharactersCharacterIDKillmailsRecentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -243,10 +210,10 @@ func (o *GetCharactersCharacterIDKillmailsRecentParams) WriteToRequest(r runtime
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -273,32 +240,16 @@ func (o *GetCharactersCharacterIDKillmailsRecentParams) WriteToRequest(r runtime
 
 	}
 
-	if o.MaxCount != nil {
+	if o.Page != nil {
 
-		// query param max_count
-		var qrMaxCount int32
-		if o.MaxCount != nil {
-			qrMaxCount = *o.MaxCount
+		// query param page
+		var qrPage int32
+		if o.Page != nil {
+			qrPage = *o.Page
 		}
-		qMaxCount := swag.FormatInt32(qrMaxCount)
-		if qMaxCount != "" {
-			if err := r.SetQueryParam("max_count", qMaxCount); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.MaxKillID != nil {
-
-		// query param max_kill_id
-		var qrMaxKillID int32
-		if o.MaxKillID != nil {
-			qrMaxKillID = *o.MaxKillID
-		}
-		qMaxKillID := swag.FormatInt32(qrMaxKillID)
-		if qMaxKillID != "" {
-			if err := r.SetQueryParam("max_kill_id", qMaxKillID); err != nil {
+		qPage := swag.FormatInt32(qrPage)
+		if qPage != "" {
+			if err := r.SetQueryParam("page", qPage); err != nil {
 				return err
 			}
 		}
@@ -315,22 +266,6 @@ func (o *GetCharactersCharacterIDKillmailsRecentParams) WriteToRequest(r runtime
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

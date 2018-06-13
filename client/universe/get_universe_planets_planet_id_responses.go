@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniversePlanetsPlanetIDReader is a Reader for the GetUniversePlanetsPlanetID structure.
@@ -35,6 +32,20 @@ func (o *GetUniversePlanetsPlanetIDReader) ReadResponse(response runtime.ClientR
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniversePlanetsPlanetIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniversePlanetsPlanetIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetUniversePlanetsPlanetIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetUniversePlanetsPlanetIDReader) ReadResponse(response runtime.ClientR
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetUniversePlanetsPlanetIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniversePlanetsPlanetIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniversePlanetsPlanetIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniversePlanetsPlanetIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +99,9 @@ type GetUniversePlanetsPlanetIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +109,7 @@ type GetUniversePlanetsPlanetIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetUniversePlanetsPlanetIDOKBody
+	Payload *models.GetUniversePlanetsPlanetIDOKBody
 }
 
 func (o *GetUniversePlanetsPlanetIDOK) Error() string {
@@ -86,14 +121,93 @@ func (o *GetUniversePlanetsPlanetIDOK) readResponse(response runtime.ClientRespo
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetUniversePlanetsPlanetIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniversePlanetsPlanetIDNotModified creates a GetUniversePlanetsPlanetIDNotModified with default headers values
+func NewGetUniversePlanetsPlanetIDNotModified() *GetUniversePlanetsPlanetIDNotModified {
+	return &GetUniversePlanetsPlanetIDNotModified{}
+}
+
+/*GetUniversePlanetsPlanetIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniversePlanetsPlanetIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniversePlanetsPlanetIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/planets/{planet_id}/][%d] getUniversePlanetsPlanetIdNotModified ", 304)
+}
+
+func (o *GetUniversePlanetsPlanetIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniversePlanetsPlanetIDBadRequest creates a GetUniversePlanetsPlanetIDBadRequest with default headers values
+func NewGetUniversePlanetsPlanetIDBadRequest() *GetUniversePlanetsPlanetIDBadRequest {
+	return &GetUniversePlanetsPlanetIDBadRequest{}
+}
+
+/*GetUniversePlanetsPlanetIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniversePlanetsPlanetIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniversePlanetsPlanetIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/planets/{planet_id}/][%d] getUniversePlanetsPlanetIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniversePlanetsPlanetIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +224,7 @@ func NewGetUniversePlanetsPlanetIDNotFound() *GetUniversePlanetsPlanetIDNotFound
 Planet not found
 */
 type GetUniversePlanetsPlanetIDNotFound struct {
-	Payload GetUniversePlanetsPlanetIDNotFoundBody
+	Payload *models.GetUniversePlanetsPlanetIDNotFoundBody
 }
 
 func (o *GetUniversePlanetsPlanetIDNotFound) Error() string {
@@ -119,8 +233,39 @@ func (o *GetUniversePlanetsPlanetIDNotFound) Error() string {
 
 func (o *GetUniversePlanetsPlanetIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetUniversePlanetsPlanetIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniversePlanetsPlanetIDEnhanceYourCalm creates a GetUniversePlanetsPlanetIDEnhanceYourCalm with default headers values
+func NewGetUniversePlanetsPlanetIDEnhanceYourCalm() *GetUniversePlanetsPlanetIDEnhanceYourCalm {
+	return &GetUniversePlanetsPlanetIDEnhanceYourCalm{}
+}
+
+/*GetUniversePlanetsPlanetIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniversePlanetsPlanetIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniversePlanetsPlanetIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/planets/{planet_id}/][%d] getUniversePlanetsPlanetIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniversePlanetsPlanetIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,319 +301,60 @@ func (o *GetUniversePlanetsPlanetIDInternalServerError) readResponse(response ru
 	return nil
 }
 
-/*GetUniversePlanetsPlanetIDNotFoundBody get_universe_planets_planet_id_not_found
-//
-// Not found
-swagger:model GetUniversePlanetsPlanetIDNotFoundBody
+// NewGetUniversePlanetsPlanetIDServiceUnavailable creates a GetUniversePlanetsPlanetIDServiceUnavailable with default headers values
+func NewGetUniversePlanetsPlanetIDServiceUnavailable() *GetUniversePlanetsPlanetIDServiceUnavailable {
+	return &GetUniversePlanetsPlanetIDServiceUnavailable{}
+}
+
+/*GetUniversePlanetsPlanetIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniversePlanetsPlanetIDNotFoundBody struct {
-
-	// get_universe_planets_planet_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetUniversePlanetsPlanetIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniversePlanetsPlanetIDNotFoundBody error false */
-
-// Validate validates this get universe planets planet ID not found body
-func (o *GetUniversePlanetsPlanetIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniversePlanetsPlanetIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/planets/{planet_id}/][%d] getUniversePlanetsPlanetIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniversePlanetsPlanetIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetUniversePlanetsPlanetIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniversePlanetsPlanetIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetUniversePlanetsPlanetIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetUniversePlanetsPlanetIDGatewayTimeout creates a GetUniversePlanetsPlanetIDGatewayTimeout with default headers values
+func NewGetUniversePlanetsPlanetIDGatewayTimeout() *GetUniversePlanetsPlanetIDGatewayTimeout {
+	return &GetUniversePlanetsPlanetIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetUniversePlanetsPlanetIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetUniversePlanetsPlanetIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetUniversePlanetsPlanetIDGatewayTimeout handles this case with default header values.
 
-/*GetUniversePlanetsPlanetIDOKBody get_universe_planets_planet_id_ok
-//
-// 200 ok object
-swagger:model GetUniversePlanetsPlanetIDOKBody
+Gateway timeout
 */
-
-type GetUniversePlanetsPlanetIDOKBody struct {
-
-	// get_universe_planets_planet_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_universe_planets_planet_id_planet_id
-	//
-	// planet_id integer
-	// Required: true
-	PlanetID *int32 `json:"planet_id"`
-
-	// position
-	// Required: true
-	Position *GetUniversePlanetsPlanetIDOKBodyPosition `json:"position"`
-
-	// get_universe_planets_planet_id_system_id
-	//
-	// The solar system this planet is in
-	// Required: true
-	SystemID *int32 `json:"system_id"`
-
-	// get_universe_planets_planet_id_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetUniversePlanetsPlanetIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetUniversePlanetsPlanetIDOKBody name false */
-
-/* polymorph GetUniversePlanetsPlanetIDOKBody planet_id false */
-
-/* polymorph GetUniversePlanetsPlanetIDOKBody position false */
-
-/* polymorph GetUniversePlanetsPlanetIDOKBody system_id false */
-
-/* polymorph GetUniversePlanetsPlanetIDOKBody type_id false */
-
-// Validate validates this get universe planets planet ID o k body
-func (o *GetUniversePlanetsPlanetIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePlanetID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePosition(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniversePlanetsPlanetIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/planets/{planet_id}/][%d] getUniversePlanetsPlanetIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetUniversePlanetsPlanetIDOKBody) validateName(formats strfmt.Registry) error {
+func (o *GetUniversePlanetsPlanetIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniversePlanetsPlanetIdOK"+"."+"name", "body", o.Name); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniversePlanetsPlanetIDOKBody) validatePlanetID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniversePlanetsPlanetIdOK"+"."+"planet_id", "body", o.PlanetID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniversePlanetsPlanetIDOKBody) validatePosition(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniversePlanetsPlanetIdOK"+"."+"position", "body", o.Position); err != nil {
-		return err
-	}
-
-	if o.Position != nil {
-
-		if err := o.Position.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("getUniversePlanetsPlanetIdOK" + "." + "position")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (o *GetUniversePlanetsPlanetIDOKBody) validateSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniversePlanetsPlanetIdOK"+"."+"system_id", "body", o.SystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniversePlanetsPlanetIDOKBody) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniversePlanetsPlanetIdOK"+"."+"type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniversePlanetsPlanetIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniversePlanetsPlanetIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetUniversePlanetsPlanetIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetUniversePlanetsPlanetIDOKBodyPosition get_universe_planets_planet_id_position
-//
-// position object
-swagger:model GetUniversePlanetsPlanetIDOKBodyPosition
-*/
-
-type GetUniversePlanetsPlanetIDOKBodyPosition struct {
-
-	// get_universe_planets_planet_id_x
-	//
-	// x number
-	// Required: true
-	X *float32 `json:"x"`
-
-	// get_universe_planets_planet_id_y
-	//
-	// y number
-	// Required: true
-	Y *float32 `json:"y"`
-
-	// get_universe_planets_planet_id_z
-	//
-	// z number
-	// Required: true
-	Z *float32 `json:"z"`
-}
-
-/* polymorph GetUniversePlanetsPlanetIDOKBodyPosition x false */
-
-/* polymorph GetUniversePlanetsPlanetIDOKBodyPosition y false */
-
-/* polymorph GetUniversePlanetsPlanetIDOKBodyPosition z false */
-
-// Validate validates this get universe planets planet ID o k body position
-func (o *GetUniversePlanetsPlanetIDOKBodyPosition) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateX(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateY(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateZ(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetUniversePlanetsPlanetIDOKBodyPosition) validateX(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniversePlanetsPlanetIdOK"+"."+"position"+"."+"x", "body", o.X); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniversePlanetsPlanetIDOKBodyPosition) validateY(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniversePlanetsPlanetIdOK"+"."+"position"+"."+"y", "body", o.Y); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniversePlanetsPlanetIDOKBodyPosition) validateZ(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniversePlanetsPlanetIdOK"+"."+"position"+"."+"z", "body", o.Z); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniversePlanetsPlanetIDOKBodyPosition) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniversePlanetsPlanetIDOKBodyPosition) UnmarshalBinary(b []byte) error {
-	var res GetUniversePlanetsPlanetIDOKBodyPosition
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

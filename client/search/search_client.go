@@ -30,7 +30,9 @@ GetCharactersCharacterIDSearch searches on a string
 Search for entities that match a given sub-string.
 
 ---
-Alternate route: `/v2/characters/{character_id}/search/`
+Alternate route: `/dev/characters/{character_id}/search/`
+
+Alternate route: `/v3/characters/{character_id}/search/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -46,7 +48,7 @@ func (a *Client) GetCharactersCharacterIDSearch(params *GetCharactersCharacterID
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/search/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDSearchReader{formats: a.formats},
@@ -67,9 +69,9 @@ GetSearch searches on a string
 Search for entities that match a given sub-string.
 
 ---
-Alternate route: `/v1/search/`
+Alternate route: `/dev/search/`
 
-Alternate route: `/legacy/search/`
+Alternate route: `/v2/search/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -85,7 +87,7 @@ func (a *Client) GetSearch(params *GetSearchParams) (*GetSearchOK, error) {
 		Method:             "GET",
 		PathPattern:        "/search/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetSearchReader{formats: a.formats},

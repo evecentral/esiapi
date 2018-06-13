@@ -75,11 +75,11 @@ for the get alliances alliance id corporations operation typically these are wri
 */
 type GetAlliancesAllianceIDCorporationsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*AllianceID
 	  An EVE alliance ID
 
@@ -90,11 +90,6 @@ type GetAlliancesAllianceIDCorporationsParams struct {
 
 	*/
 	Datasource *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetAlliancesAllianceIDCorporationsParams) SetHTTPClient(client *http.Cl
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get alliances alliance id corporations params
-func (o *GetAlliancesAllianceIDCorporationsParams) WithXUserAgent(xUserAgent *string) *GetAlliancesAllianceIDCorporationsParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get alliances alliance id corporations params
+func (o *GetAlliancesAllianceIDCorporationsParams) WithIfNoneMatch(ifNoneMatch *string) *GetAlliancesAllianceIDCorporationsParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get alliances alliance id corporations params
-func (o *GetAlliancesAllianceIDCorporationsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get alliances alliance id corporations params
+func (o *GetAlliancesAllianceIDCorporationsParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithAllianceID adds the allianceID to the get alliances alliance id corporations params
@@ -167,17 +162,6 @@ func (o *GetAlliancesAllianceIDCorporationsParams) SetDatasource(datasource *str
 	o.Datasource = datasource
 }
 
-// WithUserAgent adds the userAgent to the get alliances alliance id corporations params
-func (o *GetAlliancesAllianceIDCorporationsParams) WithUserAgent(userAgent *string) *GetAlliancesAllianceIDCorporationsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get alliances alliance id corporations params
-func (o *GetAlliancesAllianceIDCorporationsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetAlliancesAllianceIDCorporationsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetAlliancesAllianceIDCorporationsParams) WriteToRequest(r runtime.Clie
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -210,22 +194,6 @@ func (o *GetAlliancesAllianceIDCorporationsParams) WriteToRequest(r runtime.Clie
 		qDatasource := qrDatasource
 		if qDatasource != "" {
 			if err := r.SetQueryParam("datasource", qDatasource); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

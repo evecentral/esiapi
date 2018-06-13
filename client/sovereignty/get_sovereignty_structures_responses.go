@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetSovereigntyStructuresReader is a Reader for the GetSovereigntyStructures structure.
@@ -35,8 +32,43 @@ func (o *GetSovereigntyStructuresReader) ReadResponse(response runtime.ClientRes
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetSovereigntyStructuresNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetSovereigntyStructuresBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetSovereigntyStructuresEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetSovereigntyStructuresInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetSovereigntyStructuresServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetSovereigntyStructuresGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetSovereigntyStructuresOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetSovereigntyStructuresOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetSovereigntyStructuresOKBodyItems0
+	Payload []*models.GetSovereigntyStructuresOKBodyItems
 }
 
 func (o *GetSovereigntyStructuresOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetSovereigntyStructuresOK) readResponse(response runtime.ClientRespons
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetSovereigntyStructuresOK) readResponse(response runtime.ClientRespons
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetSovereigntyStructuresNotModified creates a GetSovereigntyStructuresNotModified with default headers values
+func NewGetSovereigntyStructuresNotModified() *GetSovereigntyStructuresNotModified {
+	return &GetSovereigntyStructuresNotModified{}
+}
+
+/*GetSovereigntyStructuresNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetSovereigntyStructuresNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetSovereigntyStructuresNotModified) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/structures/][%d] getSovereigntyStructuresNotModified ", 304)
+}
+
+func (o *GetSovereigntyStructuresNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetSovereigntyStructuresBadRequest creates a GetSovereigntyStructuresBadRequest with default headers values
+func NewGetSovereigntyStructuresBadRequest() *GetSovereigntyStructuresBadRequest {
+	return &GetSovereigntyStructuresBadRequest{}
+}
+
+/*GetSovereigntyStructuresBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetSovereigntyStructuresBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetSovereigntyStructuresBadRequest) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/structures/][%d] getSovereigntyStructuresBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetSovereigntyStructuresBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetSovereigntyStructuresEnhanceYourCalm creates a GetSovereigntyStructuresEnhanceYourCalm with default headers values
+func NewGetSovereigntyStructuresEnhanceYourCalm() *GetSovereigntyStructuresEnhanceYourCalm {
+	return &GetSovereigntyStructuresEnhanceYourCalm{}
+}
+
+/*GetSovereigntyStructuresEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetSovereigntyStructuresEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetSovereigntyStructuresEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/structures/][%d] getSovereigntyStructuresEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetSovereigntyStructuresEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,154 +263,60 @@ func (o *GetSovereigntyStructuresInternalServerError) readResponse(response runt
 	return nil
 }
 
-/*GetSovereigntyStructuresOKBodyItems0 get_sovereignty_structures_200_ok
-//
-// 200 ok object
-swagger:model GetSovereigntyStructuresOKBodyItems0
+// NewGetSovereigntyStructuresServiceUnavailable creates a GetSovereigntyStructuresServiceUnavailable with default headers values
+func NewGetSovereigntyStructuresServiceUnavailable() *GetSovereigntyStructuresServiceUnavailable {
+	return &GetSovereigntyStructuresServiceUnavailable{}
+}
+
+/*GetSovereigntyStructuresServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetSovereigntyStructuresOKBodyItems0 struct {
-
-	// get_sovereignty_structures_alliance_id
-	//
-	// The alliance that owns the structure.
-	//
-	// Required: true
-	AllianceID *int32 `json:"alliance_id"`
-
-	// get_sovereignty_structures_solar_system_id
-	//
-	// Solar system in which the structure is located.
-	//
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
-
-	// get_sovereignty_structures_structure_id
-	//
-	// Unique item ID for this structure.
-	// Required: true
-	StructureID *int64 `json:"structure_id"`
-
-	// get_sovereignty_structures_structure_type_id
-	//
-	// A reference to the type of structure this is.
-	//
-	// Required: true
-	StructureTypeID *int32 `json:"structure_type_id"`
-
-	// get_sovereignty_structures_vulnerability_occupancy_level
-	//
-	// The occupancy level for the next or current vulnerability window. This takes into account all development indexes and capital system bonuses. Also known as Activity Defense Multiplier from in the client. It increases the time that attackers must spend using their entosis links on the structure.
-	//
-	VulnerabilityOccupancyLevel float32 `json:"vulnerability_occupancy_level,omitempty"`
-
-	// get_sovereignty_structures_vulnerable_end_time
-	//
-	// The time at which the next or current vulnerability window ends. At the end of a vulnerability window the next window is recalculated and locked in along with the vulnerabilityOccupancyLevel. If the structure is not in 100% entosis control of the defender, it will go in to 'overtime' and stay vulnerable for as long as that situation persists. Only once the defenders have 100% entosis control and has the vulnerableEndTime passed does the vulnerability interval expire and a new one is calculated.
-	//
-	VulnerableEndTime strfmt.DateTime `json:"vulnerable_end_time,omitempty"`
-
-	// get_sovereignty_structures_vulnerable_start_time
-	//
-	// The next time at which the structure will become vulnerable. Or the start time of the current window if current time is between this and vulnerableEndTime.
-	//
-	VulnerableStartTime strfmt.DateTime `json:"vulnerable_start_time,omitempty"`
+type GetSovereigntyStructuresServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetSovereigntyStructuresOKBodyItems0 alliance_id false */
-
-/* polymorph GetSovereigntyStructuresOKBodyItems0 solar_system_id false */
-
-/* polymorph GetSovereigntyStructuresOKBodyItems0 structure_id false */
-
-/* polymorph GetSovereigntyStructuresOKBodyItems0 structure_type_id false */
-
-/* polymorph GetSovereigntyStructuresOKBodyItems0 vulnerability_occupancy_level false */
-
-/* polymorph GetSovereigntyStructuresOKBodyItems0 vulnerable_end_time false */
-
-/* polymorph GetSovereigntyStructuresOKBodyItems0 vulnerable_start_time false */
-
-// Validate validates this get sovereignty structures o k body items0
-func (o *GetSovereigntyStructuresOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAllianceID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStructureID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStructureTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetSovereigntyStructuresServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/structures/][%d] getSovereigntyStructuresServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetSovereigntyStructuresOKBodyItems0) validateAllianceID(formats strfmt.Registry) error {
+func (o *GetSovereigntyStructuresServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("alliance_id", "body", o.AllianceID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetSovereigntyStructuresOKBodyItems0) validateSolarSystemID(formats strfmt.Registry) error {
+// NewGetSovereigntyStructuresGatewayTimeout creates a GetSovereigntyStructuresGatewayTimeout with default headers values
+func NewGetSovereigntyStructuresGatewayTimeout() *GetSovereigntyStructuresGatewayTimeout {
+	return &GetSovereigntyStructuresGatewayTimeout{}
+}
 
-	if err := validate.Required("solar_system_id", "body", o.SolarSystemID); err != nil {
+/*GetSovereigntyStructuresGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetSovereigntyStructuresGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetSovereigntyStructuresGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/structures/][%d] getSovereigntyStructuresGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetSovereigntyStructuresGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetSovereigntyStructuresOKBodyItems0) validateStructureID(formats strfmt.Registry) error {
-
-	if err := validate.Required("structure_id", "body", o.StructureID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSovereigntyStructuresOKBodyItems0) validateStructureTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("structure_type_id", "body", o.StructureTypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetSovereigntyStructuresOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetSovereigntyStructuresOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetSovereigntyStructuresOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

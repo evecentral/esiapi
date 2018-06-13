@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDCorporationhistoryReader is a Reader for the GetCharactersCharacterIDCorporationhistory structure.
@@ -35,8 +32,43 @@ func (o *GetCharactersCharacterIDCorporationhistoryReader) ReadResponse(response
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDCorporationhistoryNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDCorporationhistoryBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCharactersCharacterIDCorporationhistoryEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDCorporationhistoryInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDCorporationhistoryServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDCorporationhistoryGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetCharactersCharacterIDCorporationhistoryOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetCharactersCharacterIDCorporationhistoryOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDCorporationhistoryOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDCorporationhistoryOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDCorporationhistoryOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetCharactersCharacterIDCorporationhistoryOK) readResponse(response run
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetCharactersCharacterIDCorporationhistoryOK) readResponse(response run
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCorporationhistoryNotModified creates a GetCharactersCharacterIDCorporationhistoryNotModified with default headers values
+func NewGetCharactersCharacterIDCorporationhistoryNotModified() *GetCharactersCharacterIDCorporationhistoryNotModified {
+	return &GetCharactersCharacterIDCorporationhistoryNotModified{}
+}
+
+/*GetCharactersCharacterIDCorporationhistoryNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDCorporationhistoryNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDCorporationhistoryNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/corporationhistory/][%d] getCharactersCharacterIdCorporationhistoryNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDCorporationhistoryNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCorporationhistoryBadRequest creates a GetCharactersCharacterIDCorporationhistoryBadRequest with default headers values
+func NewGetCharactersCharacterIDCorporationhistoryBadRequest() *GetCharactersCharacterIDCorporationhistoryBadRequest {
+	return &GetCharactersCharacterIDCorporationhistoryBadRequest{}
+}
+
+/*GetCharactersCharacterIDCorporationhistoryBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDCorporationhistoryBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDCorporationhistoryBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/corporationhistory/][%d] getCharactersCharacterIdCorporationhistoryBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCorporationhistoryBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCorporationhistoryEnhanceYourCalm creates a GetCharactersCharacterIDCorporationhistoryEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDCorporationhistoryEnhanceYourCalm() *GetCharactersCharacterIDCorporationhistoryEnhanceYourCalm {
+	return &GetCharactersCharacterIDCorporationhistoryEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDCorporationhistoryEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDCorporationhistoryEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDCorporationhistoryEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/corporationhistory/][%d] getCharactersCharacterIdCorporationhistoryEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCorporationhistoryEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,116 +263,60 @@ func (o *GetCharactersCharacterIDCorporationhistoryInternalServerError) readResp
 	return nil
 }
 
-/*GetCharactersCharacterIDCorporationhistoryOKBodyItems0 get_characters_character_id_corporationhistory_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDCorporationhistoryOKBodyItems0
+// NewGetCharactersCharacterIDCorporationhistoryServiceUnavailable creates a GetCharactersCharacterIDCorporationhistoryServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDCorporationhistoryServiceUnavailable() *GetCharactersCharacterIDCorporationhistoryServiceUnavailable {
+	return &GetCharactersCharacterIDCorporationhistoryServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDCorporationhistoryServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDCorporationhistoryOKBodyItems0 struct {
-
-	// get_characters_character_id_corporationhistory_corporation_id
-	//
-	// corporation_id integer
-	// Required: true
-	CorporationID *int32 `json:"corporation_id"`
-
-	// get_characters_character_id_corporationhistory_is_deleted
-	//
-	// True if the corporation has been deleted
-	IsDeleted bool `json:"is_deleted,omitempty"`
-
-	// get_characters_character_id_corporationhistory_record_id
-	//
-	// An incrementing ID that can be used to canonically establish order of records in cases where dates may be ambiguous
-	// Required: true
-	RecordID *int32 `json:"record_id"`
-
-	// get_characters_character_id_corporationhistory_start_date
-	//
-	// start_date string
-	// Required: true
-	StartDate *strfmt.DateTime `json:"start_date"`
+type GetCharactersCharacterIDCorporationhistoryServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDCorporationhistoryOKBodyItems0 corporation_id false */
-
-/* polymorph GetCharactersCharacterIDCorporationhistoryOKBodyItems0 is_deleted false */
-
-/* polymorph GetCharactersCharacterIDCorporationhistoryOKBodyItems0 record_id false */
-
-/* polymorph GetCharactersCharacterIDCorporationhistoryOKBodyItems0 start_date false */
-
-// Validate validates this get characters character ID corporationhistory o k body items0
-func (o *GetCharactersCharacterIDCorporationhistoryOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCorporationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRecordID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStartDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDCorporationhistoryServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/corporationhistory/][%d] getCharactersCharacterIdCorporationhistoryServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDCorporationhistoryOKBodyItems0) validateCorporationID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDCorporationhistoryServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("corporation_id", "body", o.CorporationID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDCorporationhistoryOKBodyItems0) validateRecordID(formats strfmt.Registry) error {
-
-	if err := validate.Required("record_id", "body", o.RecordID); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDCorporationhistoryGatewayTimeout creates a GetCharactersCharacterIDCorporationhistoryGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDCorporationhistoryGatewayTimeout() *GetCharactersCharacterIDCorporationhistoryGatewayTimeout {
+	return &GetCharactersCharacterIDCorporationhistoryGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDCorporationhistoryOKBodyItems0) validateStartDate(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDCorporationhistoryGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("start_date", "body", o.StartDate); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("start_date", "body", "date-time", o.StartDate.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDCorporationhistoryGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDCorporationhistoryOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *GetCharactersCharacterIDCorporationhistoryGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/corporationhistory/][%d] getCharactersCharacterIdCorporationhistoryGatewayTimeout  %+v", 504, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDCorporationhistoryOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDCorporationhistoryOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *GetCharactersCharacterIDCorporationhistoryGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

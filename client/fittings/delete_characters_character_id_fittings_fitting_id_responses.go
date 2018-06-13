@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // DeleteCharactersCharacterIDFittingsFittingIDReader is a Reader for the DeleteCharactersCharacterIDFittingsFittingID structure.
@@ -32,6 +32,20 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDReader) ReadResponse(respon
 		}
 		return result, nil
 
+	case 400:
+		result := NewDeleteCharactersCharacterIDFittingsFittingIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewDeleteCharactersCharacterIDFittingsFittingIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewDeleteCharactersCharacterIDFittingsFittingIDForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +53,29 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDReader) ReadResponse(respon
 		}
 		return nil, result
 
+	case 420:
+		result := NewDeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewDeleteCharactersCharacterIDFittingsFittingIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewDeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewDeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +103,64 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDNoContent) Error() string {
 }
 
 func (o *DeleteCharactersCharacterIDFittingsFittingIDNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDFittingsFittingIDBadRequest creates a DeleteCharactersCharacterIDFittingsFittingIDBadRequest with default headers values
+func NewDeleteCharactersCharacterIDFittingsFittingIDBadRequest() *DeleteCharactersCharacterIDFittingsFittingIDBadRequest {
+	return &DeleteCharactersCharacterIDFittingsFittingIDBadRequest{}
+}
+
+/*DeleteCharactersCharacterIDFittingsFittingIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type DeleteCharactersCharacterIDFittingsFittingIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/fittings/{fitting_id}/][%d] deleteCharactersCharacterIdFittingsFittingIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDFittingsFittingIDUnauthorized creates a DeleteCharactersCharacterIDFittingsFittingIDUnauthorized with default headers values
+func NewDeleteCharactersCharacterIDFittingsFittingIDUnauthorized() *DeleteCharactersCharacterIDFittingsFittingIDUnauthorized {
+	return &DeleteCharactersCharacterIDFittingsFittingIDUnauthorized{}
+}
+
+/*DeleteCharactersCharacterIDFittingsFittingIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type DeleteCharactersCharacterIDFittingsFittingIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDUnauthorized) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/fittings/{fitting_id}/][%d] deleteCharactersCharacterIdFittingsFittingIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -101,6 +194,35 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDForbidden) readResponse(res
 	return nil
 }
 
+// NewDeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm creates a DeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm with default headers values
+func NewDeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm() *DeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm {
+	return &DeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm{}
+}
+
+/*DeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type DeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/fittings/{fitting_id}/][%d] deleteCharactersCharacterIdFittingsFittingIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewDeleteCharactersCharacterIDFittingsFittingIDInternalServerError creates a DeleteCharactersCharacterIDFittingsFittingIDInternalServerError with default headers values
 func NewDeleteCharactersCharacterIDFittingsFittingIDInternalServerError() *DeleteCharactersCharacterIDFittingsFittingIDInternalServerError {
 	return &DeleteCharactersCharacterIDFittingsFittingIDInternalServerError{}
@@ -121,6 +243,64 @@ func (o *DeleteCharactersCharacterIDFittingsFittingIDInternalServerError) Error(
 func (o *DeleteCharactersCharacterIDFittingsFittingIDInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable creates a DeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable with default headers values
+func NewDeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable() *DeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable {
+	return &DeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable{}
+}
+
+/*DeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type DeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/fittings/{fitting_id}/][%d] deleteCharactersCharacterIdFittingsFittingIdServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout creates a DeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout with default headers values
+func NewDeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout() *DeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout {
+	return &DeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout{}
+}
+
+/*DeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type DeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/fittings/{fitting_id}/][%d] deleteCharactersCharacterIdFittingsFittingIdGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDFittingsFittingIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

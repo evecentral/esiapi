@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetSearchReader is a Reader for the GetSearch structure.
@@ -35,8 +32,43 @@ func (o *GetSearchReader) ReadResponse(response runtime.ClientResponse, consumer
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetSearchNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetSearchBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetSearchEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetSearchInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetSearchServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetSearchGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,12 @@ type GetSearchOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*The language used in the response
+	 */
+	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +105,7 @@ type GetSearchOK struct {
 	 */
 	LastModified string
 
-	Payload GetSearchOKBody
+	Payload *models.GetSearchOKBody
 }
 
 func (o *GetSearchOK) Error() string {
@@ -79,14 +117,125 @@ func (o *GetSearchOK) readResponse(response runtime.ClientResponse, consumer run
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header Content-Language
+	o.ContentLanguage = response.GetHeader("Content-Language")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetSearchOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetSearchNotModified creates a GetSearchNotModified with default headers values
+func NewGetSearchNotModified() *GetSearchNotModified {
+	return &GetSearchNotModified{}
+}
+
+/*GetSearchNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetSearchNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetSearchNotModified) Error() string {
+	return fmt.Sprintf("[GET /search/][%d] getSearchNotModified ", 304)
+}
+
+func (o *GetSearchNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetSearchBadRequest creates a GetSearchBadRequest with default headers values
+func NewGetSearchBadRequest() *GetSearchBadRequest {
+	return &GetSearchBadRequest{}
+}
+
+/*GetSearchBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetSearchBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetSearchBadRequest) Error() string {
+	return fmt.Sprintf("[GET /search/][%d] getSearchBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetSearchBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetSearchEnhanceYourCalm creates a GetSearchEnhanceYourCalm with default headers values
+func NewGetSearchEnhanceYourCalm() *GetSearchEnhanceYourCalm {
+	return &GetSearchEnhanceYourCalm{}
+}
+
+/*GetSearchEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetSearchEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetSearchEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /search/][%d] getSearchEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetSearchEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,358 +271,60 @@ func (o *GetSearchInternalServerError) readResponse(response runtime.ClientRespo
 	return nil
 }
 
-/*GetSearchOKBody get_search_ok
-//
-// 200 ok object
-swagger:model GetSearchOKBody
+// NewGetSearchServiceUnavailable creates a GetSearchServiceUnavailable with default headers values
+func NewGetSearchServiceUnavailable() *GetSearchServiceUnavailable {
+	return &GetSearchServiceUnavailable{}
+}
+
+/*GetSearchServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetSearchOKBody struct {
-
-	// get_search_agent
-	//
-	// agent array
-	// Required: true
-	// Max Items: 500
-	Agent []int32 `json:"agent"`
-
-	// get_search_alliance
-	//
-	// alliance array
-	// Required: true
-	// Max Items: 500
-	Alliance []int32 `json:"alliance"`
-
-	// get_search_character
-	//
-	// character array
-	// Required: true
-	// Max Items: 500
-	Character []int32 `json:"character"`
-
-	// get_search_constellation
-	//
-	// constellation array
-	// Required: true
-	// Max Items: 500
-	Constellation []int32 `json:"constellation"`
-
-	// get_search_corporation
-	//
-	// corporation array
-	// Required: true
-	// Max Items: 500
-	Corporation []int32 `json:"corporation"`
-
-	// get_search_faction
-	//
-	// faction array
-	// Required: true
-	// Max Items: 500
-	Faction []int32 `json:"faction"`
-
-	// get_search_inventorytype
-	//
-	// inventorytype array
-	// Required: true
-	// Max Items: 500
-	Inventorytype []int32 `json:"inventorytype"`
-
-	// get_search_region
-	//
-	// region array
-	// Required: true
-	// Max Items: 500
-	Region []int32 `json:"region"`
-
-	// get_search_solarsystem
-	//
-	// solarsystem array
-	// Required: true
-	// Max Items: 500
-	Solarsystem []int32 `json:"solarsystem"`
-
-	// get_search_station
-	//
-	// station array
-	// Required: true
-	// Max Items: 500
-	Station []int32 `json:"station"`
-
-	// get_search_wormhole
-	//
-	// wormhole array
-	// Required: true
-	// Max Items: 500
-	Wormhole []int32 `json:"wormhole"`
+type GetSearchServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetSearchOKBody agent false */
-
-/* polymorph GetSearchOKBody alliance false */
-
-/* polymorph GetSearchOKBody character false */
-
-/* polymorph GetSearchOKBody constellation false */
-
-/* polymorph GetSearchOKBody corporation false */
-
-/* polymorph GetSearchOKBody faction false */
-
-/* polymorph GetSearchOKBody inventorytype false */
-
-/* polymorph GetSearchOKBody region false */
-
-/* polymorph GetSearchOKBody solarsystem false */
-
-/* polymorph GetSearchOKBody station false */
-
-/* polymorph GetSearchOKBody wormhole false */
-
-// Validate validates this get search o k body
-func (o *GetSearchOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAgent(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateAlliance(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCharacter(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateConstellation(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCorporation(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateFaction(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateInventorytype(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRegion(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarsystem(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStation(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateWormhole(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetSearchServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /search/][%d] getSearchServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetSearchOKBody) validateAgent(formats strfmt.Registry) error {
+func (o *GetSearchServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getSearchOK"+"."+"agent", "body", o.Agent); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	iAgentSize := int64(len(o.Agent))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"agent", "body", iAgentSize, 500); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetSearchOKBody) validateAlliance(formats strfmt.Registry) error {
-
-	if err := validate.Required("getSearchOK"+"."+"alliance", "body", o.Alliance); err != nil {
-		return err
-	}
-
-	iAllianceSize := int64(len(o.Alliance))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"alliance", "body", iAllianceSize, 500); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetSearchGatewayTimeout creates a GetSearchGatewayTimeout with default headers values
+func NewGetSearchGatewayTimeout() *GetSearchGatewayTimeout {
+	return &GetSearchGatewayTimeout{}
 }
 
-func (o *GetSearchOKBody) validateCharacter(formats strfmt.Registry) error {
+/*GetSearchGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("getSearchOK"+"."+"character", "body", o.Character); err != nil {
-		return err
-	}
-
-	iCharacterSize := int64(len(o.Character))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"character", "body", iCharacterSize, 500); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetSearchGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetSearchOKBody) validateConstellation(formats strfmt.Registry) error {
-
-	if err := validate.Required("getSearchOK"+"."+"constellation", "body", o.Constellation); err != nil {
-		return err
-	}
-
-	iConstellationSize := int64(len(o.Constellation))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"constellation", "body", iConstellationSize, 500); err != nil {
-		return err
-	}
-
-	return nil
+func (o *GetSearchGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /search/][%d] getSearchGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetSearchOKBody) validateCorporation(formats strfmt.Registry) error {
+func (o *GetSearchGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getSearchOK"+"."+"corporation", "body", o.Corporation); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	iCorporationSize := int64(len(o.Corporation))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"corporation", "body", iCorporationSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSearchOKBody) validateFaction(formats strfmt.Registry) error {
-
-	if err := validate.Required("getSearchOK"+"."+"faction", "body", o.Faction); err != nil {
-		return err
-	}
-
-	iFactionSize := int64(len(o.Faction))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"faction", "body", iFactionSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSearchOKBody) validateInventorytype(formats strfmt.Registry) error {
-
-	if err := validate.Required("getSearchOK"+"."+"inventorytype", "body", o.Inventorytype); err != nil {
-		return err
-	}
-
-	iInventorytypeSize := int64(len(o.Inventorytype))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"inventorytype", "body", iInventorytypeSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSearchOKBody) validateRegion(formats strfmt.Registry) error {
-
-	if err := validate.Required("getSearchOK"+"."+"region", "body", o.Region); err != nil {
-		return err
-	}
-
-	iRegionSize := int64(len(o.Region))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"region", "body", iRegionSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSearchOKBody) validateSolarsystem(formats strfmt.Registry) error {
-
-	if err := validate.Required("getSearchOK"+"."+"solarsystem", "body", o.Solarsystem); err != nil {
-		return err
-	}
-
-	iSolarsystemSize := int64(len(o.Solarsystem))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"solarsystem", "body", iSolarsystemSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSearchOKBody) validateStation(formats strfmt.Registry) error {
-
-	if err := validate.Required("getSearchOK"+"."+"station", "body", o.Station); err != nil {
-		return err
-	}
-
-	iStationSize := int64(len(o.Station))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"station", "body", iStationSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetSearchOKBody) validateWormhole(formats strfmt.Registry) error {
-
-	if err := validate.Required("getSearchOK"+"."+"wormhole", "body", o.Wormhole); err != nil {
-		return err
-	}
-
-	iWormholeSize := int64(len(o.Wormhole))
-
-	if err := validate.MaxItems("getSearchOK"+"."+"wormhole", "body", iWormholeSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetSearchOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetSearchOKBody) UnmarshalBinary(b []byte) error {
-	var res GetSearchOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

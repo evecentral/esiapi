@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCorporationsCorporationIDIconsReader is a Reader for the GetCorporationsCorporationIDIcons structure.
@@ -35,6 +32,20 @@ func (o *GetCorporationsCorporationIDIconsReader) ReadResponse(response runtime.
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCorporationsCorporationIDIconsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCorporationsCorporationIDIconsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetCorporationsCorporationIDIconsNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetCorporationsCorporationIDIconsReader) ReadResponse(response runtime.
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCorporationsCorporationIDIconsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCorporationsCorporationIDIconsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCorporationsCorporationIDIconsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCorporationsCorporationIDIconsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +99,9 @@ type GetCorporationsCorporationIDIconsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +109,7 @@ type GetCorporationsCorporationIDIconsOK struct {
 	 */
 	LastModified string
 
-	Payload GetCorporationsCorporationIDIconsOKBody
+	Payload *models.GetCorporationsCorporationIDIconsOKBody
 }
 
 func (o *GetCorporationsCorporationIDIconsOK) Error() string {
@@ -86,14 +121,93 @@ func (o *GetCorporationsCorporationIDIconsOK) readResponse(response runtime.Clie
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCorporationsCorporationIDIconsOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDIconsNotModified creates a GetCorporationsCorporationIDIconsNotModified with default headers values
+func NewGetCorporationsCorporationIDIconsNotModified() *GetCorporationsCorporationIDIconsNotModified {
+	return &GetCorporationsCorporationIDIconsNotModified{}
+}
+
+/*GetCorporationsCorporationIDIconsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCorporationsCorporationIDIconsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCorporationsCorporationIDIconsNotModified) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/icons/][%d] getCorporationsCorporationIdIconsNotModified ", 304)
+}
+
+func (o *GetCorporationsCorporationIDIconsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDIconsBadRequest creates a GetCorporationsCorporationIDIconsBadRequest with default headers values
+func NewGetCorporationsCorporationIDIconsBadRequest() *GetCorporationsCorporationIDIconsBadRequest {
+	return &GetCorporationsCorporationIDIconsBadRequest{}
+}
+
+/*GetCorporationsCorporationIDIconsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCorporationsCorporationIDIconsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCorporationsCorporationIDIconsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/icons/][%d] getCorporationsCorporationIdIconsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDIconsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +224,7 @@ func NewGetCorporationsCorporationIDIconsNotFound() *GetCorporationsCorporationI
 No image server for this datasource
 */
 type GetCorporationsCorporationIDIconsNotFound struct {
-	Payload GetCorporationsCorporationIDIconsNotFoundBody
+	Payload *models.GetCorporationsCorporationIDIconsNotFoundBody
 }
 
 func (o *GetCorporationsCorporationIDIconsNotFound) Error() string {
@@ -119,8 +233,39 @@ func (o *GetCorporationsCorporationIDIconsNotFound) Error() string {
 
 func (o *GetCorporationsCorporationIDIconsNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetCorporationsCorporationIDIconsNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDIconsEnhanceYourCalm creates a GetCorporationsCorporationIDIconsEnhanceYourCalm with default headers values
+func NewGetCorporationsCorporationIDIconsEnhanceYourCalm() *GetCorporationsCorporationIDIconsEnhanceYourCalm {
+	return &GetCorporationsCorporationIDIconsEnhanceYourCalm{}
+}
+
+/*GetCorporationsCorporationIDIconsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCorporationsCorporationIDIconsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCorporationsCorporationIDIconsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/icons/][%d] getCorporationsCorporationIdIconsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDIconsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,164 +301,60 @@ func (o *GetCorporationsCorporationIDIconsInternalServerError) readResponse(resp
 	return nil
 }
 
-/*GetCorporationsCorporationIDIconsNotFoundBody get_corporations_corporation_id_icons_not_found
-//
-// No image server for this datasource
-swagger:model GetCorporationsCorporationIDIconsNotFoundBody
+// NewGetCorporationsCorporationIDIconsServiceUnavailable creates a GetCorporationsCorporationIDIconsServiceUnavailable with default headers values
+func NewGetCorporationsCorporationIDIconsServiceUnavailable() *GetCorporationsCorporationIDIconsServiceUnavailable {
+	return &GetCorporationsCorporationIDIconsServiceUnavailable{}
+}
+
+/*GetCorporationsCorporationIDIconsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCorporationsCorporationIDIconsNotFoundBody struct {
-
-	// get_corporations_corporation_id_icons_error
-	//
-	// error message
-	// Required: true
-	Error *string `json:"error"`
+type GetCorporationsCorporationIDIconsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCorporationsCorporationIDIconsNotFoundBody error false */
-
-// Validate validates this get corporations corporation ID icons not found body
-func (o *GetCorporationsCorporationIDIconsNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCorporationsCorporationIDIconsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/icons/][%d] getCorporationsCorporationIdIconsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCorporationsCorporationIDIconsNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetCorporationsCorporationIDIconsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCorporationsCorporationIdIconsNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDIconsNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCorporationsCorporationIDIconsGatewayTimeout creates a GetCorporationsCorporationIDIconsGatewayTimeout with default headers values
+func NewGetCorporationsCorporationIDIconsGatewayTimeout() *GetCorporationsCorporationIDIconsGatewayTimeout {
+	return &GetCorporationsCorporationIDIconsGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDIconsNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetCorporationsCorporationIDIconsNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetCorporationsCorporationIDIconsGatewayTimeout handles this case with default header values.
 
-/*GetCorporationsCorporationIDIconsOKBody get_corporations_corporation_id_icons_ok
-//
-// 200 ok object
-swagger:model GetCorporationsCorporationIDIconsOKBody
+Gateway timeout
 */
-
-type GetCorporationsCorporationIDIconsOKBody struct {
-
-	// get_corporations_corporation_id_icons_px128x128
-	//
-	// px128x128 string
-	// Required: true
-	Px128x128 *string `json:"px128x128"`
-
-	// get_corporations_corporation_id_icons_px256x256
-	//
-	// px256x256 string
-	// Required: true
-	Px256x256 *string `json:"px256x256"`
-
-	// get_corporations_corporation_id_icons_px64x64
-	//
-	// px64x64 string
-	// Required: true
-	Px64x64 *string `json:"px64x64"`
+type GetCorporationsCorporationIDIconsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetCorporationsCorporationIDIconsOKBody px128x128 false */
-
-/* polymorph GetCorporationsCorporationIDIconsOKBody px256x256 false */
-
-/* polymorph GetCorporationsCorporationIDIconsOKBody px64x64 false */
-
-// Validate validates this get corporations corporation ID icons o k body
-func (o *GetCorporationsCorporationIDIconsOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validatePx128x128(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePx256x256(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePx64x64(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCorporationsCorporationIDIconsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/icons/][%d] getCorporationsCorporationIdIconsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCorporationsCorporationIDIconsOKBody) validatePx128x128(formats strfmt.Registry) error {
+func (o *GetCorporationsCorporationIDIconsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCorporationsCorporationIdIconsOK"+"."+"px128x128", "body", o.Px128x128); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDIconsOKBody) validatePx256x256(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdIconsOK"+"."+"px256x256", "body", o.Px256x256); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCorporationsCorporationIDIconsOKBody) validatePx64x64(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCorporationsCorporationIdIconsOK"+"."+"px64x64", "body", o.Px64x64); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDIconsOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDIconsOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCorporationsCorporationIDIconsOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -17,6 +17,8 @@ import (
 	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPutFleetsFleetIDMembersMemberIDParams creates a new PutFleetsFleetIDMembersMemberIDParams object
@@ -75,11 +77,6 @@ for the put fleets fleet id members member id operation typically these are writ
 */
 type PutFleetsFleetIDMembersMemberIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -99,17 +96,12 @@ type PutFleetsFleetIDMembersMemberIDParams struct {
 	  Details of the invitation
 
 	*/
-	Movement PutFleetsFleetIDMembersMemberIDBody
+	Movement *models.PutFleetsFleetIDMembersMemberIDParamsBody
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -149,17 +141,6 @@ func (o *PutFleetsFleetIDMembersMemberIDParams) SetHTTPClient(client *http.Clien
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the put fleets fleet id members member id params
-func (o *PutFleetsFleetIDMembersMemberIDParams) WithXUserAgent(xUserAgent *string) *PutFleetsFleetIDMembersMemberIDParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the put fleets fleet id members member id params
-func (o *PutFleetsFleetIDMembersMemberIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the put fleets fleet id members member id params
 func (o *PutFleetsFleetIDMembersMemberIDParams) WithDatasource(datasource *string) *PutFleetsFleetIDMembersMemberIDParams {
 	o.SetDatasource(datasource)
@@ -194,13 +175,13 @@ func (o *PutFleetsFleetIDMembersMemberIDParams) SetMemberID(memberID int32) {
 }
 
 // WithMovement adds the movement to the put fleets fleet id members member id params
-func (o *PutFleetsFleetIDMembersMemberIDParams) WithMovement(movement PutFleetsFleetIDMembersMemberIDBody) *PutFleetsFleetIDMembersMemberIDParams {
+func (o *PutFleetsFleetIDMembersMemberIDParams) WithMovement(movement *models.PutFleetsFleetIDMembersMemberIDParamsBody) *PutFleetsFleetIDMembersMemberIDParams {
 	o.SetMovement(movement)
 	return o
 }
 
 // SetMovement adds the movement to the put fleets fleet id members member id params
-func (o *PutFleetsFleetIDMembersMemberIDParams) SetMovement(movement PutFleetsFleetIDMembersMemberIDBody) {
+func (o *PutFleetsFleetIDMembersMemberIDParams) SetMovement(movement *models.PutFleetsFleetIDMembersMemberIDParamsBody) {
 	o.Movement = movement
 }
 
@@ -215,17 +196,6 @@ func (o *PutFleetsFleetIDMembersMemberIDParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the put fleets fleet id members member id params
-func (o *PutFleetsFleetIDMembersMemberIDParams) WithUserAgent(userAgent *string) *PutFleetsFleetIDMembersMemberIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the put fleets fleet id members member id params
-func (o *PutFleetsFleetIDMembersMemberIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PutFleetsFleetIDMembersMemberIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -233,15 +203,6 @@ func (o *PutFleetsFleetIDMembersMemberIDParams) WriteToRequest(r runtime.ClientR
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -269,8 +230,10 @@ func (o *PutFleetsFleetIDMembersMemberIDParams) WriteToRequest(r runtime.ClientR
 		return err
 	}
 
-	if err := r.SetBodyParam(o.Movement); err != nil {
-		return err
+	if o.Movement != nil {
+		if err := r.SetBodyParam(o.Movement); err != nil {
+			return err
+		}
 	}
 
 	if o.Token != nil {
@@ -283,22 +246,6 @@ func (o *PutFleetsFleetIDMembersMemberIDParams) WriteToRequest(r runtime.ClientR
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

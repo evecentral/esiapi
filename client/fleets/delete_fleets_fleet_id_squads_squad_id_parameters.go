@@ -75,11 +75,6 @@ for the delete fleets fleet id squads squad id operation typically these are wri
 */
 type DeleteFleetsFleetIDSquadsSquadIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -100,11 +95,6 @@ type DeleteFleetsFleetIDSquadsSquadIDParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -142,17 +132,6 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDParams) WithHTTPClient(client *http.Cli
 // SetHTTPClient adds the HTTPClient to the delete fleets fleet id squads squad id params
 func (o *DeleteFleetsFleetIDSquadsSquadIDParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXUserAgent adds the xUserAgent to the delete fleets fleet id squads squad id params
-func (o *DeleteFleetsFleetIDSquadsSquadIDParams) WithXUserAgent(xUserAgent *string) *DeleteFleetsFleetIDSquadsSquadIDParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the delete fleets fleet id squads squad id params
-func (o *DeleteFleetsFleetIDSquadsSquadIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
 }
 
 // WithDatasource adds the datasource to the delete fleets fleet id squads squad id params
@@ -199,17 +178,6 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the delete fleets fleet id squads squad id params
-func (o *DeleteFleetsFleetIDSquadsSquadIDParams) WithUserAgent(userAgent *string) *DeleteFleetsFleetIDSquadsSquadIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the delete fleets fleet id squads squad id params
-func (o *DeleteFleetsFleetIDSquadsSquadIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *DeleteFleetsFleetIDSquadsSquadIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -217,15 +185,6 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDParams) WriteToRequest(r runtime.Client
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -263,22 +222,6 @@ func (o *DeleteFleetsFleetIDSquadsSquadIDParams) WriteToRequest(r runtime.Client
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

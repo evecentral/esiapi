@@ -8,16 +8,12 @@ package dogma
 import (
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetDogmaEffectsEffectIDReader is a Reader for the GetDogmaEffectsEffectID structure.
@@ -36,6 +32,20 @@ func (o *GetDogmaEffectsEffectIDReader) ReadResponse(response runtime.ClientResp
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetDogmaEffectsEffectIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetDogmaEffectsEffectIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetDogmaEffectsEffectIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +53,29 @@ func (o *GetDogmaEffectsEffectIDReader) ReadResponse(response runtime.ClientResp
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetDogmaEffectsEffectIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetDogmaEffectsEffectIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetDogmaEffectsEffectIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetDogmaEffectsEffectIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +99,9 @@ type GetDogmaEffectsEffectIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +109,7 @@ type GetDogmaEffectsEffectIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetDogmaEffectsEffectIDOKBody
+	Payload *models.GetDogmaEffectsEffectIDOKBody
 }
 
 func (o *GetDogmaEffectsEffectIDOK) Error() string {
@@ -87,14 +121,93 @@ func (o *GetDogmaEffectsEffectIDOK) readResponse(response runtime.ClientResponse
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetDogmaEffectsEffectIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetDogmaEffectsEffectIDNotModified creates a GetDogmaEffectsEffectIDNotModified with default headers values
+func NewGetDogmaEffectsEffectIDNotModified() *GetDogmaEffectsEffectIDNotModified {
+	return &GetDogmaEffectsEffectIDNotModified{}
+}
+
+/*GetDogmaEffectsEffectIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetDogmaEffectsEffectIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetDogmaEffectsEffectIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /dogma/effects/{effect_id}/][%d] getDogmaEffectsEffectIdNotModified ", 304)
+}
+
+func (o *GetDogmaEffectsEffectIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetDogmaEffectsEffectIDBadRequest creates a GetDogmaEffectsEffectIDBadRequest with default headers values
+func NewGetDogmaEffectsEffectIDBadRequest() *GetDogmaEffectsEffectIDBadRequest {
+	return &GetDogmaEffectsEffectIDBadRequest{}
+}
+
+/*GetDogmaEffectsEffectIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetDogmaEffectsEffectIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetDogmaEffectsEffectIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /dogma/effects/{effect_id}/][%d] getDogmaEffectsEffectIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetDogmaEffectsEffectIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -111,7 +224,7 @@ func NewGetDogmaEffectsEffectIDNotFound() *GetDogmaEffectsEffectIDNotFound {
 Dogma effect not found
 */
 type GetDogmaEffectsEffectIDNotFound struct {
-	Payload GetDogmaEffectsEffectIDNotFoundBody
+	Payload *models.GetDogmaEffectsEffectIDNotFoundBody
 }
 
 func (o *GetDogmaEffectsEffectIDNotFound) Error() string {
@@ -120,8 +233,39 @@ func (o *GetDogmaEffectsEffectIDNotFound) Error() string {
 
 func (o *GetDogmaEffectsEffectIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetDogmaEffectsEffectIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetDogmaEffectsEffectIDEnhanceYourCalm creates a GetDogmaEffectsEffectIDEnhanceYourCalm with default headers values
+func NewGetDogmaEffectsEffectIDEnhanceYourCalm() *GetDogmaEffectsEffectIDEnhanceYourCalm {
+	return &GetDogmaEffectsEffectIDEnhanceYourCalm{}
+}
+
+/*GetDogmaEffectsEffectIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetDogmaEffectsEffectIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetDogmaEffectsEffectIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /dogma/effects/{effect_id}/][%d] getDogmaEffectsEffectIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetDogmaEffectsEffectIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -157,679 +301,60 @@ func (o *GetDogmaEffectsEffectIDInternalServerError) readResponse(response runti
 	return nil
 }
 
-/*GetDogmaEffectsEffectIDNotFoundBody get_dogma_effects_effect_id_not_found
-//
-// Not found
-swagger:model GetDogmaEffectsEffectIDNotFoundBody
+// NewGetDogmaEffectsEffectIDServiceUnavailable creates a GetDogmaEffectsEffectIDServiceUnavailable with default headers values
+func NewGetDogmaEffectsEffectIDServiceUnavailable() *GetDogmaEffectsEffectIDServiceUnavailable {
+	return &GetDogmaEffectsEffectIDServiceUnavailable{}
+}
+
+/*GetDogmaEffectsEffectIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetDogmaEffectsEffectIDNotFoundBody struct {
-
-	// get_dogma_effects_effect_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetDogmaEffectsEffectIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetDogmaEffectsEffectIDNotFoundBody error false */
-
-// Validate validates this get dogma effects effect ID not found body
-func (o *GetDogmaEffectsEffectIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetDogmaEffectsEffectIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /dogma/effects/{effect_id}/][%d] getDogmaEffectsEffectIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetDogmaEffectsEffectIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetDogmaEffectsEffectIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getDogmaEffectsEffectIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetDogmaEffectsEffectIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetDogmaEffectsEffectIDGatewayTimeout creates a GetDogmaEffectsEffectIDGatewayTimeout with default headers values
+func NewGetDogmaEffectsEffectIDGatewayTimeout() *GetDogmaEffectsEffectIDGatewayTimeout {
+	return &GetDogmaEffectsEffectIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetDogmaEffectsEffectIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetDogmaEffectsEffectIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetDogmaEffectsEffectIDGatewayTimeout handles this case with default header values.
 
-/*GetDogmaEffectsEffectIDOKBody get_dogma_effects_effect_id_ok
-//
-// 200 ok object
-swagger:model GetDogmaEffectsEffectIDOKBody
+Gateway timeout
 */
-
-type GetDogmaEffectsEffectIDOKBody struct {
-
-	// get_dogma_effects_effect_id_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_dogma_effects_effect_id_disallow_auto_repeat
-	//
-	// disallow_auto_repeat boolean
-	// Required: true
-	DisallowAutoRepeat *bool `json:"disallow_auto_repeat"`
-
-	// get_dogma_effects_effect_id_discharge_attribute_id
-	//
-	// discharge_attribute_id integer
-	// Required: true
-	DischargeAttributeID *int32 `json:"discharge_attribute_id"`
-
-	// get_dogma_effects_effect_id_display_name
-	//
-	// display_name string
-	// Required: true
-	DisplayName *string `json:"display_name"`
-
-	// get_dogma_effects_effect_id_duration_attribute_id
-	//
-	// duration_attribute_id integer
-	// Required: true
-	DurationAttributeID *int32 `json:"duration_attribute_id"`
-
-	// get_dogma_effects_effect_id_effect_category
-	//
-	// effect_category integer
-	// Required: true
-	EffectCategory *int32 `json:"effect_category"`
-
-	// get_dogma_effects_effect_id_effect_id
-	//
-	// effect_id integer
-	// Required: true
-	EffectID *int32 `json:"effect_id"`
-
-	// get_dogma_effects_effect_id_electronic_chance
-	//
-	// electronic_chance boolean
-	// Required: true
-	ElectronicChance *bool `json:"electronic_chance"`
-
-	// get_dogma_effects_effect_id_falloff_attribute_id
-	//
-	// falloff_attribute_id integer
-	// Required: true
-	FalloffAttributeID *int32 `json:"falloff_attribute_id"`
-
-	// get_dogma_effects_effect_id_icon_id
-	//
-	// icon_id integer
-	// Required: true
-	IconID *int32 `json:"icon_id"`
-
-	// get_dogma_effects_effect_id_is_assistance
-	//
-	// is_assistance boolean
-	// Required: true
-	IsAssistance *bool `json:"is_assistance"`
-
-	// get_dogma_effects_effect_id_is_offensive
-	//
-	// is_offensive boolean
-	// Required: true
-	IsOffensive *bool `json:"is_offensive"`
-
-	// get_dogma_effects_effect_id_is_warp_safe
-	//
-	// is_warp_safe boolean
-	// Required: true
-	IsWarpSafe *bool `json:"is_warp_safe"`
-
-	// get_dogma_effects_effect_id_modifiers
-	//
-	// modifiers array
-	// Required: true
-	// Max Items: 100
-	Modifiers []*ModifiersItems0 `json:"modifiers"`
-
-	// get_dogma_effects_effect_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_dogma_effects_effect_id_post_expression
-	//
-	// post_expression integer
-	// Required: true
-	PostExpression *int32 `json:"post_expression"`
-
-	// get_dogma_effects_effect_id_pre_expression
-	//
-	// pre_expression integer
-	// Required: true
-	PreExpression *int32 `json:"pre_expression"`
-
-	// get_dogma_effects_effect_id_published
-	//
-	// published boolean
-	// Required: true
-	Published *bool `json:"published"`
-
-	// get_dogma_effects_effect_id_range_attribute_id
-	//
-	// range_attribute_id integer
-	// Required: true
-	RangeAttributeID *int32 `json:"range_attribute_id"`
-
-	// get_dogma_effects_effect_id_range_chance
-	//
-	// range_chance boolean
-	// Required: true
-	RangeChance *bool `json:"range_chance"`
-
-	// get_dogma_effects_effect_id_tracking_speed_attribute_id
-	//
-	// tracking_speed_attribute_id integer
-	// Required: true
-	TrackingSpeedAttributeID *int32 `json:"tracking_speed_attribute_id"`
+type GetDogmaEffectsEffectIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetDogmaEffectsEffectIDOKBody description false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody disallow_auto_repeat false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody discharge_attribute_id false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody display_name false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody duration_attribute_id false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody effect_category false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody effect_id false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody electronic_chance false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody falloff_attribute_id false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody icon_id false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody is_assistance false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody is_offensive false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody is_warp_safe false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody modifiers false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody name false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody post_expression false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody pre_expression false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody published false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody range_attribute_id false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody range_chance false */
-
-/* polymorph GetDogmaEffectsEffectIDOKBody tracking_speed_attribute_id false */
-
-// Validate validates this get dogma effects effect ID o k body
-func (o *GetDogmaEffectsEffectIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDisallowAutoRepeat(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDischargeAttributeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDisplayName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDurationAttributeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateEffectCategory(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateEffectID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateElectronicChance(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateFalloffAttributeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIconID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsAssistance(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsOffensive(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsWarpSafe(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateModifiers(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePostExpression(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePreExpression(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePublished(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRangeAttributeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRangeChance(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTrackingSpeedAttributeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetDogmaEffectsEffectIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /dogma/effects/{effect_id}/][%d] getDogmaEffectsEffectIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetDogmaEffectsEffectIDOKBody) validateDescription(formats strfmt.Registry) error {
+func (o *GetDogmaEffectsEffectIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"description", "body", o.Description); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateDisallowAutoRepeat(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"disallow_auto_repeat", "body", o.DisallowAutoRepeat); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateDischargeAttributeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"discharge_attribute_id", "body", o.DischargeAttributeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateDisplayName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"display_name", "body", o.DisplayName); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateDurationAttributeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"duration_attribute_id", "body", o.DurationAttributeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateEffectCategory(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"effect_category", "body", o.EffectCategory); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateEffectID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"effect_id", "body", o.EffectID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateElectronicChance(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"electronic_chance", "body", o.ElectronicChance); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateFalloffAttributeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"falloff_attribute_id", "body", o.FalloffAttributeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateIconID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"icon_id", "body", o.IconID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateIsAssistance(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"is_assistance", "body", o.IsAssistance); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateIsOffensive(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"is_offensive", "body", o.IsOffensive); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateIsWarpSafe(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"is_warp_safe", "body", o.IsWarpSafe); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateModifiers(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"modifiers", "body", o.Modifiers); err != nil {
-		return err
-	}
-
-	iModifiersSize := int64(len(o.Modifiers))
-
-	if err := validate.MaxItems("getDogmaEffectsEffectIdOK"+"."+"modifiers", "body", iModifiersSize, 100); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Modifiers); i++ {
-
-		if swag.IsZero(o.Modifiers[i]) { // not required
-			continue
-		}
-
-		if o.Modifiers[i] != nil {
-
-			if err := o.Modifiers[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("getDogmaEffectsEffectIdOK" + "." + "modifiers" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validatePostExpression(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"post_expression", "body", o.PostExpression); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validatePreExpression(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"pre_expression", "body", o.PreExpression); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validatePublished(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"published", "body", o.Published); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateRangeAttributeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"range_attribute_id", "body", o.RangeAttributeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateRangeChance(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"range_chance", "body", o.RangeChance); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetDogmaEffectsEffectIDOKBody) validateTrackingSpeedAttributeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getDogmaEffectsEffectIdOK"+"."+"tracking_speed_attribute_id", "body", o.TrackingSpeedAttributeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetDogmaEffectsEffectIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetDogmaEffectsEffectIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetDogmaEffectsEffectIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*ModifiersItems0 get_dogma_effects_effect_id_modifier
-//
-// modifier object
-swagger:model ModifiersItems0
-*/
-
-type ModifiersItems0 struct {
-
-	// get_dogma_effects_effect_id_domain
-	//
-	// domain string
-	Domain string `json:"domain,omitempty"`
-
-	// get_dogma_effects_effect_id_effect_id
-	//
-	// effect_id integer
-	EffectID int32 `json:"effect_id,omitempty"`
-
-	// get_dogma_effects_effect_id_func
-	//
-	// func string
-	// Required: true
-	Func *string `json:"func"`
-
-	// get_dogma_effects_effect_id_modified_attribute_id
-	//
-	// modified_attribute_id integer
-	ModifiedAttributeID int32 `json:"modified_attribute_id,omitempty"`
-
-	// get_dogma_effects_effect_id_modifying_attribute_id
-	//
-	// modifying_attribute_id integer
-	ModifyingAttributeID int32 `json:"modifying_attribute_id,omitempty"`
-
-	// get_dogma_effects_effect_id_operator
-	//
-	// operator integer
-	Operator int32 `json:"operator,omitempty"`
-}
-
-/* polymorph ModifiersItems0 domain false */
-
-/* polymorph ModifiersItems0 effect_id false */
-
-/* polymorph ModifiersItems0 func false */
-
-/* polymorph ModifiersItems0 modified_attribute_id false */
-
-/* polymorph ModifiersItems0 modifying_attribute_id false */
-
-/* polymorph ModifiersItems0 operator false */
-
-// Validate validates this modifiers items0
-func (o *ModifiersItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateFunc(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *ModifiersItems0) validateFunc(formats strfmt.Registry) error {
-
-	if err := validate.Required("func", "body", o.Func); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *ModifiersItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *ModifiersItems0) UnmarshalBinary(b []byte) error {
-	var res ModifiersItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

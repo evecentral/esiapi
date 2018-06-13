@@ -30,11 +30,11 @@ GetCharactersCharacterIDIndustryJobs lists character industry jobs
 List industry jobs placed by a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/industry/jobs/`
+Alternate route: `/dev/characters/{character_id}/industry/jobs/`
 
 Alternate route: `/legacy/characters/{character_id}/industry/jobs/`
 
-Alternate route: `/dev/characters/{character_id}/industry/jobs/`
+Alternate route: `/v1/characters/{character_id}/industry/jobs/`
 
 ---
 This route is cached for up to 300 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDIndustryJobs(params *GetCharactersChara
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/industry/jobs/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDIndustryJobsReader{formats: a.formats},
@@ -66,16 +66,241 @@ func (a *Client) GetCharactersCharacterIDIndustryJobs(params *GetCharactersChara
 }
 
 /*
+GetCharactersCharacterIDMining characters mining ledger
+
+Paginated record of all mining done by a character for the past 30 days
+
+
+---
+Alternate route: `/dev/characters/{character_id}/mining/`
+
+Alternate route: `/legacy/characters/{character_id}/mining/`
+
+Alternate route: `/v1/characters/{character_id}/mining/`
+
+---
+This route is cached for up to 600 seconds
+*/
+func (a *Client) GetCharactersCharacterIDMining(params *GetCharactersCharacterIDMiningParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDMiningOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCharactersCharacterIDMiningParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_characters_character_id_mining",
+		Method:             "GET",
+		PathPattern:        "/characters/{character_id}/mining/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCharactersCharacterIDMiningReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCharactersCharacterIDMiningOK), nil
+
+}
+
+/*
+GetCorporationCorporationIDMiningExtractions moons extraction timers
+
+Extraction timers for all moon chunks being extracted by refineries belonging to a corporation.
+
+
+---
+Alternate route: `/dev/corporation/{corporation_id}/mining/extractions/`
+
+Alternate route: `/legacy/corporation/{corporation_id}/mining/extractions/`
+
+Alternate route: `/v1/corporation/{corporation_id}/mining/extractions/`
+
+---
+This route is cached for up to 1800 seconds
+
+---
+Requires one of the following EVE corporation role(s): Structure_manager
+
+*/
+func (a *Client) GetCorporationCorporationIDMiningExtractions(params *GetCorporationCorporationIDMiningExtractionsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationCorporationIDMiningExtractionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationCorporationIDMiningExtractionsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporation_corporation_id_mining_extractions",
+		Method:             "GET",
+		PathPattern:        "/corporation/{corporation_id}/mining/extractions/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationCorporationIDMiningExtractionsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationCorporationIDMiningExtractionsOK), nil
+
+}
+
+/*
+GetCorporationCorporationIDMiningObservers corporations mining observers
+
+Paginated list of all entities capable of observing and recording mining for a corporation
+
+
+---
+Alternate route: `/dev/corporation/{corporation_id}/mining/observers/`
+
+Alternate route: `/legacy/corporation/{corporation_id}/mining/observers/`
+
+Alternate route: `/v1/corporation/{corporation_id}/mining/observers/`
+
+---
+This route is cached for up to 3600 seconds
+
+---
+Requires one of the following EVE corporation role(s): Accountant
+
+*/
+func (a *Client) GetCorporationCorporationIDMiningObservers(params *GetCorporationCorporationIDMiningObserversParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationCorporationIDMiningObserversOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationCorporationIDMiningObserversParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporation_corporation_id_mining_observers",
+		Method:             "GET",
+		PathPattern:        "/corporation/{corporation_id}/mining/observers/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationCorporationIDMiningObserversReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationCorporationIDMiningObserversOK), nil
+
+}
+
+/*
+GetCorporationCorporationIDMiningObserversObserverID observeds corporation mining
+
+Paginated record of all mining seen by an observer
+
+
+---
+Alternate route: `/dev/corporation/{corporation_id}/mining/observers/{observer_id}/`
+
+Alternate route: `/legacy/corporation/{corporation_id}/mining/observers/{observer_id}/`
+
+Alternate route: `/v1/corporation/{corporation_id}/mining/observers/{observer_id}/`
+
+---
+This route is cached for up to 3600 seconds
+
+---
+Requires one of the following EVE corporation role(s): Accountant
+
+*/
+func (a *Client) GetCorporationCorporationIDMiningObserversObserverID(params *GetCorporationCorporationIDMiningObserversObserverIDParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationCorporationIDMiningObserversObserverIDOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationCorporationIDMiningObserversObserverIDParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporation_corporation_id_mining_observers_observer_id",
+		Method:             "GET",
+		PathPattern:        "/corporation/{corporation_id}/mining/observers/{observer_id}/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationCorporationIDMiningObserversObserverIDReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationCorporationIDMiningObserversObserverIDOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDIndustryJobs lists corporation industry jobs
+
+List industry jobs run by a corporation
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/industry/jobs/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/industry/jobs/`
+
+Alternate route: `/v1/corporations/{corporation_id}/industry/jobs/`
+
+---
+This route is cached for up to 300 seconds
+
+---
+Requires one of the following EVE corporation role(s): FactoryManager
+
+*/
+func (a *Client) GetCorporationsCorporationIDIndustryJobs(params *GetCorporationsCorporationIDIndustryJobsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDIndustryJobsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDIndustryJobsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_industry_jobs",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/industry/jobs/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDIndustryJobsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDIndustryJobsOK), nil
+
+}
+
+/*
 GetIndustryFacilities lists industry facilities
 
 Return a list of industry facilities
 
 ---
-Alternate route: `/v1/industry/facilities/`
+Alternate route: `/dev/industry/facilities/`
 
 Alternate route: `/legacy/industry/facilities/`
 
-Alternate route: `/dev/industry/facilities/`
+Alternate route: `/v1/industry/facilities/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -91,7 +316,7 @@ func (a *Client) GetIndustryFacilities(params *GetIndustryFacilitiesParams) (*Ge
 		Method:             "GET",
 		PathPattern:        "/industry/facilities/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetIndustryFacilitiesReader{formats: a.formats},
@@ -111,11 +336,11 @@ GetIndustrySystems lists solar system cost indices
 Return cost indices for solar systems
 
 ---
-Alternate route: `/v1/industry/systems/`
+Alternate route: `/dev/industry/systems/`
 
 Alternate route: `/legacy/industry/systems/`
 
-Alternate route: `/dev/industry/systems/`
+Alternate route: `/v1/industry/systems/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -131,7 +356,7 @@ func (a *Client) GetIndustrySystems(params *GetIndustrySystemsParams) (*GetIndus
 		Method:             "GET",
 		PathPattern:        "/industry/systems/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetIndustrySystemsReader{formats: a.formats},

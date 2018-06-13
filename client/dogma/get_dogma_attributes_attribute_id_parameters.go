@@ -75,11 +75,11 @@ for the get dogma attributes attribute id operation typically these are written 
 */
 type GetDogmaAttributesAttributeIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*AttributeID
 	  A dogma attribute ID
 
@@ -90,11 +90,6 @@ type GetDogmaAttributesAttributeIDParams struct {
 
 	*/
 	Datasource *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetDogmaAttributesAttributeIDParams) SetHTTPClient(client *http.Client)
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get dogma attributes attribute id params
-func (o *GetDogmaAttributesAttributeIDParams) WithXUserAgent(xUserAgent *string) *GetDogmaAttributesAttributeIDParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get dogma attributes attribute id params
+func (o *GetDogmaAttributesAttributeIDParams) WithIfNoneMatch(ifNoneMatch *string) *GetDogmaAttributesAttributeIDParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get dogma attributes attribute id params
-func (o *GetDogmaAttributesAttributeIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get dogma attributes attribute id params
+func (o *GetDogmaAttributesAttributeIDParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithAttributeID adds the attributeID to the get dogma attributes attribute id params
@@ -167,17 +162,6 @@ func (o *GetDogmaAttributesAttributeIDParams) SetDatasource(datasource *string) 
 	o.Datasource = datasource
 }
 
-// WithUserAgent adds the userAgent to the get dogma attributes attribute id params
-func (o *GetDogmaAttributesAttributeIDParams) WithUserAgent(userAgent *string) *GetDogmaAttributesAttributeIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get dogma attributes attribute id params
-func (o *GetDogmaAttributesAttributeIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetDogmaAttributesAttributeIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetDogmaAttributesAttributeIDParams) WriteToRequest(r runtime.ClientReq
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -210,22 +194,6 @@ func (o *GetDogmaAttributesAttributeIDParams) WriteToRequest(r runtime.ClientReq
 		qDatasource := qrDatasource
 		if qDatasource != "" {
 			if err := r.SetQueryParam("datasource", qDatasource); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}
