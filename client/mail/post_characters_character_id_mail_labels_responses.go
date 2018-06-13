@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostCharactersCharacterIDMailLabelsReader is a Reader for the PostCharactersCharacterIDMailLabels structure.
@@ -33,6 +32,20 @@ func (o *PostCharactersCharacterIDMailLabelsReader) ReadResponse(response runtim
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostCharactersCharacterIDMailLabelsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostCharactersCharacterIDMailLabelsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostCharactersCharacterIDMailLabelsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -40,8 +53,29 @@ func (o *PostCharactersCharacterIDMailLabelsReader) ReadResponse(response runtim
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostCharactersCharacterIDMailLabelsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostCharactersCharacterIDMailLabelsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostCharactersCharacterIDMailLabelsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostCharactersCharacterIDMailLabelsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -62,7 +96,7 @@ func NewPostCharactersCharacterIDMailLabelsCreated() *PostCharactersCharacterIDM
 Label created
 */
 type PostCharactersCharacterIDMailLabelsCreated struct {
-	Payload int64
+	Payload int32
 }
 
 func (o *PostCharactersCharacterIDMailLabelsCreated) Error() string {
@@ -73,6 +107,64 @@ func (o *PostCharactersCharacterIDMailLabelsCreated) readResponse(response runti
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDMailLabelsBadRequest creates a PostCharactersCharacterIDMailLabelsBadRequest with default headers values
+func NewPostCharactersCharacterIDMailLabelsBadRequest() *PostCharactersCharacterIDMailLabelsBadRequest {
+	return &PostCharactersCharacterIDMailLabelsBadRequest{}
+}
+
+/*PostCharactersCharacterIDMailLabelsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostCharactersCharacterIDMailLabelsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostCharactersCharacterIDMailLabelsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/labels/][%d] postCharactersCharacterIdMailLabelsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDMailLabelsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDMailLabelsUnauthorized creates a PostCharactersCharacterIDMailLabelsUnauthorized with default headers values
+func NewPostCharactersCharacterIDMailLabelsUnauthorized() *PostCharactersCharacterIDMailLabelsUnauthorized {
+	return &PostCharactersCharacterIDMailLabelsUnauthorized{}
+}
+
+/*PostCharactersCharacterIDMailLabelsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostCharactersCharacterIDMailLabelsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostCharactersCharacterIDMailLabelsUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/labels/][%d] postCharactersCharacterIdMailLabelsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDMailLabelsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -99,6 +191,35 @@ func (o *PostCharactersCharacterIDMailLabelsForbidden) Error() string {
 func (o *PostCharactersCharacterIDMailLabelsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDMailLabelsEnhanceYourCalm creates a PostCharactersCharacterIDMailLabelsEnhanceYourCalm with default headers values
+func NewPostCharactersCharacterIDMailLabelsEnhanceYourCalm() *PostCharactersCharacterIDMailLabelsEnhanceYourCalm {
+	return &PostCharactersCharacterIDMailLabelsEnhanceYourCalm{}
+}
+
+/*PostCharactersCharacterIDMailLabelsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostCharactersCharacterIDMailLabelsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostCharactersCharacterIDMailLabelsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/labels/][%d] postCharactersCharacterIdMailLabelsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDMailLabelsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -137,48 +258,60 @@ func (o *PostCharactersCharacterIDMailLabelsInternalServerError) readResponse(re
 	return nil
 }
 
-/*PostCharactersCharacterIDMailLabelsBody post_characters_character_id_mail_labels_label
-//
-// label object
-swagger:model PostCharactersCharacterIDMailLabelsBody
+// NewPostCharactersCharacterIDMailLabelsServiceUnavailable creates a PostCharactersCharacterIDMailLabelsServiceUnavailable with default headers values
+func NewPostCharactersCharacterIDMailLabelsServiceUnavailable() *PostCharactersCharacterIDMailLabelsServiceUnavailable {
+	return &PostCharactersCharacterIDMailLabelsServiceUnavailable{}
+}
+
+/*PostCharactersCharacterIDMailLabelsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostCharactersCharacterIDMailLabelsBody struct {
-
-	// post_characters_character_id_mail_labels_color
-	//
-	// Hexadecimal string representing label color,
-	// in RGB format
-	//
-	Color *string `json:"color,omitempty"`
-
-	// post_characters_character_id_mail_labels_name
-	//
-	// name string
-	// Required: true
-	// Max Length: 40
-	// Min Length: 1
-	Name *string `json:"name"`
+type PostCharactersCharacterIDMailLabelsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostCharactersCharacterIDMailLabelsBody color false */
-
-/* polymorph PostCharactersCharacterIDMailLabelsBody name false */
-
-// MarshalBinary interface implementation
-func (o *PostCharactersCharacterIDMailLabelsBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *PostCharactersCharacterIDMailLabelsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/labels/][%d] postCharactersCharacterIdMailLabelsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostCharactersCharacterIDMailLabelsBody) UnmarshalBinary(b []byte) error {
-	var res PostCharactersCharacterIDMailLabelsBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *PostCharactersCharacterIDMailLabelsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDMailLabelsGatewayTimeout creates a PostCharactersCharacterIDMailLabelsGatewayTimeout with default headers values
+func NewPostCharactersCharacterIDMailLabelsGatewayTimeout() *PostCharactersCharacterIDMailLabelsGatewayTimeout {
+	return &PostCharactersCharacterIDMailLabelsGatewayTimeout{}
+}
+
+/*PostCharactersCharacterIDMailLabelsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type PostCharactersCharacterIDMailLabelsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *PostCharactersCharacterIDMailLabelsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/labels/][%d] postCharactersCharacterIdMailLabelsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDMailLabelsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
 	return nil
 }

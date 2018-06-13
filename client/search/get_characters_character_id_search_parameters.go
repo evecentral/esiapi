@@ -23,14 +23,16 @@ import (
 // with the default values initialized.
 func NewGetCharactersCharacterIDSearchParams() *GetCharactersCharacterIDSearchParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		strictDefault     = bool(false)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		strictDefault         = bool(false)
 	)
 	return &GetCharactersCharacterIDSearchParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Strict:     &strictDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Strict:         &strictDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -40,14 +42,16 @@ func NewGetCharactersCharacterIDSearchParams() *GetCharactersCharacterIDSearchPa
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetCharactersCharacterIDSearchParamsWithTimeout(timeout time.Duration) *GetCharactersCharacterIDSearchParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		strictDefault     = bool(false)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		strictDefault         = bool(false)
 	)
 	return &GetCharactersCharacterIDSearchParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Strict:     &strictDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Strict:         &strictDefault,
 
 		timeout: timeout,
 	}
@@ -57,14 +61,16 @@ func NewGetCharactersCharacterIDSearchParamsWithTimeout(timeout time.Duration) *
 // with the default values initialized, and the ability to set a context for a request
 func NewGetCharactersCharacterIDSearchParamsWithContext(ctx context.Context) *GetCharactersCharacterIDSearchParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		strictDefault     = bool(false)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		strictDefault         = bool(false)
 	)
 	return &GetCharactersCharacterIDSearchParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Strict:     &strictDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Strict:         &strictDefault,
 
 		Context: ctx,
 	}
@@ -74,15 +80,17 @@ func NewGetCharactersCharacterIDSearchParamsWithContext(ctx context.Context) *Ge
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetCharactersCharacterIDSearchParamsWithHTTPClient(client *http.Client) *GetCharactersCharacterIDSearchParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		strictDefault     = bool(false)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		strictDefault         = bool(false)
 	)
 	return &GetCharactersCharacterIDSearchParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Strict:     &strictDefault,
-		HTTPClient: client,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Strict:         &strictDefault,
+		HTTPClient:     client,
 	}
 }
 
@@ -91,11 +99,16 @@ for the get characters character id search operation typically these are written
 */
 type GetCharactersCharacterIDSearchParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*AcceptLanguage
+	  Language to use in the response
 
 	*/
-	XUserAgent *string
+	AcceptLanguage *string
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
+
+	*/
+	IfNoneMatch *string
 	/*Categories
 	  Type of entities to search for
 
@@ -112,7 +125,7 @@ type GetCharactersCharacterIDSearchParams struct {
 	*/
 	Datasource *string
 	/*Language
-	  Language to use in the response
+	  Language to use in the response, takes precedence over Accept-Language
 
 	*/
 	Language *string
@@ -131,11 +144,6 @@ type GetCharactersCharacterIDSearchParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -175,15 +183,26 @@ func (o *GetCharactersCharacterIDSearchParams) SetHTTPClient(client *http.Client
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get characters character id search params
-func (o *GetCharactersCharacterIDSearchParams) WithXUserAgent(xUserAgent *string) *GetCharactersCharacterIDSearchParams {
-	o.SetXUserAgent(xUserAgent)
+// WithAcceptLanguage adds the acceptLanguage to the get characters character id search params
+func (o *GetCharactersCharacterIDSearchParams) WithAcceptLanguage(acceptLanguage *string) *GetCharactersCharacterIDSearchParams {
+	o.SetAcceptLanguage(acceptLanguage)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get characters character id search params
-func (o *GetCharactersCharacterIDSearchParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetAcceptLanguage adds the acceptLanguage to the get characters character id search params
+func (o *GetCharactersCharacterIDSearchParams) SetAcceptLanguage(acceptLanguage *string) {
+	o.AcceptLanguage = acceptLanguage
+}
+
+// WithIfNoneMatch adds the ifNoneMatch to the get characters character id search params
+func (o *GetCharactersCharacterIDSearchParams) WithIfNoneMatch(ifNoneMatch *string) *GetCharactersCharacterIDSearchParams {
+	o.SetIfNoneMatch(ifNoneMatch)
+	return o
+}
+
+// SetIfNoneMatch adds the ifNoneMatch to the get characters character id search params
+func (o *GetCharactersCharacterIDSearchParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCategories adds the categories to the get characters character id search params
@@ -263,17 +282,6 @@ func (o *GetCharactersCharacterIDSearchParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the get characters character id search params
-func (o *GetCharactersCharacterIDSearchParams) WithUserAgent(userAgent *string) *GetCharactersCharacterIDSearchParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get characters character id search params
-func (o *GetCharactersCharacterIDSearchParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCharactersCharacterIDSearchParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -282,10 +290,19 @@ func (o *GetCharactersCharacterIDSearchParams) WriteToRequest(r runtime.ClientRe
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.AcceptLanguage != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param Accept-Language
+		if err := r.SetHeaderParam("Accept-Language", *o.AcceptLanguage); err != nil {
+			return err
+		}
+
+	}
+
+	if o.IfNoneMatch != nil {
+
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -371,22 +388,6 @@ func (o *GetCharactersCharacterIDSearchParams) WriteToRequest(r runtime.ClientRe
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

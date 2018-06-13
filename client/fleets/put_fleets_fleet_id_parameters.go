@@ -17,6 +17,8 @@ import (
 	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPutFleetsFleetIDParams creates a new PutFleetsFleetIDParams object
@@ -75,11 +77,6 @@ for the put fleets fleet id operation typically these are written to a http.Requ
 */
 type PutFleetsFleetIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -94,17 +91,12 @@ type PutFleetsFleetIDParams struct {
 	  What to update for this fleet
 
 	*/
-	NewSettings PutFleetsFleetIDBody
+	NewSettings *models.PutFleetsFleetIDParamsBody
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -144,17 +136,6 @@ func (o *PutFleetsFleetIDParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the put fleets fleet id params
-func (o *PutFleetsFleetIDParams) WithXUserAgent(xUserAgent *string) *PutFleetsFleetIDParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the put fleets fleet id params
-func (o *PutFleetsFleetIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the put fleets fleet id params
 func (o *PutFleetsFleetIDParams) WithDatasource(datasource *string) *PutFleetsFleetIDParams {
 	o.SetDatasource(datasource)
@@ -178,13 +159,13 @@ func (o *PutFleetsFleetIDParams) SetFleetID(fleetID int64) {
 }
 
 // WithNewSettings adds the newSettings to the put fleets fleet id params
-func (o *PutFleetsFleetIDParams) WithNewSettings(newSettings PutFleetsFleetIDBody) *PutFleetsFleetIDParams {
+func (o *PutFleetsFleetIDParams) WithNewSettings(newSettings *models.PutFleetsFleetIDParamsBody) *PutFleetsFleetIDParams {
 	o.SetNewSettings(newSettings)
 	return o
 }
 
 // SetNewSettings adds the newSettings to the put fleets fleet id params
-func (o *PutFleetsFleetIDParams) SetNewSettings(newSettings PutFleetsFleetIDBody) {
+func (o *PutFleetsFleetIDParams) SetNewSettings(newSettings *models.PutFleetsFleetIDParamsBody) {
 	o.NewSettings = newSettings
 }
 
@@ -199,17 +180,6 @@ func (o *PutFleetsFleetIDParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the put fleets fleet id params
-func (o *PutFleetsFleetIDParams) WithUserAgent(userAgent *string) *PutFleetsFleetIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the put fleets fleet id params
-func (o *PutFleetsFleetIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PutFleetsFleetIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -217,15 +187,6 @@ func (o *PutFleetsFleetIDParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -248,8 +209,10 @@ func (o *PutFleetsFleetIDParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 
-	if err := r.SetBodyParam(o.NewSettings); err != nil {
-		return err
+	if o.NewSettings != nil {
+		if err := r.SetBodyParam(o.NewSettings); err != nil {
+			return err
+		}
 	}
 
 	if o.Token != nil {
@@ -262,22 +225,6 @@ func (o *PutFleetsFleetIDParams) WriteToRequest(r runtime.ClientRequest, reg str
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostUIOpenwindowInformationReader is a Reader for the PostUIOpenwindowInformation structure.
@@ -32,6 +32,20 @@ func (o *PostUIOpenwindowInformationReader) ReadResponse(response runtime.Client
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostUIOpenwindowInformationBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostUIOpenwindowInformationUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostUIOpenwindowInformationForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +53,29 @@ func (o *PostUIOpenwindowInformationReader) ReadResponse(response runtime.Client
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostUIOpenwindowInformationEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostUIOpenwindowInformationInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostUIOpenwindowInformationServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostUIOpenwindowInformationGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +103,64 @@ func (o *PostUIOpenwindowInformationNoContent) Error() string {
 }
 
 func (o *PostUIOpenwindowInformationNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewPostUIOpenwindowInformationBadRequest creates a PostUIOpenwindowInformationBadRequest with default headers values
+func NewPostUIOpenwindowInformationBadRequest() *PostUIOpenwindowInformationBadRequest {
+	return &PostUIOpenwindowInformationBadRequest{}
+}
+
+/*PostUIOpenwindowInformationBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostUIOpenwindowInformationBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostUIOpenwindowInformationBadRequest) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/information/][%d] postUiOpenwindowInformationBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostUIOpenwindowInformationBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIOpenwindowInformationUnauthorized creates a PostUIOpenwindowInformationUnauthorized with default headers values
+func NewPostUIOpenwindowInformationUnauthorized() *PostUIOpenwindowInformationUnauthorized {
+	return &PostUIOpenwindowInformationUnauthorized{}
+}
+
+/*PostUIOpenwindowInformationUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostUIOpenwindowInformationUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostUIOpenwindowInformationUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/information/][%d] postUiOpenwindowInformationUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostUIOpenwindowInformationUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -101,6 +194,35 @@ func (o *PostUIOpenwindowInformationForbidden) readResponse(response runtime.Cli
 	return nil
 }
 
+// NewPostUIOpenwindowInformationEnhanceYourCalm creates a PostUIOpenwindowInformationEnhanceYourCalm with default headers values
+func NewPostUIOpenwindowInformationEnhanceYourCalm() *PostUIOpenwindowInformationEnhanceYourCalm {
+	return &PostUIOpenwindowInformationEnhanceYourCalm{}
+}
+
+/*PostUIOpenwindowInformationEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostUIOpenwindowInformationEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostUIOpenwindowInformationEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/information/][%d] postUiOpenwindowInformationEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostUIOpenwindowInformationEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPostUIOpenwindowInformationInternalServerError creates a PostUIOpenwindowInformationInternalServerError with default headers values
 func NewPostUIOpenwindowInformationInternalServerError() *PostUIOpenwindowInformationInternalServerError {
 	return &PostUIOpenwindowInformationInternalServerError{}
@@ -121,6 +243,64 @@ func (o *PostUIOpenwindowInformationInternalServerError) Error() string {
 func (o *PostUIOpenwindowInformationInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIOpenwindowInformationServiceUnavailable creates a PostUIOpenwindowInformationServiceUnavailable with default headers values
+func NewPostUIOpenwindowInformationServiceUnavailable() *PostUIOpenwindowInformationServiceUnavailable {
+	return &PostUIOpenwindowInformationServiceUnavailable{}
+}
+
+/*PostUIOpenwindowInformationServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type PostUIOpenwindowInformationServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *PostUIOpenwindowInformationServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/information/][%d] postUiOpenwindowInformationServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *PostUIOpenwindowInformationServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIOpenwindowInformationGatewayTimeout creates a PostUIOpenwindowInformationGatewayTimeout with default headers values
+func NewPostUIOpenwindowInformationGatewayTimeout() *PostUIOpenwindowInformationGatewayTimeout {
+	return &PostUIOpenwindowInformationGatewayTimeout{}
+}
+
+/*PostUIOpenwindowInformationGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type PostUIOpenwindowInformationGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *PostUIOpenwindowInformationGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/information/][%d] postUiOpenwindowInformationGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *PostUIOpenwindowInformationGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

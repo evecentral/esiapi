@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // DeleteCharactersCharacterIDMailLabelsLabelIDReader is a Reader for the DeleteCharactersCharacterIDMailLabelsLabelID structure.
@@ -35,8 +32,29 @@ func (o *DeleteCharactersCharacterIDMailLabelsLabelIDReader) ReadResponse(respon
 		}
 		return result, nil
 
+	case 400:
+		result := NewDeleteCharactersCharacterIDMailLabelsLabelIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewDeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewDeleteCharactersCharacterIDMailLabelsLabelIDForbidden()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewDeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -51,6 +69,20 @@ func (o *DeleteCharactersCharacterIDMailLabelsLabelIDReader) ReadResponse(respon
 
 	case 500:
 		result := NewDeleteCharactersCharacterIDMailLabelsLabelIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewDeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewDeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -78,6 +110,64 @@ func (o *DeleteCharactersCharacterIDMailLabelsLabelIDNoContent) Error() string {
 }
 
 func (o *DeleteCharactersCharacterIDMailLabelsLabelIDNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDMailLabelsLabelIDBadRequest creates a DeleteCharactersCharacterIDMailLabelsLabelIDBadRequest with default headers values
+func NewDeleteCharactersCharacterIDMailLabelsLabelIDBadRequest() *DeleteCharactersCharacterIDMailLabelsLabelIDBadRequest {
+	return &DeleteCharactersCharacterIDMailLabelsLabelIDBadRequest{}
+}
+
+/*DeleteCharactersCharacterIDMailLabelsLabelIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type DeleteCharactersCharacterIDMailLabelsLabelIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/mail/labels/{label_id}/][%d] deleteCharactersCharacterIdMailLabelsLabelIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized creates a DeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized with default headers values
+func NewDeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized() *DeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized {
+	return &DeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized{}
+}
+
+/*DeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type DeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/mail/labels/{label_id}/][%d] deleteCharactersCharacterIdMailLabelsLabelIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -111,6 +201,35 @@ func (o *DeleteCharactersCharacterIDMailLabelsLabelIDForbidden) readResponse(res
 	return nil
 }
 
+// NewDeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm creates a DeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm with default headers values
+func NewDeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm() *DeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm {
+	return &DeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm{}
+}
+
+/*DeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type DeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/mail/labels/{label_id}/][%d] deleteCharactersCharacterIdMailLabelsLabelIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewDeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity creates a DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity with default headers values
 func NewDeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity() *DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity {
 	return &DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity{}
@@ -121,7 +240,7 @@ func NewDeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity() *Delet
 Default labels cannot be deleted
 */
 type DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity struct {
-	Payload DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody
+	Payload *models.DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody
 }
 
 func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity) Error() string {
@@ -130,8 +249,10 @@ func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity) Error(
 
 func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -167,61 +288,60 @@ func (o *DeleteCharactersCharacterIDMailLabelsLabelIDInternalServerError) readRe
 	return nil
 }
 
-/*DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody delete_characters_character_id_mail_labels_label_id_unprocessable_entity
-//
-// Unprocessable entity
-swagger:model DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody
+// NewDeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable creates a DeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable with default headers values
+func NewDeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable() *DeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable {
+	return &DeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable{}
+}
+
+/*DeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody struct {
-
-	// delete_characters_character_id_mail_labels_label_id_422_unprocessable_entity
-	//
-	// Unprocessable entity message
-	// Required: true
-	Error *string `json:"error"`
+type DeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody error false */
-
-// Validate validates this delete characters character ID mail labels label ID unprocessable entity body
-func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/mail/labels/{label_id}/][%d] deleteCharactersCharacterIdMailLabelsLabelIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody) validateError(formats strfmt.Registry) error {
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("deleteCharactersCharacterIdMailLabelsLabelIdUnprocessableEntity"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewDeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout creates a DeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout with default headers values
+func NewDeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout() *DeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout {
+	return &DeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody) UnmarshalBinary(b []byte) error {
-	var res DeleteCharactersCharacterIDMailLabelsLabelIDUnprocessableEntityBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*DeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type DeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[DELETE /characters/{character_id}/mail/labels/{label_id}/][%d] deleteCharactersCharacterIdMailLabelsLabelIdGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *DeleteCharactersCharacterIDMailLabelsLabelIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

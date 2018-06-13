@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetFwSystemsReader is a Reader for the GetFwSystems structure.
@@ -35,8 +32,43 @@ func (o *GetFwSystemsReader) ReadResponse(response runtime.ClientResponse, consu
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetFwSystemsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetFwSystemsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetFwSystemsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetFwSystemsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetFwSystemsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetFwSystemsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -54,12 +86,15 @@ func NewGetFwSystemsOK() *GetFwSystemsOK {
 
 /*GetFwSystemsOK handles this case with default header values.
 
-All faction war solar systems
+All faction warfare solar systems
 */
 type GetFwSystemsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetFwSystemsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetFwSystemsOKBodyItems0
+	Payload []*models.GetFwSystemsOKBodyItems
 }
 
 func (o *GetFwSystemsOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetFwSystemsOK) readResponse(response runtime.ClientResponse, consumer 
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetFwSystemsOK) readResponse(response runtime.ClientResponse, consumer 
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFwSystemsNotModified creates a GetFwSystemsNotModified with default headers values
+func NewGetFwSystemsNotModified() *GetFwSystemsNotModified {
+	return &GetFwSystemsNotModified{}
+}
+
+/*GetFwSystemsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetFwSystemsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetFwSystemsNotModified) Error() string {
+	return fmt.Sprintf("[GET /fw/systems/][%d] getFwSystemsNotModified ", 304)
+}
+
+func (o *GetFwSystemsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetFwSystemsBadRequest creates a GetFwSystemsBadRequest with default headers values
+func NewGetFwSystemsBadRequest() *GetFwSystemsBadRequest {
+	return &GetFwSystemsBadRequest{}
+}
+
+/*GetFwSystemsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetFwSystemsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetFwSystemsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /fw/systems/][%d] getFwSystemsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetFwSystemsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFwSystemsEnhanceYourCalm creates a GetFwSystemsEnhanceYourCalm with default headers values
+func NewGetFwSystemsEnhanceYourCalm() *GetFwSystemsEnhanceYourCalm {
+	return &GetFwSystemsEnhanceYourCalm{}
+}
+
+/*GetFwSystemsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetFwSystemsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetFwSystemsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /fw/systems/][%d] getFwSystemsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetFwSystemsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,171 +263,60 @@ func (o *GetFwSystemsInternalServerError) readResponse(response runtime.ClientRe
 	return nil
 }
 
-/*GetFwSystemsOKBodyItems0 get_fw_systems_200_ok
-//
-// 200 ok object
-swagger:model GetFwSystemsOKBodyItems0
+// NewGetFwSystemsServiceUnavailable creates a GetFwSystemsServiceUnavailable with default headers values
+func NewGetFwSystemsServiceUnavailable() *GetFwSystemsServiceUnavailable {
+	return &GetFwSystemsServiceUnavailable{}
+}
+
+/*GetFwSystemsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetFwSystemsOKBodyItems0 struct {
-
-	// get_fw_systems_contested
-	//
-	// contested boolean
-	// Required: true
-	Contested *bool `json:"contested"`
-
-	// get_fw_systems_occupier_faction_id
-	//
-	// occupier_faction_id integer
-	// Required: true
-	OccupierFactionID *int32 `json:"occupier_faction_id"`
-
-	// get_fw_systems_owner_faction_id
-	//
-	// owner_faction_id integer
-	// Required: true
-	OwnerFactionID *int32 `json:"owner_faction_id"`
-
-	// get_fw_systems_solar_system_id
-	//
-	// solar_system_id integer
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
-
-	// get_fw_systems_victory_points
-	//
-	// victory_points integer
-	// Required: true
-	VictoryPoints *int32 `json:"victory_points"`
-
-	// get_fw_systems_victory_points_threshold
-	//
-	// victory_points_threshold integer
-	// Required: true
-	VictoryPointsThreshold *int32 `json:"victory_points_threshold"`
+type GetFwSystemsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetFwSystemsOKBodyItems0 contested false */
-
-/* polymorph GetFwSystemsOKBodyItems0 occupier_faction_id false */
-
-/* polymorph GetFwSystemsOKBodyItems0 owner_faction_id false */
-
-/* polymorph GetFwSystemsOKBodyItems0 solar_system_id false */
-
-/* polymorph GetFwSystemsOKBodyItems0 victory_points false */
-
-/* polymorph GetFwSystemsOKBodyItems0 victory_points_threshold false */
-
-// Validate validates this get fw systems o k body items0
-func (o *GetFwSystemsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateContested(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOccupierFactionID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOwnerFactionID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVictoryPoints(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVictoryPointsThreshold(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetFwSystemsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /fw/systems/][%d] getFwSystemsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetFwSystemsOKBodyItems0) validateContested(formats strfmt.Registry) error {
+func (o *GetFwSystemsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("contested", "body", o.Contested); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetFwSystemsOKBodyItems0) validateOccupierFactionID(formats strfmt.Registry) error {
+// NewGetFwSystemsGatewayTimeout creates a GetFwSystemsGatewayTimeout with default headers values
+func NewGetFwSystemsGatewayTimeout() *GetFwSystemsGatewayTimeout {
+	return &GetFwSystemsGatewayTimeout{}
+}
 
-	if err := validate.Required("occupier_faction_id", "body", o.OccupierFactionID); err != nil {
+/*GetFwSystemsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetFwSystemsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetFwSystemsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /fw/systems/][%d] getFwSystemsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetFwSystemsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetFwSystemsOKBodyItems0) validateOwnerFactionID(formats strfmt.Registry) error {
-
-	if err := validate.Required("owner_faction_id", "body", o.OwnerFactionID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFwSystemsOKBodyItems0) validateSolarSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("solar_system_id", "body", o.SolarSystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFwSystemsOKBodyItems0) validateVictoryPoints(formats strfmt.Registry) error {
-
-	if err := validate.Required("victory_points", "body", o.VictoryPoints); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFwSystemsOKBodyItems0) validateVictoryPointsThreshold(formats strfmt.Registry) error {
-
-	if err := validate.Required("victory_points_threshold", "body", o.VictoryPointsThreshold); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetFwSystemsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetFwSystemsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetFwSystemsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

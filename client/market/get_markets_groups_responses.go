@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetMarketsGroupsReader is a Reader for the GetMarketsGroups structure.
@@ -32,8 +32,43 @@ func (o *GetMarketsGroupsReader) ReadResponse(response runtime.ClientResponse, c
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetMarketsGroupsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetMarketsGroupsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetMarketsGroupsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetMarketsGroupsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetMarketsGroupsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetMarketsGroupsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetMarketsGroupsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetMarketsGroupsOK) readResponse(response runtime.ClientResponse, consu
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetMarketsGroupsOK) readResponse(response runtime.ClientResponse, consu
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsGroupsNotModified creates a GetMarketsGroupsNotModified with default headers values
+func NewGetMarketsGroupsNotModified() *GetMarketsGroupsNotModified {
+	return &GetMarketsGroupsNotModified{}
+}
+
+/*GetMarketsGroupsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetMarketsGroupsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetMarketsGroupsNotModified) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/][%d] getMarketsGroupsNotModified ", 304)
+}
+
+func (o *GetMarketsGroupsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetMarketsGroupsBadRequest creates a GetMarketsGroupsBadRequest with default headers values
+func NewGetMarketsGroupsBadRequest() *GetMarketsGroupsBadRequest {
+	return &GetMarketsGroupsBadRequest{}
+}
+
+/*GetMarketsGroupsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetMarketsGroupsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetMarketsGroupsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/][%d] getMarketsGroupsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetMarketsGroupsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsGroupsEnhanceYourCalm creates a GetMarketsGroupsEnhanceYourCalm with default headers values
+func NewGetMarketsGroupsEnhanceYourCalm() *GetMarketsGroupsEnhanceYourCalm {
+	return &GetMarketsGroupsEnhanceYourCalm{}
+}
+
+/*GetMarketsGroupsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetMarketsGroupsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetMarketsGroupsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/][%d] getMarketsGroupsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetMarketsGroupsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetMarketsGroupsInternalServerError) Error() string {
 func (o *GetMarketsGroupsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsGroupsServiceUnavailable creates a GetMarketsGroupsServiceUnavailable with default headers values
+func NewGetMarketsGroupsServiceUnavailable() *GetMarketsGroupsServiceUnavailable {
+	return &GetMarketsGroupsServiceUnavailable{}
+}
+
+/*GetMarketsGroupsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetMarketsGroupsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetMarketsGroupsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/][%d] getMarketsGroupsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetMarketsGroupsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsGroupsGatewayTimeout creates a GetMarketsGroupsGatewayTimeout with default headers values
+func NewGetMarketsGroupsGatewayTimeout() *GetMarketsGroupsGatewayTimeout {
+	return &GetMarketsGroupsGatewayTimeout{}
+}
+
+/*GetMarketsGroupsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetMarketsGroupsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetMarketsGroupsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /markets/groups/][%d] getMarketsGroupsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetMarketsGroupsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

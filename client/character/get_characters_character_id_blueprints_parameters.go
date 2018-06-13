@@ -24,9 +24,11 @@ import (
 func NewGetCharactersCharacterIDBlueprintsParams() *GetCharactersCharacterIDBlueprintsParams {
 	var (
 		datasourceDefault = string("tranquility")
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDBlueprintsParams{
 		Datasource: &datasourceDefault,
+		Page:       &pageDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -37,9 +39,11 @@ func NewGetCharactersCharacterIDBlueprintsParams() *GetCharactersCharacterIDBlue
 func NewGetCharactersCharacterIDBlueprintsParamsWithTimeout(timeout time.Duration) *GetCharactersCharacterIDBlueprintsParams {
 	var (
 		datasourceDefault = string("tranquility")
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDBlueprintsParams{
 		Datasource: &datasourceDefault,
+		Page:       &pageDefault,
 
 		timeout: timeout,
 	}
@@ -50,9 +54,11 @@ func NewGetCharactersCharacterIDBlueprintsParamsWithTimeout(timeout time.Duratio
 func NewGetCharactersCharacterIDBlueprintsParamsWithContext(ctx context.Context) *GetCharactersCharacterIDBlueprintsParams {
 	var (
 		datasourceDefault = string("tranquility")
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDBlueprintsParams{
 		Datasource: &datasourceDefault,
+		Page:       &pageDefault,
 
 		Context: ctx,
 	}
@@ -63,9 +69,11 @@ func NewGetCharactersCharacterIDBlueprintsParamsWithContext(ctx context.Context)
 func NewGetCharactersCharacterIDBlueprintsParamsWithHTTPClient(client *http.Client) *GetCharactersCharacterIDBlueprintsParams {
 	var (
 		datasourceDefault = string("tranquility")
+		pageDefault       = int32(1)
 	)
 	return &GetCharactersCharacterIDBlueprintsParams{
 		Datasource: &datasourceDefault,
+		Page:       &pageDefault,
 		HTTPClient: client,
 	}
 }
@@ -75,11 +83,11 @@ for the get characters character id blueprints operation typically these are wri
 */
 type GetCharactersCharacterIDBlueprintsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -90,16 +98,16 @@ type GetCharactersCharacterIDBlueprintsParams struct {
 
 	*/
 	Datasource *string
+	/*Page
+	  Which page of results to return
+
+	*/
+	Page *int32
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -139,15 +147,15 @@ func (o *GetCharactersCharacterIDBlueprintsParams) SetHTTPClient(client *http.Cl
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get characters character id blueprints params
-func (o *GetCharactersCharacterIDBlueprintsParams) WithXUserAgent(xUserAgent *string) *GetCharactersCharacterIDBlueprintsParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get characters character id blueprints params
+func (o *GetCharactersCharacterIDBlueprintsParams) WithIfNoneMatch(ifNoneMatch *string) *GetCharactersCharacterIDBlueprintsParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get characters character id blueprints params
-func (o *GetCharactersCharacterIDBlueprintsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get characters character id blueprints params
+func (o *GetCharactersCharacterIDBlueprintsParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCharacterID adds the characterID to the get characters character id blueprints params
@@ -172,6 +180,17 @@ func (o *GetCharactersCharacterIDBlueprintsParams) SetDatasource(datasource *str
 	o.Datasource = datasource
 }
 
+// WithPage adds the page to the get characters character id blueprints params
+func (o *GetCharactersCharacterIDBlueprintsParams) WithPage(page *int32) *GetCharactersCharacterIDBlueprintsParams {
+	o.SetPage(page)
+	return o
+}
+
+// SetPage adds the page to the get characters character id blueprints params
+func (o *GetCharactersCharacterIDBlueprintsParams) SetPage(page *int32) {
+	o.Page = page
+}
+
 // WithToken adds the token to the get characters character id blueprints params
 func (o *GetCharactersCharacterIDBlueprintsParams) WithToken(token *string) *GetCharactersCharacterIDBlueprintsParams {
 	o.SetToken(token)
@@ -183,17 +202,6 @@ func (o *GetCharactersCharacterIDBlueprintsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the get characters character id blueprints params
-func (o *GetCharactersCharacterIDBlueprintsParams) WithUserAgent(userAgent *string) *GetCharactersCharacterIDBlueprintsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get characters character id blueprints params
-func (o *GetCharactersCharacterIDBlueprintsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCharactersCharacterIDBlueprintsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -202,10 +210,10 @@ func (o *GetCharactersCharacterIDBlueprintsParams) WriteToRequest(r runtime.Clie
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -232,6 +240,22 @@ func (o *GetCharactersCharacterIDBlueprintsParams) WriteToRequest(r runtime.Clie
 
 	}
 
+	if o.Page != nil {
+
+		// query param page
+		var qrPage int32
+		if o.Page != nil {
+			qrPage = *o.Page
+		}
+		qPage := swag.FormatInt32(qrPage)
+		if qPage != "" {
+			if err := r.SetQueryParam("page", qPage); err != nil {
+				return err
+			}
+		}
+
+	}
+
 	if o.Token != nil {
 
 		// query param token
@@ -242,22 +266,6 @@ func (o *GetCharactersCharacterIDBlueprintsParams) WriteToRequest(r runtime.Clie
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

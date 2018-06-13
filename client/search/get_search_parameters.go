@@ -23,14 +23,16 @@ import (
 // with the default values initialized.
 func NewGetSearchParams() *GetSearchParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		strictDefault     = bool(false)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		strictDefault         = bool(false)
 	)
 	return &GetSearchParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Strict:     &strictDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Strict:         &strictDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -40,14 +42,16 @@ func NewGetSearchParams() *GetSearchParams {
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetSearchParamsWithTimeout(timeout time.Duration) *GetSearchParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		strictDefault     = bool(false)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		strictDefault         = bool(false)
 	)
 	return &GetSearchParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Strict:     &strictDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Strict:         &strictDefault,
 
 		timeout: timeout,
 	}
@@ -57,14 +61,16 @@ func NewGetSearchParamsWithTimeout(timeout time.Duration) *GetSearchParams {
 // with the default values initialized, and the ability to set a context for a request
 func NewGetSearchParamsWithContext(ctx context.Context) *GetSearchParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		strictDefault     = bool(false)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		strictDefault         = bool(false)
 	)
 	return &GetSearchParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Strict:     &strictDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Strict:         &strictDefault,
 
 		Context: ctx,
 	}
@@ -74,15 +80,17 @@ func NewGetSearchParamsWithContext(ctx context.Context) *GetSearchParams {
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetSearchParamsWithHTTPClient(client *http.Client) *GetSearchParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
-		strictDefault     = bool(false)
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
+		strictDefault         = bool(false)
 	)
 	return &GetSearchParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		Strict:     &strictDefault,
-		HTTPClient: client,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		Strict:         &strictDefault,
+		HTTPClient:     client,
 	}
 }
 
@@ -91,11 +99,16 @@ for the get search operation typically these are written to a http.Request
 */
 type GetSearchParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*AcceptLanguage
+	  Language to use in the response
 
 	*/
-	XUserAgent *string
+	AcceptLanguage *string
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
+
+	*/
+	IfNoneMatch *string
 	/*Categories
 	  Type of entities to search for
 
@@ -107,7 +120,7 @@ type GetSearchParams struct {
 	*/
 	Datasource *string
 	/*Language
-	  Language to use in the response
+	  Language to use in the response, takes precedence over Accept-Language
 
 	*/
 	Language *string
@@ -121,11 +134,6 @@ type GetSearchParams struct {
 
 	*/
 	Strict *bool
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -165,15 +173,26 @@ func (o *GetSearchParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get search params
-func (o *GetSearchParams) WithXUserAgent(xUserAgent *string) *GetSearchParams {
-	o.SetXUserAgent(xUserAgent)
+// WithAcceptLanguage adds the acceptLanguage to the get search params
+func (o *GetSearchParams) WithAcceptLanguage(acceptLanguage *string) *GetSearchParams {
+	o.SetAcceptLanguage(acceptLanguage)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get search params
-func (o *GetSearchParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetAcceptLanguage adds the acceptLanguage to the get search params
+func (o *GetSearchParams) SetAcceptLanguage(acceptLanguage *string) {
+	o.AcceptLanguage = acceptLanguage
+}
+
+// WithIfNoneMatch adds the ifNoneMatch to the get search params
+func (o *GetSearchParams) WithIfNoneMatch(ifNoneMatch *string) *GetSearchParams {
+	o.SetIfNoneMatch(ifNoneMatch)
+	return o
+}
+
+// SetIfNoneMatch adds the ifNoneMatch to the get search params
+func (o *GetSearchParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCategories adds the categories to the get search params
@@ -231,17 +250,6 @@ func (o *GetSearchParams) SetStrict(strict *bool) {
 	o.Strict = strict
 }
 
-// WithUserAgent adds the userAgent to the get search params
-func (o *GetSearchParams) WithUserAgent(userAgent *string) *GetSearchParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get search params
-func (o *GetSearchParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetSearchParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -250,10 +258,19 @@ func (o *GetSearchParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.AcceptLanguage != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param Accept-Language
+		if err := r.SetHeaderParam("Accept-Language", *o.AcceptLanguage); err != nil {
+			return err
+		}
+
+	}
+
+	if o.IfNoneMatch != nil {
+
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -318,22 +335,6 @@ func (o *GetSearchParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 		qStrict := swag.FormatBool(qrStrict)
 		if qStrict != "" {
 			if err := r.SetQueryParam("strict", qStrict); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

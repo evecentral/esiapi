@@ -6,18 +6,14 @@ package calendar
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDCalendarReader is a Reader for the GetCharactersCharacterIDCalendar structure.
@@ -36,6 +32,27 @@ func (o *GetCharactersCharacterIDCalendarReader) ReadResponse(response runtime.C
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDCalendarNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDCalendarBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDCalendarUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDCalendarForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +60,29 @@ func (o *GetCharactersCharacterIDCalendarReader) ReadResponse(response runtime.C
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDCalendarEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDCalendarInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDCalendarServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDCalendarGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +106,9 @@ type GetCharactersCharacterIDCalendarOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +116,7 @@ type GetCharactersCharacterIDCalendarOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDCalendarOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDCalendarOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDCalendarOK) Error() string {
@@ -87,6 +128,9 @@ func (o *GetCharactersCharacterIDCalendarOK) readResponse(response runtime.Clien
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -95,6 +139,109 @@ func (o *GetCharactersCharacterIDCalendarOK) readResponse(response runtime.Clien
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarNotModified creates a GetCharactersCharacterIDCalendarNotModified with default headers values
+func NewGetCharactersCharacterIDCalendarNotModified() *GetCharactersCharacterIDCalendarNotModified {
+	return &GetCharactersCharacterIDCalendarNotModified{}
+}
+
+/*GetCharactersCharacterIDCalendarNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDCalendarNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDCalendarNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/][%d] getCharactersCharacterIdCalendarNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDCalendarNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarBadRequest creates a GetCharactersCharacterIDCalendarBadRequest with default headers values
+func NewGetCharactersCharacterIDCalendarBadRequest() *GetCharactersCharacterIDCalendarBadRequest {
+	return &GetCharactersCharacterIDCalendarBadRequest{}
+}
+
+/*GetCharactersCharacterIDCalendarBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDCalendarBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDCalendarBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/][%d] getCharactersCharacterIdCalendarBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarUnauthorized creates a GetCharactersCharacterIDCalendarUnauthorized with default headers values
+func NewGetCharactersCharacterIDCalendarUnauthorized() *GetCharactersCharacterIDCalendarUnauthorized {
+	return &GetCharactersCharacterIDCalendarUnauthorized{}
+}
+
+/*GetCharactersCharacterIDCalendarUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDCalendarUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDCalendarUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/][%d] getCharactersCharacterIdCalendarUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -121,6 +268,35 @@ func (o *GetCharactersCharacterIDCalendarForbidden) Error() string {
 func (o *GetCharactersCharacterIDCalendarForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDCalendarEnhanceYourCalm creates a GetCharactersCharacterIDCalendarEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDCalendarEnhanceYourCalm() *GetCharactersCharacterIDCalendarEnhanceYourCalm {
+	return &GetCharactersCharacterIDCalendarEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDCalendarEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDCalendarEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDCalendarEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/][%d] getCharactersCharacterIdCalendarEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -159,124 +335,60 @@ func (o *GetCharactersCharacterIDCalendarInternalServerError) readResponse(respo
 	return nil
 }
 
-/*GetCharactersCharacterIDCalendarOKBodyItems0 get_characters_character_id_calendar_200_ok
-//
-// event
-swagger:model GetCharactersCharacterIDCalendarOKBodyItems0
+// NewGetCharactersCharacterIDCalendarServiceUnavailable creates a GetCharactersCharacterIDCalendarServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDCalendarServiceUnavailable() *GetCharactersCharacterIDCalendarServiceUnavailable {
+	return &GetCharactersCharacterIDCalendarServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDCalendarServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDCalendarOKBodyItems0 struct {
-
-	// get_characters_character_id_calendar_event_date
-	//
-	// event_date string
-	EventDate strfmt.DateTime `json:"event_date,omitempty"`
-
-	// get_characters_character_id_calendar_event_id
-	//
-	// event_id integer
-	EventID int32 `json:"event_id,omitempty"`
-
-	// get_characters_character_id_calendar_event_response
-	//
-	// event_response string
-	EventResponse string `json:"event_response,omitempty"`
-
-	// get_characters_character_id_calendar_importance
-	//
-	// importance integer
-	Importance int32 `json:"importance,omitempty"`
-
-	// get_characters_character_id_calendar_title
-	//
-	// title string
-	Title string `json:"title,omitempty"`
+type GetCharactersCharacterIDCalendarServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDCalendarOKBodyItems0 event_date false */
-
-/* polymorph GetCharactersCharacterIDCalendarOKBodyItems0 event_id false */
-
-/* polymorph GetCharactersCharacterIDCalendarOKBodyItems0 event_response false */
-
-/* polymorph GetCharactersCharacterIDCalendarOKBodyItems0 importance false */
-
-/* polymorph GetCharactersCharacterIDCalendarOKBodyItems0 title false */
-
-// Validate validates this get characters character ID calendar o k body items0
-func (o *GetCharactersCharacterIDCalendarOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateEventResponse(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDCalendarServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/][%d] getCharactersCharacterIdCalendarServiceUnavailable  %+v", 503, o.Payload)
 }
 
-var getCharactersCharacterIdCalendarOKBodyItems0TypeEventResponsePropEnum []interface{}
+func (o *GetCharactersCharacterIDCalendarServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["declined","not_responded","accepted","tentative"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdCalendarOKBodyItems0TypeEventResponsePropEnum = append(getCharactersCharacterIdCalendarOKBodyItems0TypeEventResponsePropEnum, v)
-	}
-}
+	o.Payload = new(models.ServiceUnavailable)
 
-const (
-	// GetCharactersCharacterIDCalendarOKBodyItems0EventResponseDeclined captures enum value "declined"
-	GetCharactersCharacterIDCalendarOKBodyItems0EventResponseDeclined string = "declined"
-	// GetCharactersCharacterIDCalendarOKBodyItems0EventResponseNotResponded captures enum value "not_responded"
-	GetCharactersCharacterIDCalendarOKBodyItems0EventResponseNotResponded string = "not_responded"
-	// GetCharactersCharacterIDCalendarOKBodyItems0EventResponseAccepted captures enum value "accepted"
-	GetCharactersCharacterIDCalendarOKBodyItems0EventResponseAccepted string = "accepted"
-	// GetCharactersCharacterIDCalendarOKBodyItems0EventResponseTentative captures enum value "tentative"
-	GetCharactersCharacterIDCalendarOKBodyItems0EventResponseTentative string = "tentative"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDCalendarOKBodyItems0) validateEventResponseEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdCalendarOKBodyItems0TypeEventResponsePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDCalendarOKBodyItems0) validateEventResponse(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.EventResponse) { // not required
-		return nil
-	}
-
-	// value enum
-	if err := o.validateEventResponseEnum("event_response", "body", o.EventResponse); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDCalendarOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCharactersCharacterIDCalendarGatewayTimeout creates a GetCharactersCharacterIDCalendarGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDCalendarGatewayTimeout() *GetCharactersCharacterIDCalendarGatewayTimeout {
+	return &GetCharactersCharacterIDCalendarGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDCalendarOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDCalendarOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*GetCharactersCharacterIDCalendarGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDCalendarGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDCalendarGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/calendar/][%d] getCharactersCharacterIdCalendarGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDCalendarGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

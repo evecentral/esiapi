@@ -75,11 +75,6 @@ for the delete fleets fleet id wings wing id operation typically these are writt
 */
 type DeleteFleetsFleetIDWingsWingIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -95,11 +90,6 @@ type DeleteFleetsFleetIDWingsWingIDParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 	/*WingID
 	  The wing to delete
 
@@ -144,17 +134,6 @@ func (o *DeleteFleetsFleetIDWingsWingIDParams) SetHTTPClient(client *http.Client
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the delete fleets fleet id wings wing id params
-func (o *DeleteFleetsFleetIDWingsWingIDParams) WithXUserAgent(xUserAgent *string) *DeleteFleetsFleetIDWingsWingIDParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the delete fleets fleet id wings wing id params
-func (o *DeleteFleetsFleetIDWingsWingIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the delete fleets fleet id wings wing id params
 func (o *DeleteFleetsFleetIDWingsWingIDParams) WithDatasource(datasource *string) *DeleteFleetsFleetIDWingsWingIDParams {
 	o.SetDatasource(datasource)
@@ -188,17 +167,6 @@ func (o *DeleteFleetsFleetIDWingsWingIDParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the delete fleets fleet id wings wing id params
-func (o *DeleteFleetsFleetIDWingsWingIDParams) WithUserAgent(userAgent *string) *DeleteFleetsFleetIDWingsWingIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the delete fleets fleet id wings wing id params
-func (o *DeleteFleetsFleetIDWingsWingIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WithWingID adds the wingID to the delete fleets fleet id wings wing id params
 func (o *DeleteFleetsFleetIDWingsWingIDParams) WithWingID(wingID int64) *DeleteFleetsFleetIDWingsWingIDParams {
 	o.SetWingID(wingID)
@@ -217,15 +185,6 @@ func (o *DeleteFleetsFleetIDWingsWingIDParams) WriteToRequest(r runtime.ClientRe
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -258,22 +217,6 @@ func (o *DeleteFleetsFleetIDWingsWingIDParams) WriteToRequest(r runtime.ClientRe
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

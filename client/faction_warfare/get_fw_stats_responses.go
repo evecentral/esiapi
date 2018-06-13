@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetFwStatsReader is a Reader for the GetFwStats structure.
@@ -35,8 +32,43 @@ func (o *GetFwStatsReader) ReadResponse(response runtime.ClientResponse, consume
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetFwStatsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetFwStatsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetFwStatsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetFwStatsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetFwStatsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetFwStatsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetFwStatsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetFwStatsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetFwStatsOKBodyItems0
+	Payload []*models.GetFwStatsOKBodyItems
 }
 
 func (o *GetFwStatsOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetFwStatsOK) readResponse(response runtime.ClientResponse, consumer ru
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetFwStatsOK) readResponse(response runtime.ClientResponse, consumer ru
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFwStatsNotModified creates a GetFwStatsNotModified with default headers values
+func NewGetFwStatsNotModified() *GetFwStatsNotModified {
+	return &GetFwStatsNotModified{}
+}
+
+/*GetFwStatsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetFwStatsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetFwStatsNotModified) Error() string {
+	return fmt.Sprintf("[GET /fw/stats/][%d] getFwStatsNotModified ", 304)
+}
+
+func (o *GetFwStatsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetFwStatsBadRequest creates a GetFwStatsBadRequest with default headers values
+func NewGetFwStatsBadRequest() *GetFwStatsBadRequest {
+	return &GetFwStatsBadRequest{}
+}
+
+/*GetFwStatsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetFwStatsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetFwStatsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /fw/stats/][%d] getFwStatsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetFwStatsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFwStatsEnhanceYourCalm creates a GetFwStatsEnhanceYourCalm with default headers values
+func NewGetFwStatsEnhanceYourCalm() *GetFwStatsEnhanceYourCalm {
+	return &GetFwStatsEnhanceYourCalm{}
+}
+
+/*GetFwStatsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetFwStatsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetFwStatsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /fw/stats/][%d] getFwStatsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetFwStatsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,371 +263,60 @@ func (o *GetFwStatsInternalServerError) readResponse(response runtime.ClientResp
 	return nil
 }
 
-/*GetFwStatsOKBodyItems0 get_fw_stats_200_ok
-//
-// 200 ok object
-swagger:model GetFwStatsOKBodyItems0
+// NewGetFwStatsServiceUnavailable creates a GetFwStatsServiceUnavailable with default headers values
+func NewGetFwStatsServiceUnavailable() *GetFwStatsServiceUnavailable {
+	return &GetFwStatsServiceUnavailable{}
+}
+
+/*GetFwStatsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetFwStatsOKBodyItems0 struct {
-
-	// get_fw_stats_faction_id
-	//
-	// faction_id integer
-	// Required: true
-	FactionID *int32 `json:"faction_id"`
-
-	// kills
-	// Required: true
-	Kills *GetFwStatsOKBodyItems0Kills `json:"kills"`
-
-	// get_fw_stats_pilots
-	//
-	// How many pilots fight for the given faction
-	// Required: true
-	Pilots *int32 `json:"pilots"`
-
-	// get_fw_stats_systems_controlled
-	//
-	// The number of solar systems controlled by the given faction
-	// Required: true
-	SystemsControlled *int32 `json:"systems_controlled"`
-
-	// victory points
-	// Required: true
-	VictoryPoints *GetFwStatsOKBodyItems0VictoryPoints `json:"victory_points"`
+type GetFwStatsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetFwStatsOKBodyItems0 faction_id false */
-
-/* polymorph GetFwStatsOKBodyItems0 kills false */
-
-/* polymorph GetFwStatsOKBodyItems0 pilots false */
-
-/* polymorph GetFwStatsOKBodyItems0 systems_controlled false */
-
-/* polymorph GetFwStatsOKBodyItems0 victory_points false */
-
-// Validate validates this get fw stats o k body items0
-func (o *GetFwStatsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateFactionID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateKills(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePilots(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSystemsControlled(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVictoryPoints(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetFwStatsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /fw/stats/][%d] getFwStatsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetFwStatsOKBodyItems0) validateFactionID(formats strfmt.Registry) error {
+func (o *GetFwStatsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("faction_id", "body", o.FactionID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetFwStatsOKBodyItems0) validateKills(formats strfmt.Registry) error {
-
-	if err := validate.Required("kills", "body", o.Kills); err != nil {
-		return err
-	}
-
-	if o.Kills != nil {
-
-		if err := o.Kills.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("kills")
-			}
-			return err
-		}
-	}
-
-	return nil
+// NewGetFwStatsGatewayTimeout creates a GetFwStatsGatewayTimeout with default headers values
+func NewGetFwStatsGatewayTimeout() *GetFwStatsGatewayTimeout {
+	return &GetFwStatsGatewayTimeout{}
 }
 
-func (o *GetFwStatsOKBodyItems0) validatePilots(formats strfmt.Registry) error {
+/*GetFwStatsGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("pilots", "body", o.Pilots); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFwStatsOKBodyItems0) validateSystemsControlled(formats strfmt.Registry) error {
-
-	if err := validate.Required("systems_controlled", "body", o.SystemsControlled); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFwStatsOKBodyItems0) validateVictoryPoints(formats strfmt.Registry) error {
-
-	if err := validate.Required("victory_points", "body", o.VictoryPoints); err != nil {
-		return err
-	}
-
-	if o.VictoryPoints != nil {
-
-		if err := o.VictoryPoints.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("victory_points")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetFwStatsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetFwStatsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetFwStatsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetFwStatsOKBodyItems0Kills get_fw_stats_kills
-//
-// Summary of kills against an enemy faction for the given faction
-swagger:model GetFwStatsOKBodyItems0Kills
+Gateway timeout
 */
-
-type GetFwStatsOKBodyItems0Kills struct {
-
-	// get_fw_stats_last_week
-	//
-	// Last week's total number of kills against enemy factions
-	// Required: true
-	LastWeek *int32 `json:"last_week"`
-
-	// get_fw_stats_total
-	//
-	// Total number of kills against enemy factions since faction warfare began
-	// Required: true
-	Total *int32 `json:"total"`
-
-	// get_fw_stats_yesterday
-	//
-	// Yesterday's total number of kills against enemy factions
-	// Required: true
-	Yesterday *int32 `json:"yesterday"`
+type GetFwStatsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetFwStatsOKBodyItems0Kills last_week false */
-
-/* polymorph GetFwStatsOKBodyItems0Kills total false */
-
-/* polymorph GetFwStatsOKBodyItems0Kills yesterday false */
-
-// Validate validates this get fw stats o k body items0 kills
-func (o *GetFwStatsOKBodyItems0Kills) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateLastWeek(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTotal(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateYesterday(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetFwStatsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /fw/stats/][%d] getFwStatsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetFwStatsOKBodyItems0Kills) validateLastWeek(formats strfmt.Registry) error {
+func (o *GetFwStatsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("kills"+"."+"last_week", "body", o.LastWeek); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetFwStatsOKBodyItems0Kills) validateTotal(formats strfmt.Registry) error {
-
-	if err := validate.Required("kills"+"."+"total", "body", o.Total); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFwStatsOKBodyItems0Kills) validateYesterday(formats strfmt.Registry) error {
-
-	if err := validate.Required("kills"+"."+"yesterday", "body", o.Yesterday); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetFwStatsOKBodyItems0Kills) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetFwStatsOKBodyItems0Kills) UnmarshalBinary(b []byte) error {
-	var res GetFwStatsOKBodyItems0Kills
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetFwStatsOKBodyItems0VictoryPoints get_fw_stats_victory_points
-//
-// Summary of victory points gained for the given faction
-swagger:model GetFwStatsOKBodyItems0VictoryPoints
-*/
-
-type GetFwStatsOKBodyItems0VictoryPoints struct {
-
-	// get_fw_stats_last_week
-	//
-	// Last week's victory points gained
-	// Required: true
-	LastWeek *int32 `json:"last_week"`
-
-	// get_fw_stats_total
-	//
-	// Total victory points gained since faction warfare began
-	// Required: true
-	Total *int32 `json:"total"`
-
-	// get_fw_stats_yesterday
-	//
-	// Yesterday's victory points gained
-	// Required: true
-	Yesterday *int32 `json:"yesterday"`
-}
-
-/* polymorph GetFwStatsOKBodyItems0VictoryPoints last_week false */
-
-/* polymorph GetFwStatsOKBodyItems0VictoryPoints total false */
-
-/* polymorph GetFwStatsOKBodyItems0VictoryPoints yesterday false */
-
-// Validate validates this get fw stats o k body items0 victory points
-func (o *GetFwStatsOKBodyItems0VictoryPoints) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateLastWeek(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTotal(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateYesterday(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetFwStatsOKBodyItems0VictoryPoints) validateLastWeek(formats strfmt.Registry) error {
-
-	if err := validate.Required("victory_points"+"."+"last_week", "body", o.LastWeek); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFwStatsOKBodyItems0VictoryPoints) validateTotal(formats strfmt.Registry) error {
-
-	if err := validate.Required("victory_points"+"."+"total", "body", o.Total); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFwStatsOKBodyItems0VictoryPoints) validateYesterday(formats strfmt.Registry) error {
-
-	if err := validate.Required("victory_points"+"."+"yesterday", "body", o.Yesterday); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetFwStatsOKBodyItems0VictoryPoints) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetFwStatsOKBodyItems0VictoryPoints) UnmarshalBinary(b []byte) error {
-	var res GetFwStatsOKBodyItems0VictoryPoints
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

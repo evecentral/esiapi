@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseSystemKillsReader is a Reader for the GetUniverseSystemKills structure.
@@ -35,8 +32,43 @@ func (o *GetUniverseSystemKillsReader) ReadResponse(response runtime.ClientRespo
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseSystemKillsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseSystemKillsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetUniverseSystemKillsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseSystemKillsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseSystemKillsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseSystemKillsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetUniverseSystemKillsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetUniverseSystemKillsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetUniverseSystemKillsOKBodyItems0
+	Payload []*models.GetUniverseSystemKillsOKBodyItems
 }
 
 func (o *GetUniverseSystemKillsOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetUniverseSystemKillsOK) readResponse(response runtime.ClientResponse,
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetUniverseSystemKillsOK) readResponse(response runtime.ClientResponse,
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseSystemKillsNotModified creates a GetUniverseSystemKillsNotModified with default headers values
+func NewGetUniverseSystemKillsNotModified() *GetUniverseSystemKillsNotModified {
+	return &GetUniverseSystemKillsNotModified{}
+}
+
+/*GetUniverseSystemKillsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseSystemKillsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseSystemKillsNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/system_kills/][%d] getUniverseSystemKillsNotModified ", 304)
+}
+
+func (o *GetUniverseSystemKillsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseSystemKillsBadRequest creates a GetUniverseSystemKillsBadRequest with default headers values
+func NewGetUniverseSystemKillsBadRequest() *GetUniverseSystemKillsBadRequest {
+	return &GetUniverseSystemKillsBadRequest{}
+}
+
+/*GetUniverseSystemKillsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseSystemKillsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseSystemKillsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/system_kills/][%d] getUniverseSystemKillsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseSystemKillsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseSystemKillsEnhanceYourCalm creates a GetUniverseSystemKillsEnhanceYourCalm with default headers values
+func NewGetUniverseSystemKillsEnhanceYourCalm() *GetUniverseSystemKillsEnhanceYourCalm {
+	return &GetUniverseSystemKillsEnhanceYourCalm{}
+}
+
+/*GetUniverseSystemKillsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseSystemKillsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseSystemKillsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/system_kills/][%d] getUniverseSystemKillsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseSystemKillsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,127 +263,60 @@ func (o *GetUniverseSystemKillsInternalServerError) readResponse(response runtim
 	return nil
 }
 
-/*GetUniverseSystemKillsOKBodyItems0 get_universe_system_kills_200_ok
-//
-// 200 ok object
-swagger:model GetUniverseSystemKillsOKBodyItems0
+// NewGetUniverseSystemKillsServiceUnavailable creates a GetUniverseSystemKillsServiceUnavailable with default headers values
+func NewGetUniverseSystemKillsServiceUnavailable() *GetUniverseSystemKillsServiceUnavailable {
+	return &GetUniverseSystemKillsServiceUnavailable{}
+}
+
+/*GetUniverseSystemKillsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseSystemKillsOKBodyItems0 struct {
-
-	// get_universe_system_kills_npc_kills
-	//
-	// Number of NPC ships killed in this system
-	// Required: true
-	NpcKills *int32 `json:"npc_kills"`
-
-	// get_universe_system_kills_pod_kills
-	//
-	// Number of pods killed in this system
-	// Required: true
-	PodKills *int32 `json:"pod_kills"`
-
-	// get_universe_system_kills_ship_kills
-	//
-	// Number of player ships killed in this system
-	// Required: true
-	ShipKills *int32 `json:"ship_kills"`
-
-	// get_universe_system_kills_system_id
-	//
-	// system_id integer
-	// Required: true
-	SystemID *int32 `json:"system_id"`
+type GetUniverseSystemKillsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseSystemKillsOKBodyItems0 npc_kills false */
-
-/* polymorph GetUniverseSystemKillsOKBodyItems0 pod_kills false */
-
-/* polymorph GetUniverseSystemKillsOKBodyItems0 ship_kills false */
-
-/* polymorph GetUniverseSystemKillsOKBodyItems0 system_id false */
-
-// Validate validates this get universe system kills o k body items0
-func (o *GetUniverseSystemKillsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateNpcKills(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePodKills(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateShipKills(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseSystemKillsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/system_kills/][%d] getUniverseSystemKillsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseSystemKillsOKBodyItems0) validateNpcKills(formats strfmt.Registry) error {
+func (o *GetUniverseSystemKillsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("npc_kills", "body", o.NpcKills); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetUniverseSystemKillsOKBodyItems0) validatePodKills(formats strfmt.Registry) error {
+// NewGetUniverseSystemKillsGatewayTimeout creates a GetUniverseSystemKillsGatewayTimeout with default headers values
+func NewGetUniverseSystemKillsGatewayTimeout() *GetUniverseSystemKillsGatewayTimeout {
+	return &GetUniverseSystemKillsGatewayTimeout{}
+}
 
-	if err := validate.Required("pod_kills", "body", o.PodKills); err != nil {
+/*GetUniverseSystemKillsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetUniverseSystemKillsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetUniverseSystemKillsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/system_kills/][%d] getUniverseSystemKillsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetUniverseSystemKillsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseSystemKillsOKBodyItems0) validateShipKills(formats strfmt.Registry) error {
-
-	if err := validate.Required("ship_kills", "body", o.ShipKills); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseSystemKillsOKBodyItems0) validateSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("system_id", "body", o.SystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseSystemKillsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseSystemKillsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetUniverseSystemKillsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

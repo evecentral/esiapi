@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostUIOpenwindowNewmailReader is a Reader for the PostUIOpenwindowNewmail structure.
@@ -35,8 +32,29 @@ func (o *PostUIOpenwindowNewmailReader) ReadResponse(response runtime.ClientResp
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostUIOpenwindowNewmailBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostUIOpenwindowNewmailUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostUIOpenwindowNewmailForbidden()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewPostUIOpenwindowNewmailEnhanceYourCalm()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -51,6 +69,20 @@ func (o *PostUIOpenwindowNewmailReader) ReadResponse(response runtime.ClientResp
 
 	case 500:
 		result := NewPostUIOpenwindowNewmailInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostUIOpenwindowNewmailServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostUIOpenwindowNewmailGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -78,6 +110,64 @@ func (o *PostUIOpenwindowNewmailNoContent) Error() string {
 }
 
 func (o *PostUIOpenwindowNewmailNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewPostUIOpenwindowNewmailBadRequest creates a PostUIOpenwindowNewmailBadRequest with default headers values
+func NewPostUIOpenwindowNewmailBadRequest() *PostUIOpenwindowNewmailBadRequest {
+	return &PostUIOpenwindowNewmailBadRequest{}
+}
+
+/*PostUIOpenwindowNewmailBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostUIOpenwindowNewmailBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostUIOpenwindowNewmailBadRequest) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/newmail/][%d] postUiOpenwindowNewmailBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostUIOpenwindowNewmailBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIOpenwindowNewmailUnauthorized creates a PostUIOpenwindowNewmailUnauthorized with default headers values
+func NewPostUIOpenwindowNewmailUnauthorized() *PostUIOpenwindowNewmailUnauthorized {
+	return &PostUIOpenwindowNewmailUnauthorized{}
+}
+
+/*PostUIOpenwindowNewmailUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostUIOpenwindowNewmailUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostUIOpenwindowNewmailUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/newmail/][%d] postUiOpenwindowNewmailUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostUIOpenwindowNewmailUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -111,6 +201,35 @@ func (o *PostUIOpenwindowNewmailForbidden) readResponse(response runtime.ClientR
 	return nil
 }
 
+// NewPostUIOpenwindowNewmailEnhanceYourCalm creates a PostUIOpenwindowNewmailEnhanceYourCalm with default headers values
+func NewPostUIOpenwindowNewmailEnhanceYourCalm() *PostUIOpenwindowNewmailEnhanceYourCalm {
+	return &PostUIOpenwindowNewmailEnhanceYourCalm{}
+}
+
+/*PostUIOpenwindowNewmailEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostUIOpenwindowNewmailEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostUIOpenwindowNewmailEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/newmail/][%d] postUiOpenwindowNewmailEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostUIOpenwindowNewmailEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPostUIOpenwindowNewmailUnprocessableEntity creates a PostUIOpenwindowNewmailUnprocessableEntity with default headers values
 func NewPostUIOpenwindowNewmailUnprocessableEntity() *PostUIOpenwindowNewmailUnprocessableEntity {
 	return &PostUIOpenwindowNewmailUnprocessableEntity{}
@@ -121,7 +240,7 @@ func NewPostUIOpenwindowNewmailUnprocessableEntity() *PostUIOpenwindowNewmailUnp
 Invalid request
 */
 type PostUIOpenwindowNewmailUnprocessableEntity struct {
-	Payload PostUIOpenwindowNewmailUnprocessableEntityBody
+	Payload *models.PostUIOpenwindowNewmailUnprocessableEntityBody
 }
 
 func (o *PostUIOpenwindowNewmailUnprocessableEntity) Error() string {
@@ -130,8 +249,10 @@ func (o *PostUIOpenwindowNewmailUnprocessableEntity) Error() string {
 
 func (o *PostUIOpenwindowNewmailUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.PostUIOpenwindowNewmailUnprocessableEntityBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -167,132 +288,60 @@ func (o *PostUIOpenwindowNewmailInternalServerError) readResponse(response runti
 	return nil
 }
 
-/*PostUIOpenwindowNewmailBody post_ui_openwindow_newmail_new_mail
-//
-// new_mail object
-swagger:model PostUIOpenwindowNewmailBody
+// NewPostUIOpenwindowNewmailServiceUnavailable creates a PostUIOpenwindowNewmailServiceUnavailable with default headers values
+func NewPostUIOpenwindowNewmailServiceUnavailable() *PostUIOpenwindowNewmailServiceUnavailable {
+	return &PostUIOpenwindowNewmailServiceUnavailable{}
+}
+
+/*PostUIOpenwindowNewmailServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostUIOpenwindowNewmailBody struct {
-
-	// post_ui_openwindow_newmail_body
-	//
-	// body string
-	// Required: true
-	// Max Length: 10000
-	Body *string `json:"body"`
-
-	// post_ui_openwindow_newmail_recipients
-	//
-	// recipients array
-	// Required: true
-	// Max Items: 50
-	// Min Items: 1
-	Recipients []int32 `json:"recipients"`
-
-	// post_ui_openwindow_newmail_subject
-	//
-	// subject string
-	// Required: true
-	// Max Length: 1000
-	Subject *string `json:"subject"`
-
-	// post_ui_openwindow_newmail_to_corp_or_alliance_id
-	//
-	// to_corp_or_alliance_id integer
-	// Required: true
-	ToCorpOrAllianceID *int32 `json:"to_corp_or_alliance_id"`
-
-	// post_ui_openwindow_newmail_to_mailing_list_id
-	//
-	// Corporations, alliances and mailing lists are all types of mailing groups. You may only send to one mailing group, at a time, so you may fill out either this field or the to_corp_or_alliance_ids field
-	// Required: true
-	ToMailingListID *int32 `json:"to_mailing_list_id"`
+type PostUIOpenwindowNewmailServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostUIOpenwindowNewmailBody body false */
-
-/* polymorph PostUIOpenwindowNewmailBody recipients false */
-
-/* polymorph PostUIOpenwindowNewmailBody subject false */
-
-/* polymorph PostUIOpenwindowNewmailBody to_corp_or_alliance_id false */
-
-/* polymorph PostUIOpenwindowNewmailBody to_mailing_list_id false */
-
-// MarshalBinary interface implementation
-func (o *PostUIOpenwindowNewmailBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *PostUIOpenwindowNewmailServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/newmail/][%d] postUiOpenwindowNewmailServiceUnavailable  %+v", 503, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostUIOpenwindowNewmailBody) UnmarshalBinary(b []byte) error {
-	var res PostUIOpenwindowNewmailBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *PostUIOpenwindowNewmailServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }
 
-/*PostUIOpenwindowNewmailUnprocessableEntityBody post_ui_openwindow_newmail_unprocessable_entity
-//
-// Unprocessable entity
-swagger:model PostUIOpenwindowNewmailUnprocessableEntityBody
+// NewPostUIOpenwindowNewmailGatewayTimeout creates a PostUIOpenwindowNewmailGatewayTimeout with default headers values
+func NewPostUIOpenwindowNewmailGatewayTimeout() *PostUIOpenwindowNewmailGatewayTimeout {
+	return &PostUIOpenwindowNewmailGatewayTimeout{}
+}
+
+/*PostUIOpenwindowNewmailGatewayTimeout handles this case with default header values.
+
+Gateway timeout
 */
-
-type PostUIOpenwindowNewmailUnprocessableEntityBody struct {
-
-	// post_ui_openwindow_newmail_422_unprocessable_entity
-	//
-	// Unprocessable entity message
-	// Required: true
-	Error *string `json:"error"`
+type PostUIOpenwindowNewmailGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PostUIOpenwindowNewmailUnprocessableEntityBody error false */
-
-// Validate validates this post UI openwindow newmail unprocessable entity body
-func (o *PostUIOpenwindowNewmailUnprocessableEntityBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostUIOpenwindowNewmailGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/newmail/][%d] postUiOpenwindowNewmailGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *PostUIOpenwindowNewmailUnprocessableEntityBody) validateError(formats strfmt.Registry) error {
+func (o *PostUIOpenwindowNewmailGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postUiOpenwindowNewmailUnprocessableEntity"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *PostUIOpenwindowNewmailUnprocessableEntityBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *PostUIOpenwindowNewmailUnprocessableEntityBody) UnmarshalBinary(b []byte) error {
-	var res PostUIOpenwindowNewmailUnprocessableEntityBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

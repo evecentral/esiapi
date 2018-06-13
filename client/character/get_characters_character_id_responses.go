@@ -6,18 +6,14 @@ package character
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDReader is a Reader for the GetCharactersCharacterID structure.
@@ -36,6 +32,20 @@ func (o *GetCharactersCharacterIDReader) ReadResponse(response runtime.ClientRes
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetCharactersCharacterIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +53,29 @@ func (o *GetCharactersCharacterIDReader) ReadResponse(response runtime.ClientRes
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +99,9 @@ type GetCharactersCharacterIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +109,7 @@ type GetCharactersCharacterIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDOKBody
+	Payload *models.GetCharactersCharacterIDOKBody
 }
 
 func (o *GetCharactersCharacterIDOK) Error() string {
@@ -87,14 +121,93 @@ func (o *GetCharactersCharacterIDOK) readResponse(response runtime.ClientRespons
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDNotModified creates a GetCharactersCharacterIDNotModified with default headers values
+func NewGetCharactersCharacterIDNotModified() *GetCharactersCharacterIDNotModified {
+	return &GetCharactersCharacterIDNotModified{}
+}
+
+/*GetCharactersCharacterIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/][%d] getCharactersCharacterIdNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBadRequest creates a GetCharactersCharacterIDBadRequest with default headers values
+func NewGetCharactersCharacterIDBadRequest() *GetCharactersCharacterIDBadRequest {
+	return &GetCharactersCharacterIDBadRequest{}
+}
+
+/*GetCharactersCharacterIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/][%d] getCharactersCharacterIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -111,7 +224,7 @@ func NewGetCharactersCharacterIDNotFound() *GetCharactersCharacterIDNotFound {
 Character not found
 */
 type GetCharactersCharacterIDNotFound struct {
-	Payload GetCharactersCharacterIDNotFoundBody
+	Payload *models.GetCharactersCharacterIDNotFoundBody
 }
 
 func (o *GetCharactersCharacterIDNotFound) Error() string {
@@ -120,8 +233,39 @@ func (o *GetCharactersCharacterIDNotFound) Error() string {
 
 func (o *GetCharactersCharacterIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetCharactersCharacterIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDEnhanceYourCalm creates a GetCharactersCharacterIDEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDEnhanceYourCalm() *GetCharactersCharacterIDEnhanceYourCalm {
+	return &GetCharactersCharacterIDEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/][%d] getCharactersCharacterIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -157,364 +301,60 @@ func (o *GetCharactersCharacterIDInternalServerError) readResponse(response runt
 	return nil
 }
 
-/*GetCharactersCharacterIDNotFoundBody get_characters_character_id_not_found
-//
-// Not found
-swagger:model GetCharactersCharacterIDNotFoundBody
+// NewGetCharactersCharacterIDServiceUnavailable creates a GetCharactersCharacterIDServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDServiceUnavailable() *GetCharactersCharacterIDServiceUnavailable {
+	return &GetCharactersCharacterIDServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDNotFoundBody struct {
-
-	// get_characters_character_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetCharactersCharacterIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDNotFoundBody error false */
-
-// Validate validates this get characters character ID not found body
-func (o *GetCharactersCharacterIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/][%d] getCharactersCharacterIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCharactersCharacterIDGatewayTimeout creates a GetCharactersCharacterIDGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDGatewayTimeout() *GetCharactersCharacterIDGatewayTimeout {
+	return &GetCharactersCharacterIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetCharactersCharacterIDGatewayTimeout handles this case with default header values.
 
-/*GetCharactersCharacterIDOKBody get_characters_character_id_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDOKBody
+Gateway timeout
 */
-
-type GetCharactersCharacterIDOKBody struct {
-
-	// get_characters_character_id_alliance_id
-	//
-	// The character's alliance ID
-	// Required: true
-	AllianceID *int32 `json:"alliance_id"`
-
-	// get_characters_character_id_ancestry_id
-	//
-	// ancestry_id integer
-	// Required: true
-	AncestryID *int32 `json:"ancestry_id"`
-
-	// get_characters_character_id_birthday
-	//
-	// Creation date of the character
-	// Required: true
-	Birthday *strfmt.DateTime `json:"birthday"`
-
-	// get_characters_character_id_bloodline_id
-	//
-	// bloodline_id integer
-	// Required: true
-	BloodlineID *int32 `json:"bloodline_id"`
-
-	// get_characters_character_id_corporation_id
-	//
-	// The character's corporation ID
-	// Required: true
-	CorporationID *int32 `json:"corporation_id"`
-
-	// get_characters_character_id_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_characters_character_id_gender
-	//
-	// gender string
-	// Required: true
-	Gender *string `json:"gender"`
-
-	// get_characters_character_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_characters_character_id_race_id
-	//
-	// race_id integer
-	// Required: true
-	RaceID *int32 `json:"race_id"`
-
-	// get_characters_character_id_security_status
-	//
-	// security_status number
-	// Required: true
-	// Maximum: 10
-	// Minimum: -10
-	SecurityStatus *float32 `json:"security_status"`
+type GetCharactersCharacterIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetCharactersCharacterIDOKBody alliance_id false */
-
-/* polymorph GetCharactersCharacterIDOKBody ancestry_id false */
-
-/* polymorph GetCharactersCharacterIDOKBody birthday false */
-
-/* polymorph GetCharactersCharacterIDOKBody bloodline_id false */
-
-/* polymorph GetCharactersCharacterIDOKBody corporation_id false */
-
-/* polymorph GetCharactersCharacterIDOKBody description false */
-
-/* polymorph GetCharactersCharacterIDOKBody gender false */
-
-/* polymorph GetCharactersCharacterIDOKBody name false */
-
-/* polymorph GetCharactersCharacterIDOKBody race_id false */
-
-/* polymorph GetCharactersCharacterIDOKBody security_status false */
-
-// Validate validates this get characters character ID o k body
-func (o *GetCharactersCharacterIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAllianceID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateAncestryID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateBirthday(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateBloodlineID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCorporationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateGender(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRaceID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSecurityStatus(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/][%d] getCharactersCharacterIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDOKBody) validateAllianceID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"alliance_id", "body", o.AllianceID); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateAncestryID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"ancestry_id", "body", o.AncestryID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateBirthday(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"birthday", "body", o.Birthday); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("getCharactersCharacterIdOK"+"."+"birthday", "body", "date-time", o.Birthday.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateBloodlineID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"bloodline_id", "body", o.BloodlineID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateCorporationID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"corporation_id", "body", o.CorporationID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateDescription(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"description", "body", o.Description); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var getCharactersCharacterIdOKBodyTypeGenderPropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["female","male"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdOKBodyTypeGenderPropEnum = append(getCharactersCharacterIdOKBodyTypeGenderPropEnum, v)
-	}
-}
-
-const (
-	// GetCharactersCharacterIDOKBodyGenderFemale captures enum value "female"
-	GetCharactersCharacterIDOKBodyGenderFemale string = "female"
-	// GetCharactersCharacterIDOKBodyGenderMale captures enum value "male"
-	GetCharactersCharacterIDOKBodyGenderMale string = "male"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDOKBody) validateGenderEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdOKBodyTypeGenderPropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateGender(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"gender", "body", o.Gender); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateGenderEnum("getCharactersCharacterIdOK"+"."+"gender", "body", *o.Gender); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateRaceID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"race_id", "body", o.RaceID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOKBody) validateSecurityStatus(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdOK"+"."+"security_status", "body", o.SecurityStatus); err != nil {
-		return err
-	}
-
-	if err := validate.Minimum("getCharactersCharacterIdOK"+"."+"security_status", "body", float64(*o.SecurityStatus), -10, false); err != nil {
-		return err
-	}
-
-	if err := validate.Maximum("getCharactersCharacterIdOK"+"."+"security_status", "body", float64(*o.SecurityStatus), 10, false); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

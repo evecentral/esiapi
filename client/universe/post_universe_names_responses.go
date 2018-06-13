@@ -6,18 +6,14 @@ package universe
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostUniverseNamesReader is a Reader for the PostUniverseNames structure.
@@ -36,6 +32,13 @@ func (o *PostUniverseNamesReader) ReadResponse(response runtime.ClientResponse, 
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostUniverseNamesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewPostUniverseNamesNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +46,29 @@ func (o *PostUniverseNamesReader) ReadResponse(response runtime.ClientResponse, 
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostUniverseNamesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostUniverseNamesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostUniverseNamesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostUniverseNamesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -62,10 +86,10 @@ func NewPostUniverseNamesOK() *PostUniverseNamesOK {
 
 /*PostUniverseNamesOK handles this case with default header values.
 
-List of id/name associations for a set of ID's. ID's that cannot be resolved are not returned.
+List of id/name associations for a set of ID's. All ID's must resolve to a name, or nothing will be returned.
 */
 type PostUniverseNamesOK struct {
-	Payload []*PostUniverseNamesOKBodyItems0
+	Payload []*models.PostUniverseNamesOKBodyItems
 }
 
 func (o *PostUniverseNamesOK) Error() string {
@@ -82,6 +106,35 @@ func (o *PostUniverseNamesOK) readResponse(response runtime.ClientResponse, cons
 	return nil
 }
 
+// NewPostUniverseNamesBadRequest creates a PostUniverseNamesBadRequest with default headers values
+func NewPostUniverseNamesBadRequest() *PostUniverseNamesBadRequest {
+	return &PostUniverseNamesBadRequest{}
+}
+
+/*PostUniverseNamesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostUniverseNamesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostUniverseNamesBadRequest) Error() string {
+	return fmt.Sprintf("[POST /universe/names/][%d] postUniverseNamesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostUniverseNamesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPostUniverseNamesNotFound creates a PostUniverseNamesNotFound with default headers values
 func NewPostUniverseNamesNotFound() *PostUniverseNamesNotFound {
 	return &PostUniverseNamesNotFound{}
@@ -89,10 +142,10 @@ func NewPostUniverseNamesNotFound() *PostUniverseNamesNotFound {
 
 /*PostUniverseNamesNotFound handles this case with default header values.
 
-no valid IDs found
+Ensure all IDs are valid before resolving.
 */
 type PostUniverseNamesNotFound struct {
-	Payload PostUniverseNamesNotFoundBody
+	Payload *models.PostUniverseNamesNotFoundBody
 }
 
 func (o *PostUniverseNamesNotFound) Error() string {
@@ -101,8 +154,39 @@ func (o *PostUniverseNamesNotFound) Error() string {
 
 func (o *PostUniverseNamesNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.PostUniverseNamesNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUniverseNamesEnhanceYourCalm creates a PostUniverseNamesEnhanceYourCalm with default headers values
+func NewPostUniverseNamesEnhanceYourCalm() *PostUniverseNamesEnhanceYourCalm {
+	return &PostUniverseNamesEnhanceYourCalm{}
+}
+
+/*PostUniverseNamesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostUniverseNamesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostUniverseNamesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /universe/names/][%d] postUniverseNamesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostUniverseNamesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -138,208 +222,60 @@ func (o *PostUniverseNamesInternalServerError) readResponse(response runtime.Cli
 	return nil
 }
 
-/*PostUniverseNamesNotFoundBody post_universe_names_not_found
-//
-// Not found
-swagger:model PostUniverseNamesNotFoundBody
+// NewPostUniverseNamesServiceUnavailable creates a PostUniverseNamesServiceUnavailable with default headers values
+func NewPostUniverseNamesServiceUnavailable() *PostUniverseNamesServiceUnavailable {
+	return &PostUniverseNamesServiceUnavailable{}
+}
+
+/*PostUniverseNamesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostUniverseNamesNotFoundBody struct {
-
-	// post_universe_names_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type PostUniverseNamesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostUniverseNamesNotFoundBody error false */
-
-// Validate validates this post universe names not found body
-func (o *PostUniverseNamesNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostUniverseNamesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /universe/names/][%d] postUniverseNamesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *PostUniverseNamesNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *PostUniverseNamesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postUniverseNamesNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *PostUniverseNamesNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewPostUniverseNamesGatewayTimeout creates a PostUniverseNamesGatewayTimeout with default headers values
+func NewPostUniverseNamesGatewayTimeout() *PostUniverseNamesGatewayTimeout {
+	return &PostUniverseNamesGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostUniverseNamesNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res PostUniverseNamesNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*PostUniverseNamesGatewayTimeout handles this case with default header values.
 
-/*PostUniverseNamesOKBodyItems0 post_universe_names_200_ok
-//
-// 200 ok object
-swagger:model PostUniverseNamesOKBodyItems0
+Gateway timeout
 */
-
-type PostUniverseNamesOKBodyItems0 struct {
-
-	// post_universe_names_category
-	//
-	// category string
-	// Required: true
-	Category *string `json:"category"`
-
-	// post_universe_names_id
-	//
-	// id integer
-	// Required: true
-	ID *int32 `json:"id"`
-
-	// post_universe_names_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
+type PostUniverseNamesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PostUniverseNamesOKBodyItems0 category false */
-
-/* polymorph PostUniverseNamesOKBodyItems0 id false */
-
-/* polymorph PostUniverseNamesOKBodyItems0 name false */
-
-// Validate validates this post universe names o k body items0
-func (o *PostUniverseNamesOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCategory(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostUniverseNamesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /universe/names/][%d] postUniverseNamesGatewayTimeout  %+v", 504, o.Payload)
 }
 
-var postUniverseNamesOKBodyItems0TypeCategoryPropEnum []interface{}
+func (o *PostUniverseNamesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["alliance","character","constellation","corporation","inventory_type","region","solar_system","station"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		postUniverseNamesOKBodyItems0TypeCategoryPropEnum = append(postUniverseNamesOKBodyItems0TypeCategoryPropEnum, v)
-	}
-}
+	o.Payload = new(models.GatewayTimeout)
 
-const (
-	// PostUniverseNamesOKBodyItems0CategoryAlliance captures enum value "alliance"
-	PostUniverseNamesOKBodyItems0CategoryAlliance string = "alliance"
-	// PostUniverseNamesOKBodyItems0CategoryCharacter captures enum value "character"
-	PostUniverseNamesOKBodyItems0CategoryCharacter string = "character"
-	// PostUniverseNamesOKBodyItems0CategoryConstellation captures enum value "constellation"
-	PostUniverseNamesOKBodyItems0CategoryConstellation string = "constellation"
-	// PostUniverseNamesOKBodyItems0CategoryCorporation captures enum value "corporation"
-	PostUniverseNamesOKBodyItems0CategoryCorporation string = "corporation"
-	// PostUniverseNamesOKBodyItems0CategoryInventoryType captures enum value "inventory_type"
-	PostUniverseNamesOKBodyItems0CategoryInventoryType string = "inventory_type"
-	// PostUniverseNamesOKBodyItems0CategoryRegion captures enum value "region"
-	PostUniverseNamesOKBodyItems0CategoryRegion string = "region"
-	// PostUniverseNamesOKBodyItems0CategorySolarSystem captures enum value "solar_system"
-	PostUniverseNamesOKBodyItems0CategorySolarSystem string = "solar_system"
-	// PostUniverseNamesOKBodyItems0CategoryStation captures enum value "station"
-	PostUniverseNamesOKBodyItems0CategoryStation string = "station"
-)
-
-// prop value enum
-func (o *PostUniverseNamesOKBodyItems0) validateCategoryEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, postUniverseNamesOKBodyItems0TypeCategoryPropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *PostUniverseNamesOKBodyItems0) validateCategory(formats strfmt.Registry) error {
-
-	if err := validate.Required("category", "body", o.Category); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	// value enum
-	if err := o.validateCategoryEnum("category", "body", *o.Category); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *PostUniverseNamesOKBodyItems0) validateID(formats strfmt.Registry) error {
-
-	if err := validate.Required("id", "body", o.ID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *PostUniverseNamesOKBodyItems0) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *PostUniverseNamesOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *PostUniverseNamesOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res PostUniverseNamesOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseConstellationsConstellationIDReader is a Reader for the GetUniverseConstellationsConstellationID structure.
@@ -35,6 +32,20 @@ func (o *GetUniverseConstellationsConstellationIDReader) ReadResponse(response r
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseConstellationsConstellationIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseConstellationsConstellationIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetUniverseConstellationsConstellationIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetUniverseConstellationsConstellationIDReader) ReadResponse(response r
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetUniverseConstellationsConstellationIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseConstellationsConstellationIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseConstellationsConstellationIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseConstellationsConstellationIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -70,6 +102,9 @@ type GetUniverseConstellationsConstellationIDOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -77,7 +112,7 @@ type GetUniverseConstellationsConstellationIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetUniverseConstellationsConstellationIDOKBody
+	Payload *models.GetUniverseConstellationsConstellationIDOKBody
 }
 
 func (o *GetUniverseConstellationsConstellationIDOK) Error() string {
@@ -92,14 +127,93 @@ func (o *GetUniverseConstellationsConstellationIDOK) readResponse(response runti
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetUniverseConstellationsConstellationIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseConstellationsConstellationIDNotModified creates a GetUniverseConstellationsConstellationIDNotModified with default headers values
+func NewGetUniverseConstellationsConstellationIDNotModified() *GetUniverseConstellationsConstellationIDNotModified {
+	return &GetUniverseConstellationsConstellationIDNotModified{}
+}
+
+/*GetUniverseConstellationsConstellationIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseConstellationsConstellationIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseConstellationsConstellationIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/{constellation_id}/][%d] getUniverseConstellationsConstellationIdNotModified ", 304)
+}
+
+func (o *GetUniverseConstellationsConstellationIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseConstellationsConstellationIDBadRequest creates a GetUniverseConstellationsConstellationIDBadRequest with default headers values
+func NewGetUniverseConstellationsConstellationIDBadRequest() *GetUniverseConstellationsConstellationIDBadRequest {
+	return &GetUniverseConstellationsConstellationIDBadRequest{}
+}
+
+/*GetUniverseConstellationsConstellationIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseConstellationsConstellationIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseConstellationsConstellationIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/{constellation_id}/][%d] getUniverseConstellationsConstellationIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseConstellationsConstellationIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -116,7 +230,7 @@ func NewGetUniverseConstellationsConstellationIDNotFound() *GetUniverseConstella
 Constellation not found
 */
 type GetUniverseConstellationsConstellationIDNotFound struct {
-	Payload GetUniverseConstellationsConstellationIDNotFoundBody
+	Payload *models.GetUniverseConstellationsConstellationIDNotFoundBody
 }
 
 func (o *GetUniverseConstellationsConstellationIDNotFound) Error() string {
@@ -125,8 +239,39 @@ func (o *GetUniverseConstellationsConstellationIDNotFound) Error() string {
 
 func (o *GetUniverseConstellationsConstellationIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetUniverseConstellationsConstellationIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseConstellationsConstellationIDEnhanceYourCalm creates a GetUniverseConstellationsConstellationIDEnhanceYourCalm with default headers values
+func NewGetUniverseConstellationsConstellationIDEnhanceYourCalm() *GetUniverseConstellationsConstellationIDEnhanceYourCalm {
+	return &GetUniverseConstellationsConstellationIDEnhanceYourCalm{}
+}
+
+/*GetUniverseConstellationsConstellationIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseConstellationsConstellationIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseConstellationsConstellationIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/{constellation_id}/][%d] getUniverseConstellationsConstellationIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseConstellationsConstellationIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -162,326 +307,60 @@ func (o *GetUniverseConstellationsConstellationIDInternalServerError) readRespon
 	return nil
 }
 
-/*GetUniverseConstellationsConstellationIDNotFoundBody get_universe_constellations_constellation_id_not_found
-//
-// Not found
-swagger:model GetUniverseConstellationsConstellationIDNotFoundBody
+// NewGetUniverseConstellationsConstellationIDServiceUnavailable creates a GetUniverseConstellationsConstellationIDServiceUnavailable with default headers values
+func NewGetUniverseConstellationsConstellationIDServiceUnavailable() *GetUniverseConstellationsConstellationIDServiceUnavailable {
+	return &GetUniverseConstellationsConstellationIDServiceUnavailable{}
+}
+
+/*GetUniverseConstellationsConstellationIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseConstellationsConstellationIDNotFoundBody struct {
-
-	// get_universe_constellations_constellation_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetUniverseConstellationsConstellationIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseConstellationsConstellationIDNotFoundBody error false */
-
-// Validate validates this get universe constellations constellation ID not found body
-func (o *GetUniverseConstellationsConstellationIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseConstellationsConstellationIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/{constellation_id}/][%d] getUniverseConstellationsConstellationIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseConstellationsConstellationIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetUniverseConstellationsConstellationIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseConstellationsConstellationIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetUniverseConstellationsConstellationIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetUniverseConstellationsConstellationIDGatewayTimeout creates a GetUniverseConstellationsConstellationIDGatewayTimeout with default headers values
+func NewGetUniverseConstellationsConstellationIDGatewayTimeout() *GetUniverseConstellationsConstellationIDGatewayTimeout {
+	return &GetUniverseConstellationsConstellationIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetUniverseConstellationsConstellationIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseConstellationsConstellationIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetUniverseConstellationsConstellationIDGatewayTimeout handles this case with default header values.
 
-/*GetUniverseConstellationsConstellationIDOKBody get_universe_constellations_constellation_id_ok
-//
-// 200 ok object
-swagger:model GetUniverseConstellationsConstellationIDOKBody
+Gateway timeout
 */
-
-type GetUniverseConstellationsConstellationIDOKBody struct {
-
-	// get_universe_constellations_constellation_id_constellation_id
-	//
-	// constellation_id integer
-	// Required: true
-	ConstellationID *int32 `json:"constellation_id"`
-
-	// get_universe_constellations_constellation_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// position
-	// Required: true
-	Position *GetUniverseConstellationsConstellationIDOKBodyPosition `json:"position"`
-
-	// get_universe_constellations_constellation_id_region_id
-	//
-	// The region this constellation is in
-	// Required: true
-	RegionID *int32 `json:"region_id"`
-
-	// get_universe_constellations_constellation_id_systems
-	//
-	// systems array
-	// Required: true
-	// Max Items: 10000
-	Systems []int32 `json:"systems"`
+type GetUniverseConstellationsConstellationIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetUniverseConstellationsConstellationIDOKBody constellation_id false */
-
-/* polymorph GetUniverseConstellationsConstellationIDOKBody name false */
-
-/* polymorph GetUniverseConstellationsConstellationIDOKBody position false */
-
-/* polymorph GetUniverseConstellationsConstellationIDOKBody region_id false */
-
-/* polymorph GetUniverseConstellationsConstellationIDOKBody systems false */
-
-// Validate validates this get universe constellations constellation ID o k body
-func (o *GetUniverseConstellationsConstellationIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateConstellationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePosition(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRegionID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSystems(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseConstellationsConstellationIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/constellations/{constellation_id}/][%d] getUniverseConstellationsConstellationIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetUniverseConstellationsConstellationIDOKBody) validateConstellationID(formats strfmt.Registry) error {
+func (o *GetUniverseConstellationsConstellationIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseConstellationsConstellationIdOK"+"."+"constellation_id", "body", o.ConstellationID); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseConstellationsConstellationIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseConstellationsConstellationIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseConstellationsConstellationIDOKBody) validatePosition(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseConstellationsConstellationIdOK"+"."+"position", "body", o.Position); err != nil {
-		return err
-	}
-
-	if o.Position != nil {
-
-		if err := o.Position.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("getUniverseConstellationsConstellationIdOK" + "." + "position")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (o *GetUniverseConstellationsConstellationIDOKBody) validateRegionID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseConstellationsConstellationIdOK"+"."+"region_id", "body", o.RegionID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseConstellationsConstellationIDOKBody) validateSystems(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseConstellationsConstellationIdOK"+"."+"systems", "body", o.Systems); err != nil {
-		return err
-	}
-
-	iSystemsSize := int64(len(o.Systems))
-
-	if err := validate.MaxItems("getUniverseConstellationsConstellationIdOK"+"."+"systems", "body", iSystemsSize, 10000); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseConstellationsConstellationIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseConstellationsConstellationIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseConstellationsConstellationIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetUniverseConstellationsConstellationIDOKBodyPosition get_universe_constellations_constellation_id_position
-//
-// position object
-swagger:model GetUniverseConstellationsConstellationIDOKBodyPosition
-*/
-
-type GetUniverseConstellationsConstellationIDOKBodyPosition struct {
-
-	// get_universe_constellations_constellation_id_x
-	//
-	// x number
-	// Required: true
-	X *float32 `json:"x"`
-
-	// get_universe_constellations_constellation_id_y
-	//
-	// y number
-	// Required: true
-	Y *float32 `json:"y"`
-
-	// get_universe_constellations_constellation_id_z
-	//
-	// z number
-	// Required: true
-	Z *float32 `json:"z"`
-}
-
-/* polymorph GetUniverseConstellationsConstellationIDOKBodyPosition x false */
-
-/* polymorph GetUniverseConstellationsConstellationIDOKBodyPosition y false */
-
-/* polymorph GetUniverseConstellationsConstellationIDOKBodyPosition z false */
-
-// Validate validates this get universe constellations constellation ID o k body position
-func (o *GetUniverseConstellationsConstellationIDOKBodyPosition) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateX(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateY(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateZ(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetUniverseConstellationsConstellationIDOKBodyPosition) validateX(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseConstellationsConstellationIdOK"+"."+"position"+"."+"x", "body", o.X); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseConstellationsConstellationIDOKBodyPosition) validateY(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseConstellationsConstellationIdOK"+"."+"position"+"."+"y", "body", o.Y); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseConstellationsConstellationIDOKBodyPosition) validateZ(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseConstellationsConstellationIdOK"+"."+"position"+"."+"z", "body", o.Z); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseConstellationsConstellationIDOKBodyPosition) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseConstellationsConstellationIDOKBodyPosition) UnmarshalBinary(b []byte) error {
-	var res GetUniverseConstellationsConstellationIDOKBodyPosition
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

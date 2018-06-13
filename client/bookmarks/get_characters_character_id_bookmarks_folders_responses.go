@@ -15,7 +15,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDBookmarksFoldersReader is a Reader for the GetCharactersCharacterIDBookmarksFolders structure.
@@ -34,8 +34,36 @@ func (o *GetCharactersCharacterIDBookmarksFoldersReader) ReadResponse(response r
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDBookmarksFoldersNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDBookmarksFoldersBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDBookmarksFoldersUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDBookmarksFoldersForbidden()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -48,6 +76,20 @@ func (o *GetCharactersCharacterIDBookmarksFoldersReader) ReadResponse(response r
 		}
 		return nil, result
 
+	case 503:
+		result := NewGetCharactersCharacterIDBookmarksFoldersServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDBookmarksFoldersGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -55,7 +97,9 @@ func (o *GetCharactersCharacterIDBookmarksFoldersReader) ReadResponse(response r
 
 // NewGetCharactersCharacterIDBookmarksFoldersOK creates a GetCharactersCharacterIDBookmarksFoldersOK with default headers values
 func NewGetCharactersCharacterIDBookmarksFoldersOK() *GetCharactersCharacterIDBookmarksFoldersOK {
-	return &GetCharactersCharacterIDBookmarksFoldersOK{}
+	return &GetCharactersCharacterIDBookmarksFoldersOK{
+		XPages: 1,
+	}
 }
 
 /*GetCharactersCharacterIDBookmarksFoldersOK handles this case with default header values.
@@ -66,14 +110,20 @@ type GetCharactersCharacterIDBookmarksFoldersOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
 	/*RFC7231 formatted datetime string
 	 */
 	LastModified string
+	/*Maximum page number
+	 */
+	XPages int32
 
-	Payload []*GetCharactersCharacterIDBookmarksFoldersOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDBookmarksFoldersOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDBookmarksFoldersOK) Error() string {
@@ -85,14 +135,127 @@ func (o *GetCharactersCharacterIDBookmarksFoldersOK) readResponse(response runti
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	// response header X-Pages
+	xPages, err := swag.ConvertInt32(response.GetHeader("X-Pages"))
+	if err != nil {
+		return errors.InvalidType("X-Pages", "header", "int32", response.GetHeader("X-Pages"))
+	}
+	o.XPages = xPages
+
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBookmarksFoldersNotModified creates a GetCharactersCharacterIDBookmarksFoldersNotModified with default headers values
+func NewGetCharactersCharacterIDBookmarksFoldersNotModified() *GetCharactersCharacterIDBookmarksFoldersNotModified {
+	return &GetCharactersCharacterIDBookmarksFoldersNotModified{}
+}
+
+/*GetCharactersCharacterIDBookmarksFoldersNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDBookmarksFoldersNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/folders/][%d] getCharactersCharacterIdBookmarksFoldersNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBookmarksFoldersBadRequest creates a GetCharactersCharacterIDBookmarksFoldersBadRequest with default headers values
+func NewGetCharactersCharacterIDBookmarksFoldersBadRequest() *GetCharactersCharacterIDBookmarksFoldersBadRequest {
+	return &GetCharactersCharacterIDBookmarksFoldersBadRequest{}
+}
+
+/*GetCharactersCharacterIDBookmarksFoldersBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDBookmarksFoldersBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/folders/][%d] getCharactersCharacterIdBookmarksFoldersBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBookmarksFoldersUnauthorized creates a GetCharactersCharacterIDBookmarksFoldersUnauthorized with default headers values
+func NewGetCharactersCharacterIDBookmarksFoldersUnauthorized() *GetCharactersCharacterIDBookmarksFoldersUnauthorized {
+	return &GetCharactersCharacterIDBookmarksFoldersUnauthorized{}
+}
+
+/*GetCharactersCharacterIDBookmarksFoldersUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDBookmarksFoldersUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/folders/][%d] getCharactersCharacterIdBookmarksFoldersUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -119,6 +282,35 @@ func (o *GetCharactersCharacterIDBookmarksFoldersForbidden) Error() string {
 func (o *GetCharactersCharacterIDBookmarksFoldersForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm creates a GetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm() *GetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm {
+	return &GetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/folders/][%d] getCharactersCharacterIdBookmarksFoldersEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -157,60 +349,60 @@ func (o *GetCharactersCharacterIDBookmarksFoldersInternalServerError) readRespon
 	return nil
 }
 
-/*GetCharactersCharacterIDBookmarksFoldersOKBodyItems0 get_characters_character_id_bookmarks_folders_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDBookmarksFoldersOKBodyItems0
-*/
-
-type GetCharactersCharacterIDBookmarksFoldersOKBodyItems0 struct {
-
-	// get_characters_character_id_bookmarks_folders_folder_id
-	//
-	// folder_id integer
-	FolderID int32 `json:"folder_id,omitempty"`
-
-	// get_characters_character_id_bookmarks_folders_name
-	//
-	// name string
-	Name string `json:"name,omitempty"`
-
-	// get_characters_character_id_bookmarks_folders_owner_id
-	//
-	// owner_id integer
-	OwnerID int32 `json:"owner_id,omitempty"`
+// NewGetCharactersCharacterIDBookmarksFoldersServiceUnavailable creates a GetCharactersCharacterIDBookmarksFoldersServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDBookmarksFoldersServiceUnavailable() *GetCharactersCharacterIDBookmarksFoldersServiceUnavailable {
+	return &GetCharactersCharacterIDBookmarksFoldersServiceUnavailable{}
 }
 
-/* polymorph GetCharactersCharacterIDBookmarksFoldersOKBodyItems0 folder_id false */
+/*GetCharactersCharacterIDBookmarksFoldersServiceUnavailable handles this case with default header values.
 
-/* polymorph GetCharactersCharacterIDBookmarksFoldersOKBodyItems0 name false */
+Service unavailable
+*/
+type GetCharactersCharacterIDBookmarksFoldersServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
 
-/* polymorph GetCharactersCharacterIDBookmarksFoldersOKBodyItems0 owner_id false */
+func (o *GetCharactersCharacterIDBookmarksFoldersServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/folders/][%d] getCharactersCharacterIdBookmarksFoldersServiceUnavailable  %+v", 503, o.Payload)
+}
 
-// Validate validates this get characters character ID bookmarks folders o k body items0
-func (o *GetCharactersCharacterIDBookmarksFoldersOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
+func (o *GetCharactersCharacterIDBookmarksFoldersServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
 	}
+
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksFoldersOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCharactersCharacterIDBookmarksFoldersGatewayTimeout creates a GetCharactersCharacterIDBookmarksFoldersGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDBookmarksFoldersGatewayTimeout() *GetCharactersCharacterIDBookmarksFoldersGatewayTimeout {
+	return &GetCharactersCharacterIDBookmarksFoldersGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBookmarksFoldersOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDBookmarksFoldersOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*GetCharactersCharacterIDBookmarksFoldersGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDBookmarksFoldersGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/bookmarks/folders/][%d] getCharactersCharacterIdBookmarksFoldersGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBookmarksFoldersGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

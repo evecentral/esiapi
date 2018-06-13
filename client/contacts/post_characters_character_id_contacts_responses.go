@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostCharactersCharacterIDContactsReader is a Reader for the PostCharactersCharacterIDContacts structure.
@@ -32,6 +32,20 @@ func (o *PostCharactersCharacterIDContactsReader) ReadResponse(response runtime.
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostCharactersCharacterIDContactsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostCharactersCharacterIDContactsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostCharactersCharacterIDContactsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +53,36 @@ func (o *PostCharactersCharacterIDContactsReader) ReadResponse(response runtime.
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostCharactersCharacterIDContactsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostCharactersCharacterIDContactsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostCharactersCharacterIDContactsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostCharactersCharacterIDContactsGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 520:
+		result := NewPostCharactersCharacterIDContacts()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -78,6 +120,64 @@ func (o *PostCharactersCharacterIDContactsCreated) readResponse(response runtime
 	return nil
 }
 
+// NewPostCharactersCharacterIDContactsBadRequest creates a PostCharactersCharacterIDContactsBadRequest with default headers values
+func NewPostCharactersCharacterIDContactsBadRequest() *PostCharactersCharacterIDContactsBadRequest {
+	return &PostCharactersCharacterIDContactsBadRequest{}
+}
+
+/*PostCharactersCharacterIDContactsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostCharactersCharacterIDContactsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostCharactersCharacterIDContactsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/contacts/][%d] postCharactersCharacterIdContactsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDContactsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDContactsUnauthorized creates a PostCharactersCharacterIDContactsUnauthorized with default headers values
+func NewPostCharactersCharacterIDContactsUnauthorized() *PostCharactersCharacterIDContactsUnauthorized {
+	return &PostCharactersCharacterIDContactsUnauthorized{}
+}
+
+/*PostCharactersCharacterIDContactsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostCharactersCharacterIDContactsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostCharactersCharacterIDContactsUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/contacts/][%d] postCharactersCharacterIdContactsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDContactsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPostCharactersCharacterIDContactsForbidden creates a PostCharactersCharacterIDContactsForbidden with default headers values
 func NewPostCharactersCharacterIDContactsForbidden() *PostCharactersCharacterIDContactsForbidden {
 	return &PostCharactersCharacterIDContactsForbidden{}
@@ -107,6 +207,35 @@ func (o *PostCharactersCharacterIDContactsForbidden) readResponse(response runti
 	return nil
 }
 
+// NewPostCharactersCharacterIDContactsEnhanceYourCalm creates a PostCharactersCharacterIDContactsEnhanceYourCalm with default headers values
+func NewPostCharactersCharacterIDContactsEnhanceYourCalm() *PostCharactersCharacterIDContactsEnhanceYourCalm {
+	return &PostCharactersCharacterIDContactsEnhanceYourCalm{}
+}
+
+/*PostCharactersCharacterIDContactsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostCharactersCharacterIDContactsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostCharactersCharacterIDContactsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/contacts/][%d] postCharactersCharacterIdContactsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDContactsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPostCharactersCharacterIDContactsInternalServerError creates a PostCharactersCharacterIDContactsInternalServerError with default headers values
 func NewPostCharactersCharacterIDContactsInternalServerError() *PostCharactersCharacterIDContactsInternalServerError {
 	return &PostCharactersCharacterIDContactsInternalServerError{}
@@ -127,6 +256,93 @@ func (o *PostCharactersCharacterIDContactsInternalServerError) Error() string {
 func (o *PostCharactersCharacterIDContactsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDContactsServiceUnavailable creates a PostCharactersCharacterIDContactsServiceUnavailable with default headers values
+func NewPostCharactersCharacterIDContactsServiceUnavailable() *PostCharactersCharacterIDContactsServiceUnavailable {
+	return &PostCharactersCharacterIDContactsServiceUnavailable{}
+}
+
+/*PostCharactersCharacterIDContactsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type PostCharactersCharacterIDContactsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *PostCharactersCharacterIDContactsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/contacts/][%d] postCharactersCharacterIdContactsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDContactsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDContactsGatewayTimeout creates a PostCharactersCharacterIDContactsGatewayTimeout with default headers values
+func NewPostCharactersCharacterIDContactsGatewayTimeout() *PostCharactersCharacterIDContactsGatewayTimeout {
+	return &PostCharactersCharacterIDContactsGatewayTimeout{}
+}
+
+/*PostCharactersCharacterIDContactsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type PostCharactersCharacterIDContactsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *PostCharactersCharacterIDContactsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/contacts/][%d] postCharactersCharacterIdContactsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDContactsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDContacts creates a PostCharactersCharacterIDContacts with default headers values
+func NewPostCharactersCharacterIDContacts() *PostCharactersCharacterIDContacts {
+	return &PostCharactersCharacterIDContacts{}
+}
+
+/*PostCharactersCharacterIDContacts handles this case with default header values.
+
+Internal error thrown from the EVE server.
+*/
+type PostCharactersCharacterIDContacts struct {
+	Payload *models.PostCharactersCharacterIDContactsBody
+}
+
+func (o *PostCharactersCharacterIDContacts) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/contacts/][%d] postCharactersCharacterIdContacts  %+v", 520, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDContacts) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.PostCharactersCharacterIDContactsBody)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

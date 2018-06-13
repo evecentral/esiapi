@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDWalletReader is a Reader for the GetCharactersCharacterIDWallet structure.
@@ -32,6 +32,27 @@ func (o *GetCharactersCharacterIDWalletReader) ReadResponse(response runtime.Cli
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDWalletNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDWalletBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDWalletUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDWalletForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +60,29 @@ func (o *GetCharactersCharacterIDWalletReader) ReadResponse(response runtime.Cli
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDWalletEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDWalletInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDWalletServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDWalletGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -64,6 +106,9 @@ type GetCharactersCharacterIDWalletOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -71,7 +116,7 @@ type GetCharactersCharacterIDWalletOK struct {
 	 */
 	LastModified string
 
-	Payload float32
+	Payload float64
 }
 
 func (o *GetCharactersCharacterIDWalletOK) Error() string {
@@ -83,6 +128,9 @@ func (o *GetCharactersCharacterIDWalletOK) readResponse(response runtime.ClientR
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -91,6 +139,109 @@ func (o *GetCharactersCharacterIDWalletOK) readResponse(response runtime.ClientR
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDWalletNotModified creates a GetCharactersCharacterIDWalletNotModified with default headers values
+func NewGetCharactersCharacterIDWalletNotModified() *GetCharactersCharacterIDWalletNotModified {
+	return &GetCharactersCharacterIDWalletNotModified{}
+}
+
+/*GetCharactersCharacterIDWalletNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDWalletNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDWalletNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/wallet/][%d] getCharactersCharacterIdWalletNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDWalletNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDWalletBadRequest creates a GetCharactersCharacterIDWalletBadRequest with default headers values
+func NewGetCharactersCharacterIDWalletBadRequest() *GetCharactersCharacterIDWalletBadRequest {
+	return &GetCharactersCharacterIDWalletBadRequest{}
+}
+
+/*GetCharactersCharacterIDWalletBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDWalletBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDWalletBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/wallet/][%d] getCharactersCharacterIdWalletBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDWalletBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDWalletUnauthorized creates a GetCharactersCharacterIDWalletUnauthorized with default headers values
+func NewGetCharactersCharacterIDWalletUnauthorized() *GetCharactersCharacterIDWalletUnauthorized {
+	return &GetCharactersCharacterIDWalletUnauthorized{}
+}
+
+/*GetCharactersCharacterIDWalletUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDWalletUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDWalletUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/wallet/][%d] getCharactersCharacterIdWalletUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDWalletUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -126,6 +277,35 @@ func (o *GetCharactersCharacterIDWalletForbidden) readResponse(response runtime.
 	return nil
 }
 
+// NewGetCharactersCharacterIDWalletEnhanceYourCalm creates a GetCharactersCharacterIDWalletEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDWalletEnhanceYourCalm() *GetCharactersCharacterIDWalletEnhanceYourCalm {
+	return &GetCharactersCharacterIDWalletEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDWalletEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDWalletEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDWalletEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/wallet/][%d] getCharactersCharacterIdWalletEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDWalletEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewGetCharactersCharacterIDWalletInternalServerError creates a GetCharactersCharacterIDWalletInternalServerError with default headers values
 func NewGetCharactersCharacterIDWalletInternalServerError() *GetCharactersCharacterIDWalletInternalServerError {
 	return &GetCharactersCharacterIDWalletInternalServerError{}
@@ -146,6 +326,64 @@ func (o *GetCharactersCharacterIDWalletInternalServerError) Error() string {
 func (o *GetCharactersCharacterIDWalletInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDWalletServiceUnavailable creates a GetCharactersCharacterIDWalletServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDWalletServiceUnavailable() *GetCharactersCharacterIDWalletServiceUnavailable {
+	return &GetCharactersCharacterIDWalletServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDWalletServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetCharactersCharacterIDWalletServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetCharactersCharacterIDWalletServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/wallet/][%d] getCharactersCharacterIdWalletServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDWalletServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDWalletGatewayTimeout creates a GetCharactersCharacterIDWalletGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDWalletGatewayTimeout() *GetCharactersCharacterIDWalletGatewayTimeout {
+	return &GetCharactersCharacterIDWalletGatewayTimeout{}
+}
+
+/*GetCharactersCharacterIDWalletGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDWalletGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDWalletGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/wallet/][%d] getCharactersCharacterIdWalletGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDWalletGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

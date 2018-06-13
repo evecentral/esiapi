@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseRegionsReader is a Reader for the GetUniverseRegions structure.
@@ -32,8 +32,43 @@ func (o *GetUniverseRegionsReader) ReadResponse(response runtime.ClientResponse,
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseRegionsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseRegionsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetUniverseRegionsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseRegionsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseRegionsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseRegionsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetUniverseRegionsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetUniverseRegionsOK) readResponse(response runtime.ClientResponse, con
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetUniverseRegionsOK) readResponse(response runtime.ClientResponse, con
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseRegionsNotModified creates a GetUniverseRegionsNotModified with default headers values
+func NewGetUniverseRegionsNotModified() *GetUniverseRegionsNotModified {
+	return &GetUniverseRegionsNotModified{}
+}
+
+/*GetUniverseRegionsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseRegionsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseRegionsNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/][%d] getUniverseRegionsNotModified ", 304)
+}
+
+func (o *GetUniverseRegionsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseRegionsBadRequest creates a GetUniverseRegionsBadRequest with default headers values
+func NewGetUniverseRegionsBadRequest() *GetUniverseRegionsBadRequest {
+	return &GetUniverseRegionsBadRequest{}
+}
+
+/*GetUniverseRegionsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseRegionsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseRegionsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/][%d] getUniverseRegionsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseRegionsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseRegionsEnhanceYourCalm creates a GetUniverseRegionsEnhanceYourCalm with default headers values
+func NewGetUniverseRegionsEnhanceYourCalm() *GetUniverseRegionsEnhanceYourCalm {
+	return &GetUniverseRegionsEnhanceYourCalm{}
+}
+
+/*GetUniverseRegionsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseRegionsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseRegionsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/][%d] getUniverseRegionsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseRegionsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetUniverseRegionsInternalServerError) Error() string {
 func (o *GetUniverseRegionsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseRegionsServiceUnavailable creates a GetUniverseRegionsServiceUnavailable with default headers values
+func NewGetUniverseRegionsServiceUnavailable() *GetUniverseRegionsServiceUnavailable {
+	return &GetUniverseRegionsServiceUnavailable{}
+}
+
+/*GetUniverseRegionsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetUniverseRegionsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetUniverseRegionsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/][%d] getUniverseRegionsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetUniverseRegionsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseRegionsGatewayTimeout creates a GetUniverseRegionsGatewayTimeout with default headers values
+func NewGetUniverseRegionsGatewayTimeout() *GetUniverseRegionsGatewayTimeout {
+	return &GetUniverseRegionsGatewayTimeout{}
+}
+
+/*GetUniverseRegionsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetUniverseRegionsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetUniverseRegionsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/regions/][%d] getUniverseRegionsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetUniverseRegionsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

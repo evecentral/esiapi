@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDSearchReader is a Reader for the GetCharactersCharacterIDSearch structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDSearchReader) ReadResponse(response runtime.Cli
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDSearchNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDSearchBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDSearchUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDSearchForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCharactersCharacterIDSearchReader) ReadResponse(response runtime.Cli
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDSearchEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDSearchInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDSearchServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDSearchGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,12 @@ type GetCharactersCharacterIDSearchOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*The language used in the response
+	 */
+	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +119,7 @@ type GetCharactersCharacterIDSearchOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDSearchOKBody
+	Payload *models.GetCharactersCharacterIDSearchOKBody
 }
 
 func (o *GetCharactersCharacterIDSearchOK) Error() string {
@@ -86,14 +131,125 @@ func (o *GetCharactersCharacterIDSearchOK) readResponse(response runtime.ClientR
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header Content-Language
+	o.ContentLanguage = response.GetHeader("Content-Language")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDSearchOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSearchNotModified creates a GetCharactersCharacterIDSearchNotModified with default headers values
+func NewGetCharactersCharacterIDSearchNotModified() *GetCharactersCharacterIDSearchNotModified {
+	return &GetCharactersCharacterIDSearchNotModified{}
+}
+
+/*GetCharactersCharacterIDSearchNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDSearchNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDSearchNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/search/][%d] getCharactersCharacterIdSearchNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDSearchNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSearchBadRequest creates a GetCharactersCharacterIDSearchBadRequest with default headers values
+func NewGetCharactersCharacterIDSearchBadRequest() *GetCharactersCharacterIDSearchBadRequest {
+	return &GetCharactersCharacterIDSearchBadRequest{}
+}
+
+/*GetCharactersCharacterIDSearchBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDSearchBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDSearchBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/search/][%d] getCharactersCharacterIdSearchBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSearchBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSearchUnauthorized creates a GetCharactersCharacterIDSearchUnauthorized with default headers values
+func NewGetCharactersCharacterIDSearchUnauthorized() *GetCharactersCharacterIDSearchUnauthorized {
+	return &GetCharactersCharacterIDSearchUnauthorized{}
+}
+
+/*GetCharactersCharacterIDSearchUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDSearchUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDSearchUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/search/][%d] getCharactersCharacterIdSearchUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSearchUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +276,35 @@ func (o *GetCharactersCharacterIDSearchForbidden) Error() string {
 func (o *GetCharactersCharacterIDSearchForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSearchEnhanceYourCalm creates a GetCharactersCharacterIDSearchEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDSearchEnhanceYourCalm() *GetCharactersCharacterIDSearchEnhanceYourCalm {
+	return &GetCharactersCharacterIDSearchEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDSearchEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDSearchEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDSearchEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/search/][%d] getCharactersCharacterIdSearchEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSearchEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,387 +343,60 @@ func (o *GetCharactersCharacterIDSearchInternalServerError) readResponse(respons
 	return nil
 }
 
-/*GetCharactersCharacterIDSearchOKBody get_characters_character_id_search_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDSearchOKBody
+// NewGetCharactersCharacterIDSearchServiceUnavailable creates a GetCharactersCharacterIDSearchServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDSearchServiceUnavailable() *GetCharactersCharacterIDSearchServiceUnavailable {
+	return &GetCharactersCharacterIDSearchServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDSearchServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDSearchOKBody struct {
-
-	// get_characters_character_id_search_agent
-	//
-	// agent array
-	// Required: true
-	// Max Items: 500
-	Agent []int32 `json:"agent"`
-
-	// get_characters_character_id_search_alliance
-	//
-	// alliance array
-	// Required: true
-	// Max Items: 500
-	Alliance []int32 `json:"alliance"`
-
-	// get_characters_character_id_search_character
-	//
-	// character array
-	// Required: true
-	// Max Items: 500
-	Character []int32 `json:"character"`
-
-	// get_characters_character_id_search_constellation
-	//
-	// constellation array
-	// Required: true
-	// Max Items: 500
-	Constellation []int32 `json:"constellation"`
-
-	// get_characters_character_id_search_corporation
-	//
-	// corporation array
-	// Required: true
-	// Max Items: 500
-	Corporation []int32 `json:"corporation"`
-
-	// get_characters_character_id_search_faction
-	//
-	// faction array
-	// Required: true
-	// Max Items: 500
-	Faction []int32 `json:"faction"`
-
-	// get_characters_character_id_search_inventorytype
-	//
-	// inventorytype array
-	// Required: true
-	// Max Items: 500
-	Inventorytype []int32 `json:"inventorytype"`
-
-	// get_characters_character_id_search_region
-	//
-	// region array
-	// Required: true
-	// Max Items: 500
-	Region []int32 `json:"region"`
-
-	// get_characters_character_id_search_solarsystem
-	//
-	// solarsystem array
-	// Required: true
-	// Max Items: 500
-	Solarsystem []int32 `json:"solarsystem"`
-
-	// get_characters_character_id_search_station
-	//
-	// station array
-	// Required: true
-	// Max Items: 500
-	Station []int32 `json:"station"`
-
-	// get_characters_character_id_search_structure
-	//
-	// structure array
-	// Required: true
-	// Max Items: 500
-	Structure []int64 `json:"structure"`
-
-	// get_characters_character_id_search_wormhole
-	//
-	// wormhole array
-	// Required: true
-	// Max Items: 500
-	Wormhole []int32 `json:"wormhole"`
+type GetCharactersCharacterIDSearchServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDSearchOKBody agent false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody alliance false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody character false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody constellation false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody corporation false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody faction false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody inventorytype false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody region false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody solarsystem false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody station false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody structure false */
-
-/* polymorph GetCharactersCharacterIDSearchOKBody wormhole false */
-
-// Validate validates this get characters character ID search o k body
-func (o *GetCharactersCharacterIDSearchOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAgent(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateAlliance(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCharacter(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateConstellation(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCorporation(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateFaction(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateInventorytype(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRegion(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarsystem(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStation(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStructure(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateWormhole(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDSearchServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/search/][%d] getCharactersCharacterIdSearchServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDSearchOKBody) validateAgent(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDSearchServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"agent", "body", o.Agent); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	iAgentSize := int64(len(o.Agent))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"agent", "body", iAgentSize, 500); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDSearchOKBody) validateAlliance(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"alliance", "body", o.Alliance); err != nil {
-		return err
-	}
-
-	iAllianceSize := int64(len(o.Alliance))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"alliance", "body", iAllianceSize, 500); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDSearchGatewayTimeout creates a GetCharactersCharacterIDSearchGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDSearchGatewayTimeout() *GetCharactersCharacterIDSearchGatewayTimeout {
+	return &GetCharactersCharacterIDSearchGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDSearchOKBody) validateCharacter(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDSearchGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"character", "body", o.Character); err != nil {
-		return err
-	}
-
-	iCharacterSize := int64(len(o.Character))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"character", "body", iCharacterSize, 500); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDSearchGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetCharactersCharacterIDSearchOKBody) validateConstellation(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"constellation", "body", o.Constellation); err != nil {
-		return err
-	}
-
-	iConstellationSize := int64(len(o.Constellation))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"constellation", "body", iConstellationSize, 500); err != nil {
-		return err
-	}
-
-	return nil
+func (o *GetCharactersCharacterIDSearchGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/search/][%d] getCharactersCharacterIdSearchGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDSearchOKBody) validateCorporation(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDSearchGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"corporation", "body", o.Corporation); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	iCorporationSize := int64(len(o.Corporation))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"corporation", "body", iCorporationSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSearchOKBody) validateFaction(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"faction", "body", o.Faction); err != nil {
-		return err
-	}
-
-	iFactionSize := int64(len(o.Faction))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"faction", "body", iFactionSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSearchOKBody) validateInventorytype(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"inventorytype", "body", o.Inventorytype); err != nil {
-		return err
-	}
-
-	iInventorytypeSize := int64(len(o.Inventorytype))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"inventorytype", "body", iInventorytypeSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSearchOKBody) validateRegion(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"region", "body", o.Region); err != nil {
-		return err
-	}
-
-	iRegionSize := int64(len(o.Region))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"region", "body", iRegionSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSearchOKBody) validateSolarsystem(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"solarsystem", "body", o.Solarsystem); err != nil {
-		return err
-	}
-
-	iSolarsystemSize := int64(len(o.Solarsystem))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"solarsystem", "body", iSolarsystemSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSearchOKBody) validateStation(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"station", "body", o.Station); err != nil {
-		return err
-	}
-
-	iStationSize := int64(len(o.Station))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"station", "body", iStationSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSearchOKBody) validateStructure(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"structure", "body", o.Structure); err != nil {
-		return err
-	}
-
-	iStructureSize := int64(len(o.Structure))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"structure", "body", iStructureSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSearchOKBody) validateWormhole(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSearchOK"+"."+"wormhole", "body", o.Wormhole); err != nil {
-		return err
-	}
-
-	iWormholeSize := int64(len(o.Wormhole))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSearchOK"+"."+"wormhole", "body", iWormholeSize, 500); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDSearchOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDSearchOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDSearchOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

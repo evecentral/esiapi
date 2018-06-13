@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDLocationReader is a Reader for the GetCharactersCharacterIDLocation structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDLocationReader) ReadResponse(response runtime.C
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDLocationNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDLocationBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDLocationUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDLocationForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCharactersCharacterIDLocationReader) ReadResponse(response runtime.C
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDLocationEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDLocationInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDLocationServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDLocationGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,9 @@ type GetCharactersCharacterIDLocationOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +116,7 @@ type GetCharactersCharacterIDLocationOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDLocationOKBody
+	Payload *models.GetCharactersCharacterIDLocationOKBody
 }
 
 func (o *GetCharactersCharacterIDLocationOK) Error() string {
@@ -86,14 +128,122 @@ func (o *GetCharactersCharacterIDLocationOK) readResponse(response runtime.Clien
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDLocationOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDLocationNotModified creates a GetCharactersCharacterIDLocationNotModified with default headers values
+func NewGetCharactersCharacterIDLocationNotModified() *GetCharactersCharacterIDLocationNotModified {
+	return &GetCharactersCharacterIDLocationNotModified{}
+}
+
+/*GetCharactersCharacterIDLocationNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDLocationNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDLocationNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/location/][%d] getCharactersCharacterIdLocationNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDLocationNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDLocationBadRequest creates a GetCharactersCharacterIDLocationBadRequest with default headers values
+func NewGetCharactersCharacterIDLocationBadRequest() *GetCharactersCharacterIDLocationBadRequest {
+	return &GetCharactersCharacterIDLocationBadRequest{}
+}
+
+/*GetCharactersCharacterIDLocationBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDLocationBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDLocationBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/location/][%d] getCharactersCharacterIdLocationBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDLocationBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDLocationUnauthorized creates a GetCharactersCharacterIDLocationUnauthorized with default headers values
+func NewGetCharactersCharacterIDLocationUnauthorized() *GetCharactersCharacterIDLocationUnauthorized {
+	return &GetCharactersCharacterIDLocationUnauthorized{}
+}
+
+/*GetCharactersCharacterIDLocationUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDLocationUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDLocationUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/location/][%d] getCharactersCharacterIdLocationUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDLocationUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +270,35 @@ func (o *GetCharactersCharacterIDLocationForbidden) Error() string {
 func (o *GetCharactersCharacterIDLocationForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDLocationEnhanceYourCalm creates a GetCharactersCharacterIDLocationEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDLocationEnhanceYourCalm() *GetCharactersCharacterIDLocationEnhanceYourCalm {
+	return &GetCharactersCharacterIDLocationEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDLocationEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDLocationEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDLocationEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/location/][%d] getCharactersCharacterIdLocationEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDLocationEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,105 +337,60 @@ func (o *GetCharactersCharacterIDLocationInternalServerError) readResponse(respo
 	return nil
 }
 
-/*GetCharactersCharacterIDLocationOKBody get_characters_character_id_location_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDLocationOKBody
+// NewGetCharactersCharacterIDLocationServiceUnavailable creates a GetCharactersCharacterIDLocationServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDLocationServiceUnavailable() *GetCharactersCharacterIDLocationServiceUnavailable {
+	return &GetCharactersCharacterIDLocationServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDLocationServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDLocationOKBody struct {
-
-	// get_characters_character_id_location_solar_system_id
-	//
-	// solar_system_id integer
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
-
-	// get_characters_character_id_location_station_id
-	//
-	// station_id integer
-	// Required: true
-	StationID *int32 `json:"station_id"`
-
-	// get_characters_character_id_location_structure_id
-	//
-	// structure_id integer
-	// Required: true
-	StructureID *int64 `json:"structure_id"`
+type GetCharactersCharacterIDLocationServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDLocationOKBody solar_system_id false */
-
-/* polymorph GetCharactersCharacterIDLocationOKBody station_id false */
-
-/* polymorph GetCharactersCharacterIDLocationOKBody structure_id false */
-
-// Validate validates this get characters character ID location o k body
-func (o *GetCharactersCharacterIDLocationOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateStructureID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDLocationServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/location/][%d] getCharactersCharacterIdLocationServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDLocationOKBody) validateSolarSystemID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDLocationServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdLocationOK"+"."+"solar_system_id", "body", o.SolarSystemID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDLocationOKBody) validateStationID(formats strfmt.Registry) error {
+// NewGetCharactersCharacterIDLocationGatewayTimeout creates a GetCharactersCharacterIDLocationGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDLocationGatewayTimeout() *GetCharactersCharacterIDLocationGatewayTimeout {
+	return &GetCharactersCharacterIDLocationGatewayTimeout{}
+}
 
-	if err := validate.Required("getCharactersCharacterIdLocationOK"+"."+"station_id", "body", o.StationID); err != nil {
+/*GetCharactersCharacterIDLocationGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDLocationGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDLocationGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/location/][%d] getCharactersCharacterIdLocationGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDLocationGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDLocationOKBody) validateStructureID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdLocationOK"+"."+"structure_id", "body", o.StructureID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDLocationOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDLocationOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDLocationOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

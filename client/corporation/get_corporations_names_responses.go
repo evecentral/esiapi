@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCorporationsNamesReader is a Reader for the GetCorporationsNames structure.
@@ -35,8 +32,43 @@ func (o *GetCorporationsNamesReader) ReadResponse(response runtime.ClientRespons
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCorporationsNamesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCorporationsNamesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCorporationsNamesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCorporationsNamesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCorporationsNamesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCorporationsNamesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetCorporationsNamesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetCorporationsNamesOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCorporationsNamesOKBodyItems0
+	Payload []*models.GetCorporationsNamesOKBodyItems
 }
 
 func (o *GetCorporationsNamesOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetCorporationsNamesOK) readResponse(response runtime.ClientResponse, c
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetCorporationsNamesOK) readResponse(response runtime.ClientResponse, c
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsNamesNotModified creates a GetCorporationsNamesNotModified with default headers values
+func NewGetCorporationsNamesNotModified() *GetCorporationsNamesNotModified {
+	return &GetCorporationsNamesNotModified{}
+}
+
+/*GetCorporationsNamesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCorporationsNamesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCorporationsNamesNotModified) Error() string {
+	return fmt.Sprintf("[GET /corporations/names/][%d] getCorporationsNamesNotModified ", 304)
+}
+
+func (o *GetCorporationsNamesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCorporationsNamesBadRequest creates a GetCorporationsNamesBadRequest with default headers values
+func NewGetCorporationsNamesBadRequest() *GetCorporationsNamesBadRequest {
+	return &GetCorporationsNamesBadRequest{}
+}
+
+/*GetCorporationsNamesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCorporationsNamesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCorporationsNamesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /corporations/names/][%d] getCorporationsNamesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCorporationsNamesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsNamesEnhanceYourCalm creates a GetCorporationsNamesEnhanceYourCalm with default headers values
+func NewGetCorporationsNamesEnhanceYourCalm() *GetCorporationsNamesEnhanceYourCalm {
+	return &GetCorporationsNamesEnhanceYourCalm{}
+}
+
+/*GetCorporationsNamesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCorporationsNamesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCorporationsNamesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /corporations/names/][%d] getCorporationsNamesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCorporationsNamesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,83 +263,60 @@ func (o *GetCorporationsNamesInternalServerError) readResponse(response runtime.
 	return nil
 }
 
-/*GetCorporationsNamesOKBodyItems0 get_corporations_names_200_ok
-//
-// 200 ok object
-swagger:model GetCorporationsNamesOKBodyItems0
+// NewGetCorporationsNamesServiceUnavailable creates a GetCorporationsNamesServiceUnavailable with default headers values
+func NewGetCorporationsNamesServiceUnavailable() *GetCorporationsNamesServiceUnavailable {
+	return &GetCorporationsNamesServiceUnavailable{}
+}
+
+/*GetCorporationsNamesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCorporationsNamesOKBodyItems0 struct {
-
-	// get_corporations_names_corporation_id
-	//
-	// corporation_id integer
-	// Required: true
-	CorporationID *int32 `json:"corporation_id"`
-
-	// get_corporations_names_corporation_name
-	//
-	// corporation_name string
-	// Required: true
-	CorporationName *string `json:"corporation_name"`
+type GetCorporationsNamesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCorporationsNamesOKBodyItems0 corporation_id false */
-
-/* polymorph GetCorporationsNamesOKBodyItems0 corporation_name false */
-
-// Validate validates this get corporations names o k body items0
-func (o *GetCorporationsNamesOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCorporationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCorporationName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCorporationsNamesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /corporations/names/][%d] getCorporationsNamesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCorporationsNamesOKBodyItems0) validateCorporationID(formats strfmt.Registry) error {
+func (o *GetCorporationsNamesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("corporation_id", "body", o.CorporationID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCorporationsNamesOKBodyItems0) validateCorporationName(formats strfmt.Registry) error {
+// NewGetCorporationsNamesGatewayTimeout creates a GetCorporationsNamesGatewayTimeout with default headers values
+func NewGetCorporationsNamesGatewayTimeout() *GetCorporationsNamesGatewayTimeout {
+	return &GetCorporationsNamesGatewayTimeout{}
+}
 
-	if err := validate.Required("corporation_name", "body", o.CorporationName); err != nil {
+/*GetCorporationsNamesGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCorporationsNamesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCorporationsNamesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /corporations/names/][%d] getCorporationsNamesGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCorporationsNamesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCorporationsNamesOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCorporationsNamesOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCorporationsNamesOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

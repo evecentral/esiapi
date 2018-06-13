@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCorporationsCorporationIDMembertrackingReader is a Reader for the GetCorporationsCorporationIDMembertracking structure.
@@ -35,6 +32,27 @@ func (o *GetCorporationsCorporationIDMembertrackingReader) ReadResponse(response
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCorporationsCorporationIDMembertrackingNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCorporationsCorporationIDMembertrackingBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCorporationsCorporationIDMembertrackingUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCorporationsCorporationIDMembertrackingForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCorporationsCorporationIDMembertrackingReader) ReadResponse(response
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCorporationsCorporationIDMembertrackingEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCorporationsCorporationIDMembertrackingInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCorporationsCorporationIDMembertrackingServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCorporationsCorporationIDMembertrackingGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,9 @@ type GetCorporationsCorporationIDMembertrackingOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +116,7 @@ type GetCorporationsCorporationIDMembertrackingOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCorporationsCorporationIDMembertrackingOKBodyItems0
+	Payload []*models.GetCorporationsCorporationIDMembertrackingOKBodyItems
 }
 
 func (o *GetCorporationsCorporationIDMembertrackingOK) Error() string {
@@ -86,6 +128,9 @@ func (o *GetCorporationsCorporationIDMembertrackingOK) readResponse(response run
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +139,109 @@ func (o *GetCorporationsCorporationIDMembertrackingOK) readResponse(response run
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDMembertrackingNotModified creates a GetCorporationsCorporationIDMembertrackingNotModified with default headers values
+func NewGetCorporationsCorporationIDMembertrackingNotModified() *GetCorporationsCorporationIDMembertrackingNotModified {
+	return &GetCorporationsCorporationIDMembertrackingNotModified{}
+}
+
+/*GetCorporationsCorporationIDMembertrackingNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCorporationsCorporationIDMembertrackingNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingNotModified) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/membertracking/][%d] getCorporationsCorporationIdMembertrackingNotModified ", 304)
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDMembertrackingBadRequest creates a GetCorporationsCorporationIDMembertrackingBadRequest with default headers values
+func NewGetCorporationsCorporationIDMembertrackingBadRequest() *GetCorporationsCorporationIDMembertrackingBadRequest {
+	return &GetCorporationsCorporationIDMembertrackingBadRequest{}
+}
+
+/*GetCorporationsCorporationIDMembertrackingBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCorporationsCorporationIDMembertrackingBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingBadRequest) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/membertracking/][%d] getCorporationsCorporationIdMembertrackingBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDMembertrackingUnauthorized creates a GetCorporationsCorporationIDMembertrackingUnauthorized with default headers values
+func NewGetCorporationsCorporationIDMembertrackingUnauthorized() *GetCorporationsCorporationIDMembertrackingUnauthorized {
+	return &GetCorporationsCorporationIDMembertrackingUnauthorized{}
+}
+
+/*GetCorporationsCorporationIDMembertrackingUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCorporationsCorporationIDMembertrackingUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/membertracking/][%d] getCorporationsCorporationIdMembertrackingUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +268,35 @@ func (o *GetCorporationsCorporationIDMembertrackingForbidden) Error() string {
 func (o *GetCorporationsCorporationIDMembertrackingForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsCorporationIDMembertrackingEnhanceYourCalm creates a GetCorporationsCorporationIDMembertrackingEnhanceYourCalm with default headers values
+func NewGetCorporationsCorporationIDMembertrackingEnhanceYourCalm() *GetCorporationsCorporationIDMembertrackingEnhanceYourCalm {
+	return &GetCorporationsCorporationIDMembertrackingEnhanceYourCalm{}
+}
+
+/*GetCorporationsCorporationIDMembertrackingEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCorporationsCorporationIDMembertrackingEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/membertracking/][%d] getCorporationsCorporationIdMembertrackingEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,103 +335,60 @@ func (o *GetCorporationsCorporationIDMembertrackingInternalServerError) readResp
 	return nil
 }
 
-/*GetCorporationsCorporationIDMembertrackingOKBodyItems0 get_corporations_corporation_id_membertracking_200_ok
-//
-// 200 ok object
-swagger:model GetCorporationsCorporationIDMembertrackingOKBodyItems0
+// NewGetCorporationsCorporationIDMembertrackingServiceUnavailable creates a GetCorporationsCorporationIDMembertrackingServiceUnavailable with default headers values
+func NewGetCorporationsCorporationIDMembertrackingServiceUnavailable() *GetCorporationsCorporationIDMembertrackingServiceUnavailable {
+	return &GetCorporationsCorporationIDMembertrackingServiceUnavailable{}
+}
+
+/*GetCorporationsCorporationIDMembertrackingServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCorporationsCorporationIDMembertrackingOKBodyItems0 struct {
-
-	// get_corporations_corporation_id_membertracking_base_id
-	//
-	// base_id integer
-	BaseID int32 `json:"base_id,omitempty"`
-
-	// get_corporations_corporation_id_membertracking_character_id
-	//
-	// character_id integer
-	// Required: true
-	CharacterID *int32 `json:"character_id"`
-
-	// get_corporations_corporation_id_membertracking_location_id
-	//
-	// location_id integer
-	LocationID int64 `json:"location_id,omitempty"`
-
-	// get_corporations_corporation_id_membertracking_logoff_date
-	//
-	// logoff_date string
-	LogoffDate strfmt.DateTime `json:"logoff_date,omitempty"`
-
-	// get_corporations_corporation_id_membertracking_logon_date
-	//
-	// logon_date string
-	LogonDate strfmt.DateTime `json:"logon_date,omitempty"`
-
-	// get_corporations_corporation_id_membertracking_ship_type_id
-	//
-	// ship_type_id integer
-	ShipTypeID int32 `json:"ship_type_id,omitempty"`
-
-	// get_corporations_corporation_id_membertracking_start_date
-	//
-	// start_date string
-	StartDate strfmt.DateTime `json:"start_date,omitempty"`
+type GetCorporationsCorporationIDMembertrackingServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCorporationsCorporationIDMembertrackingOKBodyItems0 base_id false */
-
-/* polymorph GetCorporationsCorporationIDMembertrackingOKBodyItems0 character_id false */
-
-/* polymorph GetCorporationsCorporationIDMembertrackingOKBodyItems0 location_id false */
-
-/* polymorph GetCorporationsCorporationIDMembertrackingOKBodyItems0 logoff_date false */
-
-/* polymorph GetCorporationsCorporationIDMembertrackingOKBodyItems0 logon_date false */
-
-/* polymorph GetCorporationsCorporationIDMembertrackingOKBodyItems0 ship_type_id false */
-
-/* polymorph GetCorporationsCorporationIDMembertrackingOKBodyItems0 start_date false */
-
-// Validate validates this get corporations corporation ID membertracking o k body items0
-func (o *GetCorporationsCorporationIDMembertrackingOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCharacterID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCorporationsCorporationIDMembertrackingServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/membertracking/][%d] getCorporationsCorporationIdMembertrackingServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCorporationsCorporationIDMembertrackingOKBodyItems0) validateCharacterID(formats strfmt.Registry) error {
+func (o *GetCorporationsCorporationIDMembertrackingServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("character_id", "body", o.CharacterID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDMembertrackingOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCorporationsCorporationIDMembertrackingGatewayTimeout creates a GetCorporationsCorporationIDMembertrackingGatewayTimeout with default headers values
+func NewGetCorporationsCorporationIDMembertrackingGatewayTimeout() *GetCorporationsCorporationIDMembertrackingGatewayTimeout {
+	return &GetCorporationsCorporationIDMembertrackingGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCorporationsCorporationIDMembertrackingOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCorporationsCorporationIDMembertrackingOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*GetCorporationsCorporationIDMembertrackingGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCorporationsCorporationIDMembertrackingGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /corporations/{corporation_id}/membertracking/][%d] getCorporationsCorporationIdMembertrackingGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCorporationsCorporationIDMembertrackingGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

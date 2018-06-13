@@ -6,19 +6,14 @@ package mail
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDMailReader is a Reader for the GetCharactersCharacterIDMail structure.
@@ -37,6 +32,27 @@ func (o *GetCharactersCharacterIDMailReader) ReadResponse(response runtime.Clien
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDMailNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDMailBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDMailUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDMailForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -44,8 +60,29 @@ func (o *GetCharactersCharacterIDMailReader) ReadResponse(response runtime.Clien
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDMailEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDMailInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDMailServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDMailGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -69,6 +106,9 @@ type GetCharactersCharacterIDMailOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,7 +116,7 @@ type GetCharactersCharacterIDMailOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDMailOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDMailOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDMailOK) Error() string {
@@ -88,6 +128,9 @@ func (o *GetCharactersCharacterIDMailOK) readResponse(response runtime.ClientRes
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -96,6 +139,109 @@ func (o *GetCharactersCharacterIDMailOK) readResponse(response runtime.ClientRes
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMailNotModified creates a GetCharactersCharacterIDMailNotModified with default headers values
+func NewGetCharactersCharacterIDMailNotModified() *GetCharactersCharacterIDMailNotModified {
+	return &GetCharactersCharacterIDMailNotModified{}
+}
+
+/*GetCharactersCharacterIDMailNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDMailNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDMailNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/][%d] getCharactersCharacterIdMailNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDMailNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMailBadRequest creates a GetCharactersCharacterIDMailBadRequest with default headers values
+func NewGetCharactersCharacterIDMailBadRequest() *GetCharactersCharacterIDMailBadRequest {
+	return &GetCharactersCharacterIDMailBadRequest{}
+}
+
+/*GetCharactersCharacterIDMailBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDMailBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDMailBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/][%d] getCharactersCharacterIdMailBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMailBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMailUnauthorized creates a GetCharactersCharacterIDMailUnauthorized with default headers values
+func NewGetCharactersCharacterIDMailUnauthorized() *GetCharactersCharacterIDMailUnauthorized {
+	return &GetCharactersCharacterIDMailUnauthorized{}
+}
+
+/*GetCharactersCharacterIDMailUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDMailUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDMailUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/][%d] getCharactersCharacterIdMailUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMailUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,6 +268,35 @@ func (o *GetCharactersCharacterIDMailForbidden) Error() string {
 func (o *GetCharactersCharacterIDMailForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMailEnhanceYourCalm creates a GetCharactersCharacterIDMailEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDMailEnhanceYourCalm() *GetCharactersCharacterIDMailEnhanceYourCalm {
+	return &GetCharactersCharacterIDMailEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDMailEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDMailEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDMailEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/][%d] getCharactersCharacterIdMailEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMailEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -160,281 +335,60 @@ func (o *GetCharactersCharacterIDMailInternalServerError) readResponse(response 
 	return nil
 }
 
-/*GetCharactersCharacterIDMailOKBodyItems0 get_characters_character_id_mail_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDMailOKBodyItems0
+// NewGetCharactersCharacterIDMailServiceUnavailable creates a GetCharactersCharacterIDMailServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDMailServiceUnavailable() *GetCharactersCharacterIDMailServiceUnavailable {
+	return &GetCharactersCharacterIDMailServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDMailServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDMailOKBodyItems0 struct {
-
-	// get_characters_character_id_mail_from
-	//
-	// From whom the mail was sent
-	From int32 `json:"from,omitempty"`
-
-	// get_characters_character_id_mail_is_read
-	//
-	// is_read boolean
-	IsRead bool `json:"is_read,omitempty"`
-
-	// get_characters_character_id_mail_labels
-	//
-	// labels array
-	// Minimum: 0
-	// Max Items: 25
-	// Unique: true
-	Labels []int64 `json:"labels"`
-
-	// get_characters_character_id_mail_mail_id
-	//
-	// mail_id integer
-	MailID int64 `json:"mail_id,omitempty"`
-
-	// get_characters_character_id_mail_recipients
-	//
-	// Recipients of the mail
-	// Max Items: 52
-	// Min Items: 1
-	// Unique: true
-	Recipients []*GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0 `json:"recipients"`
-
-	// get_characters_character_id_mail_subject
-	//
-	// Mail subject
-	Subject string `json:"subject,omitempty"`
-
-	// get_characters_character_id_mail_timestamp
-	//
-	// When the mail was sent
-	Timestamp strfmt.DateTime `json:"timestamp,omitempty"`
+type GetCharactersCharacterIDMailServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0 from false */
-
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0 is_read false */
-
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0 labels false */
-
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0 mail_id false */
-
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0 recipients false */
-
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0 subject false */
-
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0 timestamp false */
-
-// Validate validates this get characters character ID mail o k body items0
-func (o *GetCharactersCharacterIDMailOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateLabels(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRecipients(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDMailServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/][%d] getCharactersCharacterIdMailServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDMailOKBodyItems0) validateLabels(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDMailServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if swag.IsZero(o.Labels) { // not required
-		return nil
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	iLabelsSize := int64(len(o.Labels))
-
-	if err := validate.MaxItems("labels", "body", iLabelsSize, 25); err != nil {
-		return err
-	}
-
-	if err := validate.UniqueItems("labels", "body", o.Labels); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDMailOKBodyItems0) validateRecipients(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.Recipients) { // not required
-		return nil
-	}
-
-	iRecipientsSize := int64(len(o.Recipients))
-
-	if err := validate.MinItems("recipients", "body", iRecipientsSize, 1); err != nil {
-		return err
-	}
-
-	if err := validate.MaxItems("recipients", "body", iRecipientsSize, 52); err != nil {
-		return err
-	}
-
-	if err := validate.UniqueItems("recipients", "body", o.Recipients); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Recipients); i++ {
-
-		if swag.IsZero(o.Recipients[i]) { // not required
-			continue
-		}
-
-		if o.Recipients[i] != nil {
-
-			if err := o.Recipients[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("recipients" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
+// NewGetCharactersCharacterIDMailGatewayTimeout creates a GetCharactersCharacterIDMailGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDMailGatewayTimeout() *GetCharactersCharacterIDMailGatewayTimeout {
+	return &GetCharactersCharacterIDMailGatewayTimeout{}
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMailOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
+/*GetCharactersCharacterIDMailGatewayTimeout handles this case with default header values.
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMailOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDMailOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0 get_characters_character_id_mail_recipient
-//
-// recipient object
-swagger:model GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0
+Gateway timeout
 */
-
-type GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0 struct {
-
-	// get_characters_character_id_mail_recipient_id
-	//
-	// recipient_id integer
-	// Required: true
-	RecipientID *int32 `json:"recipient_id"`
-
-	// get_characters_character_id_mail_recipient_type
-	//
-	// recipient_type string
-	// Required: true
-	RecipientType *string `json:"recipient_type"`
+type GetCharactersCharacterIDMailGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0 recipient_id false */
-
-/* polymorph GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0 recipient_type false */
-
-// Validate validates this get characters character ID mail o k body items0 recipients items0
-func (o *GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateRecipientID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRecipientType(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDMailGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/][%d] getCharactersCharacterIdMailGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0) validateRecipientID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDMailGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("recipient_id", "body", o.RecipientID); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-var getCharactersCharacterIdMailOKBodyItems0RecipientsItems0TypeRecipientTypePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["alliance","character","corporation","mailing_list"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdMailOKBodyItems0RecipientsItems0TypeRecipientTypePropEnum = append(getCharactersCharacterIdMailOKBodyItems0RecipientsItems0TypeRecipientTypePropEnum, v)
-	}
-}
-
-const (
-	// GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0RecipientTypeAlliance captures enum value "alliance"
-	GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0RecipientTypeAlliance string = "alliance"
-	// GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0RecipientTypeCharacter captures enum value "character"
-	GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0RecipientTypeCharacter string = "character"
-	// GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0RecipientTypeCorporation captures enum value "corporation"
-	GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0RecipientTypeCorporation string = "corporation"
-	// GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0RecipientTypeMailingList captures enum value "mailing_list"
-	GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0RecipientTypeMailingList string = "mailing_list"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0) validateRecipientTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdMailOKBodyItems0RecipientsItems0TypeRecipientTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0) validateRecipientType(formats strfmt.Registry) error {
-
-	if err := validate.Required("recipient_type", "body", o.RecipientType); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateRecipientTypeEnum("recipient_type", "body", *o.RecipientType); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDMailOKBodyItems0RecipientsItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

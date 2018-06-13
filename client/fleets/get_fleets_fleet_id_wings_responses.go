@@ -8,16 +8,12 @@ package fleets
 import (
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetFleetsFleetIDWingsReader is a Reader for the GetFleetsFleetIDWings structure.
@@ -36,6 +32,27 @@ func (o *GetFleetsFleetIDWingsReader) ReadResponse(response runtime.ClientRespon
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetFleetsFleetIDWingsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetFleetsFleetIDWingsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetFleetsFleetIDWingsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetFleetsFleetIDWingsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -50,8 +67,29 @@ func (o *GetFleetsFleetIDWingsReader) ReadResponse(response runtime.ClientRespon
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetFleetsFleetIDWingsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetFleetsFleetIDWingsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetFleetsFleetIDWingsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetFleetsFleetIDWingsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -78,6 +116,9 @@ type GetFleetsFleetIDWingsOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -85,7 +126,7 @@ type GetFleetsFleetIDWingsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetFleetsFleetIDWingsOKBodyItems0
+	Payload []*models.GetFleetsFleetIDWingsOKBodyItems
 }
 
 func (o *GetFleetsFleetIDWingsOK) Error() string {
@@ -100,6 +141,9 @@ func (o *GetFleetsFleetIDWingsOK) readResponse(response runtime.ClientResponse, 
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -108,6 +152,109 @@ func (o *GetFleetsFleetIDWingsOK) readResponse(response runtime.ClientResponse, 
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFleetsFleetIDWingsNotModified creates a GetFleetsFleetIDWingsNotModified with default headers values
+func NewGetFleetsFleetIDWingsNotModified() *GetFleetsFleetIDWingsNotModified {
+	return &GetFleetsFleetIDWingsNotModified{}
+}
+
+/*GetFleetsFleetIDWingsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetFleetsFleetIDWingsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetFleetsFleetIDWingsNotModified) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/wings/][%d] getFleetsFleetIdWingsNotModified ", 304)
+}
+
+func (o *GetFleetsFleetIDWingsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetFleetsFleetIDWingsBadRequest creates a GetFleetsFleetIDWingsBadRequest with default headers values
+func NewGetFleetsFleetIDWingsBadRequest() *GetFleetsFleetIDWingsBadRequest {
+	return &GetFleetsFleetIDWingsBadRequest{}
+}
+
+/*GetFleetsFleetIDWingsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetFleetsFleetIDWingsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetFleetsFleetIDWingsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/wings/][%d] getFleetsFleetIdWingsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetFleetsFleetIDWingsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFleetsFleetIDWingsUnauthorized creates a GetFleetsFleetIDWingsUnauthorized with default headers values
+func NewGetFleetsFleetIDWingsUnauthorized() *GetFleetsFleetIDWingsUnauthorized {
+	return &GetFleetsFleetIDWingsUnauthorized{}
+}
+
+/*GetFleetsFleetIDWingsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetFleetsFleetIDWingsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetFleetsFleetIDWingsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/wings/][%d] getFleetsFleetIdWingsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetFleetsFleetIDWingsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -153,7 +300,7 @@ func NewGetFleetsFleetIDWingsNotFound() *GetFleetsFleetIDWingsNotFound {
 The fleet does not exist or you don't have access to it
 */
 type GetFleetsFleetIDWingsNotFound struct {
-	Payload GetFleetsFleetIDWingsNotFoundBody
+	Payload *models.GetFleetsFleetIDWingsNotFoundBody
 }
 
 func (o *GetFleetsFleetIDWingsNotFound) Error() string {
@@ -162,8 +309,39 @@ func (o *GetFleetsFleetIDWingsNotFound) Error() string {
 
 func (o *GetFleetsFleetIDWingsNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetFleetsFleetIDWingsNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetFleetsFleetIDWingsEnhanceYourCalm creates a GetFleetsFleetIDWingsEnhanceYourCalm with default headers values
+func NewGetFleetsFleetIDWingsEnhanceYourCalm() *GetFleetsFleetIDWingsEnhanceYourCalm {
+	return &GetFleetsFleetIDWingsEnhanceYourCalm{}
+}
+
+/*GetFleetsFleetIDWingsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetFleetsFleetIDWingsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetFleetsFleetIDWingsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/wings/][%d] getFleetsFleetIdWingsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetFleetsFleetIDWingsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -199,270 +377,60 @@ func (o *GetFleetsFleetIDWingsInternalServerError) readResponse(response runtime
 	return nil
 }
 
-/*GetFleetsFleetIDWingsNotFoundBody get_fleets_fleet_id_wings_not_found
-//
-// Not found
-swagger:model GetFleetsFleetIDWingsNotFoundBody
+// NewGetFleetsFleetIDWingsServiceUnavailable creates a GetFleetsFleetIDWingsServiceUnavailable with default headers values
+func NewGetFleetsFleetIDWingsServiceUnavailable() *GetFleetsFleetIDWingsServiceUnavailable {
+	return &GetFleetsFleetIDWingsServiceUnavailable{}
+}
+
+/*GetFleetsFleetIDWingsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetFleetsFleetIDWingsNotFoundBody struct {
-
-	// get_fleets_fleet_id_wings_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetFleetsFleetIDWingsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetFleetsFleetIDWingsNotFoundBody error false */
-
-// Validate validates this get fleets fleet ID wings not found body
-func (o *GetFleetsFleetIDWingsNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetFleetsFleetIDWingsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/wings/][%d] getFleetsFleetIdWingsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetFleetsFleetIDWingsNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetFleetsFleetIDWingsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getFleetsFleetIdWingsNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetFleetsFleetIDWingsNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetFleetsFleetIDWingsGatewayTimeout creates a GetFleetsFleetIDWingsGatewayTimeout with default headers values
+func NewGetFleetsFleetIDWingsGatewayTimeout() *GetFleetsFleetIDWingsGatewayTimeout {
+	return &GetFleetsFleetIDWingsGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetFleetsFleetIDWingsNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetFleetsFleetIDWingsNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetFleetsFleetIDWingsGatewayTimeout handles this case with default header values.
 
-/*GetFleetsFleetIDWingsOKBodyItems0 get_fleets_fleet_id_wings_200_ok
-//
-// 200 ok object
-swagger:model GetFleetsFleetIDWingsOKBodyItems0
+Gateway timeout
 */
-
-type GetFleetsFleetIDWingsOKBodyItems0 struct {
-
-	// get_fleets_fleet_id_wings_id
-	//
-	// id integer
-	// Required: true
-	ID *int64 `json:"id"`
-
-	// get_fleets_fleet_id_wings_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_fleets_fleet_id_wings_squads
-	//
-	// squads array
-	// Required: true
-	// Max Items: 25
-	Squads []*GetFleetsFleetIDWingsOKBodyItems0SquadsItems0 `json:"squads"`
+type GetFleetsFleetIDWingsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetFleetsFleetIDWingsOKBodyItems0 id false */
-
-/* polymorph GetFleetsFleetIDWingsOKBodyItems0 name false */
-
-/* polymorph GetFleetsFleetIDWingsOKBodyItems0 squads false */
-
-// Validate validates this get fleets fleet ID wings o k body items0
-func (o *GetFleetsFleetIDWingsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSquads(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetFleetsFleetIDWingsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /fleets/{fleet_id}/wings/][%d] getFleetsFleetIdWingsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetFleetsFleetIDWingsOKBodyItems0) validateID(formats strfmt.Registry) error {
+func (o *GetFleetsFleetIDWingsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("id", "body", o.ID); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetFleetsFleetIDWingsOKBodyItems0) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFleetsFleetIDWingsOKBodyItems0) validateSquads(formats strfmt.Registry) error {
-
-	if err := validate.Required("squads", "body", o.Squads); err != nil {
-		return err
-	}
-
-	iSquadsSize := int64(len(o.Squads))
-
-	if err := validate.MaxItems("squads", "body", iSquadsSize, 25); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Squads); i++ {
-
-		if swag.IsZero(o.Squads[i]) { // not required
-			continue
-		}
-
-		if o.Squads[i] != nil {
-
-			if err := o.Squads[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("squads" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetFleetsFleetIDWingsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetFleetsFleetIDWingsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetFleetsFleetIDWingsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetFleetsFleetIDWingsOKBodyItems0SquadsItems0 get_fleets_fleet_id_wings_squad
-//
-// squad object
-swagger:model GetFleetsFleetIDWingsOKBodyItems0SquadsItems0
-*/
-
-type GetFleetsFleetIDWingsOKBodyItems0SquadsItems0 struct {
-
-	// get_fleets_fleet_id_wings_id
-	//
-	// id integer
-	// Required: true
-	ID *int64 `json:"id"`
-
-	// get_fleets_fleet_id_wings_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-}
-
-/* polymorph GetFleetsFleetIDWingsOKBodyItems0SquadsItems0 id false */
-
-/* polymorph GetFleetsFleetIDWingsOKBodyItems0SquadsItems0 name false */
-
-// Validate validates this get fleets fleet ID wings o k body items0 squads items0
-func (o *GetFleetsFleetIDWingsOKBodyItems0SquadsItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetFleetsFleetIDWingsOKBodyItems0SquadsItems0) validateID(formats strfmt.Registry) error {
-
-	if err := validate.Required("id", "body", o.ID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetFleetsFleetIDWingsOKBodyItems0SquadsItems0) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetFleetsFleetIDWingsOKBodyItems0SquadsItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetFleetsFleetIDWingsOKBodyItems0SquadsItems0) UnmarshalBinary(b []byte) error {
-	var res GetFleetsFleetIDWingsOKBodyItems0SquadsItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

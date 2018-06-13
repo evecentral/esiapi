@@ -75,11 +75,11 @@ for the get loyalty stores corporation id offers operation typically these are w
 */
 type GetLoyaltyStoresCorporationIDOffersParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CorporationID
 	  An EVE corporation ID
 
@@ -90,11 +90,6 @@ type GetLoyaltyStoresCorporationIDOffersParams struct {
 
 	*/
 	Datasource *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetLoyaltyStoresCorporationIDOffersParams) SetHTTPClient(client *http.C
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get loyalty stores corporation id offers params
-func (o *GetLoyaltyStoresCorporationIDOffersParams) WithXUserAgent(xUserAgent *string) *GetLoyaltyStoresCorporationIDOffersParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get loyalty stores corporation id offers params
+func (o *GetLoyaltyStoresCorporationIDOffersParams) WithIfNoneMatch(ifNoneMatch *string) *GetLoyaltyStoresCorporationIDOffersParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get loyalty stores corporation id offers params
-func (o *GetLoyaltyStoresCorporationIDOffersParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get loyalty stores corporation id offers params
+func (o *GetLoyaltyStoresCorporationIDOffersParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCorporationID adds the corporationID to the get loyalty stores corporation id offers params
@@ -167,17 +162,6 @@ func (o *GetLoyaltyStoresCorporationIDOffersParams) SetDatasource(datasource *st
 	o.Datasource = datasource
 }
 
-// WithUserAgent adds the userAgent to the get loyalty stores corporation id offers params
-func (o *GetLoyaltyStoresCorporationIDOffersParams) WithUserAgent(userAgent *string) *GetLoyaltyStoresCorporationIDOffersParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get loyalty stores corporation id offers params
-func (o *GetLoyaltyStoresCorporationIDOffersParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetLoyaltyStoresCorporationIDOffersParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetLoyaltyStoresCorporationIDOffersParams) WriteToRequest(r runtime.Cli
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -210,22 +194,6 @@ func (o *GetLoyaltyStoresCorporationIDOffersParams) WriteToRequest(r runtime.Cli
 		qDatasource := qrDatasource
 		if qDatasource != "" {
 			if err := r.SetQueryParam("datasource", qDatasource); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

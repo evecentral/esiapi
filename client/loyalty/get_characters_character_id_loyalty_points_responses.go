@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDLoyaltyPointsReader is a Reader for the GetCharactersCharacterIDLoyaltyPoints structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDLoyaltyPointsReader) ReadResponse(response runt
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDLoyaltyPointsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDLoyaltyPointsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDLoyaltyPointsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDLoyaltyPointsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCharactersCharacterIDLoyaltyPointsReader) ReadResponse(response runt
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDLoyaltyPointsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDLoyaltyPointsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDLoyaltyPointsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -64,7 +103,20 @@ func NewGetCharactersCharacterIDLoyaltyPointsOK() *GetCharactersCharacterIDLoyal
 A list of loyalty points
 */
 type GetCharactersCharacterIDLoyaltyPointsOK struct {
-	Payload []*GetCharactersCharacterIDLoyaltyPointsOKBodyItems0
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+
+	Payload []*models.GetCharactersCharacterIDLoyaltyPointsOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDLoyaltyPointsOK) Error() string {
@@ -73,8 +125,123 @@ func (o *GetCharactersCharacterIDLoyaltyPointsOK) Error() string {
 
 func (o *GetCharactersCharacterIDLoyaltyPointsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDLoyaltyPointsNotModified creates a GetCharactersCharacterIDLoyaltyPointsNotModified with default headers values
+func NewGetCharactersCharacterIDLoyaltyPointsNotModified() *GetCharactersCharacterIDLoyaltyPointsNotModified {
+	return &GetCharactersCharacterIDLoyaltyPointsNotModified{}
+}
+
+/*GetCharactersCharacterIDLoyaltyPointsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDLoyaltyPointsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/loyalty/points/][%d] getCharactersCharacterIdLoyaltyPointsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDLoyaltyPointsBadRequest creates a GetCharactersCharacterIDLoyaltyPointsBadRequest with default headers values
+func NewGetCharactersCharacterIDLoyaltyPointsBadRequest() *GetCharactersCharacterIDLoyaltyPointsBadRequest {
+	return &GetCharactersCharacterIDLoyaltyPointsBadRequest{}
+}
+
+/*GetCharactersCharacterIDLoyaltyPointsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDLoyaltyPointsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/loyalty/points/][%d] getCharactersCharacterIdLoyaltyPointsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDLoyaltyPointsUnauthorized creates a GetCharactersCharacterIDLoyaltyPointsUnauthorized with default headers values
+func NewGetCharactersCharacterIDLoyaltyPointsUnauthorized() *GetCharactersCharacterIDLoyaltyPointsUnauthorized {
+	return &GetCharactersCharacterIDLoyaltyPointsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDLoyaltyPointsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDLoyaltyPointsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/loyalty/points/][%d] getCharactersCharacterIdLoyaltyPointsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -101,6 +268,35 @@ func (o *GetCharactersCharacterIDLoyaltyPointsForbidden) Error() string {
 func (o *GetCharactersCharacterIDLoyaltyPointsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm creates a GetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm() *GetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm {
+	return &GetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/loyalty/points/][%d] getCharactersCharacterIdLoyaltyPointsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -139,83 +335,60 @@ func (o *GetCharactersCharacterIDLoyaltyPointsInternalServerError) readResponse(
 	return nil
 }
 
-/*GetCharactersCharacterIDLoyaltyPointsOKBodyItems0 get_characters_character_id_loyalty_points_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDLoyaltyPointsOKBodyItems0
+// NewGetCharactersCharacterIDLoyaltyPointsServiceUnavailable creates a GetCharactersCharacterIDLoyaltyPointsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDLoyaltyPointsServiceUnavailable() *GetCharactersCharacterIDLoyaltyPointsServiceUnavailable {
+	return &GetCharactersCharacterIDLoyaltyPointsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDLoyaltyPointsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDLoyaltyPointsOKBodyItems0 struct {
-
-	// get_characters_character_id_loyalty_points_corporation_id
-	//
-	// corporation_id integer
-	// Required: true
-	CorporationID *int32 `json:"corporation_id"`
-
-	// get_characters_character_id_loyalty_points_loyalty_points
-	//
-	// loyalty_points integer
-	// Required: true
-	LoyaltyPoints *int32 `json:"loyalty_points"`
+type GetCharactersCharacterIDLoyaltyPointsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDLoyaltyPointsOKBodyItems0 corporation_id false */
-
-/* polymorph GetCharactersCharacterIDLoyaltyPointsOKBodyItems0 loyalty_points false */
-
-// Validate validates this get characters character ID loyalty points o k body items0
-func (o *GetCharactersCharacterIDLoyaltyPointsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCorporationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLoyaltyPoints(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDLoyaltyPointsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/loyalty/points/][%d] getCharactersCharacterIdLoyaltyPointsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDLoyaltyPointsOKBodyItems0) validateCorporationID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDLoyaltyPointsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("corporation_id", "body", o.CorporationID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDLoyaltyPointsOKBodyItems0) validateLoyaltyPoints(formats strfmt.Registry) error {
+// NewGetCharactersCharacterIDLoyaltyPointsGatewayTimeout creates a GetCharactersCharacterIDLoyaltyPointsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDLoyaltyPointsGatewayTimeout() *GetCharactersCharacterIDLoyaltyPointsGatewayTimeout {
+	return &GetCharactersCharacterIDLoyaltyPointsGatewayTimeout{}
+}
 
-	if err := validate.Required("loyalty_points", "body", o.LoyaltyPoints); err != nil {
+/*GetCharactersCharacterIDLoyaltyPointsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDLoyaltyPointsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/loyalty/points/][%d] getCharactersCharacterIdLoyaltyPointsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDLoyaltyPointsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDLoyaltyPointsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDLoyaltyPointsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDLoyaltyPointsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

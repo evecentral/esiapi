@@ -30,11 +30,11 @@ GetCharactersCharacterIDOpportunities gets a character s completed tasks
 Return a list of tasks finished by a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/opportunities/`
+Alternate route: `/dev/characters/{character_id}/opportunities/`
 
 Alternate route: `/legacy/characters/{character_id}/opportunities/`
 
-Alternate route: `/dev/characters/{character_id}/opportunities/`
+Alternate route: `/v1/characters/{character_id}/opportunities/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDOpportunities(params *GetCharactersChar
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/opportunities/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDOpportunitiesReader{formats: a.formats},
@@ -71,11 +71,11 @@ GetOpportunitiesGroups gets opportunities groups
 Return a list of opportunities groups
 
 ---
-Alternate route: `/v1/opportunities/groups/`
+Alternate route: `/dev/opportunities/groups/`
 
 Alternate route: `/legacy/opportunities/groups/`
 
-Alternate route: `/dev/opportunities/groups/`
+Alternate route: `/v1/opportunities/groups/`
 
 ---
 This route expires daily at 11:05
@@ -91,7 +91,7 @@ func (a *Client) GetOpportunitiesGroups(params *GetOpportunitiesGroupsParams) (*
 		Method:             "GET",
 		PathPattern:        "/opportunities/groups/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetOpportunitiesGroupsReader{formats: a.formats},
@@ -111,11 +111,11 @@ GetOpportunitiesGroupsGroupID gets opportunities group
 Return information of an opportunities group
 
 ---
-Alternate route: `/v1/opportunities/groups/{group_id}/`
+Alternate route: `/dev/opportunities/groups/{group_id}/`
 
 Alternate route: `/legacy/opportunities/groups/{group_id}/`
 
-Alternate route: `/dev/opportunities/groups/{group_id}/`
+Alternate route: `/v1/opportunities/groups/{group_id}/`
 
 ---
 This route expires daily at 11:05
@@ -131,7 +131,7 @@ func (a *Client) GetOpportunitiesGroupsGroupID(params *GetOpportunitiesGroupsGro
 		Method:             "GET",
 		PathPattern:        "/opportunities/groups/{group_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetOpportunitiesGroupsGroupIDReader{formats: a.formats},
@@ -151,11 +151,11 @@ GetOpportunitiesTasks gets opportunities tasks
 Return a list of opportunities tasks
 
 ---
-Alternate route: `/v1/opportunities/tasks/`
+Alternate route: `/dev/opportunities/tasks/`
 
 Alternate route: `/legacy/opportunities/tasks/`
 
-Alternate route: `/dev/opportunities/tasks/`
+Alternate route: `/v1/opportunities/tasks/`
 
 ---
 This route expires daily at 11:05
@@ -171,7 +171,7 @@ func (a *Client) GetOpportunitiesTasks(params *GetOpportunitiesTasksParams) (*Ge
 		Method:             "GET",
 		PathPattern:        "/opportunities/tasks/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetOpportunitiesTasksReader{formats: a.formats},
@@ -191,11 +191,11 @@ GetOpportunitiesTasksTaskID gets opportunities task
 Return information of an opportunities task
 
 ---
-Alternate route: `/v1/opportunities/tasks/{task_id}/`
+Alternate route: `/dev/opportunities/tasks/{task_id}/`
 
 Alternate route: `/legacy/opportunities/tasks/{task_id}/`
 
-Alternate route: `/dev/opportunities/tasks/{task_id}/`
+Alternate route: `/v1/opportunities/tasks/{task_id}/`
 
 ---
 This route expires daily at 11:05
@@ -211,7 +211,7 @@ func (a *Client) GetOpportunitiesTasksTaskID(params *GetOpportunitiesTasksTaskID
 		Method:             "GET",
 		PathPattern:        "/opportunities/tasks/{task_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetOpportunitiesTasksTaskIDReader{formats: a.formats},

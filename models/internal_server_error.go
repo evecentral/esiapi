@@ -17,7 +17,6 @@ import (
 //
 // Internal server error model
 // swagger:model internal_server_error
-
 type InternalServerError struct {
 
 	// Internal server error message
@@ -25,14 +24,11 @@ type InternalServerError struct {
 	Error *string `json:"error"`
 }
 
-/* polymorph internal_server_error error false */
-
 // Validate validates this internal server error
 func (m *InternalServerError) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateError(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

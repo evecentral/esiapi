@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDRolesReader is a Reader for the GetCharactersCharacterIDRoles structure.
@@ -32,6 +32,27 @@ func (o *GetCharactersCharacterIDRolesReader) ReadResponse(response runtime.Clie
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDRolesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDRolesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDRolesUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDRolesForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +60,29 @@ func (o *GetCharactersCharacterIDRolesReader) ReadResponse(response runtime.Clie
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDRolesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDRolesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDRolesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDRolesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -64,6 +106,9 @@ type GetCharactersCharacterIDRolesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -71,7 +116,7 @@ type GetCharactersCharacterIDRolesOK struct {
 	 */
 	LastModified string
 
-	Payload []string
+	Payload *models.GetCharactersCharacterIDRolesOKBody
 }
 
 func (o *GetCharactersCharacterIDRolesOK) Error() string {
@@ -83,14 +128,122 @@ func (o *GetCharactersCharacterIDRolesOK) readResponse(response runtime.ClientRe
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDRolesOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDRolesNotModified creates a GetCharactersCharacterIDRolesNotModified with default headers values
+func NewGetCharactersCharacterIDRolesNotModified() *GetCharactersCharacterIDRolesNotModified {
+	return &GetCharactersCharacterIDRolesNotModified{}
+}
+
+/*GetCharactersCharacterIDRolesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDRolesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDRolesNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/roles/][%d] getCharactersCharacterIdRolesNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDRolesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDRolesBadRequest creates a GetCharactersCharacterIDRolesBadRequest with default headers values
+func NewGetCharactersCharacterIDRolesBadRequest() *GetCharactersCharacterIDRolesBadRequest {
+	return &GetCharactersCharacterIDRolesBadRequest{}
+}
+
+/*GetCharactersCharacterIDRolesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDRolesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDRolesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/roles/][%d] getCharactersCharacterIdRolesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDRolesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDRolesUnauthorized creates a GetCharactersCharacterIDRolesUnauthorized with default headers values
+func NewGetCharactersCharacterIDRolesUnauthorized() *GetCharactersCharacterIDRolesUnauthorized {
+	return &GetCharactersCharacterIDRolesUnauthorized{}
+}
+
+/*GetCharactersCharacterIDRolesUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDRolesUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDRolesUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/roles/][%d] getCharactersCharacterIdRolesUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDRolesUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -126,6 +279,35 @@ func (o *GetCharactersCharacterIDRolesForbidden) readResponse(response runtime.C
 	return nil
 }
 
+// NewGetCharactersCharacterIDRolesEnhanceYourCalm creates a GetCharactersCharacterIDRolesEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDRolesEnhanceYourCalm() *GetCharactersCharacterIDRolesEnhanceYourCalm {
+	return &GetCharactersCharacterIDRolesEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDRolesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDRolesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDRolesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/roles/][%d] getCharactersCharacterIdRolesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDRolesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewGetCharactersCharacterIDRolesInternalServerError creates a GetCharactersCharacterIDRolesInternalServerError with default headers values
 func NewGetCharactersCharacterIDRolesInternalServerError() *GetCharactersCharacterIDRolesInternalServerError {
 	return &GetCharactersCharacterIDRolesInternalServerError{}
@@ -146,6 +328,64 @@ func (o *GetCharactersCharacterIDRolesInternalServerError) Error() string {
 func (o *GetCharactersCharacterIDRolesInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDRolesServiceUnavailable creates a GetCharactersCharacterIDRolesServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDRolesServiceUnavailable() *GetCharactersCharacterIDRolesServiceUnavailable {
+	return &GetCharactersCharacterIDRolesServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDRolesServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetCharactersCharacterIDRolesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetCharactersCharacterIDRolesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/roles/][%d] getCharactersCharacterIdRolesServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDRolesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDRolesGatewayTimeout creates a GetCharactersCharacterIDRolesGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDRolesGatewayTimeout() *GetCharactersCharacterIDRolesGatewayTimeout {
+	return &GetCharactersCharacterIDRolesGatewayTimeout{}
+}
+
+/*GetCharactersCharacterIDRolesGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDRolesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDRolesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/roles/][%d] getCharactersCharacterIdRolesGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDRolesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

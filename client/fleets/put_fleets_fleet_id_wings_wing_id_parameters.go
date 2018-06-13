@@ -17,6 +17,8 @@ import (
 	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPutFleetsFleetIDWingsWingIDParams creates a new PutFleetsFleetIDWingsWingIDParams object
@@ -75,11 +77,6 @@ for the put fleets fleet id wings wing id operation typically these are written 
 */
 type PutFleetsFleetIDWingsWingIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -94,17 +91,12 @@ type PutFleetsFleetIDWingsWingIDParams struct {
 	  New name of the wing
 
 	*/
-	Naming PutFleetsFleetIDWingsWingIDBody
+	Naming *models.PutFleetsFleetIDWingsWingIDParamsBody
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 	/*WingID
 	  The wing to rename
 
@@ -149,17 +141,6 @@ func (o *PutFleetsFleetIDWingsWingIDParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the put fleets fleet id wings wing id params
-func (o *PutFleetsFleetIDWingsWingIDParams) WithXUserAgent(xUserAgent *string) *PutFleetsFleetIDWingsWingIDParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the put fleets fleet id wings wing id params
-func (o *PutFleetsFleetIDWingsWingIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the put fleets fleet id wings wing id params
 func (o *PutFleetsFleetIDWingsWingIDParams) WithDatasource(datasource *string) *PutFleetsFleetIDWingsWingIDParams {
 	o.SetDatasource(datasource)
@@ -183,13 +164,13 @@ func (o *PutFleetsFleetIDWingsWingIDParams) SetFleetID(fleetID int64) {
 }
 
 // WithNaming adds the naming to the put fleets fleet id wings wing id params
-func (o *PutFleetsFleetIDWingsWingIDParams) WithNaming(naming PutFleetsFleetIDWingsWingIDBody) *PutFleetsFleetIDWingsWingIDParams {
+func (o *PutFleetsFleetIDWingsWingIDParams) WithNaming(naming *models.PutFleetsFleetIDWingsWingIDParamsBody) *PutFleetsFleetIDWingsWingIDParams {
 	o.SetNaming(naming)
 	return o
 }
 
 // SetNaming adds the naming to the put fleets fleet id wings wing id params
-func (o *PutFleetsFleetIDWingsWingIDParams) SetNaming(naming PutFleetsFleetIDWingsWingIDBody) {
+func (o *PutFleetsFleetIDWingsWingIDParams) SetNaming(naming *models.PutFleetsFleetIDWingsWingIDParamsBody) {
 	o.Naming = naming
 }
 
@@ -202,17 +183,6 @@ func (o *PutFleetsFleetIDWingsWingIDParams) WithToken(token *string) *PutFleetsF
 // SetToken adds the token to the put fleets fleet id wings wing id params
 func (o *PutFleetsFleetIDWingsWingIDParams) SetToken(token *string) {
 	o.Token = token
-}
-
-// WithUserAgent adds the userAgent to the put fleets fleet id wings wing id params
-func (o *PutFleetsFleetIDWingsWingIDParams) WithUserAgent(userAgent *string) *PutFleetsFleetIDWingsWingIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the put fleets fleet id wings wing id params
-func (o *PutFleetsFleetIDWingsWingIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
 }
 
 // WithWingID adds the wingID to the put fleets fleet id wings wing id params
@@ -233,15 +203,6 @@ func (o *PutFleetsFleetIDWingsWingIDParams) WriteToRequest(r runtime.ClientReque
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -264,8 +225,10 @@ func (o *PutFleetsFleetIDWingsWingIDParams) WriteToRequest(r runtime.ClientReque
 		return err
 	}
 
-	if err := r.SetBodyParam(o.Naming); err != nil {
-		return err
+	if o.Naming != nil {
+		if err := r.SetBodyParam(o.Naming); err != nil {
+			return err
+		}
 	}
 
 	if o.Token != nil {
@@ -278,22 +241,6 @@ func (o *PutFleetsFleetIDWingsWingIDParams) WriteToRequest(r runtime.ClientReque
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

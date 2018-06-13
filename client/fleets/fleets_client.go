@@ -30,11 +30,11 @@ DeleteFleetsFleetIDMembersMemberID kicks fleet member
 Kick a fleet member
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/members/{member_id}/`
+Alternate route: `/dev/fleets/{fleet_id}/members/{member_id}/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/members/{member_id}/`
 
-Alternate route: `/dev/fleets/{fleet_id}/members/{member_id}/`
+Alternate route: `/v1/fleets/{fleet_id}/members/{member_id}/`
 
 */
 func (a *Client) DeleteFleetsFleetIDMembersMemberID(params *DeleteFleetsFleetIDMembersMemberIDParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteFleetsFleetIDMembersMemberIDNoContent, error) {
@@ -48,7 +48,7 @@ func (a *Client) DeleteFleetsFleetIDMembersMemberID(params *DeleteFleetsFleetIDM
 		Method:             "DELETE",
 		PathPattern:        "/fleets/{fleet_id}/members/{member_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteFleetsFleetIDMembersMemberIDReader{formats: a.formats},
@@ -69,11 +69,11 @@ DeleteFleetsFleetIDSquadsSquadID deletes fleet squad
 Delete a fleet squad, only empty squads can be deleted
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/squads/{squad_id}/`
+Alternate route: `/dev/fleets/{fleet_id}/squads/{squad_id}/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/squads/{squad_id}/`
 
-Alternate route: `/dev/fleets/{fleet_id}/squads/{squad_id}/`
+Alternate route: `/v1/fleets/{fleet_id}/squads/{squad_id}/`
 
 */
 func (a *Client) DeleteFleetsFleetIDSquadsSquadID(params *DeleteFleetsFleetIDSquadsSquadIDParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteFleetsFleetIDSquadsSquadIDNoContent, error) {
@@ -87,7 +87,7 @@ func (a *Client) DeleteFleetsFleetIDSquadsSquadID(params *DeleteFleetsFleetIDSqu
 		Method:             "DELETE",
 		PathPattern:        "/fleets/{fleet_id}/squads/{squad_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteFleetsFleetIDSquadsSquadIDReader{formats: a.formats},
@@ -108,11 +108,11 @@ DeleteFleetsFleetIDWingsWingID deletes fleet wing
 Delete a fleet wing, only empty wings can be deleted. The wing may contain squads, but the squads must be empty
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/wings/{wing_id}/`
+Alternate route: `/dev/fleets/{fleet_id}/wings/{wing_id}/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/wings/{wing_id}/`
 
-Alternate route: `/dev/fleets/{fleet_id}/wings/{wing_id}/`
+Alternate route: `/v1/fleets/{fleet_id}/wings/{wing_id}/`
 
 */
 func (a *Client) DeleteFleetsFleetIDWingsWingID(params *DeleteFleetsFleetIDWingsWingIDParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteFleetsFleetIDWingsWingIDNoContent, error) {
@@ -126,7 +126,7 @@ func (a *Client) DeleteFleetsFleetIDWingsWingID(params *DeleteFleetsFleetIDWings
 		Method:             "DELETE",
 		PathPattern:        "/fleets/{fleet_id}/wings/{wing_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteFleetsFleetIDWingsWingIDReader{formats: a.formats},
@@ -142,16 +142,57 @@ func (a *Client) DeleteFleetsFleetIDWingsWingID(params *DeleteFleetsFleetIDWings
 }
 
 /*
+GetCharactersCharacterIDFleet gets character fleet info
+
+Return the fleet ID the character is in, if any.
+
+---
+Alternate route: `/dev/characters/{character_id}/fleet/`
+
+Alternate route: `/legacy/characters/{character_id}/fleet/`
+
+Alternate route: `/v1/characters/{character_id}/fleet/`
+
+---
+This route is cached for up to 60 seconds
+*/
+func (a *Client) GetCharactersCharacterIDFleet(params *GetCharactersCharacterIDFleetParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDFleetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCharactersCharacterIDFleetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_characters_character_id_fleet",
+		Method:             "GET",
+		PathPattern:        "/characters/{character_id}/fleet/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCharactersCharacterIDFleetReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCharactersCharacterIDFleetOK), nil
+
+}
+
+/*
 GetFleetsFleetID gets fleet information
 
 Return details about a fleet
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/`
+Alternate route: `/dev/fleets/{fleet_id}/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/`
 
-Alternate route: `/dev/fleets/{fleet_id}/`
+Alternate route: `/v1/fleets/{fleet_id}/`
 
 ---
 This route is cached for up to 5 seconds
@@ -167,7 +208,7 @@ func (a *Client) GetFleetsFleetID(params *GetFleetsFleetIDParams, authInfo runti
 		Method:             "GET",
 		PathPattern:        "/fleets/{fleet_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFleetsFleetIDReader{formats: a.formats},
@@ -188,11 +229,11 @@ GetFleetsFleetIDMembers gets fleet members
 Return information about fleet members
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/members/`
+Alternate route: `/dev/fleets/{fleet_id}/members/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/members/`
 
-Alternate route: `/dev/fleets/{fleet_id}/members/`
+Alternate route: `/v1/fleets/{fleet_id}/members/`
 
 ---
 This route is cached for up to 5 seconds
@@ -208,7 +249,7 @@ func (a *Client) GetFleetsFleetIDMembers(params *GetFleetsFleetIDMembersParams, 
 		Method:             "GET",
 		PathPattern:        "/fleets/{fleet_id}/members/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFleetsFleetIDMembersReader{formats: a.formats},
@@ -229,11 +270,11 @@ GetFleetsFleetIDWings gets fleet wings
 Return information about wings in a fleet
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/wings/`
+Alternate route: `/dev/fleets/{fleet_id}/wings/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/wings/`
 
-Alternate route: `/dev/fleets/{fleet_id}/wings/`
+Alternate route: `/v1/fleets/{fleet_id}/wings/`
 
 ---
 This route is cached for up to 5 seconds
@@ -249,7 +290,7 @@ func (a *Client) GetFleetsFleetIDWings(params *GetFleetsFleetIDWingsParams, auth
 		Method:             "GET",
 		PathPattern:        "/fleets/{fleet_id}/wings/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFleetsFleetIDWingsReader{formats: a.formats},
@@ -267,14 +308,14 @@ func (a *Client) GetFleetsFleetIDWings(params *GetFleetsFleetIDWingsParams, auth
 /*
 PostFleetsFleetIDMembers creates fleet invitation
 
-Invite a character into the fleet, if a character has a CSPA charge set, it is not possible to invite them to the fleet using ESI
+Invite a character into the fleet. If a character has a CSPA charge set it is not possible to invite them to the fleet using ESI
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/members/`
+Alternate route: `/dev/fleets/{fleet_id}/members/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/members/`
 
-Alternate route: `/dev/fleets/{fleet_id}/members/`
+Alternate route: `/v1/fleets/{fleet_id}/members/`
 
 */
 func (a *Client) PostFleetsFleetIDMembers(params *PostFleetsFleetIDMembersParams, authInfo runtime.ClientAuthInfoWriter) (*PostFleetsFleetIDMembersNoContent, error) {
@@ -288,7 +329,7 @@ func (a *Client) PostFleetsFleetIDMembers(params *PostFleetsFleetIDMembersParams
 		Method:             "POST",
 		PathPattern:        "/fleets/{fleet_id}/members/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostFleetsFleetIDMembersReader{formats: a.formats},
@@ -309,11 +350,11 @@ PostFleetsFleetIDWings creates fleet wing
 Create a new wing in a fleet
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/wings/`
+Alternate route: `/dev/fleets/{fleet_id}/wings/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/wings/`
 
-Alternate route: `/dev/fleets/{fleet_id}/wings/`
+Alternate route: `/v1/fleets/{fleet_id}/wings/`
 
 */
 func (a *Client) PostFleetsFleetIDWings(params *PostFleetsFleetIDWingsParams, authInfo runtime.ClientAuthInfoWriter) (*PostFleetsFleetIDWingsCreated, error) {
@@ -327,7 +368,7 @@ func (a *Client) PostFleetsFleetIDWings(params *PostFleetsFleetIDWingsParams, au
 		Method:             "POST",
 		PathPattern:        "/fleets/{fleet_id}/wings/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostFleetsFleetIDWingsReader{formats: a.formats},
@@ -348,11 +389,11 @@ PostFleetsFleetIDWingsWingIDSquads creates fleet squad
 Create a new squad in a fleet
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/wings/{wing_id}/squads/`
+Alternate route: `/dev/fleets/{fleet_id}/wings/{wing_id}/squads/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/wings/{wing_id}/squads/`
 
-Alternate route: `/dev/fleets/{fleet_id}/wings/{wing_id}/squads/`
+Alternate route: `/v1/fleets/{fleet_id}/wings/{wing_id}/squads/`
 
 */
 func (a *Client) PostFleetsFleetIDWingsWingIDSquads(params *PostFleetsFleetIDWingsWingIDSquadsParams, authInfo runtime.ClientAuthInfoWriter) (*PostFleetsFleetIDWingsWingIDSquadsCreated, error) {
@@ -366,7 +407,7 @@ func (a *Client) PostFleetsFleetIDWingsWingIDSquads(params *PostFleetsFleetIDWin
 		Method:             "POST",
 		PathPattern:        "/fleets/{fleet_id}/wings/{wing_id}/squads/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostFleetsFleetIDWingsWingIDSquadsReader{formats: a.formats},
@@ -387,11 +428,11 @@ PutFleetsFleetID updates fleet
 Update settings about a fleet
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/`
+Alternate route: `/dev/fleets/{fleet_id}/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/`
 
-Alternate route: `/dev/fleets/{fleet_id}/`
+Alternate route: `/v1/fleets/{fleet_id}/`
 
 */
 func (a *Client) PutFleetsFleetID(params *PutFleetsFleetIDParams, authInfo runtime.ClientAuthInfoWriter) (*PutFleetsFleetIDNoContent, error) {
@@ -405,7 +446,7 @@ func (a *Client) PutFleetsFleetID(params *PutFleetsFleetIDParams, authInfo runti
 		Method:             "PUT",
 		PathPattern:        "/fleets/{fleet_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PutFleetsFleetIDReader{formats: a.formats},
@@ -426,11 +467,11 @@ PutFleetsFleetIDMembersMemberID moves fleet member
 Move a fleet member around
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/members/{member_id}/`
+Alternate route: `/dev/fleets/{fleet_id}/members/{member_id}/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/members/{member_id}/`
 
-Alternate route: `/dev/fleets/{fleet_id}/members/{member_id}/`
+Alternate route: `/v1/fleets/{fleet_id}/members/{member_id}/`
 
 */
 func (a *Client) PutFleetsFleetIDMembersMemberID(params *PutFleetsFleetIDMembersMemberIDParams, authInfo runtime.ClientAuthInfoWriter) (*PutFleetsFleetIDMembersMemberIDNoContent, error) {
@@ -444,7 +485,7 @@ func (a *Client) PutFleetsFleetIDMembersMemberID(params *PutFleetsFleetIDMembers
 		Method:             "PUT",
 		PathPattern:        "/fleets/{fleet_id}/members/{member_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PutFleetsFleetIDMembersMemberIDReader{formats: a.formats},
@@ -465,11 +506,11 @@ PutFleetsFleetIDSquadsSquadID renames fleet squad
 Rename a fleet squad
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/squads/{squad_id}/`
+Alternate route: `/dev/fleets/{fleet_id}/squads/{squad_id}/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/squads/{squad_id}/`
 
-Alternate route: `/dev/fleets/{fleet_id}/squads/{squad_id}/`
+Alternate route: `/v1/fleets/{fleet_id}/squads/{squad_id}/`
 
 */
 func (a *Client) PutFleetsFleetIDSquadsSquadID(params *PutFleetsFleetIDSquadsSquadIDParams, authInfo runtime.ClientAuthInfoWriter) (*PutFleetsFleetIDSquadsSquadIDNoContent, error) {
@@ -483,7 +524,7 @@ func (a *Client) PutFleetsFleetIDSquadsSquadID(params *PutFleetsFleetIDSquadsSqu
 		Method:             "PUT",
 		PathPattern:        "/fleets/{fleet_id}/squads/{squad_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PutFleetsFleetIDSquadsSquadIDReader{formats: a.formats},
@@ -504,11 +545,11 @@ PutFleetsFleetIDWingsWingID renames fleet wing
 Rename a fleet wing
 
 ---
-Alternate route: `/v1/fleets/{fleet_id}/wings/{wing_id}/`
+Alternate route: `/dev/fleets/{fleet_id}/wings/{wing_id}/`
 
 Alternate route: `/legacy/fleets/{fleet_id}/wings/{wing_id}/`
 
-Alternate route: `/dev/fleets/{fleet_id}/wings/{wing_id}/`
+Alternate route: `/v1/fleets/{fleet_id}/wings/{wing_id}/`
 
 */
 func (a *Client) PutFleetsFleetIDWingsWingID(params *PutFleetsFleetIDWingsWingIDParams, authInfo runtime.ClientAuthInfoWriter) (*PutFleetsFleetIDWingsWingIDNoContent, error) {
@@ -522,7 +563,7 @@ func (a *Client) PutFleetsFleetIDWingsWingID(params *PutFleetsFleetIDWingsWingID
 		Method:             "PUT",
 		PathPattern:        "/fleets/{fleet_id}/wings/{wing_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PutFleetsFleetIDWingsWingIDReader{formats: a.formats},

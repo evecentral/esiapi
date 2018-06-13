@@ -30,11 +30,11 @@ GetCharactersCharacterIDAttributes gets character attributes
 Return attributes of a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/attributes/`
+Alternate route: `/dev/characters/{character_id}/attributes/`
 
 Alternate route: `/legacy/characters/{character_id}/attributes/`
 
-Alternate route: `/dev/characters/{character_id}/attributes/`
+Alternate route: `/v1/characters/{character_id}/attributes/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetCharactersCharacterIDAttributes(params *GetCharactersCharact
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/attributes/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDAttributesReader{formats: a.formats},
@@ -71,11 +71,11 @@ GetCharactersCharacterIDSkillqueue gets character s skill queue
 List the configured skill queue for the given character
 
 ---
-Alternate route: `/v2/characters/{character_id}/skillqueue/`
+Alternate route: `/dev/characters/{character_id}/skillqueue/`
 
 Alternate route: `/legacy/characters/{character_id}/skillqueue/`
 
-Alternate route: `/dev/characters/{character_id}/skillqueue/`
+Alternate route: `/v2/characters/{character_id}/skillqueue/`
 
 ---
 This route is cached for up to 120 seconds
@@ -91,7 +91,7 @@ func (a *Client) GetCharactersCharacterIDSkillqueue(params *GetCharactersCharact
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/skillqueue/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDSkillqueueReader{formats: a.formats},
@@ -112,7 +112,9 @@ GetCharactersCharacterIDSkills gets character skills
 List all trained skills for the given character
 
 ---
-Alternate route: `/v3/characters/{character_id}/skills/`
+Alternate route: `/dev/characters/{character_id}/skills/`
+
+Alternate route: `/v4/characters/{character_id}/skills/`
 
 ---
 This route is cached for up to 120 seconds
@@ -128,7 +130,7 @@ func (a *Client) GetCharactersCharacterIDSkills(params *GetCharactersCharacterID
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/skills/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDSkillsReader{formats: a.formats},

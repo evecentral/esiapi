@@ -25,16 +25,96 @@ type Client struct {
 }
 
 /*
+GetUniverseAncestries gets ancestries
+
+Get all character ancestries
+
+---
+Alternate route: `/dev/universe/ancestries/`
+
+Alternate route: `/legacy/universe/ancestries/`
+
+Alternate route: `/v1/universe/ancestries/`
+
+---
+This route expires daily at 11:05
+*/
+func (a *Client) GetUniverseAncestries(params *GetUniverseAncestriesParams) (*GetUniverseAncestriesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetUniverseAncestriesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_universe_ancestries",
+		Method:             "GET",
+		PathPattern:        "/universe/ancestries/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetUniverseAncestriesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetUniverseAncestriesOK), nil
+
+}
+
+/*
+GetUniverseAsteroidBeltsAsteroidBeltID gets asteroid belt information
+
+Get information on an asteroid belt
+
+---
+Alternate route: `/dev/universe/asteroid_belts/{asteroid_belt_id}/`
+
+Alternate route: `/legacy/universe/asteroid_belts/{asteroid_belt_id}/`
+
+Alternate route: `/v1/universe/asteroid_belts/{asteroid_belt_id}/`
+
+---
+This route expires daily at 11:05
+*/
+func (a *Client) GetUniverseAsteroidBeltsAsteroidBeltID(params *GetUniverseAsteroidBeltsAsteroidBeltIDParams) (*GetUniverseAsteroidBeltsAsteroidBeltIDOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetUniverseAsteroidBeltsAsteroidBeltIDParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_universe_asteroid_belts_asteroid_belt_id",
+		Method:             "GET",
+		PathPattern:        "/universe/asteroid_belts/{asteroid_belt_id}/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetUniverseAsteroidBeltsAsteroidBeltIDReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetUniverseAsteroidBeltsAsteroidBeltIDOK), nil
+
+}
+
+/*
 GetUniverseBloodlines gets bloodlines
 
 Get a list of bloodlines
 
 ---
-Alternate route: `/v1/universe/bloodlines/`
+Alternate route: `/dev/universe/bloodlines/`
 
 Alternate route: `/legacy/universe/bloodlines/`
 
-Alternate route: `/dev/universe/bloodlines/`
+Alternate route: `/v1/universe/bloodlines/`
 
 ---
 This route expires daily at 11:05
@@ -50,7 +130,7 @@ func (a *Client) GetUniverseBloodlines(params *GetUniverseBloodlinesParams) (*Ge
 		Method:             "GET",
 		PathPattern:        "/universe/bloodlines/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseBloodlinesReader{formats: a.formats},
@@ -70,11 +150,11 @@ GetUniverseCategories gets item categories
 Get a list of item categories
 
 ---
-Alternate route: `/v1/universe/categories/`
+Alternate route: `/dev/universe/categories/`
 
 Alternate route: `/legacy/universe/categories/`
 
-Alternate route: `/dev/universe/categories/`
+Alternate route: `/v1/universe/categories/`
 
 ---
 This route expires daily at 11:05
@@ -90,7 +170,7 @@ func (a *Client) GetUniverseCategories(params *GetUniverseCategoriesParams) (*Ge
 		Method:             "GET",
 		PathPattern:        "/universe/categories/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseCategoriesReader{formats: a.formats},
@@ -110,11 +190,11 @@ GetUniverseCategoriesCategoryID gets item category information
 Get information of an item category
 
 ---
-Alternate route: `/v1/universe/categories/{category_id}/`
+Alternate route: `/dev/universe/categories/{category_id}/`
 
 Alternate route: `/legacy/universe/categories/{category_id}/`
 
-Alternate route: `/dev/universe/categories/{category_id}/`
+Alternate route: `/v1/universe/categories/{category_id}/`
 
 ---
 This route expires daily at 11:05
@@ -130,7 +210,7 @@ func (a *Client) GetUniverseCategoriesCategoryID(params *GetUniverseCategoriesCa
 		Method:             "GET",
 		PathPattern:        "/universe/categories/{category_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseCategoriesCategoryIDReader{formats: a.formats},
@@ -150,11 +230,11 @@ GetUniverseConstellations gets constellations
 Get a list of constellations
 
 ---
-Alternate route: `/v1/universe/constellations/`
+Alternate route: `/dev/universe/constellations/`
 
 Alternate route: `/legacy/universe/constellations/`
 
-Alternate route: `/dev/universe/constellations/`
+Alternate route: `/v1/universe/constellations/`
 
 ---
 This route expires daily at 11:05
@@ -170,7 +250,7 @@ func (a *Client) GetUniverseConstellations(params *GetUniverseConstellationsPara
 		Method:             "GET",
 		PathPattern:        "/universe/constellations/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseConstellationsReader{formats: a.formats},
@@ -190,11 +270,11 @@ GetUniverseConstellationsConstellationID gets constellation information
 Get information on a constellation
 
 ---
-Alternate route: `/v1/universe/constellations/{constellation_id}/`
+Alternate route: `/dev/universe/constellations/{constellation_id}/`
 
 Alternate route: `/legacy/universe/constellations/{constellation_id}/`
 
-Alternate route: `/dev/universe/constellations/{constellation_id}/`
+Alternate route: `/v1/universe/constellations/{constellation_id}/`
 
 ---
 This route expires daily at 11:05
@@ -210,7 +290,7 @@ func (a *Client) GetUniverseConstellationsConstellationID(params *GetUniverseCon
 		Method:             "GET",
 		PathPattern:        "/universe/constellations/{constellation_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseConstellationsConstellationIDReader{formats: a.formats},
@@ -230,11 +310,9 @@ GetUniverseFactions gets factions
 Get a list of factions
 
 ---
-Alternate route: `/v1/universe/factions/`
-
-Alternate route: `/legacy/universe/factions/`
-
 Alternate route: `/dev/universe/factions/`
+
+Alternate route: `/v2/universe/factions/`
 
 ---
 This route expires daily at 11:05
@@ -250,7 +328,7 @@ func (a *Client) GetUniverseFactions(params *GetUniverseFactionsParams) (*GetUni
 		Method:             "GET",
 		PathPattern:        "/universe/factions/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseFactionsReader{formats: a.formats},
@@ -270,11 +348,11 @@ GetUniverseGraphics gets graphics
 Get a list of graphics
 
 ---
-Alternate route: `/v1/universe/graphics/`
+Alternate route: `/dev/universe/graphics/`
 
 Alternate route: `/legacy/universe/graphics/`
 
-Alternate route: `/dev/universe/graphics/`
+Alternate route: `/v1/universe/graphics/`
 
 ---
 This route expires daily at 11:05
@@ -290,7 +368,7 @@ func (a *Client) GetUniverseGraphics(params *GetUniverseGraphicsParams) (*GetUni
 		Method:             "GET",
 		PathPattern:        "/universe/graphics/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseGraphicsReader{formats: a.formats},
@@ -310,11 +388,11 @@ GetUniverseGraphicsGraphicID gets graphic information
 Get information on a graphic
 
 ---
-Alternate route: `/v1/universe/graphics/{graphic_id}/`
+Alternate route: `/dev/universe/graphics/{graphic_id}/`
 
 Alternate route: `/legacy/universe/graphics/{graphic_id}/`
 
-Alternate route: `/dev/universe/graphics/{graphic_id}/`
+Alternate route: `/v1/universe/graphics/{graphic_id}/`
 
 ---
 This route expires daily at 11:05
@@ -330,7 +408,7 @@ func (a *Client) GetUniverseGraphicsGraphicID(params *GetUniverseGraphicsGraphic
 		Method:             "GET",
 		PathPattern:        "/universe/graphics/{graphic_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseGraphicsGraphicIDReader{formats: a.formats},
@@ -350,11 +428,11 @@ GetUniverseGroups gets item groups
 Get a list of item groups
 
 ---
-Alternate route: `/v1/universe/groups/`
+Alternate route: `/dev/universe/groups/`
 
 Alternate route: `/legacy/universe/groups/`
 
-Alternate route: `/dev/universe/groups/`
+Alternate route: `/v1/universe/groups/`
 
 ---
 This route expires daily at 11:05
@@ -370,7 +448,7 @@ func (a *Client) GetUniverseGroups(params *GetUniverseGroupsParams) (*GetUnivers
 		Method:             "GET",
 		PathPattern:        "/universe/groups/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseGroupsReader{formats: a.formats},
@@ -390,11 +468,11 @@ GetUniverseGroupsGroupID gets item group information
 Get information on an item group
 
 ---
-Alternate route: `/v1/universe/groups/{group_id}/`
+Alternate route: `/dev/universe/groups/{group_id}/`
 
 Alternate route: `/legacy/universe/groups/{group_id}/`
 
-Alternate route: `/dev/universe/groups/{group_id}/`
+Alternate route: `/v1/universe/groups/{group_id}/`
 
 ---
 This route expires daily at 11:05
@@ -410,7 +488,7 @@ func (a *Client) GetUniverseGroupsGroupID(params *GetUniverseGroupsGroupIDParams
 		Method:             "GET",
 		PathPattern:        "/universe/groups/{group_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseGroupsGroupIDReader{formats: a.formats},
@@ -430,11 +508,11 @@ GetUniverseMoonsMoonID gets moon information
 Get information on a moon
 
 ---
-Alternate route: `/v1/universe/moons/{moon_id}/`
+Alternate route: `/dev/universe/moons/{moon_id}/`
 
 Alternate route: `/legacy/universe/moons/{moon_id}/`
 
-Alternate route: `/dev/universe/moons/{moon_id}/`
+Alternate route: `/v1/universe/moons/{moon_id}/`
 
 ---
 This route expires daily at 11:05
@@ -450,7 +528,7 @@ func (a *Client) GetUniverseMoonsMoonID(params *GetUniverseMoonsMoonIDParams) (*
 		Method:             "GET",
 		PathPattern:        "/universe/moons/{moon_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseMoonsMoonIDReader{formats: a.formats},
@@ -470,11 +548,11 @@ GetUniversePlanetsPlanetID gets planet information
 Get information on a planet
 
 ---
-Alternate route: `/v1/universe/planets/{planet_id}/`
+Alternate route: `/dev/universe/planets/{planet_id}/`
 
 Alternate route: `/legacy/universe/planets/{planet_id}/`
 
-Alternate route: `/dev/universe/planets/{planet_id}/`
+Alternate route: `/v1/universe/planets/{planet_id}/`
 
 ---
 This route expires daily at 11:05
@@ -490,7 +568,7 @@ func (a *Client) GetUniversePlanetsPlanetID(params *GetUniversePlanetsPlanetIDPa
 		Method:             "GET",
 		PathPattern:        "/universe/planets/{planet_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniversePlanetsPlanetIDReader{formats: a.formats},
@@ -510,11 +588,11 @@ GetUniverseRaces gets character races
 Get a list of character races
 
 ---
-Alternate route: `/v1/universe/races/`
+Alternate route: `/dev/universe/races/`
 
 Alternate route: `/legacy/universe/races/`
 
-Alternate route: `/dev/universe/races/`
+Alternate route: `/v1/universe/races/`
 
 ---
 This route expires daily at 11:05
@@ -530,7 +608,7 @@ func (a *Client) GetUniverseRaces(params *GetUniverseRacesParams) (*GetUniverseR
 		Method:             "GET",
 		PathPattern:        "/universe/races/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseRacesReader{formats: a.formats},
@@ -550,11 +628,11 @@ GetUniverseRegions gets regions
 Get a list of regions
 
 ---
-Alternate route: `/v1/universe/regions/`
+Alternate route: `/dev/universe/regions/`
 
 Alternate route: `/legacy/universe/regions/`
 
-Alternate route: `/dev/universe/regions/`
+Alternate route: `/v1/universe/regions/`
 
 ---
 This route expires daily at 11:05
@@ -570,7 +648,7 @@ func (a *Client) GetUniverseRegions(params *GetUniverseRegionsParams) (*GetUnive
 		Method:             "GET",
 		PathPattern:        "/universe/regions/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseRegionsReader{formats: a.formats},
@@ -590,11 +668,11 @@ GetUniverseRegionsRegionID gets region information
 Get information on a region
 
 ---
-Alternate route: `/v1/universe/regions/{region_id}/`
+Alternate route: `/dev/universe/regions/{region_id}/`
 
 Alternate route: `/legacy/universe/regions/{region_id}/`
 
-Alternate route: `/dev/universe/regions/{region_id}/`
+Alternate route: `/v1/universe/regions/{region_id}/`
 
 ---
 This route expires daily at 11:05
@@ -610,7 +688,7 @@ func (a *Client) GetUniverseRegionsRegionID(params *GetUniverseRegionsRegionIDPa
 		Method:             "GET",
 		PathPattern:        "/universe/regions/{region_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseRegionsRegionIDReader{formats: a.formats},
@@ -630,11 +708,11 @@ GetUniverseStargatesStargateID gets stargate information
 Get information on a stargate
 
 ---
-Alternate route: `/v1/universe/stargates/{stargate_id}/`
+Alternate route: `/dev/universe/stargates/{stargate_id}/`
 
 Alternate route: `/legacy/universe/stargates/{stargate_id}/`
 
-Alternate route: `/dev/universe/stargates/{stargate_id}/`
+Alternate route: `/v1/universe/stargates/{stargate_id}/`
 
 ---
 This route expires daily at 11:05
@@ -650,7 +728,7 @@ func (a *Client) GetUniverseStargatesStargateID(params *GetUniverseStargatesStar
 		Method:             "GET",
 		PathPattern:        "/universe/stargates/{stargate_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseStargatesStargateIDReader{formats: a.formats},
@@ -670,11 +748,11 @@ GetUniverseStarsStarID gets star information
 Get information on a star
 
 ---
-Alternate route: `/v1/universe/stars/{star_id}/`
+Alternate route: `/dev/universe/stars/{star_id}/`
 
 Alternate route: `/legacy/universe/stars/{star_id}/`
 
-Alternate route: `/dev/universe/stars/{star_id}/`
+Alternate route: `/v1/universe/stars/{star_id}/`
 
 ---
 This route expires daily at 11:05
@@ -690,7 +768,7 @@ func (a *Client) GetUniverseStarsStarID(params *GetUniverseStarsStarIDParams) (*
 		Method:             "GET",
 		PathPattern:        "/universe/stars/{star_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseStarsStarIDReader{formats: a.formats},
@@ -710,12 +788,12 @@ GetUniverseStationsStationID gets station information
 Get information on a station
 
 ---
-Alternate route: `/v2/universe/stations/{station_id}/`
-
 Alternate route: `/dev/universe/stations/{station_id}/`
 
+Alternate route: `/v2/universe/stations/{station_id}/`
+
 ---
-This route is cached for up to 300 seconds
+This route expires daily at 11:05
 */
 func (a *Client) GetUniverseStationsStationID(params *GetUniverseStationsStationIDParams) (*GetUniverseStationsStationIDOK, error) {
 	// TODO: Validate the params before sending
@@ -728,7 +806,7 @@ func (a *Client) GetUniverseStationsStationID(params *GetUniverseStationsStation
 		Method:             "GET",
 		PathPattern:        "/universe/stations/{station_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseStationsStationIDReader{formats: a.formats},
@@ -748,11 +826,11 @@ GetUniverseStructures lists all public structures
 List all public structures
 
 ---
-Alternate route: `/v1/universe/structures/`
+Alternate route: `/dev/universe/structures/`
 
 Alternate route: `/legacy/universe/structures/`
 
-Alternate route: `/dev/universe/structures/`
+Alternate route: `/v1/universe/structures/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -768,7 +846,7 @@ func (a *Client) GetUniverseStructures(params *GetUniverseStructuresParams) (*Ge
 		Method:             "GET",
 		PathPattern:        "/universe/structures/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseStructuresReader{formats: a.formats},
@@ -788,14 +866,18 @@ GetUniverseStructuresStructureID gets structure information
 Returns information on requested structure, if you are on the ACL. Otherwise, returns "Forbidden" for all inputs.
 
 ---
-Alternate route: `/v1/universe/structures/{structure_id}/`
-
 Alternate route: `/legacy/universe/structures/{structure_id}/`
 
-Alternate route: `/dev/universe/structures/{structure_id}/`
+Alternate route: `/v1/universe/structures/{structure_id}/`
 
 ---
 This route is cached for up to 3600 seconds
+
+---
+Warning: This route has an upgrade available.
+
+---
+[Diff of the upcoming changes](https://esi.evetech.net/diff/latest/dev/#GET-/universe/structures/{structure_id}/)
 */
 func (a *Client) GetUniverseStructuresStructureID(params *GetUniverseStructuresStructureIDParams, authInfo runtime.ClientAuthInfoWriter) (*GetUniverseStructuresStructureIDOK, error) {
 	// TODO: Validate the params before sending
@@ -808,7 +890,7 @@ func (a *Client) GetUniverseStructuresStructureID(params *GetUniverseStructuresS
 		Method:             "GET",
 		PathPattern:        "/universe/structures/{structure_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseStructuresStructureIDReader{formats: a.formats},
@@ -829,11 +911,11 @@ GetUniverseSystemJumps gets system jumps
 Get the number of jumps in solar systems within the last hour ending at the timestamp of the Last-Modified header, excluding wormhole space. Only systems with jumps will be listed
 
 ---
-Alternate route: `/v1/universe/system_jumps/`
+Alternate route: `/dev/universe/system_jumps/`
 
 Alternate route: `/legacy/universe/system_jumps/`
 
-Alternate route: `/dev/universe/system_jumps/`
+Alternate route: `/v1/universe/system_jumps/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -849,7 +931,7 @@ func (a *Client) GetUniverseSystemJumps(params *GetUniverseSystemJumpsParams) (*
 		Method:             "GET",
 		PathPattern:        "/universe/system_jumps/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseSystemJumpsReader{formats: a.formats},
@@ -869,9 +951,9 @@ GetUniverseSystemKills gets system kills
 Get the number of ship, pod and NPC kills per solar system within the last hour ending at the timestamp of the Last-Modified header, excluding wormhole space. Only systems with kills will be listed
 
 ---
-Alternate route: `/v2/universe/system_kills/`
-
 Alternate route: `/dev/universe/system_kills/`
+
+Alternate route: `/v2/universe/system_kills/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -887,7 +969,7 @@ func (a *Client) GetUniverseSystemKills(params *GetUniverseSystemKillsParams) (*
 		Method:             "GET",
 		PathPattern:        "/universe/system_kills/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseSystemKillsReader{formats: a.formats},
@@ -907,11 +989,11 @@ GetUniverseSystems gets solar systems
 Get a list of solar systems
 
 ---
-Alternate route: `/v1/universe/systems/`
+Alternate route: `/dev/universe/systems/`
 
 Alternate route: `/legacy/universe/systems/`
 
-Alternate route: `/dev/universe/systems/`
+Alternate route: `/v1/universe/systems/`
 
 ---
 This route expires daily at 11:05
@@ -927,7 +1009,7 @@ func (a *Client) GetUniverseSystems(params *GetUniverseSystemsParams) (*GetUnive
 		Method:             "GET",
 		PathPattern:        "/universe/systems/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseSystemsReader{formats: a.formats},
@@ -944,13 +1026,19 @@ func (a *Client) GetUniverseSystems(params *GetUniverseSystemsParams) (*GetUnive
 /*
 GetUniverseSystemsSystemID gets solar system information
 
-Get information on a solar system
+Get information on a solar system. NOTE: This route does not work with abyssal systems.
 
 ---
-Alternate route: `/v2/universe/systems/{system_id}/`
+Alternate route: `/v3/universe/systems/{system_id}/`
 
 ---
 This route expires daily at 11:05
+
+---
+Warning: This route has an upgrade available.
+
+---
+[Diff of the upcoming changes](https://esi.evetech.net/diff/latest/dev/#GET-/universe/systems/{system_id}/)
 */
 func (a *Client) GetUniverseSystemsSystemID(params *GetUniverseSystemsSystemIDParams) (*GetUniverseSystemsSystemIDOK, error) {
 	// TODO: Validate the params before sending
@@ -963,7 +1051,7 @@ func (a *Client) GetUniverseSystemsSystemID(params *GetUniverseSystemsSystemIDPa
 		Method:             "GET",
 		PathPattern:        "/universe/systems/{system_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseSystemsSystemIDReader{formats: a.formats},
@@ -983,11 +1071,11 @@ GetUniverseTypes gets types
 Get a list of type ids
 
 ---
-Alternate route: `/v1/universe/types/`
+Alternate route: `/dev/universe/types/`
 
 Alternate route: `/legacy/universe/types/`
 
-Alternate route: `/dev/universe/types/`
+Alternate route: `/v1/universe/types/`
 
 ---
 This route expires daily at 11:05
@@ -1003,7 +1091,7 @@ func (a *Client) GetUniverseTypes(params *GetUniverseTypesParams) (*GetUniverseT
 		Method:             "GET",
 		PathPattern:        "/universe/types/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseTypesReader{formats: a.formats},
@@ -1023,9 +1111,9 @@ GetUniverseTypesTypeID gets type information
 Get information on a type
 
 ---
-Alternate route: `/v2/universe/types/{type_id}/`
+Alternate route: `/dev/universe/types/{type_id}/`
 
-Alternate route: `/legacy/universe/types/{type_id}/`
+Alternate route: `/v3/universe/types/{type_id}/`
 
 ---
 This route expires daily at 11:05
@@ -1041,7 +1129,7 @@ func (a *Client) GetUniverseTypesTypeID(params *GetUniverseTypesTypeIDParams) (*
 		Method:             "GET",
 		PathPattern:        "/universe/types/{type_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUniverseTypesTypeIDReader{formats: a.formats},
@@ -1056,14 +1144,52 @@ func (a *Client) GetUniverseTypesTypeID(params *GetUniverseTypesTypeIDParams) (*
 }
 
 /*
+PostUniverseIds bulks names to ids
+
+Resolve a set of names to IDs in the following categories: agents, alliances, characters, constellations, corporations factions, inventory_types, regions, stations, and systems. Only exact matches will be returned. All names searched for are cached for 12 hours.
+
+---
+Alternate route: `/dev/universe/ids/`
+
+Alternate route: `/legacy/universe/ids/`
+
+Alternate route: `/v1/universe/ids/`
+
+*/
+func (a *Client) PostUniverseIds(params *PostUniverseIdsParams) (*PostUniverseIdsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPostUniverseIdsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "post_universe_ids",
+		Method:             "POST",
+		PathPattern:        "/universe/ids/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PostUniverseIdsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PostUniverseIdsOK), nil
+
+}
+
+/*
 PostUniverseNames gets names and categories for a set of ID s
 
 Resolve a set of IDs to names and categories. Supported ID's for resolving are: Characters, Corporations, Alliances, Stations, Solar Systems, Constellations, Regions, Types.
 
 ---
-Alternate route: `/v2/universe/names/`
-
 Alternate route: `/dev/universe/names/`
+
+Alternate route: `/v2/universe/names/`
 
 */
 func (a *Client) PostUniverseNames(params *PostUniverseNamesParams) (*PostUniverseNamesOK, error) {
@@ -1077,7 +1203,7 @@ func (a *Client) PostUniverseNames(params *PostUniverseNamesParams) (*PostUniver
 		Method:             "POST",
 		PathPattern:        "/universe/names/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostUniverseNamesReader{formats: a.formats},

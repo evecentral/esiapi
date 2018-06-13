@@ -6,18 +6,16 @@ package market
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetMarketsStructuresStructureIDReader is a Reader for the GetMarketsStructuresStructureID structure.
@@ -36,8 +34,36 @@ func (o *GetMarketsStructuresStructureIDReader) ReadResponse(response runtime.Cl
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetMarketsStructuresStructureIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetMarketsStructuresStructureIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetMarketsStructuresStructureIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetMarketsStructuresStructureIDForbidden()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetMarketsStructuresStructureIDEnhanceYourCalm()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +76,20 @@ func (o *GetMarketsStructuresStructureIDReader) ReadResponse(response runtime.Cl
 		}
 		return nil, result
 
+	case 503:
+		result := NewGetMarketsStructuresStructureIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetMarketsStructuresStructureIDGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -57,7 +97,9 @@ func (o *GetMarketsStructuresStructureIDReader) ReadResponse(response runtime.Cl
 
 // NewGetMarketsStructuresStructureIDOK creates a GetMarketsStructuresStructureIDOK with default headers values
 func NewGetMarketsStructuresStructureIDOK() *GetMarketsStructuresStructureIDOK {
-	return &GetMarketsStructuresStructureIDOK{}
+	return &GetMarketsStructuresStructureIDOK{
+		XPages: 1,
+	}
 }
 
 /*GetMarketsStructuresStructureIDOK handles this case with default header values.
@@ -68,14 +110,20 @@ type GetMarketsStructuresStructureIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
 	/*RFC7231 formatted datetime string
 	 */
 	LastModified string
+	/*Maximum page number
+	 */
+	XPages int32
 
-	Payload []*GetMarketsStructuresStructureIDOKBodyItems0
+	Payload []*models.GetMarketsStructuresStructureIDOKBodyItems
 }
 
 func (o *GetMarketsStructuresStructureIDOK) Error() string {
@@ -87,14 +135,127 @@ func (o *GetMarketsStructuresStructureIDOK) readResponse(response runtime.Client
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	// response header X-Pages
+	xPages, err := swag.ConvertInt32(response.GetHeader("X-Pages"))
+	if err != nil {
+		return errors.InvalidType("X-Pages", "header", "int32", response.GetHeader("X-Pages"))
+	}
+	o.XPages = xPages
+
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsStructuresStructureIDNotModified creates a GetMarketsStructuresStructureIDNotModified with default headers values
+func NewGetMarketsStructuresStructureIDNotModified() *GetMarketsStructuresStructureIDNotModified {
+	return &GetMarketsStructuresStructureIDNotModified{}
+}
+
+/*GetMarketsStructuresStructureIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetMarketsStructuresStructureIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetMarketsStructuresStructureIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /markets/structures/{structure_id}/][%d] getMarketsStructuresStructureIdNotModified ", 304)
+}
+
+func (o *GetMarketsStructuresStructureIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetMarketsStructuresStructureIDBadRequest creates a GetMarketsStructuresStructureIDBadRequest with default headers values
+func NewGetMarketsStructuresStructureIDBadRequest() *GetMarketsStructuresStructureIDBadRequest {
+	return &GetMarketsStructuresStructureIDBadRequest{}
+}
+
+/*GetMarketsStructuresStructureIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetMarketsStructuresStructureIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetMarketsStructuresStructureIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /markets/structures/{structure_id}/][%d] getMarketsStructuresStructureIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetMarketsStructuresStructureIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsStructuresStructureIDUnauthorized creates a GetMarketsStructuresStructureIDUnauthorized with default headers values
+func NewGetMarketsStructuresStructureIDUnauthorized() *GetMarketsStructuresStructureIDUnauthorized {
+	return &GetMarketsStructuresStructureIDUnauthorized{}
+}
+
+/*GetMarketsStructuresStructureIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetMarketsStructuresStructureIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetMarketsStructuresStructureIDUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /markets/structures/{structure_id}/][%d] getMarketsStructuresStructureIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetMarketsStructuresStructureIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -121,6 +282,35 @@ func (o *GetMarketsStructuresStructureIDForbidden) Error() string {
 func (o *GetMarketsStructuresStructureIDForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsStructuresStructureIDEnhanceYourCalm creates a GetMarketsStructuresStructureIDEnhanceYourCalm with default headers values
+func NewGetMarketsStructuresStructureIDEnhanceYourCalm() *GetMarketsStructuresStructureIDEnhanceYourCalm {
+	return &GetMarketsStructuresStructureIDEnhanceYourCalm{}
+}
+
+/*GetMarketsStructuresStructureIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetMarketsStructuresStructureIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetMarketsStructuresStructureIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /markets/structures/{structure_id}/][%d] getMarketsStructuresStructureIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetMarketsStructuresStructureIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -159,337 +349,60 @@ func (o *GetMarketsStructuresStructureIDInternalServerError) readResponse(respon
 	return nil
 }
 
-/*GetMarketsStructuresStructureIDOKBodyItems0 get_markets_structures_structure_id_200_ok
-//
-// 200 ok object
-swagger:model GetMarketsStructuresStructureIDOKBodyItems0
+// NewGetMarketsStructuresStructureIDServiceUnavailable creates a GetMarketsStructuresStructureIDServiceUnavailable with default headers values
+func NewGetMarketsStructuresStructureIDServiceUnavailable() *GetMarketsStructuresStructureIDServiceUnavailable {
+	return &GetMarketsStructuresStructureIDServiceUnavailable{}
+}
+
+/*GetMarketsStructuresStructureIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetMarketsStructuresStructureIDOKBodyItems0 struct {
-
-	// get_markets_structures_structure_id_duration
-	//
-	// duration integer
-	// Required: true
-	Duration *int32 `json:"duration"`
-
-	// get_markets_structures_structure_id_is_buy_order
-	//
-	// is_buy_order boolean
-	// Required: true
-	IsBuyOrder *bool `json:"is_buy_order"`
-
-	// get_markets_structures_structure_id_issued
-	//
-	// issued string
-	// Required: true
-	Issued *strfmt.DateTime `json:"issued"`
-
-	// get_markets_structures_structure_id_location_id
-	//
-	// location_id integer
-	// Required: true
-	LocationID *int64 `json:"location_id"`
-
-	// get_markets_structures_structure_id_min_volume
-	//
-	// min_volume integer
-	// Required: true
-	MinVolume *int32 `json:"min_volume"`
-
-	// get_markets_structures_structure_id_order_id
-	//
-	// order_id integer
-	// Required: true
-	OrderID *int64 `json:"order_id"`
-
-	// get_markets_structures_structure_id_price
-	//
-	// price number
-	// Required: true
-	Price *float32 `json:"price"`
-
-	// get_markets_structures_structure_id_range
-	//
-	// range string
-	// Required: true
-	Range *string `json:"range"`
-
-	// get_markets_structures_structure_id_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
-
-	// get_markets_structures_structure_id_volume_remain
-	//
-	// volume_remain integer
-	// Required: true
-	VolumeRemain *int32 `json:"volume_remain"`
-
-	// get_markets_structures_structure_id_volume_total
-	//
-	// volume_total integer
-	// Required: true
-	VolumeTotal *int32 `json:"volume_total"`
+type GetMarketsStructuresStructureIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 duration false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 is_buy_order false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 issued false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 location_id false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 min_volume false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 order_id false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 price false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 range false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 type_id false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 volume_remain false */
-
-/* polymorph GetMarketsStructuresStructureIDOKBodyItems0 volume_total false */
-
-// Validate validates this get markets structures structure ID o k body items0
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateDuration(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsBuyOrder(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIssued(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLocationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMinVolume(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOrderID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePrice(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRange(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVolumeRemain(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVolumeTotal(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetMarketsStructuresStructureIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /markets/structures/{structure_id}/][%d] getMarketsStructuresStructureIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateDuration(formats strfmt.Registry) error {
+func (o *GetMarketsStructuresStructureIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("duration", "body", o.Duration); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateIsBuyOrder(formats strfmt.Registry) error {
-
-	if err := validate.Required("is_buy_order", "body", o.IsBuyOrder); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetMarketsStructuresStructureIDGatewayTimeout creates a GetMarketsStructuresStructureIDGatewayTimeout with default headers values
+func NewGetMarketsStructuresStructureIDGatewayTimeout() *GetMarketsStructuresStructureIDGatewayTimeout {
+	return &GetMarketsStructuresStructureIDGatewayTimeout{}
 }
 
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateIssued(formats strfmt.Registry) error {
+/*GetMarketsStructuresStructureIDGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("issued", "body", o.Issued); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("issued", "body", "date-time", o.Issued.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetMarketsStructuresStructureIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateLocationID(formats strfmt.Registry) error {
+func (o *GetMarketsStructuresStructureIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /markets/structures/{structure_id}/][%d] getMarketsStructuresStructureIdGatewayTimeout  %+v", 504, o.Payload)
+}
 
-	if err := validate.Required("location_id", "body", o.LocationID); err != nil {
+func (o *GetMarketsStructuresStructureIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateMinVolume(formats strfmt.Registry) error {
-
-	if err := validate.Required("min_volume", "body", o.MinVolume); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateOrderID(formats strfmt.Registry) error {
-
-	if err := validate.Required("order_id", "body", o.OrderID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validatePrice(formats strfmt.Registry) error {
-
-	if err := validate.Required("price", "body", o.Price); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var getMarketsStructuresStructureIdOKBodyItems0TypeRangePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["station","region","solarsystem","1","2","3","4","5","10","20","30","40"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getMarketsStructuresStructureIdOKBodyItems0TypeRangePropEnum = append(getMarketsStructuresStructureIdOKBodyItems0TypeRangePropEnum, v)
-	}
-}
-
-const (
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeStation captures enum value "station"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeStation string = "station"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeRegion captures enum value "region"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeRegion string = "region"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeSolarsystem captures enum value "solarsystem"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeSolarsystem string = "solarsystem"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr1 captures enum value "1"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr1 string = "1"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr2 captures enum value "2"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr2 string = "2"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr3 captures enum value "3"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr3 string = "3"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr4 captures enum value "4"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr4 string = "4"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr5 captures enum value "5"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr5 string = "5"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr10 captures enum value "10"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr10 string = "10"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr20 captures enum value "20"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr20 string = "20"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr30 captures enum value "30"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr30 string = "30"
-	// GetMarketsStructuresStructureIDOKBodyItems0RangeNr40 captures enum value "40"
-	GetMarketsStructuresStructureIDOKBodyItems0RangeNr40 string = "40"
-)
-
-// prop value enum
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateRangeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getMarketsStructuresStructureIdOKBodyItems0TypeRangePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateRange(formats strfmt.Registry) error {
-
-	if err := validate.Required("range", "body", o.Range); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateRangeEnum("range", "body", *o.Range); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateVolumeRemain(formats strfmt.Registry) error {
-
-	if err := validate.Required("volume_remain", "body", o.VolumeRemain); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) validateVolumeTotal(formats strfmt.Registry) error {
-
-	if err := validate.Required("volume_total", "body", o.VolumeTotal); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetMarketsStructuresStructureIDOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetMarketsStructuresStructureIDOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

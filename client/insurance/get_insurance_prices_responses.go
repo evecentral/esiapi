@@ -8,16 +8,12 @@ package insurance
 import (
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetInsurancePricesReader is a Reader for the GetInsurancePrices structure.
@@ -36,8 +32,43 @@ func (o *GetInsurancePricesReader) ReadResponse(response runtime.ClientResponse,
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetInsurancePricesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetInsurancePricesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetInsurancePricesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetInsurancePricesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetInsurancePricesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetInsurancePricesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -64,6 +95,9 @@ type GetInsurancePricesOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -71,7 +105,7 @@ type GetInsurancePricesOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetInsurancePricesOKBodyItems0
+	Payload []*models.GetInsurancePricesOKBodyItems
 }
 
 func (o *GetInsurancePricesOK) Error() string {
@@ -86,6 +120,9 @@ func (o *GetInsurancePricesOK) readResponse(response runtime.ClientResponse, con
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +131,109 @@ func (o *GetInsurancePricesOK) readResponse(response runtime.ClientResponse, con
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetInsurancePricesNotModified creates a GetInsurancePricesNotModified with default headers values
+func NewGetInsurancePricesNotModified() *GetInsurancePricesNotModified {
+	return &GetInsurancePricesNotModified{}
+}
+
+/*GetInsurancePricesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetInsurancePricesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetInsurancePricesNotModified) Error() string {
+	return fmt.Sprintf("[GET /insurance/prices/][%d] getInsurancePricesNotModified ", 304)
+}
+
+func (o *GetInsurancePricesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetInsurancePricesBadRequest creates a GetInsurancePricesBadRequest with default headers values
+func NewGetInsurancePricesBadRequest() *GetInsurancePricesBadRequest {
+	return &GetInsurancePricesBadRequest{}
+}
+
+/*GetInsurancePricesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetInsurancePricesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetInsurancePricesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /insurance/prices/][%d] getInsurancePricesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetInsurancePricesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetInsurancePricesEnhanceYourCalm creates a GetInsurancePricesEnhanceYourCalm with default headers values
+func NewGetInsurancePricesEnhanceYourCalm() *GetInsurancePricesEnhanceYourCalm {
+	return &GetInsurancePricesEnhanceYourCalm{}
+}
+
+/*GetInsurancePricesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetInsurancePricesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetInsurancePricesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /insurance/prices/][%d] getInsurancePricesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetInsurancePricesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -129,211 +269,60 @@ func (o *GetInsurancePricesInternalServerError) readResponse(response runtime.Cl
 	return nil
 }
 
-/*GetInsurancePricesOKBodyItems0 get_insurance_prices_200_ok
-//
-// 200 ok object
-swagger:model GetInsurancePricesOKBodyItems0
+// NewGetInsurancePricesServiceUnavailable creates a GetInsurancePricesServiceUnavailable with default headers values
+func NewGetInsurancePricesServiceUnavailable() *GetInsurancePricesServiceUnavailable {
+	return &GetInsurancePricesServiceUnavailable{}
+}
+
+/*GetInsurancePricesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetInsurancePricesOKBodyItems0 struct {
-
-	// get_insurance_prices_levels
-	//
-	// A list of a available insurance levels for this ship type
-	// Required: true
-	// Max Items: 6
-	Levels []*GetInsurancePricesOKBodyItems0LevelsItems0 `json:"levels"`
-
-	// get_insurance_prices_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetInsurancePricesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetInsurancePricesOKBodyItems0 levels false */
-
-/* polymorph GetInsurancePricesOKBodyItems0 type_id false */
-
-// Validate validates this get insurance prices o k body items0
-func (o *GetInsurancePricesOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateLevels(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetInsurancePricesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /insurance/prices/][%d] getInsurancePricesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetInsurancePricesOKBodyItems0) validateLevels(formats strfmt.Registry) error {
+func (o *GetInsurancePricesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("levels", "body", o.Levels); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	iLevelsSize := int64(len(o.Levels))
-
-	if err := validate.MaxItems("levels", "body", iLevelsSize, 6); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Levels); i++ {
-
-		if swag.IsZero(o.Levels[i]) { // not required
-			continue
-		}
-
-		if o.Levels[i] != nil {
-
-			if err := o.Levels[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("levels" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetInsurancePricesOKBodyItems0) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetInsurancePricesOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetInsurancePricesGatewayTimeout creates a GetInsurancePricesGatewayTimeout with default headers values
+func NewGetInsurancePricesGatewayTimeout() *GetInsurancePricesGatewayTimeout {
+	return &GetInsurancePricesGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetInsurancePricesOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetInsurancePricesOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetInsurancePricesGatewayTimeout handles this case with default header values.
 
-/*GetInsurancePricesOKBodyItems0LevelsItems0 get_insurance_prices_level
-//
-// level object
-swagger:model GetInsurancePricesOKBodyItems0LevelsItems0
+Gateway timeout
 */
-
-type GetInsurancePricesOKBodyItems0LevelsItems0 struct {
-
-	// get_insurance_prices_cost
-	//
-	// cost number
-	// Required: true
-	Cost *float32 `json:"cost"`
-
-	// get_insurance_prices_name
-	//
-	// Localized insurance level
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_insurance_prices_payout
-	//
-	// payout number
-	// Required: true
-	Payout *float32 `json:"payout"`
+type GetInsurancePricesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetInsurancePricesOKBodyItems0LevelsItems0 cost false */
-
-/* polymorph GetInsurancePricesOKBodyItems0LevelsItems0 name false */
-
-/* polymorph GetInsurancePricesOKBodyItems0LevelsItems0 payout false */
-
-// Validate validates this get insurance prices o k body items0 levels items0
-func (o *GetInsurancePricesOKBodyItems0LevelsItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCost(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePayout(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetInsurancePricesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /insurance/prices/][%d] getInsurancePricesGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetInsurancePricesOKBodyItems0LevelsItems0) validateCost(formats strfmt.Registry) error {
+func (o *GetInsurancePricesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("cost", "body", o.Cost); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetInsurancePricesOKBodyItems0LevelsItems0) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetInsurancePricesOKBodyItems0LevelsItems0) validatePayout(formats strfmt.Registry) error {
-
-	if err := validate.Required("payout", "body", o.Payout); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetInsurancePricesOKBodyItems0LevelsItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetInsurancePricesOKBodyItems0LevelsItems0) UnmarshalBinary(b []byte) error {
-	var res GetInsurancePricesOKBodyItems0LevelsItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

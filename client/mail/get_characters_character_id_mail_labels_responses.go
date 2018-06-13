@@ -6,19 +6,14 @@ package mail
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDMailLabelsReader is a Reader for the GetCharactersCharacterIDMailLabels structure.
@@ -37,6 +32,27 @@ func (o *GetCharactersCharacterIDMailLabelsReader) ReadResponse(response runtime
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDMailLabelsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDMailLabelsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDMailLabelsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDMailLabelsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -44,8 +60,29 @@ func (o *GetCharactersCharacterIDMailLabelsReader) ReadResponse(response runtime
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDMailLabelsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDMailLabelsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDMailLabelsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDMailLabelsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -69,6 +106,9 @@ type GetCharactersCharacterIDMailLabelsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,7 +116,7 @@ type GetCharactersCharacterIDMailLabelsOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDMailLabelsOKBody
+	Payload *models.GetCharactersCharacterIDMailLabelsOKBody
 }
 
 func (o *GetCharactersCharacterIDMailLabelsOK) Error() string {
@@ -88,14 +128,122 @@ func (o *GetCharactersCharacterIDMailLabelsOK) readResponse(response runtime.Cli
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDMailLabelsOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMailLabelsNotModified creates a GetCharactersCharacterIDMailLabelsNotModified with default headers values
+func NewGetCharactersCharacterIDMailLabelsNotModified() *GetCharactersCharacterIDMailLabelsNotModified {
+	return &GetCharactersCharacterIDMailLabelsNotModified{}
+}
+
+/*GetCharactersCharacterIDMailLabelsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDMailLabelsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDMailLabelsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/labels/][%d] getCharactersCharacterIdMailLabelsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDMailLabelsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMailLabelsBadRequest creates a GetCharactersCharacterIDMailLabelsBadRequest with default headers values
+func NewGetCharactersCharacterIDMailLabelsBadRequest() *GetCharactersCharacterIDMailLabelsBadRequest {
+	return &GetCharactersCharacterIDMailLabelsBadRequest{}
+}
+
+/*GetCharactersCharacterIDMailLabelsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDMailLabelsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDMailLabelsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/labels/][%d] getCharactersCharacterIdMailLabelsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMailLabelsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMailLabelsUnauthorized creates a GetCharactersCharacterIDMailLabelsUnauthorized with default headers values
+func NewGetCharactersCharacterIDMailLabelsUnauthorized() *GetCharactersCharacterIDMailLabelsUnauthorized {
+	return &GetCharactersCharacterIDMailLabelsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDMailLabelsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDMailLabelsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDMailLabelsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/labels/][%d] getCharactersCharacterIdMailLabelsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMailLabelsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,6 +270,35 @@ func (o *GetCharactersCharacterIDMailLabelsForbidden) Error() string {
 func (o *GetCharactersCharacterIDMailLabelsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDMailLabelsEnhanceYourCalm creates a GetCharactersCharacterIDMailLabelsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDMailLabelsEnhanceYourCalm() *GetCharactersCharacterIDMailLabelsEnhanceYourCalm {
+	return &GetCharactersCharacterIDMailLabelsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDMailLabelsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDMailLabelsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDMailLabelsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/labels/][%d] getCharactersCharacterIdMailLabelsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDMailLabelsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -160,313 +337,60 @@ func (o *GetCharactersCharacterIDMailLabelsInternalServerError) readResponse(res
 	return nil
 }
 
-/*GetCharactersCharacterIDMailLabelsOKBody get_characters_character_id_mail_labels_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDMailLabelsOKBody
+// NewGetCharactersCharacterIDMailLabelsServiceUnavailable creates a GetCharactersCharacterIDMailLabelsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDMailLabelsServiceUnavailable() *GetCharactersCharacterIDMailLabelsServiceUnavailable {
+	return &GetCharactersCharacterIDMailLabelsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDMailLabelsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDMailLabelsOKBody struct {
-
-	// get_characters_character_id_mail_labels_labels
-	//
-	// labels array
-	// Required: true
-	// Max Items: 30
-	Labels []*LabelsItems0 `json:"labels"`
-
-	// get_characters_character_id_mail_labels_total_unread_count
-	//
-	// total_unread_count integer
-	// Required: true
-	// Minimum: 0
-	TotalUnreadCount *int32 `json:"total_unread_count"`
+type GetCharactersCharacterIDMailLabelsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDMailLabelsOKBody labels false */
-
-/* polymorph GetCharactersCharacterIDMailLabelsOKBody total_unread_count false */
-
-// Validate validates this get characters character ID mail labels o k body
-func (o *GetCharactersCharacterIDMailLabelsOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateLabels(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTotalUnreadCount(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDMailLabelsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/labels/][%d] getCharactersCharacterIdMailLabelsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDMailLabelsOKBody) validateLabels(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDMailLabelsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdMailLabelsOK"+"."+"labels", "body", o.Labels); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	iLabelsSize := int64(len(o.Labels))
-
-	if err := validate.MaxItems("getCharactersCharacterIdMailLabelsOK"+"."+"labels", "body", iLabelsSize, 30); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Labels); i++ {
-
-		if swag.IsZero(o.Labels[i]) { // not required
-			continue
-		}
-
-		if o.Labels[i] != nil {
-
-			if err := o.Labels[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("getCharactersCharacterIdMailLabelsOK" + "." + "labels" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDMailLabelsOKBody) validateTotalUnreadCount(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdMailLabelsOK"+"."+"total_unread_count", "body", o.TotalUnreadCount); err != nil {
-		return err
-	}
-
-	if err := validate.MinimumInt("getCharactersCharacterIdMailLabelsOK"+"."+"total_unread_count", "body", int64(*o.TotalUnreadCount), 0, false); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMailLabelsOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCharactersCharacterIDMailLabelsGatewayTimeout creates a GetCharactersCharacterIDMailLabelsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDMailLabelsGatewayTimeout() *GetCharactersCharacterIDMailLabelsGatewayTimeout {
+	return &GetCharactersCharacterIDMailLabelsGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDMailLabelsOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDMailLabelsOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetCharactersCharacterIDMailLabelsGatewayTimeout handles this case with default header values.
 
-/*LabelsItems0 get_characters_character_id_mail_labels_label
-//
-// label object
-swagger:model LabelsItems0
+Gateway timeout
 */
-
-type LabelsItems0 struct {
-
-	// get_characters_character_id_mail_labels_color
-	//
-	// color string
-	Color *string `json:"color,omitempty"`
-
-	// get_characters_character_id_mail_labels_label_id
-	//
-	// label_id integer
-	// Minimum: 0
-	LabelID *int32 `json:"label_id,omitempty"`
-
-	// get_characters_character_id_mail_labels_name
-	//
-	// name string
-	// Max Length: 40
-	Name string `json:"name,omitempty"`
-
-	// get_characters_character_id_mail_labels_unread_count
-	//
-	// unread_count integer
-	// Minimum: 0
-	UnreadCount *int32 `json:"unread_count,omitempty"`
+type GetCharactersCharacterIDMailLabelsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph LabelsItems0 color false */
-
-/* polymorph LabelsItems0 label_id false */
-
-/* polymorph LabelsItems0 name false */
-
-/* polymorph LabelsItems0 unread_count false */
-
-// Validate validates this labels items0
-func (o *LabelsItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateColor(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLabelID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateUnreadCount(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDMailLabelsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/mail/labels/][%d] getCharactersCharacterIdMailLabelsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-var labelsItems0TypeColorPropEnum []interface{}
+func (o *GetCharactersCharacterIDMailLabelsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["#ffffff","#ffff01","#ff6600","#fe0000","#9a0000","#660066","#0000fe","#0099ff","#01ffff","#00ff33","#349800","#006634","#666666","#999999","#e6e6e6","#ffffcd","#99ffff","#ccff9a"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		labelsItems0TypeColorPropEnum = append(labelsItems0TypeColorPropEnum, v)
-	}
-}
+	o.Payload = new(models.GatewayTimeout)
 
-const (
-	// LabelsItems0ColorNrFfffff captures enum value "#ffffff"
-	LabelsItems0ColorNrFfffff string = "#ffffff"
-	// LabelsItems0ColorNrFfff01 captures enum value "#ffff01"
-	LabelsItems0ColorNrFfff01 string = "#ffff01"
-	// LabelsItems0ColorNrFf6600 captures enum value "#ff6600"
-	LabelsItems0ColorNrFf6600 string = "#ff6600"
-	// LabelsItems0ColorNrFe0000 captures enum value "#fe0000"
-	LabelsItems0ColorNrFe0000 string = "#fe0000"
-	// LabelsItems0ColorNr9a0000 captures enum value "#9a0000"
-	LabelsItems0ColorNr9a0000 string = "#9a0000"
-	// LabelsItems0ColorNr660066 captures enum value "#660066"
-	LabelsItems0ColorNr660066 string = "#660066"
-	// LabelsItems0ColorNr0000fe captures enum value "#0000fe"
-	LabelsItems0ColorNr0000fe string = "#0000fe"
-	// LabelsItems0ColorNr0099ff captures enum value "#0099ff"
-	LabelsItems0ColorNr0099ff string = "#0099ff"
-	// LabelsItems0ColorNr01ffff captures enum value "#01ffff"
-	LabelsItems0ColorNr01ffff string = "#01ffff"
-	// LabelsItems0ColorNr00ff33 captures enum value "#00ff33"
-	LabelsItems0ColorNr00ff33 string = "#00ff33"
-	// LabelsItems0ColorNr349800 captures enum value "#349800"
-	LabelsItems0ColorNr349800 string = "#349800"
-	// LabelsItems0ColorNr006634 captures enum value "#006634"
-	LabelsItems0ColorNr006634 string = "#006634"
-	// LabelsItems0ColorNr666666 captures enum value "#666666"
-	LabelsItems0ColorNr666666 string = "#666666"
-	// LabelsItems0ColorNr999999 captures enum value "#999999"
-	LabelsItems0ColorNr999999 string = "#999999"
-	// LabelsItems0ColorNrE6e6e6 captures enum value "#e6e6e6"
-	LabelsItems0ColorNrE6e6e6 string = "#e6e6e6"
-	// LabelsItems0ColorNrFfffcd captures enum value "#ffffcd"
-	LabelsItems0ColorNrFfffcd string = "#ffffcd"
-	// LabelsItems0ColorNr99ffff captures enum value "#99ffff"
-	LabelsItems0ColorNr99ffff string = "#99ffff"
-	// LabelsItems0ColorNrCcff9a captures enum value "#ccff9a"
-	LabelsItems0ColorNrCcff9a string = "#ccff9a"
-)
-
-// prop value enum
-func (o *LabelsItems0) validateColorEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, labelsItems0TypeColorPropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *LabelsItems0) validateColor(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.Color) { // not required
-		return nil
-	}
-
-	// value enum
-	if err := o.validateColorEnum("color", "body", *o.Color); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *LabelsItems0) validateLabelID(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.LabelID) { // not required
-		return nil
-	}
-
-	if err := validate.MinimumInt("label_id", "body", int64(*o.LabelID), 0, false); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *LabelsItems0) validateName(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.Name) { // not required
-		return nil
-	}
-
-	if err := validate.MaxLength("name", "body", string(o.Name), 40); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *LabelsItems0) validateUnreadCount(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.UnreadCount) { // not required
-		return nil
-	}
-
-	if err := validate.MinimumInt("unread_count", "body", int64(*o.UnreadCount), 0, false); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *LabelsItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *LabelsItems0) UnmarshalBinary(b []byte) error {
-	var res LabelsItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

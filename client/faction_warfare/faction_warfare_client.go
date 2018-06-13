@@ -25,16 +25,98 @@ type Client struct {
 }
 
 /*
+GetCharactersCharacterIDFwStats overviews of a character involved in faction warfare
+
+Statistical overview of a character involved in faction warfare
+
+---
+Alternate route: `/dev/characters/{character_id}/fw/stats/`
+
+Alternate route: `/legacy/characters/{character_id}/fw/stats/`
+
+Alternate route: `/v1/characters/{character_id}/fw/stats/`
+
+---
+This route expires daily at 11:05
+*/
+func (a *Client) GetCharactersCharacterIDFwStats(params *GetCharactersCharacterIDFwStatsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDFwStatsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCharactersCharacterIDFwStatsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_characters_character_id_fw_stats",
+		Method:             "GET",
+		PathPattern:        "/characters/{character_id}/fw/stats/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCharactersCharacterIDFwStatsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCharactersCharacterIDFwStatsOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDFwStats overviews of a corporation involved in faction warfare
+
+Statistics about a corporation involved in faction warfare
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/fw/stats/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/fw/stats/`
+
+Alternate route: `/v1/corporations/{corporation_id}/fw/stats/`
+
+---
+This route expires daily at 11:05
+*/
+func (a *Client) GetCorporationsCorporationIDFwStats(params *GetCorporationsCorporationIDFwStatsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDFwStatsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDFwStatsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_fw_stats",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/fw/stats/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDFwStatsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDFwStatsOK), nil
+
+}
+
+/*
 GetFwLeaderboards lists of the top factions in faction warfare
 
 Top 4 leaderboard of factions for kills and victory points separated by total, last week and yesterday.
 
 ---
-Alternate route: `/v1/fw/leaderboards/`
+Alternate route: `/dev/fw/leaderboards/`
 
 Alternate route: `/legacy/fw/leaderboards/`
 
-Alternate route: `/dev/fw/leaderboards/`
+Alternate route: `/v1/fw/leaderboards/`
 
 ---
 This route expires daily at 11:05
@@ -50,7 +132,7 @@ func (a *Client) GetFwLeaderboards(params *GetFwLeaderboardsParams) (*GetFwLeade
 		Method:             "GET",
 		PathPattern:        "/fw/leaderboards/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFwLeaderboardsReader{formats: a.formats},
@@ -70,11 +152,11 @@ GetFwLeaderboardsCharacters lists of the top pilots in faction warfare
 Top 100 leaderboard of pilots for kills and victory points separated by total, last week and yesterday.
 
 ---
-Alternate route: `/v1/fw/leaderboards/characters/`
+Alternate route: `/dev/fw/leaderboards/characters/`
 
 Alternate route: `/legacy/fw/leaderboards/characters/`
 
-Alternate route: `/dev/fw/leaderboards/characters/`
+Alternate route: `/v1/fw/leaderboards/characters/`
 
 ---
 This route expires daily at 11:05
@@ -90,7 +172,7 @@ func (a *Client) GetFwLeaderboardsCharacters(params *GetFwLeaderboardsCharacters
 		Method:             "GET",
 		PathPattern:        "/fw/leaderboards/characters/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFwLeaderboardsCharactersReader{formats: a.formats},
@@ -110,11 +192,11 @@ GetFwLeaderboardsCorporations lists of the top corporations in faction warfare
 Top 10 leaderboard of corporations for kills and victory points separated by total, last week and yesterday.
 
 ---
-Alternate route: `/v1/fw/leaderboards/corporations/`
+Alternate route: `/dev/fw/leaderboards/corporations/`
 
 Alternate route: `/legacy/fw/leaderboards/corporations/`
 
-Alternate route: `/dev/fw/leaderboards/corporations/`
+Alternate route: `/v1/fw/leaderboards/corporations/`
 
 ---
 This route expires daily at 11:05
@@ -130,7 +212,7 @@ func (a *Client) GetFwLeaderboardsCorporations(params *GetFwLeaderboardsCorporat
 		Method:             "GET",
 		PathPattern:        "/fw/leaderboards/corporations/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFwLeaderboardsCorporationsReader{formats: a.formats},
@@ -150,11 +232,11 @@ GetFwStats ans overview of statistics about factions involved in faction warfare
 Statistical overviews of factions involved in faction warfare
 
 ---
-Alternate route: `/v1/fw/stats/`
+Alternate route: `/dev/fw/stats/`
 
 Alternate route: `/legacy/fw/stats/`
 
-Alternate route: `/dev/fw/stats/`
+Alternate route: `/v1/fw/stats/`
 
 ---
 This route expires daily at 11:05
@@ -170,7 +252,7 @@ func (a *Client) GetFwStats(params *GetFwStatsParams) (*GetFwStatsOK, error) {
 		Method:             "GET",
 		PathPattern:        "/fw/stats/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFwStatsReader{formats: a.formats},
@@ -190,14 +272,18 @@ GetFwSystems ownerships of faction warfare systems
 An overview of the current ownership of faction warfare solar systems
 
 ---
-Alternate route: `/v1/fw/systems/`
-
 Alternate route: `/legacy/fw/systems/`
 
-Alternate route: `/dev/fw/systems/`
+Alternate route: `/v1/fw/systems/`
 
 ---
-This route is cached for up to 3600 seconds
+This route is cached for up to 1800 seconds
+
+---
+Warning: This route has an upgrade available.
+
+---
+[Diff of the upcoming changes](https://esi.evetech.net/diff/latest/dev/#GET-/fw/systems/)
 */
 func (a *Client) GetFwSystems(params *GetFwSystemsParams) (*GetFwSystemsOK, error) {
 	// TODO: Validate the params before sending
@@ -210,7 +296,7 @@ func (a *Client) GetFwSystems(params *GetFwSystemsParams) (*GetFwSystemsOK, erro
 		Method:             "GET",
 		PathPattern:        "/fw/systems/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFwSystemsReader{formats: a.formats},
@@ -230,11 +316,11 @@ GetFwWars data about which n p c factions are at war
 Data about which NPC factions are at war
 
 ---
-Alternate route: `/v1/fw/wars/`
+Alternate route: `/dev/fw/wars/`
 
 Alternate route: `/legacy/fw/wars/`
 
-Alternate route: `/dev/fw/wars/`
+Alternate route: `/v1/fw/wars/`
 
 ---
 This route expires daily at 11:05
@@ -250,7 +336,7 @@ func (a *Client) GetFwWars(params *GetFwWarsParams) (*GetFwWarsOK, error) {
 		Method:             "GET",
 		PathPattern:        "/fw/wars/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFwWarsReader{formats: a.formats},

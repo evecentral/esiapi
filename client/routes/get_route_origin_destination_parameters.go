@@ -83,11 +83,11 @@ for the get route origin destination operation typically these are written to a 
 */
 type GetRouteOriginDestinationParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*Avoid
 	  avoid solar system ID(s)
 
@@ -118,11 +118,6 @@ type GetRouteOriginDestinationParams struct {
 
 	*/
 	Origin int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -162,15 +157,15 @@ func (o *GetRouteOriginDestinationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get route origin destination params
-func (o *GetRouteOriginDestinationParams) WithXUserAgent(xUserAgent *string) *GetRouteOriginDestinationParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get route origin destination params
+func (o *GetRouteOriginDestinationParams) WithIfNoneMatch(ifNoneMatch *string) *GetRouteOriginDestinationParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get route origin destination params
-func (o *GetRouteOriginDestinationParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get route origin destination params
+func (o *GetRouteOriginDestinationParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithAvoid adds the avoid to the get route origin destination params
@@ -239,17 +234,6 @@ func (o *GetRouteOriginDestinationParams) SetOrigin(origin int32) {
 	o.Origin = origin
 }
 
-// WithUserAgent adds the userAgent to the get route origin destination params
-func (o *GetRouteOriginDestinationParams) WithUserAgent(userAgent *string) *GetRouteOriginDestinationParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get route origin destination params
-func (o *GetRouteOriginDestinationParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetRouteOriginDestinationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -258,10 +242,10 @@ func (o *GetRouteOriginDestinationParams) WriteToRequest(r runtime.ClientRequest
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -275,6 +259,14 @@ func (o *GetRouteOriginDestinationParams) WriteToRequest(r runtime.ClientRequest
 	joinedAvoid := swag.JoinByFormat(valuesAvoid, "")
 	// query array param avoid
 	if err := r.SetQueryParam("avoid", joinedAvoid...); err != nil {
+		return err
+	}
+
+	valuesConnections := o.Connections
+
+	joinedConnections := swag.JoinByFormat(valuesConnections, "")
+	// query array param connections
+	if err := r.SetQueryParam("connections", joinedConnections...); err != nil {
 		return err
 	}
 
@@ -318,22 +310,6 @@ func (o *GetRouteOriginDestinationParams) WriteToRequest(r runtime.ClientRequest
 	// path param origin
 	if err := r.SetPathParam("origin", swag.FormatInt32(o.Origin)); err != nil {
 		return err
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	if len(res) > 0 {

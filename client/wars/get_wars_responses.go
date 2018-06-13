@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetWarsReader is a Reader for the GetWars structure.
@@ -32,8 +32,43 @@ func (o *GetWarsReader) ReadResponse(response runtime.ClientResponse, consumer r
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetWarsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetWarsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetWarsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetWarsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetWarsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetWarsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetWarsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetWarsOK) readResponse(response runtime.ClientResponse, consumer runti
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetWarsOK) readResponse(response runtime.ClientResponse, consumer runti
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetWarsNotModified creates a GetWarsNotModified with default headers values
+func NewGetWarsNotModified() *GetWarsNotModified {
+	return &GetWarsNotModified{}
+}
+
+/*GetWarsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetWarsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetWarsNotModified) Error() string {
+	return fmt.Sprintf("[GET /wars/][%d] getWarsNotModified ", 304)
+}
+
+func (o *GetWarsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetWarsBadRequest creates a GetWarsBadRequest with default headers values
+func NewGetWarsBadRequest() *GetWarsBadRequest {
+	return &GetWarsBadRequest{}
+}
+
+/*GetWarsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetWarsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetWarsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /wars/][%d] getWarsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetWarsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetWarsEnhanceYourCalm creates a GetWarsEnhanceYourCalm with default headers values
+func NewGetWarsEnhanceYourCalm() *GetWarsEnhanceYourCalm {
+	return &GetWarsEnhanceYourCalm{}
+}
+
+/*GetWarsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetWarsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetWarsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /wars/][%d] getWarsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetWarsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetWarsInternalServerError) Error() string {
 func (o *GetWarsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetWarsServiceUnavailable creates a GetWarsServiceUnavailable with default headers values
+func NewGetWarsServiceUnavailable() *GetWarsServiceUnavailable {
+	return &GetWarsServiceUnavailable{}
+}
+
+/*GetWarsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetWarsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetWarsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /wars/][%d] getWarsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetWarsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetWarsGatewayTimeout creates a GetWarsGatewayTimeout with default headers values
+func NewGetWarsGatewayTimeout() *GetWarsGatewayTimeout {
+	return &GetWarsGatewayTimeout{}
+}
+
+/*GetWarsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetWarsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetWarsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /wars/][%d] getWarsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetWarsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

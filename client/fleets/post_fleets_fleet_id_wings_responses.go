@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostFleetsFleetIDWingsReader is a Reader for the PostFleetsFleetIDWings structure.
@@ -35,6 +32,20 @@ func (o *PostFleetsFleetIDWingsReader) ReadResponse(response runtime.ClientRespo
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostFleetsFleetIDWingsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostFleetsFleetIDWingsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostFleetsFleetIDWingsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,8 +60,29 @@ func (o *PostFleetsFleetIDWingsReader) ReadResponse(response runtime.ClientRespo
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostFleetsFleetIDWingsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostFleetsFleetIDWingsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostFleetsFleetIDWingsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostFleetsFleetIDWingsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -71,7 +103,7 @@ func NewPostFleetsFleetIDWingsCreated() *PostFleetsFleetIDWingsCreated {
 Wing created
 */
 type PostFleetsFleetIDWingsCreated struct {
-	Payload PostFleetsFleetIDWingsCreatedBody
+	Payload *models.PostFleetsFleetIDWingsCreatedBody
 }
 
 func (o *PostFleetsFleetIDWingsCreated) Error() string {
@@ -80,8 +112,68 @@ func (o *PostFleetsFleetIDWingsCreated) Error() string {
 
 func (o *PostFleetsFleetIDWingsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.PostFleetsFleetIDWingsCreatedBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostFleetsFleetIDWingsBadRequest creates a PostFleetsFleetIDWingsBadRequest with default headers values
+func NewPostFleetsFleetIDWingsBadRequest() *PostFleetsFleetIDWingsBadRequest {
+	return &PostFleetsFleetIDWingsBadRequest{}
+}
+
+/*PostFleetsFleetIDWingsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostFleetsFleetIDWingsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostFleetsFleetIDWingsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/][%d] postFleetsFleetIdWingsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostFleetsFleetIDWingsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostFleetsFleetIDWingsUnauthorized creates a PostFleetsFleetIDWingsUnauthorized with default headers values
+func NewPostFleetsFleetIDWingsUnauthorized() *PostFleetsFleetIDWingsUnauthorized {
+	return &PostFleetsFleetIDWingsUnauthorized{}
+}
+
+/*PostFleetsFleetIDWingsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostFleetsFleetIDWingsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostFleetsFleetIDWingsUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/][%d] postFleetsFleetIdWingsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostFleetsFleetIDWingsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -127,7 +219,7 @@ func NewPostFleetsFleetIDWingsNotFound() *PostFleetsFleetIDWingsNotFound {
 The fleet does not exist or you don't have access to it
 */
 type PostFleetsFleetIDWingsNotFound struct {
-	Payload PostFleetsFleetIDWingsNotFoundBody
+	Payload *models.PostFleetsFleetIDWingsNotFoundBody
 }
 
 func (o *PostFleetsFleetIDWingsNotFound) Error() string {
@@ -136,8 +228,39 @@ func (o *PostFleetsFleetIDWingsNotFound) Error() string {
 
 func (o *PostFleetsFleetIDWingsNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.PostFleetsFleetIDWingsNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostFleetsFleetIDWingsEnhanceYourCalm creates a PostFleetsFleetIDWingsEnhanceYourCalm with default headers values
+func NewPostFleetsFleetIDWingsEnhanceYourCalm() *PostFleetsFleetIDWingsEnhanceYourCalm {
+	return &PostFleetsFleetIDWingsEnhanceYourCalm{}
+}
+
+/*PostFleetsFleetIDWingsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostFleetsFleetIDWingsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostFleetsFleetIDWingsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/][%d] postFleetsFleetIdWingsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostFleetsFleetIDWingsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -173,120 +296,60 @@ func (o *PostFleetsFleetIDWingsInternalServerError) readResponse(response runtim
 	return nil
 }
 
-/*PostFleetsFleetIDWingsCreatedBody post_fleets_fleet_id_wings_created
-//
-// 201 created object
-swagger:model PostFleetsFleetIDWingsCreatedBody
+// NewPostFleetsFleetIDWingsServiceUnavailable creates a PostFleetsFleetIDWingsServiceUnavailable with default headers values
+func NewPostFleetsFleetIDWingsServiceUnavailable() *PostFleetsFleetIDWingsServiceUnavailable {
+	return &PostFleetsFleetIDWingsServiceUnavailable{}
+}
+
+/*PostFleetsFleetIDWingsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostFleetsFleetIDWingsCreatedBody struct {
-
-	// post_fleets_fleet_id_wings_wing_id
-	//
-	// The wing_id of the newly created wing
-	// Required: true
-	WingID *int64 `json:"wing_id"`
+type PostFleetsFleetIDWingsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostFleetsFleetIDWingsCreatedBody wing_id false */
-
-// Validate validates this post fleets fleet ID wings created body
-func (o *PostFleetsFleetIDWingsCreatedBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateWingID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostFleetsFleetIDWingsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/][%d] postFleetsFleetIdWingsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *PostFleetsFleetIDWingsCreatedBody) validateWingID(formats strfmt.Registry) error {
+func (o *PostFleetsFleetIDWingsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postFleetsFleetIdWingsCreated"+"."+"wing_id", "body", o.WingID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *PostFleetsFleetIDWingsCreatedBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewPostFleetsFleetIDWingsGatewayTimeout creates a PostFleetsFleetIDWingsGatewayTimeout with default headers values
+func NewPostFleetsFleetIDWingsGatewayTimeout() *PostFleetsFleetIDWingsGatewayTimeout {
+	return &PostFleetsFleetIDWingsGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostFleetsFleetIDWingsCreatedBody) UnmarshalBinary(b []byte) error {
-	var res PostFleetsFleetIDWingsCreatedBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*PostFleetsFleetIDWingsGatewayTimeout handles this case with default header values.
 
-/*PostFleetsFleetIDWingsNotFoundBody post_fleets_fleet_id_wings_not_found
-//
-// Not found
-swagger:model PostFleetsFleetIDWingsNotFoundBody
+Gateway timeout
 */
-
-type PostFleetsFleetIDWingsNotFoundBody struct {
-
-	// post_fleets_fleet_id_wings_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type PostFleetsFleetIDWingsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PostFleetsFleetIDWingsNotFoundBody error false */
-
-// Validate validates this post fleets fleet ID wings not found body
-func (o *PostFleetsFleetIDWingsNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostFleetsFleetIDWingsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/][%d] postFleetsFleetIdWingsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *PostFleetsFleetIDWingsNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *PostFleetsFleetIDWingsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postFleetsFleetIdWingsNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *PostFleetsFleetIDWingsNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *PostFleetsFleetIDWingsNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res PostFleetsFleetIDWingsNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

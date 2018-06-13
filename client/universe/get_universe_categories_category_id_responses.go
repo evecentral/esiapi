@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseCategoriesCategoryIDReader is a Reader for the GetUniverseCategoriesCategoryID structure.
@@ -35,6 +32,20 @@ func (o *GetUniverseCategoriesCategoryIDReader) ReadResponse(response runtime.Cl
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseCategoriesCategoryIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseCategoriesCategoryIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetUniverseCategoriesCategoryIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetUniverseCategoriesCategoryIDReader) ReadResponse(response runtime.Cl
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetUniverseCategoriesCategoryIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseCategoriesCategoryIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseCategoriesCategoryIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseCategoriesCategoryIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -70,6 +102,9 @@ type GetUniverseCategoriesCategoryIDOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -77,7 +112,7 @@ type GetUniverseCategoriesCategoryIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetUniverseCategoriesCategoryIDOKBody
+	Payload *models.GetUniverseCategoriesCategoryIDOKBody
 }
 
 func (o *GetUniverseCategoriesCategoryIDOK) Error() string {
@@ -92,14 +127,93 @@ func (o *GetUniverseCategoriesCategoryIDOK) readResponse(response runtime.Client
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetUniverseCategoriesCategoryIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseCategoriesCategoryIDNotModified creates a GetUniverseCategoriesCategoryIDNotModified with default headers values
+func NewGetUniverseCategoriesCategoryIDNotModified() *GetUniverseCategoriesCategoryIDNotModified {
+	return &GetUniverseCategoriesCategoryIDNotModified{}
+}
+
+/*GetUniverseCategoriesCategoryIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseCategoriesCategoryIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseCategoriesCategoryIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/categories/{category_id}/][%d] getUniverseCategoriesCategoryIdNotModified ", 304)
+}
+
+func (o *GetUniverseCategoriesCategoryIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseCategoriesCategoryIDBadRequest creates a GetUniverseCategoriesCategoryIDBadRequest with default headers values
+func NewGetUniverseCategoriesCategoryIDBadRequest() *GetUniverseCategoriesCategoryIDBadRequest {
+	return &GetUniverseCategoriesCategoryIDBadRequest{}
+}
+
+/*GetUniverseCategoriesCategoryIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseCategoriesCategoryIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseCategoriesCategoryIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/categories/{category_id}/][%d] getUniverseCategoriesCategoryIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseCategoriesCategoryIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -116,7 +230,7 @@ func NewGetUniverseCategoriesCategoryIDNotFound() *GetUniverseCategoriesCategory
 Category not found
 */
 type GetUniverseCategoriesCategoryIDNotFound struct {
-	Payload GetUniverseCategoriesCategoryIDNotFoundBody
+	Payload *models.GetUniverseCategoriesCategoryIDNotFoundBody
 }
 
 func (o *GetUniverseCategoriesCategoryIDNotFound) Error() string {
@@ -125,8 +239,39 @@ func (o *GetUniverseCategoriesCategoryIDNotFound) Error() string {
 
 func (o *GetUniverseCategoriesCategoryIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetUniverseCategoriesCategoryIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseCategoriesCategoryIDEnhanceYourCalm creates a GetUniverseCategoriesCategoryIDEnhanceYourCalm with default headers values
+func NewGetUniverseCategoriesCategoryIDEnhanceYourCalm() *GetUniverseCategoriesCategoryIDEnhanceYourCalm {
+	return &GetUniverseCategoriesCategoryIDEnhanceYourCalm{}
+}
+
+/*GetUniverseCategoriesCategoryIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseCategoriesCategoryIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseCategoriesCategoryIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/categories/{category_id}/][%d] getUniverseCategoriesCategoryIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseCategoriesCategoryIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -162,193 +307,60 @@ func (o *GetUniverseCategoriesCategoryIDInternalServerError) readResponse(respon
 	return nil
 }
 
-/*GetUniverseCategoriesCategoryIDNotFoundBody get_universe_categories_category_id_not_found
-//
-// Not found
-swagger:model GetUniverseCategoriesCategoryIDNotFoundBody
+// NewGetUniverseCategoriesCategoryIDServiceUnavailable creates a GetUniverseCategoriesCategoryIDServiceUnavailable with default headers values
+func NewGetUniverseCategoriesCategoryIDServiceUnavailable() *GetUniverseCategoriesCategoryIDServiceUnavailable {
+	return &GetUniverseCategoriesCategoryIDServiceUnavailable{}
+}
+
+/*GetUniverseCategoriesCategoryIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseCategoriesCategoryIDNotFoundBody struct {
-
-	// get_universe_categories_category_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetUniverseCategoriesCategoryIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseCategoriesCategoryIDNotFoundBody error false */
-
-// Validate validates this get universe categories category ID not found body
-func (o *GetUniverseCategoriesCategoryIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseCategoriesCategoryIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/categories/{category_id}/][%d] getUniverseCategoriesCategoryIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseCategoriesCategoryIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetUniverseCategoriesCategoryIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseCategoriesCategoryIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetUniverseCategoriesCategoryIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetUniverseCategoriesCategoryIDGatewayTimeout creates a GetUniverseCategoriesCategoryIDGatewayTimeout with default headers values
+func NewGetUniverseCategoriesCategoryIDGatewayTimeout() *GetUniverseCategoriesCategoryIDGatewayTimeout {
+	return &GetUniverseCategoriesCategoryIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetUniverseCategoriesCategoryIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseCategoriesCategoryIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetUniverseCategoriesCategoryIDGatewayTimeout handles this case with default header values.
 
-/*GetUniverseCategoriesCategoryIDOKBody get_universe_categories_category_id_ok
-//
-// 200 ok object
-swagger:model GetUniverseCategoriesCategoryIDOKBody
+Gateway timeout
 */
-
-type GetUniverseCategoriesCategoryIDOKBody struct {
-
-	// get_universe_categories_category_id_category_id
-	//
-	// category_id integer
-	// Required: true
-	CategoryID *int32 `json:"category_id"`
-
-	// get_universe_categories_category_id_groups
-	//
-	// groups array
-	// Required: true
-	// Max Items: 10000
-	Groups []int32 `json:"groups"`
-
-	// get_universe_categories_category_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_universe_categories_category_id_published
-	//
-	// published boolean
-	// Required: true
-	Published *bool `json:"published"`
+type GetUniverseCategoriesCategoryIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetUniverseCategoriesCategoryIDOKBody category_id false */
-
-/* polymorph GetUniverseCategoriesCategoryIDOKBody groups false */
-
-/* polymorph GetUniverseCategoriesCategoryIDOKBody name false */
-
-/* polymorph GetUniverseCategoriesCategoryIDOKBody published false */
-
-// Validate validates this get universe categories category ID o k body
-func (o *GetUniverseCategoriesCategoryIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCategoryID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateGroups(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePublished(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseCategoriesCategoryIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/categories/{category_id}/][%d] getUniverseCategoriesCategoryIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetUniverseCategoriesCategoryIDOKBody) validateCategoryID(formats strfmt.Registry) error {
+func (o *GetUniverseCategoriesCategoryIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseCategoriesCategoryIdOK"+"."+"category_id", "body", o.CategoryID); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseCategoriesCategoryIDOKBody) validateGroups(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseCategoriesCategoryIdOK"+"."+"groups", "body", o.Groups); err != nil {
-		return err
-	}
-
-	iGroupsSize := int64(len(o.Groups))
-
-	if err := validate.MaxItems("getUniverseCategoriesCategoryIdOK"+"."+"groups", "body", iGroupsSize, 10000); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseCategoriesCategoryIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseCategoriesCategoryIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseCategoriesCategoryIDOKBody) validatePublished(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseCategoriesCategoryIdOK"+"."+"published", "body", o.Published); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseCategoriesCategoryIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseCategoriesCategoryIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseCategoriesCategoryIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseMoonsMoonIDReader is a Reader for the GetUniverseMoonsMoonID structure.
@@ -35,6 +32,20 @@ func (o *GetUniverseMoonsMoonIDReader) ReadResponse(response runtime.ClientRespo
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseMoonsMoonIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseMoonsMoonIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetUniverseMoonsMoonIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetUniverseMoonsMoonIDReader) ReadResponse(response runtime.ClientRespo
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetUniverseMoonsMoonIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseMoonsMoonIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseMoonsMoonIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseMoonsMoonIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +99,9 @@ type GetUniverseMoonsMoonIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +109,7 @@ type GetUniverseMoonsMoonIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetUniverseMoonsMoonIDOKBody
+	Payload *models.GetUniverseMoonsMoonIDOKBody
 }
 
 func (o *GetUniverseMoonsMoonIDOK) Error() string {
@@ -86,14 +121,93 @@ func (o *GetUniverseMoonsMoonIDOK) readResponse(response runtime.ClientResponse,
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetUniverseMoonsMoonIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseMoonsMoonIDNotModified creates a GetUniverseMoonsMoonIDNotModified with default headers values
+func NewGetUniverseMoonsMoonIDNotModified() *GetUniverseMoonsMoonIDNotModified {
+	return &GetUniverseMoonsMoonIDNotModified{}
+}
+
+/*GetUniverseMoonsMoonIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseMoonsMoonIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseMoonsMoonIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/moons/{moon_id}/][%d] getUniverseMoonsMoonIdNotModified ", 304)
+}
+
+func (o *GetUniverseMoonsMoonIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseMoonsMoonIDBadRequest creates a GetUniverseMoonsMoonIDBadRequest with default headers values
+func NewGetUniverseMoonsMoonIDBadRequest() *GetUniverseMoonsMoonIDBadRequest {
+	return &GetUniverseMoonsMoonIDBadRequest{}
+}
+
+/*GetUniverseMoonsMoonIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseMoonsMoonIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseMoonsMoonIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/moons/{moon_id}/][%d] getUniverseMoonsMoonIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseMoonsMoonIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +224,7 @@ func NewGetUniverseMoonsMoonIDNotFound() *GetUniverseMoonsMoonIDNotFound {
 Moon not found
 */
 type GetUniverseMoonsMoonIDNotFound struct {
-	Payload GetUniverseMoonsMoonIDNotFoundBody
+	Payload *models.GetUniverseMoonsMoonIDNotFoundBody
 }
 
 func (o *GetUniverseMoonsMoonIDNotFound) Error() string {
@@ -119,8 +233,39 @@ func (o *GetUniverseMoonsMoonIDNotFound) Error() string {
 
 func (o *GetUniverseMoonsMoonIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetUniverseMoonsMoonIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseMoonsMoonIDEnhanceYourCalm creates a GetUniverseMoonsMoonIDEnhanceYourCalm with default headers values
+func NewGetUniverseMoonsMoonIDEnhanceYourCalm() *GetUniverseMoonsMoonIDEnhanceYourCalm {
+	return &GetUniverseMoonsMoonIDEnhanceYourCalm{}
+}
+
+/*GetUniverseMoonsMoonIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseMoonsMoonIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseMoonsMoonIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/moons/{moon_id}/][%d] getUniverseMoonsMoonIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseMoonsMoonIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,297 +301,60 @@ func (o *GetUniverseMoonsMoonIDInternalServerError) readResponse(response runtim
 	return nil
 }
 
-/*GetUniverseMoonsMoonIDNotFoundBody get_universe_moons_moon_id_not_found
-//
-// Not found
-swagger:model GetUniverseMoonsMoonIDNotFoundBody
+// NewGetUniverseMoonsMoonIDServiceUnavailable creates a GetUniverseMoonsMoonIDServiceUnavailable with default headers values
+func NewGetUniverseMoonsMoonIDServiceUnavailable() *GetUniverseMoonsMoonIDServiceUnavailable {
+	return &GetUniverseMoonsMoonIDServiceUnavailable{}
+}
+
+/*GetUniverseMoonsMoonIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseMoonsMoonIDNotFoundBody struct {
-
-	// get_universe_moons_moon_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type GetUniverseMoonsMoonIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseMoonsMoonIDNotFoundBody error false */
-
-// Validate validates this get universe moons moon ID not found body
-func (o *GetUniverseMoonsMoonIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseMoonsMoonIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/moons/{moon_id}/][%d] getUniverseMoonsMoonIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseMoonsMoonIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetUniverseMoonsMoonIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseMoonsMoonIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetUniverseMoonsMoonIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetUniverseMoonsMoonIDGatewayTimeout creates a GetUniverseMoonsMoonIDGatewayTimeout with default headers values
+func NewGetUniverseMoonsMoonIDGatewayTimeout() *GetUniverseMoonsMoonIDGatewayTimeout {
+	return &GetUniverseMoonsMoonIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetUniverseMoonsMoonIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseMoonsMoonIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetUniverseMoonsMoonIDGatewayTimeout handles this case with default header values.
 
-/*GetUniverseMoonsMoonIDOKBody get_universe_moons_moon_id_ok
-//
-// 200 ok object
-swagger:model GetUniverseMoonsMoonIDOKBody
+Gateway timeout
 */
-
-type GetUniverseMoonsMoonIDOKBody struct {
-
-	// get_universe_moons_moon_id_moon_id
-	//
-	// moon_id integer
-	// Required: true
-	MoonID *int32 `json:"moon_id"`
-
-	// get_universe_moons_moon_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// position
-	// Required: true
-	Position *GetUniverseMoonsMoonIDOKBodyPosition `json:"position"`
-
-	// get_universe_moons_moon_id_system_id
-	//
-	// The solar system this moon is in
-	// Required: true
-	SystemID *int32 `json:"system_id"`
+type GetUniverseMoonsMoonIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetUniverseMoonsMoonIDOKBody moon_id false */
-
-/* polymorph GetUniverseMoonsMoonIDOKBody name false */
-
-/* polymorph GetUniverseMoonsMoonIDOKBody position false */
-
-/* polymorph GetUniverseMoonsMoonIDOKBody system_id false */
-
-// Validate validates this get universe moons moon ID o k body
-func (o *GetUniverseMoonsMoonIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateMoonID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePosition(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseMoonsMoonIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/moons/{moon_id}/][%d] getUniverseMoonsMoonIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetUniverseMoonsMoonIDOKBody) validateMoonID(formats strfmt.Registry) error {
+func (o *GetUniverseMoonsMoonIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getUniverseMoonsMoonIdOK"+"."+"moon_id", "body", o.MoonID); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseMoonsMoonIDOKBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseMoonsMoonIdOK"+"."+"name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseMoonsMoonIDOKBody) validatePosition(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseMoonsMoonIdOK"+"."+"position", "body", o.Position); err != nil {
-		return err
-	}
-
-	if o.Position != nil {
-
-		if err := o.Position.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("getUniverseMoonsMoonIdOK" + "." + "position")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (o *GetUniverseMoonsMoonIDOKBody) validateSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseMoonsMoonIdOK"+"."+"system_id", "body", o.SystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseMoonsMoonIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseMoonsMoonIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetUniverseMoonsMoonIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetUniverseMoonsMoonIDOKBodyPosition get_universe_moons_moon_id_position
-//
-// position object
-swagger:model GetUniverseMoonsMoonIDOKBodyPosition
-*/
-
-type GetUniverseMoonsMoonIDOKBodyPosition struct {
-
-	// get_universe_moons_moon_id_x
-	//
-	// x number
-	// Required: true
-	X *float32 `json:"x"`
-
-	// get_universe_moons_moon_id_y
-	//
-	// y number
-	// Required: true
-	Y *float32 `json:"y"`
-
-	// get_universe_moons_moon_id_z
-	//
-	// z number
-	// Required: true
-	Z *float32 `json:"z"`
-}
-
-/* polymorph GetUniverseMoonsMoonIDOKBodyPosition x false */
-
-/* polymorph GetUniverseMoonsMoonIDOKBodyPosition y false */
-
-/* polymorph GetUniverseMoonsMoonIDOKBodyPosition z false */
-
-// Validate validates this get universe moons moon ID o k body position
-func (o *GetUniverseMoonsMoonIDOKBodyPosition) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateX(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateY(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateZ(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *GetUniverseMoonsMoonIDOKBodyPosition) validateX(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseMoonsMoonIdOK"+"."+"position"+"."+"x", "body", o.X); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseMoonsMoonIDOKBodyPosition) validateY(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseMoonsMoonIdOK"+"."+"position"+"."+"y", "body", o.Y); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseMoonsMoonIDOKBodyPosition) validateZ(formats strfmt.Registry) error {
-
-	if err := validate.Required("getUniverseMoonsMoonIdOK"+"."+"position"+"."+"z", "body", o.Z); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseMoonsMoonIDOKBodyPosition) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseMoonsMoonIDOKBodyPosition) UnmarshalBinary(b []byte) error {
-	var res GetUniverseMoonsMoonIDOKBodyPosition
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

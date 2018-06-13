@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDContractsContractIDItemsReader is a Reader for the GetCharactersCharacterIDContractsContractIDItems structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDContractsContractIDItemsReader) ReadResponse(re
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDContractsContractIDItemsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDContractsContractIDItemsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDContractsContractIDItemsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDContractsContractIDItemsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,36 @@ func (o *GetCharactersCharacterIDContractsContractIDItemsReader) ReadResponse(re
 		}
 		return nil, result
 
+	case 404:
+		result := NewGetCharactersCharacterIDContractsContractIDItemsNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDContractsContractIDItemsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDContractsContractIDItemsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDContractsContractIDItemsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -61,12 +107,15 @@ func NewGetCharactersCharacterIDContractsContractIDItemsOK() *GetCharactersChara
 
 /*GetCharactersCharacterIDContractsContractIDItemsOK handles this case with default header values.
 
-A list of contracts
+A list of items in this contract
 */
 type GetCharactersCharacterIDContractsContractIDItemsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +123,7 @@ type GetCharactersCharacterIDContractsContractIDItemsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDContractsContractIDItemsOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDContractsContractIDItemsOK) Error() string {
@@ -86,6 +135,9 @@ func (o *GetCharactersCharacterIDContractsContractIDItemsOK) readResponse(respon
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +146,109 @@ func (o *GetCharactersCharacterIDContractsContractIDItemsOK) readResponse(respon
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDItemsNotModified creates a GetCharactersCharacterIDContractsContractIDItemsNotModified with default headers values
+func NewGetCharactersCharacterIDContractsContractIDItemsNotModified() *GetCharactersCharacterIDContractsContractIDItemsNotModified {
+	return &GetCharactersCharacterIDContractsContractIDItemsNotModified{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDItemsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDContractsContractIDItemsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/items/][%d] getCharactersCharacterIdContractsContractIdItemsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDItemsBadRequest creates a GetCharactersCharacterIDContractsContractIDItemsBadRequest with default headers values
+func NewGetCharactersCharacterIDContractsContractIDItemsBadRequest() *GetCharactersCharacterIDContractsContractIDItemsBadRequest {
+	return &GetCharactersCharacterIDContractsContractIDItemsBadRequest{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDItemsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDContractsContractIDItemsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/items/][%d] getCharactersCharacterIdContractsContractIdItemsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDItemsUnauthorized creates a GetCharactersCharacterIDContractsContractIDItemsUnauthorized with default headers values
+func NewGetCharactersCharacterIDContractsContractIDItemsUnauthorized() *GetCharactersCharacterIDContractsContractIDItemsUnauthorized {
+	return &GetCharactersCharacterIDContractsContractIDItemsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDItemsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDContractsContractIDItemsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/items/][%d] getCharactersCharacterIdContractsContractIdItemsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +275,64 @@ func (o *GetCharactersCharacterIDContractsContractIDItemsForbidden) Error() stri
 func (o *GetCharactersCharacterIDContractsContractIDItemsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDItemsNotFound creates a GetCharactersCharacterIDContractsContractIDItemsNotFound with default headers values
+func NewGetCharactersCharacterIDContractsContractIDItemsNotFound() *GetCharactersCharacterIDContractsContractIDItemsNotFound {
+	return &GetCharactersCharacterIDContractsContractIDItemsNotFound{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDItemsNotFound handles this case with default header values.
+
+Not found
+*/
+type GetCharactersCharacterIDContractsContractIDItemsNotFound struct {
+	Payload *models.GetCharactersCharacterIDContractsContractIDItemsNotFoundBody
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsNotFound) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/items/][%d] getCharactersCharacterIdContractsContractIdItemsNotFound  %+v", 404, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GetCharactersCharacterIDContractsContractIDItemsNotFoundBody)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm creates a GetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm() *GetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm {
+	return &GetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/items/][%d] getCharactersCharacterIdContractsContractIdItemsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,156 +371,60 @@ func (o *GetCharactersCharacterIDContractsContractIDItemsInternalServerError) re
 	return nil
 }
 
-/*GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0 get_characters_character_id_contracts_contract_id_items_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0
+// NewGetCharactersCharacterIDContractsContractIDItemsServiceUnavailable creates a GetCharactersCharacterIDContractsContractIDItemsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDContractsContractIDItemsServiceUnavailable() *GetCharactersCharacterIDContractsContractIDItemsServiceUnavailable {
+	return &GetCharactersCharacterIDContractsContractIDItemsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDContractsContractIDItemsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0 struct {
-
-	// get_characters_character_id_contracts_contract_id_items_is_included
-	//
-	// true if the contract issuer has submitted this item with the contract, false if the isser is asking for this item in the contract.
-	// Required: true
-	IsIncluded *bool `json:"is_included"`
-
-	// get_characters_character_id_contracts_contract_id_items_is_singleton
-	//
-	// is_singleton boolean
-	// Required: true
-	IsSingleton *bool `json:"is_singleton"`
-
-	// get_characters_character_id_contracts_contract_id_items_quantity
-	//
-	// Number of items in the stack
-	// Required: true
-	Quantity *int32 `json:"quantity"`
-
-	// get_characters_character_id_contracts_contract_id_items_raw_quantity
-	//
-	// -1 indicates that the item is a singleton (non-stackable). If the item happens to be a Blueprint, -1 is an Original and -2 is a Blueprint Copy
-	RawQuantity int32 `json:"raw_quantity,omitempty"`
-
-	// get_characters_character_id_contracts_contract_id_items_record_id
-	//
-	// Unique ID for the item
-	// Required: true
-	RecordID *int64 `json:"record_id"`
-
-	// get_characters_character_id_contracts_contract_id_items_type_id
-	//
-	// Type ID for item
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetCharactersCharacterIDContractsContractIDItemsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0 is_included false */
-
-/* polymorph GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0 is_singleton false */
-
-/* polymorph GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0 quantity false */
-
-/* polymorph GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0 raw_quantity false */
-
-/* polymorph GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0 record_id false */
-
-/* polymorph GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0 type_id false */
-
-// Validate validates this get characters character ID contracts contract ID items o k body items0
-func (o *GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateIsIncluded(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsSingleton(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateQuantity(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRecordID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDContractsContractIDItemsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/items/][%d] getCharactersCharacterIdContractsContractIdItemsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0) validateIsIncluded(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDContractsContractIDItemsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("is_included", "body", o.IsIncluded); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0) validateIsSingleton(formats strfmt.Registry) error {
+// NewGetCharactersCharacterIDContractsContractIDItemsGatewayTimeout creates a GetCharactersCharacterIDContractsContractIDItemsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDContractsContractIDItemsGatewayTimeout() *GetCharactersCharacterIDContractsContractIDItemsGatewayTimeout {
+	return &GetCharactersCharacterIDContractsContractIDItemsGatewayTimeout{}
+}
 
-	if err := validate.Required("is_singleton", "body", o.IsSingleton); err != nil {
+/*GetCharactersCharacterIDContractsContractIDItemsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDContractsContractIDItemsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/contracts/{contract_id}/items/][%d] getCharactersCharacterIdContractsContractIdItemsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDContractsContractIDItemsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0) validateQuantity(formats strfmt.Registry) error {
-
-	if err := validate.Required("quantity", "body", o.Quantity); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0) validateRecordID(formats strfmt.Registry) error {
-
-	if err := validate.Required("record_id", "body", o.RecordID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDContractsContractIDItemsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

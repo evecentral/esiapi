@@ -12,11 +12,10 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDKillmailsRecentReader is a Reader for the GetCharactersCharacterIDKillmailsRecent structure.
@@ -35,8 +34,36 @@ func (o *GetCharactersCharacterIDKillmailsRecentReader) ReadResponse(response ru
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDKillmailsRecentNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDKillmailsRecentBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDKillmailsRecentUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDKillmailsRecentForbidden()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCharactersCharacterIDKillmailsRecentEnhanceYourCalm()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +76,20 @@ func (o *GetCharactersCharacterIDKillmailsRecentReader) ReadResponse(response ru
 		}
 		return nil, result
 
+	case 503:
+		result := NewGetCharactersCharacterIDKillmailsRecentServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDKillmailsRecentGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -56,7 +97,9 @@ func (o *GetCharactersCharacterIDKillmailsRecentReader) ReadResponse(response ru
 
 // NewGetCharactersCharacterIDKillmailsRecentOK creates a GetCharactersCharacterIDKillmailsRecentOK with default headers values
 func NewGetCharactersCharacterIDKillmailsRecentOK() *GetCharactersCharacterIDKillmailsRecentOK {
-	return &GetCharactersCharacterIDKillmailsRecentOK{}
+	return &GetCharactersCharacterIDKillmailsRecentOK{
+		XPages: 1,
+	}
 }
 
 /*GetCharactersCharacterIDKillmailsRecentOK handles this case with default header values.
@@ -67,14 +110,20 @@ type GetCharactersCharacterIDKillmailsRecentOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
 	/*RFC7231 formatted datetime string
 	 */
 	LastModified string
+	/*Maximum page number
+	 */
+	XPages int32
 
-	Payload []*GetCharactersCharacterIDKillmailsRecentOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDKillmailsRecentOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDKillmailsRecentOK) Error() string {
@@ -86,14 +135,127 @@ func (o *GetCharactersCharacterIDKillmailsRecentOK) readResponse(response runtim
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	// response header X-Pages
+	xPages, err := swag.ConvertInt32(response.GetHeader("X-Pages"))
+	if err != nil {
+		return errors.InvalidType("X-Pages", "header", "int32", response.GetHeader("X-Pages"))
+	}
+	o.XPages = xPages
+
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDKillmailsRecentNotModified creates a GetCharactersCharacterIDKillmailsRecentNotModified with default headers values
+func NewGetCharactersCharacterIDKillmailsRecentNotModified() *GetCharactersCharacterIDKillmailsRecentNotModified {
+	return &GetCharactersCharacterIDKillmailsRecentNotModified{}
+}
+
+/*GetCharactersCharacterIDKillmailsRecentNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDKillmailsRecentNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/killmails/recent/][%d] getCharactersCharacterIdKillmailsRecentNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDKillmailsRecentBadRequest creates a GetCharactersCharacterIDKillmailsRecentBadRequest with default headers values
+func NewGetCharactersCharacterIDKillmailsRecentBadRequest() *GetCharactersCharacterIDKillmailsRecentBadRequest {
+	return &GetCharactersCharacterIDKillmailsRecentBadRequest{}
+}
+
+/*GetCharactersCharacterIDKillmailsRecentBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDKillmailsRecentBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/killmails/recent/][%d] getCharactersCharacterIdKillmailsRecentBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDKillmailsRecentUnauthorized creates a GetCharactersCharacterIDKillmailsRecentUnauthorized with default headers values
+func NewGetCharactersCharacterIDKillmailsRecentUnauthorized() *GetCharactersCharacterIDKillmailsRecentUnauthorized {
+	return &GetCharactersCharacterIDKillmailsRecentUnauthorized{}
+}
+
+/*GetCharactersCharacterIDKillmailsRecentUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDKillmailsRecentUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/killmails/recent/][%d] getCharactersCharacterIdKillmailsRecentUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +282,35 @@ func (o *GetCharactersCharacterIDKillmailsRecentForbidden) Error() string {
 func (o *GetCharactersCharacterIDKillmailsRecentForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDKillmailsRecentEnhanceYourCalm creates a GetCharactersCharacterIDKillmailsRecentEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDKillmailsRecentEnhanceYourCalm() *GetCharactersCharacterIDKillmailsRecentEnhanceYourCalm {
+	return &GetCharactersCharacterIDKillmailsRecentEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDKillmailsRecentEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDKillmailsRecentEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/killmails/recent/][%d] getCharactersCharacterIdKillmailsRecentEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,83 +349,60 @@ func (o *GetCharactersCharacterIDKillmailsRecentInternalServerError) readRespons
 	return nil
 }
 
-/*GetCharactersCharacterIDKillmailsRecentOKBodyItems0 get_characters_character_id_killmails_recent_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDKillmailsRecentOKBodyItems0
+// NewGetCharactersCharacterIDKillmailsRecentServiceUnavailable creates a GetCharactersCharacterIDKillmailsRecentServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDKillmailsRecentServiceUnavailable() *GetCharactersCharacterIDKillmailsRecentServiceUnavailable {
+	return &GetCharactersCharacterIDKillmailsRecentServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDKillmailsRecentServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDKillmailsRecentOKBodyItems0 struct {
-
-	// get_characters_character_id_killmails_recent_killmail_hash
-	//
-	// A hash of this killmail
-	// Required: true
-	KillmailHash *string `json:"killmail_hash"`
-
-	// get_characters_character_id_killmails_recent_killmail_id
-	//
-	// ID of this killmail
-	// Required: true
-	KillmailID *int32 `json:"killmail_id"`
+type GetCharactersCharacterIDKillmailsRecentServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDKillmailsRecentOKBodyItems0 killmail_hash false */
-
-/* polymorph GetCharactersCharacterIDKillmailsRecentOKBodyItems0 killmail_id false */
-
-// Validate validates this get characters character ID killmails recent o k body items0
-func (o *GetCharactersCharacterIDKillmailsRecentOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateKillmailHash(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateKillmailID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDKillmailsRecentServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/killmails/recent/][%d] getCharactersCharacterIdKillmailsRecentServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDKillmailsRecentOKBodyItems0) validateKillmailHash(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDKillmailsRecentServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("killmail_hash", "body", o.KillmailHash); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDKillmailsRecentOKBodyItems0) validateKillmailID(formats strfmt.Registry) error {
+// NewGetCharactersCharacterIDKillmailsRecentGatewayTimeout creates a GetCharactersCharacterIDKillmailsRecentGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDKillmailsRecentGatewayTimeout() *GetCharactersCharacterIDKillmailsRecentGatewayTimeout {
+	return &GetCharactersCharacterIDKillmailsRecentGatewayTimeout{}
+}
 
-	if err := validate.Required("killmail_id", "body", o.KillmailID); err != nil {
+/*GetCharactersCharacterIDKillmailsRecentGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDKillmailsRecentGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/killmails/recent/][%d] getCharactersCharacterIdKillmailsRecentGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDKillmailsRecentGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDKillmailsRecentOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDKillmailsRecentOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDKillmailsRecentOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

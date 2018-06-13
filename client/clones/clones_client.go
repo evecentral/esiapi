@@ -30,9 +30,9 @@ GetCharactersCharacterIDClones gets clones
 A list of the character's clones
 
 ---
-Alternate route: `/v2/characters/{character_id}/clones/`
+Alternate route: `/dev/characters/{character_id}/clones/`
 
-Alternate route: `/legacy/characters/{character_id}/clones/`
+Alternate route: `/v3/characters/{character_id}/clones/`
 
 ---
 This route is cached for up to 120 seconds
@@ -48,7 +48,7 @@ func (a *Client) GetCharactersCharacterIDClones(params *GetCharactersCharacterID
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/clones/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDClonesReader{formats: a.formats},
@@ -69,14 +69,14 @@ GetCharactersCharacterIDImplants gets active implants
 Return implants on the active clone of a character
 
 ---
-Alternate route: `/v1/characters/{character_id}/implants/`
+Alternate route: `/dev/characters/{character_id}/implants/`
 
 Alternate route: `/legacy/characters/{character_id}/implants/`
 
-Alternate route: `/dev/characters/{character_id}/implants/`
+Alternate route: `/v1/characters/{character_id}/implants/`
 
 ---
-This route is cached for up to 3600 seconds
+This route is cached for up to 300 seconds
 */
 func (a *Client) GetCharactersCharacterIDImplants(params *GetCharactersCharacterIDImplantsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCharactersCharacterIDImplantsOK, error) {
 	// TODO: Validate the params before sending
@@ -89,7 +89,7 @@ func (a *Client) GetCharactersCharacterIDImplants(params *GetCharactersCharacter
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/implants/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDImplantsReader{formats: a.formats},

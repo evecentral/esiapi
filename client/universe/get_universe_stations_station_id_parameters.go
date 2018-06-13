@@ -75,11 +75,11 @@ for the get universe stations station id operation typically these are written t
 */
 type GetUniverseStationsStationIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -90,11 +90,6 @@ type GetUniverseStationsStationIDParams struct {
 
 	*/
 	StationID int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetUniverseStationsStationIDParams) SetHTTPClient(client *http.Client) 
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get universe stations station id params
-func (o *GetUniverseStationsStationIDParams) WithXUserAgent(xUserAgent *string) *GetUniverseStationsStationIDParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get universe stations station id params
+func (o *GetUniverseStationsStationIDParams) WithIfNoneMatch(ifNoneMatch *string) *GetUniverseStationsStationIDParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get universe stations station id params
-func (o *GetUniverseStationsStationIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get universe stations station id params
+func (o *GetUniverseStationsStationIDParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithDatasource adds the datasource to the get universe stations station id params
@@ -167,17 +162,6 @@ func (o *GetUniverseStationsStationIDParams) SetStationID(stationID int32) {
 	o.StationID = stationID
 }
 
-// WithUserAgent adds the userAgent to the get universe stations station id params
-func (o *GetUniverseStationsStationIDParams) WithUserAgent(userAgent *string) *GetUniverseStationsStationIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get universe stations station id params
-func (o *GetUniverseStationsStationIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetUniverseStationsStationIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetUniverseStationsStationIDParams) WriteToRequest(r runtime.ClientRequ
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -214,22 +198,6 @@ func (o *GetUniverseStationsStationIDParams) WriteToRequest(r runtime.ClientRequ
 	// path param station_id
 	if err := r.SetPathParam("station_id", swag.FormatInt32(o.StationID)); err != nil {
 		return err
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	if len(res) > 0 {

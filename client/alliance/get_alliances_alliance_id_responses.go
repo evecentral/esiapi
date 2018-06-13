@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetAlliancesAllianceIDReader is a Reader for the GetAlliancesAllianceID structure.
@@ -35,6 +32,20 @@ func (o *GetAlliancesAllianceIDReader) ReadResponse(response runtime.ClientRespo
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetAlliancesAllianceIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetAlliancesAllianceIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetAlliancesAllianceIDNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetAlliancesAllianceIDReader) ReadResponse(response runtime.ClientRespo
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetAlliancesAllianceIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetAlliancesAllianceIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetAlliancesAllianceIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetAlliancesAllianceIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +99,9 @@ type GetAlliancesAllianceIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +109,7 @@ type GetAlliancesAllianceIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetAlliancesAllianceIDOKBody
+	Payload *models.GetAlliancesAllianceIDOKBody
 }
 
 func (o *GetAlliancesAllianceIDOK) Error() string {
@@ -86,14 +121,93 @@ func (o *GetAlliancesAllianceIDOK) readResponse(response runtime.ClientResponse,
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetAlliancesAllianceIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetAlliancesAllianceIDNotModified creates a GetAlliancesAllianceIDNotModified with default headers values
+func NewGetAlliancesAllianceIDNotModified() *GetAlliancesAllianceIDNotModified {
+	return &GetAlliancesAllianceIDNotModified{}
+}
+
+/*GetAlliancesAllianceIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetAlliancesAllianceIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetAlliancesAllianceIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/][%d] getAlliancesAllianceIdNotModified ", 304)
+}
+
+func (o *GetAlliancesAllianceIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetAlliancesAllianceIDBadRequest creates a GetAlliancesAllianceIDBadRequest with default headers values
+func NewGetAlliancesAllianceIDBadRequest() *GetAlliancesAllianceIDBadRequest {
+	return &GetAlliancesAllianceIDBadRequest{}
+}
+
+/*GetAlliancesAllianceIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetAlliancesAllianceIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetAlliancesAllianceIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/][%d] getAlliancesAllianceIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetAlliancesAllianceIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +224,7 @@ func NewGetAlliancesAllianceIDNotFound() *GetAlliancesAllianceIDNotFound {
 Alliance not found
 */
 type GetAlliancesAllianceIDNotFound struct {
-	Payload GetAlliancesAllianceIDNotFoundBody
+	Payload *models.GetAlliancesAllianceIDNotFoundBody
 }
 
 func (o *GetAlliancesAllianceIDNotFound) Error() string {
@@ -119,8 +233,39 @@ func (o *GetAlliancesAllianceIDNotFound) Error() string {
 
 func (o *GetAlliancesAllianceIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetAlliancesAllianceIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetAlliancesAllianceIDEnhanceYourCalm creates a GetAlliancesAllianceIDEnhanceYourCalm with default headers values
+func NewGetAlliancesAllianceIDEnhanceYourCalm() *GetAlliancesAllianceIDEnhanceYourCalm {
+	return &GetAlliancesAllianceIDEnhanceYourCalm{}
+}
+
+/*GetAlliancesAllianceIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetAlliancesAllianceIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetAlliancesAllianceIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/][%d] getAlliancesAllianceIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetAlliancesAllianceIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,190 +301,60 @@ func (o *GetAlliancesAllianceIDInternalServerError) readResponse(response runtim
 	return nil
 }
 
-/*GetAlliancesAllianceIDNotFoundBody get_alliances_alliance_id_not_found
-//
-// Alliance not found
-swagger:model GetAlliancesAllianceIDNotFoundBody
+// NewGetAlliancesAllianceIDServiceUnavailable creates a GetAlliancesAllianceIDServiceUnavailable with default headers values
+func NewGetAlliancesAllianceIDServiceUnavailable() *GetAlliancesAllianceIDServiceUnavailable {
+	return &GetAlliancesAllianceIDServiceUnavailable{}
+}
+
+/*GetAlliancesAllianceIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetAlliancesAllianceIDNotFoundBody struct {
-
-	// get_alliances_alliance_id_error
-	//
-	// error message
-	// Required: true
-	Error *string `json:"error"`
+type GetAlliancesAllianceIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetAlliancesAllianceIDNotFoundBody error false */
-
-// Validate validates this get alliances alliance ID not found body
-func (o *GetAlliancesAllianceIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetAlliancesAllianceIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/][%d] getAlliancesAllianceIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetAlliancesAllianceIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetAlliancesAllianceIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getAlliancesAllianceIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetAlliancesAllianceIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetAlliancesAllianceIDGatewayTimeout creates a GetAlliancesAllianceIDGatewayTimeout with default headers values
+func NewGetAlliancesAllianceIDGatewayTimeout() *GetAlliancesAllianceIDGatewayTimeout {
+	return &GetAlliancesAllianceIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetAlliancesAllianceIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetAlliancesAllianceIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetAlliancesAllianceIDGatewayTimeout handles this case with default header values.
 
-/*GetAlliancesAllianceIDOKBody get_alliances_alliance_id_ok
-//
-// 200 ok object
-swagger:model GetAlliancesAllianceIDOKBody
+Gateway timeout
 */
-
-type GetAlliancesAllianceIDOKBody struct {
-
-	// get_alliances_alliance_id_alliance_name
-	//
-	// the full name of the alliance
-	// Required: true
-	AllianceName *string `json:"alliance_name"`
-
-	// get_alliances_alliance_id_date_founded
-	//
-	// date_founded string
-	// Required: true
-	DateFounded *strfmt.DateTime `json:"date_founded"`
-
-	// get_alliances_alliance_id_executor_corp
-	//
-	// the executor corporation ID, if this alliance is not closed
-	// Required: true
-	ExecutorCorp *int32 `json:"executor_corp"`
-
-	// get_alliances_alliance_id_ticker
-	//
-	// the short name of the alliance
-	// Required: true
-	Ticker *string `json:"ticker"`
+type GetAlliancesAllianceIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetAlliancesAllianceIDOKBody alliance_name false */
-
-/* polymorph GetAlliancesAllianceIDOKBody date_founded false */
-
-/* polymorph GetAlliancesAllianceIDOKBody executor_corp false */
-
-/* polymorph GetAlliancesAllianceIDOKBody ticker false */
-
-// Validate validates this get alliances alliance ID o k body
-func (o *GetAlliancesAllianceIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAllianceName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDateFounded(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateExecutorCorp(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTicker(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetAlliancesAllianceIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /alliances/{alliance_id}/][%d] getAlliancesAllianceIdGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetAlliancesAllianceIDOKBody) validateAllianceName(formats strfmt.Registry) error {
+func (o *GetAlliancesAllianceIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getAlliancesAllianceIdOK"+"."+"alliance_name", "body", o.AllianceName); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetAlliancesAllianceIDOKBody) validateDateFounded(formats strfmt.Registry) error {
-
-	if err := validate.Required("getAlliancesAllianceIdOK"+"."+"date_founded", "body", o.DateFounded); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("getAlliancesAllianceIdOK"+"."+"date_founded", "body", "date-time", o.DateFounded.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetAlliancesAllianceIDOKBody) validateExecutorCorp(formats strfmt.Registry) error {
-
-	if err := validate.Required("getAlliancesAllianceIdOK"+"."+"executor_corp", "body", o.ExecutorCorp); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetAlliancesAllianceIDOKBody) validateTicker(formats strfmt.Registry) error {
-
-	if err := validate.Required("getAlliancesAllianceIdOK"+"."+"ticker", "body", o.Ticker); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetAlliancesAllianceIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetAlliancesAllianceIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetAlliancesAllianceIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

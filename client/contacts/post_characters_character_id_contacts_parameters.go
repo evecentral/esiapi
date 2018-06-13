@@ -24,12 +24,10 @@ import (
 func NewPostCharactersCharacterIDContactsParams() *PostCharactersCharacterIDContactsParams {
 	var (
 		datasourceDefault = string("tranquility")
-		labelIDDefault    = int64(0)
 		watchedDefault    = bool(false)
 	)
 	return &PostCharactersCharacterIDContactsParams{
 		Datasource: &datasourceDefault,
-		LabelID:    &labelIDDefault,
 		Watched:    &watchedDefault,
 
 		timeout: cr.DefaultTimeout,
@@ -41,12 +39,10 @@ func NewPostCharactersCharacterIDContactsParams() *PostCharactersCharacterIDCont
 func NewPostCharactersCharacterIDContactsParamsWithTimeout(timeout time.Duration) *PostCharactersCharacterIDContactsParams {
 	var (
 		datasourceDefault = string("tranquility")
-		labelIDDefault    = int64(0)
 		watchedDefault    = bool(false)
 	)
 	return &PostCharactersCharacterIDContactsParams{
 		Datasource: &datasourceDefault,
-		LabelID:    &labelIDDefault,
 		Watched:    &watchedDefault,
 
 		timeout: timeout,
@@ -58,12 +54,10 @@ func NewPostCharactersCharacterIDContactsParamsWithTimeout(timeout time.Duration
 func NewPostCharactersCharacterIDContactsParamsWithContext(ctx context.Context) *PostCharactersCharacterIDContactsParams {
 	var (
 		datasourceDefault = string("tranquility")
-		labelIdDefault    = int64(0)
 		watchedDefault    = bool(false)
 	)
 	return &PostCharactersCharacterIDContactsParams{
 		Datasource: &datasourceDefault,
-		LabelID:    &labelIdDefault,
 		Watched:    &watchedDefault,
 
 		Context: ctx,
@@ -75,12 +69,10 @@ func NewPostCharactersCharacterIDContactsParamsWithContext(ctx context.Context) 
 func NewPostCharactersCharacterIDContactsParamsWithHTTPClient(client *http.Client) *PostCharactersCharacterIDContactsParams {
 	var (
 		datasourceDefault = string("tranquility")
-		labelIdDefault    = int64(0)
 		watchedDefault    = bool(false)
 	)
 	return &PostCharactersCharacterIDContactsParams{
 		Datasource: &datasourceDefault,
-		LabelID:    &labelIdDefault,
 		Watched:    &watchedDefault,
 		HTTPClient: client,
 	}
@@ -91,18 +83,13 @@ for the post characters character id contacts operation typically these are writ
 */
 type PostCharactersCharacterIDContactsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*CharacterID
 	  An EVE character ID
 
 	*/
 	CharacterID int32
 	/*ContactIds
-	  A list of contacts to add
+	  A list of contacts
 
 	*/
 	ContactIds []int32
@@ -111,13 +98,13 @@ type PostCharactersCharacterIDContactsParams struct {
 
 	*/
 	Datasource *string
-	/*LabelID
-	  Add a custom label to the new contact
+	/*LabelIds
+	  Add custom labels to the new contact
 
 	*/
-	LabelID *int64
+	LabelIds []int64
 	/*Standing
-	  Standing for the new contact
+	  Standing for the contact
 
 	*/
 	Standing float32
@@ -126,13 +113,8 @@ type PostCharactersCharacterIDContactsParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 	/*Watched
-	  Whether the new contact should be watched, note this is only effective on characters
+	  Whether the contact should be watched, note this is only effective on characters
 
 	*/
 	Watched *bool
@@ -175,17 +157,6 @@ func (o *PostCharactersCharacterIDContactsParams) SetHTTPClient(client *http.Cli
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post characters character id contacts params
-func (o *PostCharactersCharacterIDContactsParams) WithXUserAgent(xUserAgent *string) *PostCharactersCharacterIDContactsParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post characters character id contacts params
-func (o *PostCharactersCharacterIDContactsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithCharacterID adds the characterID to the post characters character id contacts params
 func (o *PostCharactersCharacterIDContactsParams) WithCharacterID(characterID int32) *PostCharactersCharacterIDContactsParams {
 	o.SetCharacterID(characterID)
@@ -219,15 +190,15 @@ func (o *PostCharactersCharacterIDContactsParams) SetDatasource(datasource *stri
 	o.Datasource = datasource
 }
 
-// WithLabelID adds the labelID to the post characters character id contacts params
-func (o *PostCharactersCharacterIDContactsParams) WithLabelID(labelID *int64) *PostCharactersCharacterIDContactsParams {
-	o.SetLabelID(labelID)
+// WithLabelIds adds the labelIds to the post characters character id contacts params
+func (o *PostCharactersCharacterIDContactsParams) WithLabelIds(labelIds []int64) *PostCharactersCharacterIDContactsParams {
+	o.SetLabelIds(labelIds)
 	return o
 }
 
-// SetLabelID adds the labelId to the post characters character id contacts params
-func (o *PostCharactersCharacterIDContactsParams) SetLabelID(labelID *int64) {
-	o.LabelID = labelID
+// SetLabelIds adds the labelIds to the post characters character id contacts params
+func (o *PostCharactersCharacterIDContactsParams) SetLabelIds(labelIds []int64) {
+	o.LabelIds = labelIds
 }
 
 // WithStanding adds the standing to the post characters character id contacts params
@@ -252,17 +223,6 @@ func (o *PostCharactersCharacterIDContactsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post characters character id contacts params
-func (o *PostCharactersCharacterIDContactsParams) WithUserAgent(userAgent *string) *PostCharactersCharacterIDContactsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post characters character id contacts params
-func (o *PostCharactersCharacterIDContactsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WithWatched adds the watched to the post characters character id contacts params
 func (o *PostCharactersCharacterIDContactsParams) WithWatched(watched *bool) *PostCharactersCharacterIDContactsParams {
 	o.SetWatched(watched)
@@ -282,22 +242,15 @@ func (o *PostCharactersCharacterIDContactsParams) WriteToRequest(r runtime.Clien
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
-
 	// path param character_id
 	if err := r.SetPathParam("character_id", swag.FormatInt32(o.CharacterID)); err != nil {
 		return err
 	}
 
-	if err := r.SetBodyParam(o.ContactIds); err != nil {
-		return err
+	if o.ContactIds != nil {
+		if err := r.SetBodyParam(o.ContactIds); err != nil {
+			return err
+		}
 	}
 
 	if o.Datasource != nil {
@@ -316,20 +269,15 @@ func (o *PostCharactersCharacterIDContactsParams) WriteToRequest(r runtime.Clien
 
 	}
 
-	if o.LabelID != nil {
+	var valuesLabelIds []string
+	for _, v := range o.LabelIds {
+		valuesLabelIds = append(valuesLabelIds, swag.FormatInt64(v))
+	}
 
-		// query param label_id
-		var qrLabelID int64
-		if o.LabelID != nil {
-			qrLabelID = *o.LabelID
-		}
-		qLabelID := swag.FormatInt64(qrLabelID)
-		if qLabelID != "" {
-			if err := r.SetQueryParam("label_id", qLabelID); err != nil {
-				return err
-			}
-		}
-
+	joinedLabelIds := swag.JoinByFormat(valuesLabelIds, "")
+	// query array param label_ids
+	if err := r.SetQueryParam("label_ids", joinedLabelIds...); err != nil {
+		return err
 	}
 
 	// query param standing
@@ -351,22 +299,6 @@ func (o *PostCharactersCharacterIDContactsParams) WriteToRequest(r runtime.Clien
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

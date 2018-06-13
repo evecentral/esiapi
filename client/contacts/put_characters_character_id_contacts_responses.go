@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PutCharactersCharacterIDContactsReader is a Reader for the PutCharactersCharacterIDContacts structure.
@@ -32,6 +32,20 @@ func (o *PutCharactersCharacterIDContactsReader) ReadResponse(response runtime.C
 		}
 		return result, nil
 
+	case 400:
+		result := NewPutCharactersCharacterIDContactsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPutCharactersCharacterIDContactsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPutCharactersCharacterIDContactsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +53,29 @@ func (o *PutCharactersCharacterIDContactsReader) ReadResponse(response runtime.C
 		}
 		return nil, result
 
+	case 420:
+		result := NewPutCharactersCharacterIDContactsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPutCharactersCharacterIDContactsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPutCharactersCharacterIDContactsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPutCharactersCharacterIDContactsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +103,64 @@ func (o *PutCharactersCharacterIDContactsNoContent) Error() string {
 }
 
 func (o *PutCharactersCharacterIDContactsNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDContactsBadRequest creates a PutCharactersCharacterIDContactsBadRequest with default headers values
+func NewPutCharactersCharacterIDContactsBadRequest() *PutCharactersCharacterIDContactsBadRequest {
+	return &PutCharactersCharacterIDContactsBadRequest{}
+}
+
+/*PutCharactersCharacterIDContactsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PutCharactersCharacterIDContactsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PutCharactersCharacterIDContactsBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/contacts/][%d] putCharactersCharacterIdContactsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDContactsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDContactsUnauthorized creates a PutCharactersCharacterIDContactsUnauthorized with default headers values
+func NewPutCharactersCharacterIDContactsUnauthorized() *PutCharactersCharacterIDContactsUnauthorized {
+	return &PutCharactersCharacterIDContactsUnauthorized{}
+}
+
+/*PutCharactersCharacterIDContactsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PutCharactersCharacterIDContactsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PutCharactersCharacterIDContactsUnauthorized) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/contacts/][%d] putCharactersCharacterIdContactsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDContactsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -101,6 +194,35 @@ func (o *PutCharactersCharacterIDContactsForbidden) readResponse(response runtim
 	return nil
 }
 
+// NewPutCharactersCharacterIDContactsEnhanceYourCalm creates a PutCharactersCharacterIDContactsEnhanceYourCalm with default headers values
+func NewPutCharactersCharacterIDContactsEnhanceYourCalm() *PutCharactersCharacterIDContactsEnhanceYourCalm {
+	return &PutCharactersCharacterIDContactsEnhanceYourCalm{}
+}
+
+/*PutCharactersCharacterIDContactsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PutCharactersCharacterIDContactsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PutCharactersCharacterIDContactsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/contacts/][%d] putCharactersCharacterIdContactsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDContactsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPutCharactersCharacterIDContactsInternalServerError creates a PutCharactersCharacterIDContactsInternalServerError with default headers values
 func NewPutCharactersCharacterIDContactsInternalServerError() *PutCharactersCharacterIDContactsInternalServerError {
 	return &PutCharactersCharacterIDContactsInternalServerError{}
@@ -121,6 +243,64 @@ func (o *PutCharactersCharacterIDContactsInternalServerError) Error() string {
 func (o *PutCharactersCharacterIDContactsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDContactsServiceUnavailable creates a PutCharactersCharacterIDContactsServiceUnavailable with default headers values
+func NewPutCharactersCharacterIDContactsServiceUnavailable() *PutCharactersCharacterIDContactsServiceUnavailable {
+	return &PutCharactersCharacterIDContactsServiceUnavailable{}
+}
+
+/*PutCharactersCharacterIDContactsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type PutCharactersCharacterIDContactsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *PutCharactersCharacterIDContactsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/contacts/][%d] putCharactersCharacterIdContactsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDContactsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPutCharactersCharacterIDContactsGatewayTimeout creates a PutCharactersCharacterIDContactsGatewayTimeout with default headers values
+func NewPutCharactersCharacterIDContactsGatewayTimeout() *PutCharactersCharacterIDContactsGatewayTimeout {
+	return &PutCharactersCharacterIDContactsGatewayTimeout{}
+}
+
+/*PutCharactersCharacterIDContactsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type PutCharactersCharacterIDContactsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *PutCharactersCharacterIDContactsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[PUT /characters/{character_id}/contacts/][%d] putCharactersCharacterIdContactsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *PutCharactersCharacterIDContactsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

@@ -75,11 +75,6 @@ for the post characters character id cspa operation typically these are written 
 */
 type PostCharactersCharacterIDCspaParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -89,7 +84,7 @@ type PostCharactersCharacterIDCspaParams struct {
 	  The target characters to calculate the charge for
 
 	*/
-	Characters PostCharactersCharacterIDCspaBody
+	Characters []int32
 	/*Datasource
 	  The server name you would like data from
 
@@ -100,11 +95,6 @@ type PostCharactersCharacterIDCspaParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -144,17 +134,6 @@ func (o *PostCharactersCharacterIDCspaParams) SetHTTPClient(client *http.Client)
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post characters character id cspa params
-func (o *PostCharactersCharacterIDCspaParams) WithXUserAgent(xUserAgent *string) *PostCharactersCharacterIDCspaParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post characters character id cspa params
-func (o *PostCharactersCharacterIDCspaParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithCharacterID adds the characterID to the post characters character id cspa params
 func (o *PostCharactersCharacterIDCspaParams) WithCharacterID(characterID int32) *PostCharactersCharacterIDCspaParams {
 	o.SetCharacterID(characterID)
@@ -167,13 +146,13 @@ func (o *PostCharactersCharacterIDCspaParams) SetCharacterID(characterID int32) 
 }
 
 // WithCharacters adds the characters to the post characters character id cspa params
-func (o *PostCharactersCharacterIDCspaParams) WithCharacters(characters PostCharactersCharacterIDCspaBody) *PostCharactersCharacterIDCspaParams {
+func (o *PostCharactersCharacterIDCspaParams) WithCharacters(characters []int32) *PostCharactersCharacterIDCspaParams {
 	o.SetCharacters(characters)
 	return o
 }
 
 // SetCharacters adds the characters to the post characters character id cspa params
-func (o *PostCharactersCharacterIDCspaParams) SetCharacters(characters PostCharactersCharacterIDCspaBody) {
+func (o *PostCharactersCharacterIDCspaParams) SetCharacters(characters []int32) {
 	o.Characters = characters
 }
 
@@ -199,17 +178,6 @@ func (o *PostCharactersCharacterIDCspaParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post characters character id cspa params
-func (o *PostCharactersCharacterIDCspaParams) WithUserAgent(userAgent *string) *PostCharactersCharacterIDCspaParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post characters character id cspa params
-func (o *PostCharactersCharacterIDCspaParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostCharactersCharacterIDCspaParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -218,22 +186,15 @@ func (o *PostCharactersCharacterIDCspaParams) WriteToRequest(r runtime.ClientReq
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
-
 	// path param character_id
 	if err := r.SetPathParam("character_id", swag.FormatInt32(o.CharacterID)); err != nil {
 		return err
 	}
 
-	if err := r.SetBodyParam(o.Characters); err != nil {
-		return err
+	if o.Characters != nil {
+		if err := r.SetBodyParam(o.Characters); err != nil {
+			return err
+		}
 	}
 
 	if o.Datasource != nil {
@@ -262,22 +223,6 @@ func (o *PostCharactersCharacterIDCspaParams) WriteToRequest(r runtime.ClientReq
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

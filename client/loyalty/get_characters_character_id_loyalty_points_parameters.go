@@ -75,11 +75,11 @@ for the get characters character id loyalty points operation typically these are
 */
 type GetCharactersCharacterIDLoyaltyPointsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -95,11 +95,6 @@ type GetCharactersCharacterIDLoyaltyPointsParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -139,15 +134,15 @@ func (o *GetCharactersCharacterIDLoyaltyPointsParams) SetHTTPClient(client *http
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get characters character id loyalty points params
-func (o *GetCharactersCharacterIDLoyaltyPointsParams) WithXUserAgent(xUserAgent *string) *GetCharactersCharacterIDLoyaltyPointsParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get characters character id loyalty points params
+func (o *GetCharactersCharacterIDLoyaltyPointsParams) WithIfNoneMatch(ifNoneMatch *string) *GetCharactersCharacterIDLoyaltyPointsParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get characters character id loyalty points params
-func (o *GetCharactersCharacterIDLoyaltyPointsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get characters character id loyalty points params
+func (o *GetCharactersCharacterIDLoyaltyPointsParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCharacterID adds the characterID to the get characters character id loyalty points params
@@ -183,17 +178,6 @@ func (o *GetCharactersCharacterIDLoyaltyPointsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the get characters character id loyalty points params
-func (o *GetCharactersCharacterIDLoyaltyPointsParams) WithUserAgent(userAgent *string) *GetCharactersCharacterIDLoyaltyPointsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get characters character id loyalty points params
-func (o *GetCharactersCharacterIDLoyaltyPointsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCharactersCharacterIDLoyaltyPointsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -202,10 +186,10 @@ func (o *GetCharactersCharacterIDLoyaltyPointsParams) WriteToRequest(r runtime.C
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -242,22 +226,6 @@ func (o *GetCharactersCharacterIDLoyaltyPointsParams) WriteToRequest(r runtime.C
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

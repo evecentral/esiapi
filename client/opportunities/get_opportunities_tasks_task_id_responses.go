@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetOpportunitiesTasksTaskIDReader is a Reader for the GetOpportunitiesTasksTaskID structure.
@@ -35,8 +32,43 @@ func (o *GetOpportunitiesTasksTaskIDReader) ReadResponse(response runtime.Client
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetOpportunitiesTasksTaskIDNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetOpportunitiesTasksTaskIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetOpportunitiesTasksTaskIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetOpportunitiesTasksTaskIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetOpportunitiesTasksTaskIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetOpportunitiesTasksTaskIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetOpportunitiesTasksTaskIDOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetOpportunitiesTasksTaskIDOK struct {
 	 */
 	LastModified string
 
-	Payload GetOpportunitiesTasksTaskIDOKBody
+	Payload *models.GetOpportunitiesTasksTaskIDOKBody
 }
 
 func (o *GetOpportunitiesTasksTaskIDOK) Error() string {
@@ -79,14 +114,122 @@ func (o *GetOpportunitiesTasksTaskIDOK) readResponse(response runtime.ClientResp
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetOpportunitiesTasksTaskIDOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetOpportunitiesTasksTaskIDNotModified creates a GetOpportunitiesTasksTaskIDNotModified with default headers values
+func NewGetOpportunitiesTasksTaskIDNotModified() *GetOpportunitiesTasksTaskIDNotModified {
+	return &GetOpportunitiesTasksTaskIDNotModified{}
+}
+
+/*GetOpportunitiesTasksTaskIDNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetOpportunitiesTasksTaskIDNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetOpportunitiesTasksTaskIDNotModified) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/{task_id}/][%d] getOpportunitiesTasksTaskIdNotModified ", 304)
+}
+
+func (o *GetOpportunitiesTasksTaskIDNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetOpportunitiesTasksTaskIDBadRequest creates a GetOpportunitiesTasksTaskIDBadRequest with default headers values
+func NewGetOpportunitiesTasksTaskIDBadRequest() *GetOpportunitiesTasksTaskIDBadRequest {
+	return &GetOpportunitiesTasksTaskIDBadRequest{}
+}
+
+/*GetOpportunitiesTasksTaskIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetOpportunitiesTasksTaskIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetOpportunitiesTasksTaskIDBadRequest) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/{task_id}/][%d] getOpportunitiesTasksTaskIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetOpportunitiesTasksTaskIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetOpportunitiesTasksTaskIDEnhanceYourCalm creates a GetOpportunitiesTasksTaskIDEnhanceYourCalm with default headers values
+func NewGetOpportunitiesTasksTaskIDEnhanceYourCalm() *GetOpportunitiesTasksTaskIDEnhanceYourCalm {
+	return &GetOpportunitiesTasksTaskIDEnhanceYourCalm{}
+}
+
+/*GetOpportunitiesTasksTaskIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetOpportunitiesTasksTaskIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetOpportunitiesTasksTaskIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/{task_id}/][%d] getOpportunitiesTasksTaskIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetOpportunitiesTasksTaskIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,127 +265,60 @@ func (o *GetOpportunitiesTasksTaskIDInternalServerError) readResponse(response r
 	return nil
 }
 
-/*GetOpportunitiesTasksTaskIDOKBody get_opportunities_tasks_task_id_ok
-//
-// 200 ok object
-swagger:model GetOpportunitiesTasksTaskIDOKBody
+// NewGetOpportunitiesTasksTaskIDServiceUnavailable creates a GetOpportunitiesTasksTaskIDServiceUnavailable with default headers values
+func NewGetOpportunitiesTasksTaskIDServiceUnavailable() *GetOpportunitiesTasksTaskIDServiceUnavailable {
+	return &GetOpportunitiesTasksTaskIDServiceUnavailable{}
+}
+
+/*GetOpportunitiesTasksTaskIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetOpportunitiesTasksTaskIDOKBody struct {
-
-	// get_opportunities_tasks_task_id_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_opportunities_tasks_task_id_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_opportunities_tasks_task_id_notification
-	//
-	// notification string
-	// Required: true
-	Notification *string `json:"notification"`
-
-	// get_opportunities_tasks_task_id_task_id
-	//
-	// task_id integer
-	// Required: true
-	TaskID *int32 `json:"task_id"`
+type GetOpportunitiesTasksTaskIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetOpportunitiesTasksTaskIDOKBody description false */
-
-/* polymorph GetOpportunitiesTasksTaskIDOKBody name false */
-
-/* polymorph GetOpportunitiesTasksTaskIDOKBody notification false */
-
-/* polymorph GetOpportunitiesTasksTaskIDOKBody task_id false */
-
-// Validate validates this get opportunities tasks task ID o k body
-func (o *GetOpportunitiesTasksTaskIDOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateNotification(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTaskID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetOpportunitiesTasksTaskIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/{task_id}/][%d] getOpportunitiesTasksTaskIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetOpportunitiesTasksTaskIDOKBody) validateDescription(formats strfmt.Registry) error {
+func (o *GetOpportunitiesTasksTaskIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getOpportunitiesTasksTaskIdOK"+"."+"description", "body", o.Description); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetOpportunitiesTasksTaskIDOKBody) validateName(formats strfmt.Registry) error {
+// NewGetOpportunitiesTasksTaskIDGatewayTimeout creates a GetOpportunitiesTasksTaskIDGatewayTimeout with default headers values
+func NewGetOpportunitiesTasksTaskIDGatewayTimeout() *GetOpportunitiesTasksTaskIDGatewayTimeout {
+	return &GetOpportunitiesTasksTaskIDGatewayTimeout{}
+}
 
-	if err := validate.Required("getOpportunitiesTasksTaskIdOK"+"."+"name", "body", o.Name); err != nil {
+/*GetOpportunitiesTasksTaskIDGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetOpportunitiesTasksTaskIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetOpportunitiesTasksTaskIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /opportunities/tasks/{task_id}/][%d] getOpportunitiesTasksTaskIdGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetOpportunitiesTasksTaskIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetOpportunitiesTasksTaskIDOKBody) validateNotification(formats strfmt.Registry) error {
-
-	if err := validate.Required("getOpportunitiesTasksTaskIdOK"+"."+"notification", "body", o.Notification); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetOpportunitiesTasksTaskIDOKBody) validateTaskID(formats strfmt.Registry) error {
-
-	if err := validate.Required("getOpportunitiesTasksTaskIdOK"+"."+"task_id", "body", o.TaskID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetOpportunitiesTasksTaskIDOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetOpportunitiesTasksTaskIDOKBody) UnmarshalBinary(b []byte) error {
-	var res GetOpportunitiesTasksTaskIDOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

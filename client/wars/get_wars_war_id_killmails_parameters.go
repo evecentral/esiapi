@@ -83,11 +83,11 @@ for the get wars war id killmails operation typically these are written to a htt
 */
 type GetWarsWarIDKillmailsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -98,11 +98,6 @@ type GetWarsWarIDKillmailsParams struct {
 
 	*/
 	Page *int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 	/*WarID
 	  A valid war ID
 
@@ -147,15 +142,15 @@ func (o *GetWarsWarIDKillmailsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get wars war id killmails params
-func (o *GetWarsWarIDKillmailsParams) WithXUserAgent(xUserAgent *string) *GetWarsWarIDKillmailsParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get wars war id killmails params
+func (o *GetWarsWarIDKillmailsParams) WithIfNoneMatch(ifNoneMatch *string) *GetWarsWarIDKillmailsParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get wars war id killmails params
-func (o *GetWarsWarIDKillmailsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get wars war id killmails params
+func (o *GetWarsWarIDKillmailsParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithDatasource adds the datasource to the get wars war id killmails params
@@ -180,17 +175,6 @@ func (o *GetWarsWarIDKillmailsParams) SetPage(page *int32) {
 	o.Page = page
 }
 
-// WithUserAgent adds the userAgent to the get wars war id killmails params
-func (o *GetWarsWarIDKillmailsParams) WithUserAgent(userAgent *string) *GetWarsWarIDKillmailsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get wars war id killmails params
-func (o *GetWarsWarIDKillmailsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WithWarID adds the warID to the get wars war id killmails params
 func (o *GetWarsWarIDKillmailsParams) WithWarID(warID int32) *GetWarsWarIDKillmailsParams {
 	o.SetWarID(warID)
@@ -210,10 +194,10 @@ func (o *GetWarsWarIDKillmailsParams) WriteToRequest(r runtime.ClientRequest, re
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -245,22 +229,6 @@ func (o *GetWarsWarIDKillmailsParams) WriteToRequest(r runtime.ClientRequest, re
 		qPage := swag.FormatInt32(qrPage)
 		if qPage != "" {
 			if err := r.SetQueryParam("page", qPage); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

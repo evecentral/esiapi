@@ -6,18 +6,16 @@ package character
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDBlueprintsReader is a Reader for the GetCharactersCharacterIDBlueprints structure.
@@ -36,8 +34,36 @@ func (o *GetCharactersCharacterIDBlueprintsReader) ReadResponse(response runtime
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDBlueprintsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDBlueprintsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDBlueprintsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDBlueprintsForbidden()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCharactersCharacterIDBlueprintsEnhanceYourCalm()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +76,20 @@ func (o *GetCharactersCharacterIDBlueprintsReader) ReadResponse(response runtime
 		}
 		return nil, result
 
+	case 503:
+		result := NewGetCharactersCharacterIDBlueprintsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDBlueprintsGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
 	}
@@ -57,7 +97,9 @@ func (o *GetCharactersCharacterIDBlueprintsReader) ReadResponse(response runtime
 
 // NewGetCharactersCharacterIDBlueprintsOK creates a GetCharactersCharacterIDBlueprintsOK with default headers values
 func NewGetCharactersCharacterIDBlueprintsOK() *GetCharactersCharacterIDBlueprintsOK {
-	return &GetCharactersCharacterIDBlueprintsOK{}
+	return &GetCharactersCharacterIDBlueprintsOK{
+		XPages: 1,
+	}
 }
 
 /*GetCharactersCharacterIDBlueprintsOK handles this case with default header values.
@@ -68,14 +110,20 @@ type GetCharactersCharacterIDBlueprintsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
 	/*RFC7231 formatted datetime string
 	 */
 	LastModified string
+	/*Maximum page number
+	 */
+	XPages int32
 
-	Payload []*GetCharactersCharacterIDBlueprintsOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDBlueprintsOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDBlueprintsOK) Error() string {
@@ -87,14 +135,127 @@ func (o *GetCharactersCharacterIDBlueprintsOK) readResponse(response runtime.Cli
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	// response header X-Pages
+	xPages, err := swag.ConvertInt32(response.GetHeader("X-Pages"))
+	if err != nil {
+		return errors.InvalidType("X-Pages", "header", "int32", response.GetHeader("X-Pages"))
+	}
+	o.XPages = xPages
+
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBlueprintsNotModified creates a GetCharactersCharacterIDBlueprintsNotModified with default headers values
+func NewGetCharactersCharacterIDBlueprintsNotModified() *GetCharactersCharacterIDBlueprintsNotModified {
+	return &GetCharactersCharacterIDBlueprintsNotModified{}
+}
+
+/*GetCharactersCharacterIDBlueprintsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDBlueprintsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDBlueprintsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/blueprints/][%d] getCharactersCharacterIdBlueprintsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDBlueprintsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBlueprintsBadRequest creates a GetCharactersCharacterIDBlueprintsBadRequest with default headers values
+func NewGetCharactersCharacterIDBlueprintsBadRequest() *GetCharactersCharacterIDBlueprintsBadRequest {
+	return &GetCharactersCharacterIDBlueprintsBadRequest{}
+}
+
+/*GetCharactersCharacterIDBlueprintsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDBlueprintsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDBlueprintsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/blueprints/][%d] getCharactersCharacterIdBlueprintsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBlueprintsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBlueprintsUnauthorized creates a GetCharactersCharacterIDBlueprintsUnauthorized with default headers values
+func NewGetCharactersCharacterIDBlueprintsUnauthorized() *GetCharactersCharacterIDBlueprintsUnauthorized {
+	return &GetCharactersCharacterIDBlueprintsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDBlueprintsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDBlueprintsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDBlueprintsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/blueprints/][%d] getCharactersCharacterIdBlueprintsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBlueprintsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -121,6 +282,35 @@ func (o *GetCharactersCharacterIDBlueprintsForbidden) Error() string {
 func (o *GetCharactersCharacterIDBlueprintsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDBlueprintsEnhanceYourCalm creates a GetCharactersCharacterIDBlueprintsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDBlueprintsEnhanceYourCalm() *GetCharactersCharacterIDBlueprintsEnhanceYourCalm {
+	return &GetCharactersCharacterIDBlueprintsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDBlueprintsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDBlueprintsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDBlueprintsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/blueprints/][%d] getCharactersCharacterIdBlueprintsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDBlueprintsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -159,395 +349,60 @@ func (o *GetCharactersCharacterIDBlueprintsInternalServerError) readResponse(res
 	return nil
 }
 
-/*GetCharactersCharacterIDBlueprintsOKBodyItems0 get_characters_character_id_blueprints_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDBlueprintsOKBodyItems0
+// NewGetCharactersCharacterIDBlueprintsServiceUnavailable creates a GetCharactersCharacterIDBlueprintsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDBlueprintsServiceUnavailable() *GetCharactersCharacterIDBlueprintsServiceUnavailable {
+	return &GetCharactersCharacterIDBlueprintsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDBlueprintsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDBlueprintsOKBodyItems0 struct {
-
-	// get_characters_character_id_blueprints_item_id
-	//
-	// Unique ID for this item. The ID of an item is stable if that item is not repackaged, stacked, detached from a stack, assembled, or otherwise altered. If an item is changed in one of these ways, then the ID will also change (see notes below).
-	// Required: true
-	ItemID *int64 `json:"item_id"`
-
-	// get_characters_character_id_blueprints_location_flag
-	//
-	// Indicates something about this item's storage location. The flag is used to differentiate between hangar divisions, drone bay, fitting location, and similar.
-	// Required: true
-	LocationFlag *string `json:"location_flag"`
-
-	// get_characters_character_id_blueprints_location_id
-	//
-	// References a solar system, station or itemID if this blueprint is located within a container. If an itemID the Character - AssetList API must be queried to find the container using the itemID, from which the correct location of the Blueprint can be derived.
-	// Required: true
-	LocationID *int64 `json:"location_id"`
-
-	// get_characters_character_id_blueprints_material_efficiency
-	//
-	// Material Efficiency Level of the blueprint, can be any integer between 0 and 10.
-	// Required: true
-	MaterialEfficiency *int32 `json:"material_efficiency"`
-
-	// get_characters_character_id_blueprints_quantity
-	//
-	// Typically will be -1 or -2 designating a singleton item, where -1 is an original and -2 is a copy. It can be a positive integer if it is a stack of blueprint originals fresh from the market (no activities performed on them yet).
-	// Required: true
-	Quantity *int32 `json:"quantity"`
-
-	// get_characters_character_id_blueprints_runs
-	//
-	// Number of runs remaining if the blueprint is a copy, -1 if it is an original.
-	// Required: true
-	Runs *int32 `json:"runs"`
-
-	// get_characters_character_id_blueprints_time_efficiency
-	//
-	// Time Efficiency Level of the blueprint, can be any even integer between 0 and 20.
-	// Required: true
-	TimeEfficiency *int32 `json:"time_efficiency"`
-
-	// get_characters_character_id_blueprints_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetCharactersCharacterIDBlueprintsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDBlueprintsOKBodyItems0 item_id false */
-
-/* polymorph GetCharactersCharacterIDBlueprintsOKBodyItems0 location_flag false */
-
-/* polymorph GetCharactersCharacterIDBlueprintsOKBodyItems0 location_id false */
-
-/* polymorph GetCharactersCharacterIDBlueprintsOKBodyItems0 material_efficiency false */
-
-/* polymorph GetCharactersCharacterIDBlueprintsOKBodyItems0 quantity false */
-
-/* polymorph GetCharactersCharacterIDBlueprintsOKBodyItems0 runs false */
-
-/* polymorph GetCharactersCharacterIDBlueprintsOKBodyItems0 time_efficiency false */
-
-/* polymorph GetCharactersCharacterIDBlueprintsOKBodyItems0 type_id false */
-
-// Validate validates this get characters character ID blueprints o k body items0
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateItemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLocationFlag(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLocationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMaterialEfficiency(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateQuantity(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRuns(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTimeEfficiency(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDBlueprintsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/blueprints/][%d] getCharactersCharacterIdBlueprintsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateItemID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDBlueprintsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("item_id", "body", o.ItemID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-var getCharactersCharacterIdBlueprintsOKBodyItems0TypeLocationFlagPropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["AutoFit","Cargo","CorpseBay","DroneBay","FleetHangar","Deliveries","HiddenModifiers","Hangar","HangarAll","LoSlot0","LoSlot1","LoSlot2","LoSlot3","LoSlot4","LoSlot5","LoSlot6","LoSlot7","MedSlot0","MedSlot1","MedSlot2","MedSlot3","MedSlot4","MedSlot5","MedSlot6","MedSlot7","HiSlot0","HiSlot1","HiSlot2","HiSlot3","HiSlot4","HiSlot5","HiSlot6","HiSlot7","AssetSafety","Locked","Unlocked","Implant","QuafeBay","RigSlot0","RigSlot1","RigSlot2","RigSlot3","RigSlot4","RigSlot5","RigSlot6","RigSlot7","ShipHangar","SpecializedFuelBay","SpecializedOreHold","SpecializedGasHold","SpecializedMineralHold","SpecializedSalvageHold","SpecializedShipHold","SpecializedSmallShipHold","SpecializedMediumShipHold","SpecializedLargeShipHold","SpecializedIndustrialShipHold","SpecializedAmmoHold","SpecializedCommandCenterHold","SpecializedPlanetaryCommoditiesHold","SpecializedMaterialBay","SubSystemSlot0","SubSystemSlot1","SubSystemSlot2","SubSystemSlot3","SubSystemSlot4","SubSystemSlot5","SubSystemSlot6","SubSystemSlot7","FighterBay","FighterTube0","FighterTube1","FighterTube2","FighterTube3","FighterTube4","Module"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdBlueprintsOKBodyItems0TypeLocationFlagPropEnum = append(getCharactersCharacterIdBlueprintsOKBodyItems0TypeLocationFlagPropEnum, v)
-	}
+// NewGetCharactersCharacterIDBlueprintsGatewayTimeout creates a GetCharactersCharacterIDBlueprintsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDBlueprintsGatewayTimeout() *GetCharactersCharacterIDBlueprintsGatewayTimeout {
+	return &GetCharactersCharacterIDBlueprintsGatewayTimeout{}
 }
 
-const (
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagAutoFit captures enum value "AutoFit"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagAutoFit string = "AutoFit"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagCargo captures enum value "Cargo"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagCargo string = "Cargo"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagCorpseBay captures enum value "CorpseBay"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagCorpseBay string = "CorpseBay"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagDroneBay captures enum value "DroneBay"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagDroneBay string = "DroneBay"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFleetHangar captures enum value "FleetHangar"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFleetHangar string = "FleetHangar"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagDeliveries captures enum value "Deliveries"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagDeliveries string = "Deliveries"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiddenModifiers captures enum value "HiddenModifiers"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiddenModifiers string = "HiddenModifiers"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHangar captures enum value "Hangar"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHangar string = "Hangar"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHangarAll captures enum value "HangarAll"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHangarAll string = "HangarAll"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot0 captures enum value "LoSlot0"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot0 string = "LoSlot0"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot1 captures enum value "LoSlot1"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot1 string = "LoSlot1"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot2 captures enum value "LoSlot2"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot2 string = "LoSlot2"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot3 captures enum value "LoSlot3"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot3 string = "LoSlot3"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot4 captures enum value "LoSlot4"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot4 string = "LoSlot4"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot5 captures enum value "LoSlot5"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot5 string = "LoSlot5"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot6 captures enum value "LoSlot6"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot6 string = "LoSlot6"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot7 captures enum value "LoSlot7"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLoSlot7 string = "LoSlot7"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot0 captures enum value "MedSlot0"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot0 string = "MedSlot0"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot1 captures enum value "MedSlot1"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot1 string = "MedSlot1"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot2 captures enum value "MedSlot2"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot2 string = "MedSlot2"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot3 captures enum value "MedSlot3"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot3 string = "MedSlot3"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot4 captures enum value "MedSlot4"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot4 string = "MedSlot4"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot5 captures enum value "MedSlot5"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot5 string = "MedSlot5"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot6 captures enum value "MedSlot6"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot6 string = "MedSlot6"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot7 captures enum value "MedSlot7"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagMedSlot7 string = "MedSlot7"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot0 captures enum value "HiSlot0"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot0 string = "HiSlot0"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot1 captures enum value "HiSlot1"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot1 string = "HiSlot1"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot2 captures enum value "HiSlot2"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot2 string = "HiSlot2"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot3 captures enum value "HiSlot3"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot3 string = "HiSlot3"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot4 captures enum value "HiSlot4"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot4 string = "HiSlot4"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot5 captures enum value "HiSlot5"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot5 string = "HiSlot5"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot6 captures enum value "HiSlot6"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot6 string = "HiSlot6"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot7 captures enum value "HiSlot7"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagHiSlot7 string = "HiSlot7"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagAssetSafety captures enum value "AssetSafety"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagAssetSafety string = "AssetSafety"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLocked captures enum value "Locked"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagLocked string = "Locked"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagUnlocked captures enum value "Unlocked"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagUnlocked string = "Unlocked"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagImplant captures enum value "Implant"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagImplant string = "Implant"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagQuafeBay captures enum value "QuafeBay"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagQuafeBay string = "QuafeBay"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot0 captures enum value "RigSlot0"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot0 string = "RigSlot0"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot1 captures enum value "RigSlot1"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot1 string = "RigSlot1"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot2 captures enum value "RigSlot2"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot2 string = "RigSlot2"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot3 captures enum value "RigSlot3"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot3 string = "RigSlot3"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot4 captures enum value "RigSlot4"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot4 string = "RigSlot4"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot5 captures enum value "RigSlot5"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot5 string = "RigSlot5"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot6 captures enum value "RigSlot6"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot6 string = "RigSlot6"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot7 captures enum value "RigSlot7"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagRigSlot7 string = "RigSlot7"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagShipHangar captures enum value "ShipHangar"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagShipHangar string = "ShipHangar"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedFuelBay captures enum value "SpecializedFuelBay"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedFuelBay string = "SpecializedFuelBay"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedOreHold captures enum value "SpecializedOreHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedOreHold string = "SpecializedOreHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedGasHold captures enum value "SpecializedGasHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedGasHold string = "SpecializedGasHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedMineralHold captures enum value "SpecializedMineralHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedMineralHold string = "SpecializedMineralHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedSalvageHold captures enum value "SpecializedSalvageHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedSalvageHold string = "SpecializedSalvageHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedShipHold captures enum value "SpecializedShipHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedShipHold string = "SpecializedShipHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedSmallShipHold captures enum value "SpecializedSmallShipHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedSmallShipHold string = "SpecializedSmallShipHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedMediumShipHold captures enum value "SpecializedMediumShipHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedMediumShipHold string = "SpecializedMediumShipHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedLargeShipHold captures enum value "SpecializedLargeShipHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedLargeShipHold string = "SpecializedLargeShipHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedIndustrialShipHold captures enum value "SpecializedIndustrialShipHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedIndustrialShipHold string = "SpecializedIndustrialShipHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedAmmoHold captures enum value "SpecializedAmmoHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedAmmoHold string = "SpecializedAmmoHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedCommandCenterHold captures enum value "SpecializedCommandCenterHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedCommandCenterHold string = "SpecializedCommandCenterHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedPlanetaryCommoditiesHold captures enum value "SpecializedPlanetaryCommoditiesHold"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedPlanetaryCommoditiesHold string = "SpecializedPlanetaryCommoditiesHold"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedMaterialBay captures enum value "SpecializedMaterialBay"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSpecializedMaterialBay string = "SpecializedMaterialBay"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot0 captures enum value "SubSystemSlot0"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot0 string = "SubSystemSlot0"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot1 captures enum value "SubSystemSlot1"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot1 string = "SubSystemSlot1"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot2 captures enum value "SubSystemSlot2"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot2 string = "SubSystemSlot2"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot3 captures enum value "SubSystemSlot3"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot3 string = "SubSystemSlot3"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot4 captures enum value "SubSystemSlot4"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot4 string = "SubSystemSlot4"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot5 captures enum value "SubSystemSlot5"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot5 string = "SubSystemSlot5"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot6 captures enum value "SubSystemSlot6"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot6 string = "SubSystemSlot6"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot7 captures enum value "SubSystemSlot7"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagSubSystemSlot7 string = "SubSystemSlot7"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterBay captures enum value "FighterBay"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterBay string = "FighterBay"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube0 captures enum value "FighterTube0"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube0 string = "FighterTube0"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube1 captures enum value "FighterTube1"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube1 string = "FighterTube1"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube2 captures enum value "FighterTube2"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube2 string = "FighterTube2"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube3 captures enum value "FighterTube3"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube3 string = "FighterTube3"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube4 captures enum value "FighterTube4"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagFighterTube4 string = "FighterTube4"
-	// GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagModule captures enum value "Module"
-	GetCharactersCharacterIDBlueprintsOKBodyItems0LocationFlagModule string = "Module"
-)
+/*GetCharactersCharacterIDBlueprintsGatewayTimeout handles this case with default header values.
 
-// prop value enum
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateLocationFlagEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdBlueprintsOKBodyItems0TypeLocationFlagPropEnum); err != nil {
-		return err
-	}
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDBlueprintsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateLocationFlag(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDBlueprintsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/blueprints/][%d] getCharactersCharacterIdBlueprintsGatewayTimeout  %+v", 504, o.Payload)
+}
 
-	if err := validate.Required("location_flag", "body", o.LocationFlag); err != nil {
+func (o *GetCharactersCharacterIDBlueprintsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	// value enum
-	if err := o.validateLocationFlagEnum("location_flag", "body", *o.LocationFlag); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateLocationID(formats strfmt.Registry) error {
-
-	if err := validate.Required("location_id", "body", o.LocationID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateMaterialEfficiency(formats strfmt.Registry) error {
-
-	if err := validate.Required("material_efficiency", "body", o.MaterialEfficiency); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateQuantity(formats strfmt.Registry) error {
-
-	if err := validate.Required("quantity", "body", o.Quantity); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateRuns(formats strfmt.Registry) error {
-
-	if err := validate.Required("runs", "body", o.Runs); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateTimeEfficiency(formats strfmt.Registry) error {
-
-	if err := validate.Required("time_efficiency", "body", o.TimeEfficiency); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDBlueprintsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDBlueprintsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

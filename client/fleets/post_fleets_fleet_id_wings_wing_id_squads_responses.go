@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostFleetsFleetIDWingsWingIDSquadsReader is a Reader for the PostFleetsFleetIDWingsWingIDSquads structure.
@@ -35,6 +32,20 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsReader) ReadResponse(response runtime
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostFleetsFleetIDWingsWingIDSquadsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostFleetsFleetIDWingsWingIDSquadsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostFleetsFleetIDWingsWingIDSquadsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,8 +60,29 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsReader) ReadResponse(response runtime
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostFleetsFleetIDWingsWingIDSquadsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostFleetsFleetIDWingsWingIDSquadsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostFleetsFleetIDWingsWingIDSquadsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -71,7 +103,7 @@ func NewPostFleetsFleetIDWingsWingIDSquadsCreated() *PostFleetsFleetIDWingsWingI
 Squad created
 */
 type PostFleetsFleetIDWingsWingIDSquadsCreated struct {
-	Payload PostFleetsFleetIDWingsWingIDSquadsCreatedBody
+	Payload *models.PostFleetsFleetIDWingsWingIDSquadsCreatedBody
 }
 
 func (o *PostFleetsFleetIDWingsWingIDSquadsCreated) Error() string {
@@ -80,8 +112,68 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsCreated) Error() string {
 
 func (o *PostFleetsFleetIDWingsWingIDSquadsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.PostFleetsFleetIDWingsWingIDSquadsCreatedBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostFleetsFleetIDWingsWingIDSquadsBadRequest creates a PostFleetsFleetIDWingsWingIDSquadsBadRequest with default headers values
+func NewPostFleetsFleetIDWingsWingIDSquadsBadRequest() *PostFleetsFleetIDWingsWingIDSquadsBadRequest {
+	return &PostFleetsFleetIDWingsWingIDSquadsBadRequest{}
+}
+
+/*PostFleetsFleetIDWingsWingIDSquadsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostFleetsFleetIDWingsWingIDSquadsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostFleetsFleetIDWingsWingIDSquadsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/{wing_id}/squads/][%d] postFleetsFleetIdWingsWingIdSquadsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostFleetsFleetIDWingsWingIDSquadsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostFleetsFleetIDWingsWingIDSquadsUnauthorized creates a PostFleetsFleetIDWingsWingIDSquadsUnauthorized with default headers values
+func NewPostFleetsFleetIDWingsWingIDSquadsUnauthorized() *PostFleetsFleetIDWingsWingIDSquadsUnauthorized {
+	return &PostFleetsFleetIDWingsWingIDSquadsUnauthorized{}
+}
+
+/*PostFleetsFleetIDWingsWingIDSquadsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostFleetsFleetIDWingsWingIDSquadsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostFleetsFleetIDWingsWingIDSquadsUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/{wing_id}/squads/][%d] postFleetsFleetIdWingsWingIdSquadsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostFleetsFleetIDWingsWingIDSquadsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -127,7 +219,7 @@ func NewPostFleetsFleetIDWingsWingIDSquadsNotFound() *PostFleetsFleetIDWingsWing
 The fleet does not exist or you don't have access to it
 */
 type PostFleetsFleetIDWingsWingIDSquadsNotFound struct {
-	Payload PostFleetsFleetIDWingsWingIDSquadsNotFoundBody
+	Payload *models.PostFleetsFleetIDWingsWingIDSquadsNotFoundBody
 }
 
 func (o *PostFleetsFleetIDWingsWingIDSquadsNotFound) Error() string {
@@ -136,8 +228,39 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsNotFound) Error() string {
 
 func (o *PostFleetsFleetIDWingsWingIDSquadsNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.PostFleetsFleetIDWingsWingIDSquadsNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm creates a PostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm with default headers values
+func NewPostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm() *PostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm {
+	return &PostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm{}
+}
+
+/*PostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/{wing_id}/squads/][%d] postFleetsFleetIdWingsWingIdSquadsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostFleetsFleetIDWingsWingIDSquadsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -173,120 +296,60 @@ func (o *PostFleetsFleetIDWingsWingIDSquadsInternalServerError) readResponse(res
 	return nil
 }
 
-/*PostFleetsFleetIDWingsWingIDSquadsCreatedBody post_fleets_fleet_id_wings_wing_id_squads_created
-//
-// 201 created object
-swagger:model PostFleetsFleetIDWingsWingIDSquadsCreatedBody
+// NewPostFleetsFleetIDWingsWingIDSquadsServiceUnavailable creates a PostFleetsFleetIDWingsWingIDSquadsServiceUnavailable with default headers values
+func NewPostFleetsFleetIDWingsWingIDSquadsServiceUnavailable() *PostFleetsFleetIDWingsWingIDSquadsServiceUnavailable {
+	return &PostFleetsFleetIDWingsWingIDSquadsServiceUnavailable{}
+}
+
+/*PostFleetsFleetIDWingsWingIDSquadsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostFleetsFleetIDWingsWingIDSquadsCreatedBody struct {
-
-	// post_fleets_fleet_id_wings_wing_id_squads_squad_id
-	//
-	// The squad_id of the newly created squad
-	// Required: true
-	SquadID *int64 `json:"squad_id"`
+type PostFleetsFleetIDWingsWingIDSquadsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostFleetsFleetIDWingsWingIDSquadsCreatedBody squad_id false */
-
-// Validate validates this post fleets fleet ID wings wing ID squads created body
-func (o *PostFleetsFleetIDWingsWingIDSquadsCreatedBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateSquadID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostFleetsFleetIDWingsWingIDSquadsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/{wing_id}/squads/][%d] postFleetsFleetIdWingsWingIdSquadsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *PostFleetsFleetIDWingsWingIDSquadsCreatedBody) validateSquadID(formats strfmt.Registry) error {
+func (o *PostFleetsFleetIDWingsWingIDSquadsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postFleetsFleetIdWingsWingIdSquadsCreated"+"."+"squad_id", "body", o.SquadID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *PostFleetsFleetIDWingsWingIDSquadsCreatedBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewPostFleetsFleetIDWingsWingIDSquadsGatewayTimeout creates a PostFleetsFleetIDWingsWingIDSquadsGatewayTimeout with default headers values
+func NewPostFleetsFleetIDWingsWingIDSquadsGatewayTimeout() *PostFleetsFleetIDWingsWingIDSquadsGatewayTimeout {
+	return &PostFleetsFleetIDWingsWingIDSquadsGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostFleetsFleetIDWingsWingIDSquadsCreatedBody) UnmarshalBinary(b []byte) error {
-	var res PostFleetsFleetIDWingsWingIDSquadsCreatedBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*PostFleetsFleetIDWingsWingIDSquadsGatewayTimeout handles this case with default header values.
 
-/*PostFleetsFleetIDWingsWingIDSquadsNotFoundBody post_fleets_fleet_id_wings_wing_id_squads_not_found
-//
-// Not found
-swagger:model PostFleetsFleetIDWingsWingIDSquadsNotFoundBody
+Gateway timeout
 */
-
-type PostFleetsFleetIDWingsWingIDSquadsNotFoundBody struct {
-
-	// post_fleets_fleet_id_wings_wing_id_squads_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type PostFleetsFleetIDWingsWingIDSquadsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PostFleetsFleetIDWingsWingIDSquadsNotFoundBody error false */
-
-// Validate validates this post fleets fleet ID wings wing ID squads not found body
-func (o *PostFleetsFleetIDWingsWingIDSquadsNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostFleetsFleetIDWingsWingIDSquadsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /fleets/{fleet_id}/wings/{wing_id}/squads/][%d] postFleetsFleetIdWingsWingIdSquadsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *PostFleetsFleetIDWingsWingIDSquadsNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *PostFleetsFleetIDWingsWingIDSquadsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postFleetsFleetIdWingsWingIdSquadsNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *PostFleetsFleetIDWingsWingIDSquadsNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *PostFleetsFleetIDWingsWingIDSquadsNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res PostFleetsFleetIDWingsWingIDSquadsNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

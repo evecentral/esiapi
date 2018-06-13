@@ -8,16 +8,12 @@ package skills
 import (
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDSkillsReader is a Reader for the GetCharactersCharacterIDSkills structure.
@@ -36,6 +32,27 @@ func (o *GetCharactersCharacterIDSkillsReader) ReadResponse(response runtime.Cli
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDSkillsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDSkillsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDSkillsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDSkillsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +60,29 @@ func (o *GetCharactersCharacterIDSkillsReader) ReadResponse(response runtime.Cli
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDSkillsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDSkillsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDSkillsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDSkillsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +106,9 @@ type GetCharactersCharacterIDSkillsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +116,7 @@ type GetCharactersCharacterIDSkillsOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDSkillsOKBody
+	Payload *models.GetCharactersCharacterIDSkillsOKBody
 }
 
 func (o *GetCharactersCharacterIDSkillsOK) Error() string {
@@ -87,14 +128,122 @@ func (o *GetCharactersCharacterIDSkillsOK) readResponse(response runtime.ClientR
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDSkillsOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSkillsNotModified creates a GetCharactersCharacterIDSkillsNotModified with default headers values
+func NewGetCharactersCharacterIDSkillsNotModified() *GetCharactersCharacterIDSkillsNotModified {
+	return &GetCharactersCharacterIDSkillsNotModified{}
+}
+
+/*GetCharactersCharacterIDSkillsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDSkillsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDSkillsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skills/][%d] getCharactersCharacterIdSkillsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDSkillsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSkillsBadRequest creates a GetCharactersCharacterIDSkillsBadRequest with default headers values
+func NewGetCharactersCharacterIDSkillsBadRequest() *GetCharactersCharacterIDSkillsBadRequest {
+	return &GetCharactersCharacterIDSkillsBadRequest{}
+}
+
+/*GetCharactersCharacterIDSkillsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDSkillsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDSkillsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skills/][%d] getCharactersCharacterIdSkillsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSkillsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSkillsUnauthorized creates a GetCharactersCharacterIDSkillsUnauthorized with default headers values
+func NewGetCharactersCharacterIDSkillsUnauthorized() *GetCharactersCharacterIDSkillsUnauthorized {
+	return &GetCharactersCharacterIDSkillsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDSkillsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDSkillsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDSkillsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skills/][%d] getCharactersCharacterIdSkillsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSkillsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -121,6 +270,35 @@ func (o *GetCharactersCharacterIDSkillsForbidden) Error() string {
 func (o *GetCharactersCharacterIDSkillsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSkillsEnhanceYourCalm creates a GetCharactersCharacterIDSkillsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDSkillsEnhanceYourCalm() *GetCharactersCharacterIDSkillsEnhanceYourCalm {
+	return &GetCharactersCharacterIDSkillsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDSkillsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDSkillsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDSkillsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skills/][%d] getCharactersCharacterIdSkillsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSkillsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -159,166 +337,60 @@ func (o *GetCharactersCharacterIDSkillsInternalServerError) readResponse(respons
 	return nil
 }
 
-/*GetCharactersCharacterIDSkillsOKBody get_characters_character_id_skills_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDSkillsOKBody
+// NewGetCharactersCharacterIDSkillsServiceUnavailable creates a GetCharactersCharacterIDSkillsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDSkillsServiceUnavailable() *GetCharactersCharacterIDSkillsServiceUnavailable {
+	return &GetCharactersCharacterIDSkillsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDSkillsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDSkillsOKBody struct {
-
-	// get_characters_character_id_skills_skills
-	//
-	// skills array
-	// Required: true
-	// Max Items: 1000
-	Skills []*SkillsItems0 `json:"skills"`
-
-	// get_characters_character_id_skills_total_sp
-	//
-	// total_sp integer
-	// Required: true
-	TotalSp *int64 `json:"total_sp"`
+type GetCharactersCharacterIDSkillsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDSkillsOKBody skills false */
-
-/* polymorph GetCharactersCharacterIDSkillsOKBody total_sp false */
-
-// Validate validates this get characters character ID skills o k body
-func (o *GetCharactersCharacterIDSkillsOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateSkills(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTotalSp(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDSkillsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skills/][%d] getCharactersCharacterIdSkillsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDSkillsOKBody) validateSkills(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDSkillsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdSkillsOK"+"."+"skills", "body", o.Skills); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	iSkillsSize := int64(len(o.Skills))
-
-	if err := validate.MaxItems("getCharactersCharacterIdSkillsOK"+"."+"skills", "body", iSkillsSize, 1000); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.Skills); i++ {
-
-		if swag.IsZero(o.Skills[i]) { // not required
-			continue
-		}
-
-		if o.Skills[i] != nil {
-
-			if err := o.Skills[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("getCharactersCharacterIdSkillsOK" + "." + "skills" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSkillsOKBody) validateTotalSp(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdSkillsOK"+"."+"total_sp", "body", o.TotalSp); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDSkillsOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCharactersCharacterIDSkillsGatewayTimeout creates a GetCharactersCharacterIDSkillsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDSkillsGatewayTimeout() *GetCharactersCharacterIDSkillsGatewayTimeout {
+	return &GetCharactersCharacterIDSkillsGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDSkillsOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDSkillsOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetCharactersCharacterIDSkillsGatewayTimeout handles this case with default header values.
 
-/*SkillsItems0 get_characters_character_id_skills_skill
-//
-// skill object
-swagger:model SkillsItems0
+Gateway timeout
 */
-
-type SkillsItems0 struct {
-
-	// get_characters_character_id_skills_current_skill_level
-	//
-	// current_skill_level integer
-	CurrentSkillLevel int32 `json:"current_skill_level,omitempty"`
-
-	// get_characters_character_id_skills_skill_id
-	//
-	// skill_id integer
-	SkillID int32 `json:"skill_id,omitempty"`
-
-	// get_characters_character_id_skills_skillpoints_in_skill
-	//
-	// skillpoints_in_skill integer
-	SkillpointsInSkill int64 `json:"skillpoints_in_skill,omitempty"`
+type GetCharactersCharacterIDSkillsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph SkillsItems0 current_skill_level false */
-
-/* polymorph SkillsItems0 skill_id false */
-
-/* polymorph SkillsItems0 skillpoints_in_skill false */
-
-// Validate validates this skills items0
-func (o *SkillsItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDSkillsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skills/][%d] getCharactersCharacterIdSkillsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-// MarshalBinary interface implementation
-func (o *SkillsItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
+func (o *GetCharactersCharacterIDSkillsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-// UnmarshalBinary interface implementation
-func (o *SkillsItems0) UnmarshalBinary(b []byte) error {
-	var res SkillsItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

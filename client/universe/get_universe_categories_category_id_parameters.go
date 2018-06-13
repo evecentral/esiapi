@@ -23,12 +23,14 @@ import (
 // with the default values initialized.
 func NewGetUniverseCategoriesCategoryIDParams() *GetUniverseCategoriesCategoryIDParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
 	)
 	return &GetUniverseCategoriesCategoryIDParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -38,12 +40,14 @@ func NewGetUniverseCategoriesCategoryIDParams() *GetUniverseCategoriesCategoryID
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetUniverseCategoriesCategoryIDParamsWithTimeout(timeout time.Duration) *GetUniverseCategoriesCategoryIDParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
 	)
 	return &GetUniverseCategoriesCategoryIDParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
 
 		timeout: timeout,
 	}
@@ -53,12 +57,14 @@ func NewGetUniverseCategoriesCategoryIDParamsWithTimeout(timeout time.Duration) 
 // with the default values initialized, and the ability to set a context for a request
 func NewGetUniverseCategoriesCategoryIDParamsWithContext(ctx context.Context) *GetUniverseCategoriesCategoryIDParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
 	)
 	return &GetUniverseCategoriesCategoryIDParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
 
 		Context: ctx,
 	}
@@ -68,13 +74,15 @@ func NewGetUniverseCategoriesCategoryIDParamsWithContext(ctx context.Context) *G
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetUniverseCategoriesCategoryIDParamsWithHTTPClient(client *http.Client) *GetUniverseCategoriesCategoryIDParams {
 	var (
-		datasourceDefault = string("tranquility")
-		languageDefault   = string("en-us")
+		acceptLanguageDefault = string("en-us")
+		datasourceDefault     = string("tranquility")
+		languageDefault       = string("en-us")
 	)
 	return &GetUniverseCategoriesCategoryIDParams{
-		Datasource: &datasourceDefault,
-		Language:   &languageDefault,
-		HTTPClient: client,
+		AcceptLanguage: &acceptLanguageDefault,
+		Datasource:     &datasourceDefault,
+		Language:       &languageDefault,
+		HTTPClient:     client,
 	}
 }
 
@@ -83,11 +91,16 @@ for the get universe categories category id operation typically these are writte
 */
 type GetUniverseCategoriesCategoryIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*AcceptLanguage
+	  Language to use in the response
 
 	*/
-	XUserAgent *string
+	AcceptLanguage *string
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
+
+	*/
+	IfNoneMatch *string
 	/*CategoryID
 	  An Eve item category ID
 
@@ -99,15 +112,10 @@ type GetUniverseCategoriesCategoryIDParams struct {
 	*/
 	Datasource *string
 	/*Language
-	  Language to use in the response
+	  Language to use in the response, takes precedence over Accept-Language
 
 	*/
 	Language *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -147,15 +155,26 @@ func (o *GetUniverseCategoriesCategoryIDParams) SetHTTPClient(client *http.Clien
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get universe categories category id params
-func (o *GetUniverseCategoriesCategoryIDParams) WithXUserAgent(xUserAgent *string) *GetUniverseCategoriesCategoryIDParams {
-	o.SetXUserAgent(xUserAgent)
+// WithAcceptLanguage adds the acceptLanguage to the get universe categories category id params
+func (o *GetUniverseCategoriesCategoryIDParams) WithAcceptLanguage(acceptLanguage *string) *GetUniverseCategoriesCategoryIDParams {
+	o.SetAcceptLanguage(acceptLanguage)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get universe categories category id params
-func (o *GetUniverseCategoriesCategoryIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetAcceptLanguage adds the acceptLanguage to the get universe categories category id params
+func (o *GetUniverseCategoriesCategoryIDParams) SetAcceptLanguage(acceptLanguage *string) {
+	o.AcceptLanguage = acceptLanguage
+}
+
+// WithIfNoneMatch adds the ifNoneMatch to the get universe categories category id params
+func (o *GetUniverseCategoriesCategoryIDParams) WithIfNoneMatch(ifNoneMatch *string) *GetUniverseCategoriesCategoryIDParams {
+	o.SetIfNoneMatch(ifNoneMatch)
+	return o
+}
+
+// SetIfNoneMatch adds the ifNoneMatch to the get universe categories category id params
+func (o *GetUniverseCategoriesCategoryIDParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCategoryID adds the categoryID to the get universe categories category id params
@@ -191,17 +210,6 @@ func (o *GetUniverseCategoriesCategoryIDParams) SetLanguage(language *string) {
 	o.Language = language
 }
 
-// WithUserAgent adds the userAgent to the get universe categories category id params
-func (o *GetUniverseCategoriesCategoryIDParams) WithUserAgent(userAgent *string) *GetUniverseCategoriesCategoryIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get universe categories category id params
-func (o *GetUniverseCategoriesCategoryIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetUniverseCategoriesCategoryIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -210,10 +218,19 @@ func (o *GetUniverseCategoriesCategoryIDParams) WriteToRequest(r runtime.ClientR
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.AcceptLanguage != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param Accept-Language
+		if err := r.SetHeaderParam("Accept-Language", *o.AcceptLanguage); err != nil {
+			return err
+		}
+
+	}
+
+	if o.IfNoneMatch != nil {
+
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -250,22 +267,6 @@ func (o *GetUniverseCategoriesCategoryIDParams) WriteToRequest(r runtime.ClientR
 		qLanguage := qrLanguage
 		if qLanguage != "" {
 			if err := r.SetQueryParam("language", qLanguage); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

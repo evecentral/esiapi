@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDFatigueReader is a Reader for the GetCharactersCharacterIDFatigue structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDFatigueReader) ReadResponse(response runtime.Cl
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDFatigueNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDFatigueBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDFatigueUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDFatigueForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCharactersCharacterIDFatigueReader) ReadResponse(response runtime.Cl
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDFatigueEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDFatigueInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDFatigueServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDFatigueGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,9 @@ type GetCharactersCharacterIDFatigueOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +116,7 @@ type GetCharactersCharacterIDFatigueOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDFatigueOKBody
+	Payload *models.GetCharactersCharacterIDFatigueOKBody
 }
 
 func (o *GetCharactersCharacterIDFatigueOK) Error() string {
@@ -86,14 +128,122 @@ func (o *GetCharactersCharacterIDFatigueOK) readResponse(response runtime.Client
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDFatigueOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDFatigueNotModified creates a GetCharactersCharacterIDFatigueNotModified with default headers values
+func NewGetCharactersCharacterIDFatigueNotModified() *GetCharactersCharacterIDFatigueNotModified {
+	return &GetCharactersCharacterIDFatigueNotModified{}
+}
+
+/*GetCharactersCharacterIDFatigueNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDFatigueNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDFatigueNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/fatigue/][%d] getCharactersCharacterIdFatigueNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDFatigueNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDFatigueBadRequest creates a GetCharactersCharacterIDFatigueBadRequest with default headers values
+func NewGetCharactersCharacterIDFatigueBadRequest() *GetCharactersCharacterIDFatigueBadRequest {
+	return &GetCharactersCharacterIDFatigueBadRequest{}
+}
+
+/*GetCharactersCharacterIDFatigueBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDFatigueBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDFatigueBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/fatigue/][%d] getCharactersCharacterIdFatigueBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDFatigueBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDFatigueUnauthorized creates a GetCharactersCharacterIDFatigueUnauthorized with default headers values
+func NewGetCharactersCharacterIDFatigueUnauthorized() *GetCharactersCharacterIDFatigueUnauthorized {
+	return &GetCharactersCharacterIDFatigueUnauthorized{}
+}
+
+/*GetCharactersCharacterIDFatigueUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDFatigueUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDFatigueUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/fatigue/][%d] getCharactersCharacterIdFatigueUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDFatigueUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +270,35 @@ func (o *GetCharactersCharacterIDFatigueForbidden) Error() string {
 func (o *GetCharactersCharacterIDFatigueForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDFatigueEnhanceYourCalm creates a GetCharactersCharacterIDFatigueEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDFatigueEnhanceYourCalm() *GetCharactersCharacterIDFatigueEnhanceYourCalm {
+	return &GetCharactersCharacterIDFatigueEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDFatigueEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDFatigueEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDFatigueEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/fatigue/][%d] getCharactersCharacterIdFatigueEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDFatigueEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,117 +337,60 @@ func (o *GetCharactersCharacterIDFatigueInternalServerError) readResponse(respon
 	return nil
 }
 
-/*GetCharactersCharacterIDFatigueOKBody get_characters_character_id_fatigue_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDFatigueOKBody
+// NewGetCharactersCharacterIDFatigueServiceUnavailable creates a GetCharactersCharacterIDFatigueServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDFatigueServiceUnavailable() *GetCharactersCharacterIDFatigueServiceUnavailable {
+	return &GetCharactersCharacterIDFatigueServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDFatigueServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDFatigueOKBody struct {
-
-	// get_characters_character_id_fatigue_jump_fatigue_expire_date
-	//
-	// Character's jump fatigue expiry
-	// Required: true
-	JumpFatigueExpireDate *strfmt.DateTime `json:"jump_fatigue_expire_date"`
-
-	// get_characters_character_id_fatigue_last_jump_date
-	//
-	// Character's last jump activation
-	// Required: true
-	LastJumpDate *strfmt.DateTime `json:"last_jump_date"`
-
-	// get_characters_character_id_fatigue_last_update_date
-	//
-	// Character's last jump update
-	// Required: true
-	LastUpdateDate *strfmt.DateTime `json:"last_update_date"`
+type GetCharactersCharacterIDFatigueServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDFatigueOKBody jump_fatigue_expire_date false */
-
-/* polymorph GetCharactersCharacterIDFatigueOKBody last_jump_date false */
-
-/* polymorph GetCharactersCharacterIDFatigueOKBody last_update_date false */
-
-// Validate validates this get characters character ID fatigue o k body
-func (o *GetCharactersCharacterIDFatigueOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateJumpFatigueExpireDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLastJumpDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLastUpdateDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDFatigueServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/fatigue/][%d] getCharactersCharacterIdFatigueServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDFatigueOKBody) validateJumpFatigueExpireDate(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDFatigueServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdFatigueOK"+"."+"jump_fatigue_expire_date", "body", o.JumpFatigueExpireDate); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	if err := validate.FormatOf("getCharactersCharacterIdFatigueOK"+"."+"jump_fatigue_expire_date", "body", "date-time", o.JumpFatigueExpireDate.String(), formats); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDFatigueOKBody) validateLastJumpDate(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdFatigueOK"+"."+"last_jump_date", "body", o.LastJumpDate); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("getCharactersCharacterIdFatigueOK"+"."+"last_jump_date", "body", "date-time", o.LastJumpDate.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDFatigueGatewayTimeout creates a GetCharactersCharacterIDFatigueGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDFatigueGatewayTimeout() *GetCharactersCharacterIDFatigueGatewayTimeout {
+	return &GetCharactersCharacterIDFatigueGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDFatigueOKBody) validateLastUpdateDate(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDFatigueGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("getCharactersCharacterIdFatigueOK"+"."+"last_update_date", "body", o.LastUpdateDate); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("getCharactersCharacterIdFatigueOK"+"."+"last_update_date", "body", "date-time", o.LastUpdateDate.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDFatigueGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDFatigueOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *GetCharactersCharacterIDFatigueGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/fatigue/][%d] getCharactersCharacterIdFatigueGatewayTimeout  %+v", 504, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDFatigueOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDFatigueOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *GetCharactersCharacterIDFatigueGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

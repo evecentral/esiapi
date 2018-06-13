@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetUniverseRacesReader is a Reader for the GetUniverseRaces structure.
@@ -35,8 +32,43 @@ func (o *GetUniverseRacesReader) ReadResponse(response runtime.ClientResponse, c
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetUniverseRacesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetUniverseRacesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetUniverseRacesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetUniverseRacesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetUniverseRacesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetUniverseRacesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -63,6 +95,9 @@ type GetUniverseRacesOK struct {
 	/*The language used in the response
 	 */
 	ContentLanguage string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -70,7 +105,7 @@ type GetUniverseRacesOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetUniverseRacesOKBodyItems0
+	Payload []*models.GetUniverseRacesOKBodyItems
 }
 
 func (o *GetUniverseRacesOK) Error() string {
@@ -85,6 +120,9 @@ func (o *GetUniverseRacesOK) readResponse(response runtime.ClientResponse, consu
 	// response header Content-Language
 	o.ContentLanguage = response.GetHeader("Content-Language")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -93,6 +131,109 @@ func (o *GetUniverseRacesOK) readResponse(response runtime.ClientResponse, consu
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseRacesNotModified creates a GetUniverseRacesNotModified with default headers values
+func NewGetUniverseRacesNotModified() *GetUniverseRacesNotModified {
+	return &GetUniverseRacesNotModified{}
+}
+
+/*GetUniverseRacesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetUniverseRacesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetUniverseRacesNotModified) Error() string {
+	return fmt.Sprintf("[GET /universe/races/][%d] getUniverseRacesNotModified ", 304)
+}
+
+func (o *GetUniverseRacesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetUniverseRacesBadRequest creates a GetUniverseRacesBadRequest with default headers values
+func NewGetUniverseRacesBadRequest() *GetUniverseRacesBadRequest {
+	return &GetUniverseRacesBadRequest{}
+}
+
+/*GetUniverseRacesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetUniverseRacesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetUniverseRacesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /universe/races/][%d] getUniverseRacesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetUniverseRacesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetUniverseRacesEnhanceYourCalm creates a GetUniverseRacesEnhanceYourCalm with default headers values
+func NewGetUniverseRacesEnhanceYourCalm() *GetUniverseRacesEnhanceYourCalm {
+	return &GetUniverseRacesEnhanceYourCalm{}
+}
+
+/*GetUniverseRacesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetUniverseRacesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetUniverseRacesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /universe/races/][%d] getUniverseRacesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetUniverseRacesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -128,127 +269,60 @@ func (o *GetUniverseRacesInternalServerError) readResponse(response runtime.Clie
 	return nil
 }
 
-/*GetUniverseRacesOKBodyItems0 get_universe_races_200_ok
-//
-// 200 ok object
-swagger:model GetUniverseRacesOKBodyItems0
+// NewGetUniverseRacesServiceUnavailable creates a GetUniverseRacesServiceUnavailable with default headers values
+func NewGetUniverseRacesServiceUnavailable() *GetUniverseRacesServiceUnavailable {
+	return &GetUniverseRacesServiceUnavailable{}
+}
+
+/*GetUniverseRacesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetUniverseRacesOKBodyItems0 struct {
-
-	// get_universe_races_alliance_id
-	//
-	// The alliance generally associated with this race
-	// Required: true
-	AllianceID *int32 `json:"alliance_id"`
-
-	// get_universe_races_description
-	//
-	// description string
-	// Required: true
-	Description *string `json:"description"`
-
-	// get_universe_races_name
-	//
-	// name string
-	// Required: true
-	Name *string `json:"name"`
-
-	// get_universe_races_race_id
-	//
-	// race_id integer
-	// Required: true
-	RaceID *int32 `json:"race_id"`
+type GetUniverseRacesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetUniverseRacesOKBodyItems0 alliance_id false */
-
-/* polymorph GetUniverseRacesOKBodyItems0 description false */
-
-/* polymorph GetUniverseRacesOKBodyItems0 name false */
-
-/* polymorph GetUniverseRacesOKBodyItems0 race_id false */
-
-// Validate validates this get universe races o k body items0
-func (o *GetUniverseRacesOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAllianceID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDescription(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRaceID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetUniverseRacesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /universe/races/][%d] getUniverseRacesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetUniverseRacesOKBodyItems0) validateAllianceID(formats strfmt.Registry) error {
+func (o *GetUniverseRacesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("alliance_id", "body", o.AllianceID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetUniverseRacesOKBodyItems0) validateDescription(formats strfmt.Registry) error {
+// NewGetUniverseRacesGatewayTimeout creates a GetUniverseRacesGatewayTimeout with default headers values
+func NewGetUniverseRacesGatewayTimeout() *GetUniverseRacesGatewayTimeout {
+	return &GetUniverseRacesGatewayTimeout{}
+}
 
-	if err := validate.Required("description", "body", o.Description); err != nil {
+/*GetUniverseRacesGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetUniverseRacesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetUniverseRacesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /universe/races/][%d] getUniverseRacesGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetUniverseRacesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetUniverseRacesOKBodyItems0) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("name", "body", o.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetUniverseRacesOKBodyItems0) validateRaceID(formats strfmt.Registry) error {
-
-	if err := validate.Required("race_id", "body", o.RaceID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetUniverseRacesOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetUniverseRacesOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetUniverseRacesOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

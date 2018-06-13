@@ -27,14 +27,12 @@ type Client struct {
 /*
 GetCharactersCharacterIDBookmarks lists bookmarks
 
-List your character's personal bookmarks
+A list of your character's personal bookmarks
 
 ---
-Alternate route: `/v1/characters/{character_id}/bookmarks/`
-
-Alternate route: `/legacy/characters/{character_id}/bookmarks/`
-
 Alternate route: `/dev/characters/{character_id}/bookmarks/`
+
+Alternate route: `/v2/characters/{character_id}/bookmarks/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -50,7 +48,7 @@ func (a *Client) GetCharactersCharacterIDBookmarks(params *GetCharactersCharacte
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/bookmarks/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDBookmarksReader{formats: a.formats},
@@ -68,14 +66,12 @@ func (a *Client) GetCharactersCharacterIDBookmarks(params *GetCharactersCharacte
 /*
 GetCharactersCharacterIDBookmarksFolders lists bookmark folders
 
-List your character's personal bookmark folders
+A list of your character's personal bookmark folders
 
 ---
-Alternate route: `/v1/characters/{character_id}/bookmarks/folders/`
-
-Alternate route: `/legacy/characters/{character_id}/bookmarks/folders/`
-
 Alternate route: `/dev/characters/{character_id}/bookmarks/folders/`
+
+Alternate route: `/v2/characters/{character_id}/bookmarks/folders/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -91,7 +87,7 @@ func (a *Client) GetCharactersCharacterIDBookmarksFolders(params *GetCharactersC
 		Method:             "GET",
 		PathPattern:        "/characters/{character_id}/bookmarks/folders/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCharactersCharacterIDBookmarksFoldersReader{formats: a.formats},
@@ -103,6 +99,88 @@ func (a *Client) GetCharactersCharacterIDBookmarksFolders(params *GetCharactersC
 		return nil, err
 	}
 	return result.(*GetCharactersCharacterIDBookmarksFoldersOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDBookmarks lists corporation bookmarks
+
+A list of your corporation's bookmarks
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/bookmarks/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/bookmarks/`
+
+Alternate route: `/v1/corporations/{corporation_id}/bookmarks/`
+
+---
+This route is cached for up to 3600 seconds
+*/
+func (a *Client) GetCorporationsCorporationIDBookmarks(params *GetCorporationsCorporationIDBookmarksParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDBookmarksOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDBookmarksParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_bookmarks",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/bookmarks/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDBookmarksReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDBookmarksOK), nil
+
+}
+
+/*
+GetCorporationsCorporationIDBookmarksFolders lists corporation bookmark folders
+
+A list of your corporation's bookmark folders
+
+---
+Alternate route: `/dev/corporations/{corporation_id}/bookmarks/folders/`
+
+Alternate route: `/legacy/corporations/{corporation_id}/bookmarks/folders/`
+
+Alternate route: `/v1/corporations/{corporation_id}/bookmarks/folders/`
+
+---
+This route is cached for up to 3600 seconds
+*/
+func (a *Client) GetCorporationsCorporationIDBookmarksFolders(params *GetCorporationsCorporationIDBookmarksFoldersParams, authInfo runtime.ClientAuthInfoWriter) (*GetCorporationsCorporationIDBookmarksFoldersOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCorporationsCorporationIDBookmarksFoldersParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "get_corporations_corporation_id_bookmarks_folders",
+		Method:             "GET",
+		PathPattern:        "/corporations/{corporation_id}/bookmarks/folders/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCorporationsCorporationIDBookmarksFoldersReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCorporationsCorporationIDBookmarksFoldersOK), nil
 
 }
 

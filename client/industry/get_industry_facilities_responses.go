@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetIndustryFacilitiesReader is a Reader for the GetIndustryFacilities structure.
@@ -35,8 +32,43 @@ func (o *GetIndustryFacilitiesReader) ReadResponse(response runtime.ClientRespon
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetIndustryFacilitiesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetIndustryFacilitiesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetIndustryFacilitiesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetIndustryFacilitiesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetIndustryFacilitiesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetIndustryFacilitiesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -54,12 +86,15 @@ func NewGetIndustryFacilitiesOK() *GetIndustryFacilitiesOK {
 
 /*GetIndustryFacilitiesOK handles this case with default header values.
 
-A list of prices
+A list of facilities
 */
 type GetIndustryFacilitiesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetIndustryFacilitiesOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetIndustryFacilitiesOKBodyItems0
+	Payload []*models.GetIndustryFacilitiesOKBodyItems
 }
 
 func (o *GetIndustryFacilitiesOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetIndustryFacilitiesOK) readResponse(response runtime.ClientResponse, 
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetIndustryFacilitiesOK) readResponse(response runtime.ClientResponse, 
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetIndustryFacilitiesNotModified creates a GetIndustryFacilitiesNotModified with default headers values
+func NewGetIndustryFacilitiesNotModified() *GetIndustryFacilitiesNotModified {
+	return &GetIndustryFacilitiesNotModified{}
+}
+
+/*GetIndustryFacilitiesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetIndustryFacilitiesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetIndustryFacilitiesNotModified) Error() string {
+	return fmt.Sprintf("[GET /industry/facilities/][%d] getIndustryFacilitiesNotModified ", 304)
+}
+
+func (o *GetIndustryFacilitiesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetIndustryFacilitiesBadRequest creates a GetIndustryFacilitiesBadRequest with default headers values
+func NewGetIndustryFacilitiesBadRequest() *GetIndustryFacilitiesBadRequest {
+	return &GetIndustryFacilitiesBadRequest{}
+}
+
+/*GetIndustryFacilitiesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetIndustryFacilitiesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetIndustryFacilitiesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /industry/facilities/][%d] getIndustryFacilitiesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetIndustryFacilitiesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetIndustryFacilitiesEnhanceYourCalm creates a GetIndustryFacilitiesEnhanceYourCalm with default headers values
+func NewGetIndustryFacilitiesEnhanceYourCalm() *GetIndustryFacilitiesEnhanceYourCalm {
+	return &GetIndustryFacilitiesEnhanceYourCalm{}
+}
+
+/*GetIndustryFacilitiesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetIndustryFacilitiesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetIndustryFacilitiesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /industry/facilities/][%d] getIndustryFacilitiesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetIndustryFacilitiesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,156 +263,60 @@ func (o *GetIndustryFacilitiesInternalServerError) readResponse(response runtime
 	return nil
 }
 
-/*GetIndustryFacilitiesOKBodyItems0 get_industry_facilities_200_ok
-//
-// 200 ok object
-swagger:model GetIndustryFacilitiesOKBodyItems0
+// NewGetIndustryFacilitiesServiceUnavailable creates a GetIndustryFacilitiesServiceUnavailable with default headers values
+func NewGetIndustryFacilitiesServiceUnavailable() *GetIndustryFacilitiesServiceUnavailable {
+	return &GetIndustryFacilitiesServiceUnavailable{}
+}
+
+/*GetIndustryFacilitiesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetIndustryFacilitiesOKBodyItems0 struct {
-
-	// get_industry_facilities_facility_id
-	//
-	// ID of the facility
-	// Required: true
-	FacilityID *int64 `json:"facility_id"`
-
-	// get_industry_facilities_owner_id
-	//
-	// Owner of the facility
-	// Required: true
-	OwnerID *int32 `json:"owner_id"`
-
-	// get_industry_facilities_region_id
-	//
-	// Region ID where the facility is
-	// Required: true
-	RegionID *int32 `json:"region_id"`
-
-	// get_industry_facilities_solar_system_id
-	//
-	// Solar system ID where the facility is
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
-
-	// get_industry_facilities_tax
-	//
-	// Tax imposed by the facility
-	Tax float32 `json:"tax,omitempty"`
-
-	// get_industry_facilities_type_id
-	//
-	// Type ID of the facility
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetIndustryFacilitiesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetIndustryFacilitiesOKBodyItems0 facility_id false */
-
-/* polymorph GetIndustryFacilitiesOKBodyItems0 owner_id false */
-
-/* polymorph GetIndustryFacilitiesOKBodyItems0 region_id false */
-
-/* polymorph GetIndustryFacilitiesOKBodyItems0 solar_system_id false */
-
-/* polymorph GetIndustryFacilitiesOKBodyItems0 tax false */
-
-/* polymorph GetIndustryFacilitiesOKBodyItems0 type_id false */
-
-// Validate validates this get industry facilities o k body items0
-func (o *GetIndustryFacilitiesOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateFacilityID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOwnerID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRegionID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetIndustryFacilitiesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /industry/facilities/][%d] getIndustryFacilitiesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetIndustryFacilitiesOKBodyItems0) validateFacilityID(formats strfmt.Registry) error {
+func (o *GetIndustryFacilitiesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("facility_id", "body", o.FacilityID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetIndustryFacilitiesOKBodyItems0) validateOwnerID(formats strfmt.Registry) error {
+// NewGetIndustryFacilitiesGatewayTimeout creates a GetIndustryFacilitiesGatewayTimeout with default headers values
+func NewGetIndustryFacilitiesGatewayTimeout() *GetIndustryFacilitiesGatewayTimeout {
+	return &GetIndustryFacilitiesGatewayTimeout{}
+}
 
-	if err := validate.Required("owner_id", "body", o.OwnerID); err != nil {
+/*GetIndustryFacilitiesGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetIndustryFacilitiesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetIndustryFacilitiesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /industry/facilities/][%d] getIndustryFacilitiesGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetIndustryFacilitiesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetIndustryFacilitiesOKBodyItems0) validateRegionID(formats strfmt.Registry) error {
-
-	if err := validate.Required("region_id", "body", o.RegionID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetIndustryFacilitiesOKBodyItems0) validateSolarSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("solar_system_id", "body", o.SolarSystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetIndustryFacilitiesOKBodyItems0) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetIndustryFacilitiesOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetIndustryFacilitiesOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetIndustryFacilitiesOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

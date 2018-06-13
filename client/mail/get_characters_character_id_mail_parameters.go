@@ -75,11 +75,11 @@ for the get characters character id mail operation typically these are written t
 */
 type GetCharactersCharacterIDMailParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -94,7 +94,7 @@ type GetCharactersCharacterIDMailParams struct {
 	  Fetch only mails that match one or more of the given labels
 
 	*/
-	Labels []int64
+	Labels []int32
 	/*LastMailID
 	  List only mail with an ID lower than the given ID, if present
 
@@ -105,11 +105,6 @@ type GetCharactersCharacterIDMailParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -149,15 +144,15 @@ func (o *GetCharactersCharacterIDMailParams) SetHTTPClient(client *http.Client) 
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get characters character id mail params
-func (o *GetCharactersCharacterIDMailParams) WithXUserAgent(xUserAgent *string) *GetCharactersCharacterIDMailParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get characters character id mail params
+func (o *GetCharactersCharacterIDMailParams) WithIfNoneMatch(ifNoneMatch *string) *GetCharactersCharacterIDMailParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get characters character id mail params
-func (o *GetCharactersCharacterIDMailParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get characters character id mail params
+func (o *GetCharactersCharacterIDMailParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCharacterID adds the characterID to the get characters character id mail params
@@ -183,13 +178,13 @@ func (o *GetCharactersCharacterIDMailParams) SetDatasource(datasource *string) {
 }
 
 // WithLabels adds the labels to the get characters character id mail params
-func (o *GetCharactersCharacterIDMailParams) WithLabels(labels []int64) *GetCharactersCharacterIDMailParams {
+func (o *GetCharactersCharacterIDMailParams) WithLabels(labels []int32) *GetCharactersCharacterIDMailParams {
 	o.SetLabels(labels)
 	return o
 }
 
 // SetLabels adds the labels to the get characters character id mail params
-func (o *GetCharactersCharacterIDMailParams) SetLabels(labels []int64) {
+func (o *GetCharactersCharacterIDMailParams) SetLabels(labels []int32) {
 	o.Labels = labels
 }
 
@@ -215,17 +210,6 @@ func (o *GetCharactersCharacterIDMailParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the get characters character id mail params
-func (o *GetCharactersCharacterIDMailParams) WithUserAgent(userAgent *string) *GetCharactersCharacterIDMailParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get characters character id mail params
-func (o *GetCharactersCharacterIDMailParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCharactersCharacterIDMailParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -234,10 +218,10 @@ func (o *GetCharactersCharacterIDMailParams) WriteToRequest(r runtime.ClientRequ
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -266,7 +250,7 @@ func (o *GetCharactersCharacterIDMailParams) WriteToRequest(r runtime.ClientRequ
 
 	var valuesLabels []string
 	for _, v := range o.Labels {
-		valuesLabels = append(valuesLabels, swag.FormatInt64(v))
+		valuesLabels = append(valuesLabels, swag.FormatInt32(v))
 	}
 
 	joinedLabels := swag.JoinByFormat(valuesLabels, "")
@@ -301,22 +285,6 @@ func (o *GetCharactersCharacterIDMailParams) WriteToRequest(r runtime.ClientRequ
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

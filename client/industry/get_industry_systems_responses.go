@@ -6,19 +6,14 @@ package industry
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetIndustrySystemsReader is a Reader for the GetIndustrySystems structure.
@@ -37,8 +32,43 @@ func (o *GetIndustrySystemsReader) ReadResponse(response runtime.ClientResponse,
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetIndustrySystemsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetIndustrySystemsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetIndustrySystemsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetIndustrySystemsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetIndustrySystemsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetIndustrySystemsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -62,6 +92,9 @@ type GetIndustrySystemsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -69,7 +102,7 @@ type GetIndustrySystemsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetIndustrySystemsOKBodyItems0
+	Payload []*models.GetIndustrySystemsOKBodyItems
 }
 
 func (o *GetIndustrySystemsOK) Error() string {
@@ -81,6 +114,9 @@ func (o *GetIndustrySystemsOK) readResponse(response runtime.ClientResponse, con
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -89,6 +125,109 @@ func (o *GetIndustrySystemsOK) readResponse(response runtime.ClientResponse, con
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetIndustrySystemsNotModified creates a GetIndustrySystemsNotModified with default headers values
+func NewGetIndustrySystemsNotModified() *GetIndustrySystemsNotModified {
+	return &GetIndustrySystemsNotModified{}
+}
+
+/*GetIndustrySystemsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetIndustrySystemsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetIndustrySystemsNotModified) Error() string {
+	return fmt.Sprintf("[GET /industry/systems/][%d] getIndustrySystemsNotModified ", 304)
+}
+
+func (o *GetIndustrySystemsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetIndustrySystemsBadRequest creates a GetIndustrySystemsBadRequest with default headers values
+func NewGetIndustrySystemsBadRequest() *GetIndustrySystemsBadRequest {
+	return &GetIndustrySystemsBadRequest{}
+}
+
+/*GetIndustrySystemsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetIndustrySystemsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetIndustrySystemsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /industry/systems/][%d] getIndustrySystemsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetIndustrySystemsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetIndustrySystemsEnhanceYourCalm creates a GetIndustrySystemsEnhanceYourCalm with default headers values
+func NewGetIndustrySystemsEnhanceYourCalm() *GetIndustrySystemsEnhanceYourCalm {
+	return &GetIndustrySystemsEnhanceYourCalm{}
+}
+
+/*GetIndustrySystemsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetIndustrySystemsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetIndustrySystemsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /industry/systems/][%d] getIndustrySystemsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetIndustrySystemsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -124,235 +263,60 @@ func (o *GetIndustrySystemsInternalServerError) readResponse(response runtime.Cl
 	return nil
 }
 
-/*GetIndustrySystemsOKBodyItems0 get_industry_systems_200_ok
-//
-// 200 ok object
-swagger:model GetIndustrySystemsOKBodyItems0
+// NewGetIndustrySystemsServiceUnavailable creates a GetIndustrySystemsServiceUnavailable with default headers values
+func NewGetIndustrySystemsServiceUnavailable() *GetIndustrySystemsServiceUnavailable {
+	return &GetIndustrySystemsServiceUnavailable{}
+}
+
+/*GetIndustrySystemsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetIndustrySystemsOKBodyItems0 struct {
-
-	// get_industry_systems_cost_indices
-	//
-	// cost_indices array
-	// Required: true
-	// Max Items: 10
-	CostIndices []*GetIndustrySystemsOKBodyItems0CostIndicesItems0 `json:"cost_indices"`
-
-	// get_industry_systems_solar_system_id
-	//
-	// solar_system_id integer
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
+type GetIndustrySystemsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetIndustrySystemsOKBodyItems0 cost_indices false */
-
-/* polymorph GetIndustrySystemsOKBodyItems0 solar_system_id false */
-
-// Validate validates this get industry systems o k body items0
-func (o *GetIndustrySystemsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateCostIndices(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetIndustrySystemsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /industry/systems/][%d] getIndustrySystemsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetIndustrySystemsOKBodyItems0) validateCostIndices(formats strfmt.Registry) error {
+func (o *GetIndustrySystemsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("cost_indices", "body", o.CostIndices); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	iCostIndicesSize := int64(len(o.CostIndices))
-
-	if err := validate.MaxItems("cost_indices", "body", iCostIndicesSize, 10); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.CostIndices); i++ {
-
-		if swag.IsZero(o.CostIndices[i]) { // not required
-			continue
-		}
-
-		if o.CostIndices[i] != nil {
-
-			if err := o.CostIndices[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("cost_indices" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetIndustrySystemsOKBodyItems0) validateSolarSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("solar_system_id", "body", o.SolarSystemID); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetIndustrySystemsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetIndustrySystemsGatewayTimeout creates a GetIndustrySystemsGatewayTimeout with default headers values
+func NewGetIndustrySystemsGatewayTimeout() *GetIndustrySystemsGatewayTimeout {
+	return &GetIndustrySystemsGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetIndustrySystemsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetIndustrySystemsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetIndustrySystemsGatewayTimeout handles this case with default header values.
 
-/*GetIndustrySystemsOKBodyItems0CostIndicesItems0 get_industry_systems_cost_indice
-//
-// cost_indice object
-swagger:model GetIndustrySystemsOKBodyItems0CostIndicesItems0
+Gateway timeout
 */
-
-type GetIndustrySystemsOKBodyItems0CostIndicesItems0 struct {
-
-	// get_industry_systems_activity
-	//
-	// activity string
-	// Required: true
-	Activity *string `json:"activity"`
-
-	// get_industry_systems_cost_index
-	//
-	// cost_index number
-	// Required: true
-	CostIndex *float32 `json:"cost_index"`
+type GetIndustrySystemsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetIndustrySystemsOKBodyItems0CostIndicesItems0 activity false */
-
-/* polymorph GetIndustrySystemsOKBodyItems0CostIndicesItems0 cost_index false */
-
-// Validate validates this get industry systems o k body items0 cost indices items0
-func (o *GetIndustrySystemsOKBodyItems0CostIndicesItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateActivity(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateCostIndex(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetIndustrySystemsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /industry/systems/][%d] getIndustrySystemsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-var getIndustrySystemsOKBodyItems0CostIndicesItems0TypeActivityPropEnum []interface{}
+func (o *GetIndustrySystemsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["none","manufacturing","researching_technology","researching_time_efficiency","researching_material_efficiency","copying","duplicating","invention","reverse_engineering"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getIndustrySystemsOKBodyItems0CostIndicesItems0TypeActivityPropEnum = append(getIndustrySystemsOKBodyItems0CostIndicesItems0TypeActivityPropEnum, v)
-	}
-}
+	o.Payload = new(models.GatewayTimeout)
 
-const (
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityNone captures enum value "none"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityNone string = "none"
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityManufacturing captures enum value "manufacturing"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityManufacturing string = "manufacturing"
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityResearchingTechnology captures enum value "researching_technology"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityResearchingTechnology string = "researching_technology"
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityResearchingTimeEfficiency captures enum value "researching_time_efficiency"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityResearchingTimeEfficiency string = "researching_time_efficiency"
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityResearchingMaterialEfficiency captures enum value "researching_material_efficiency"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityResearchingMaterialEfficiency string = "researching_material_efficiency"
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityCopying captures enum value "copying"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityCopying string = "copying"
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityDuplicating captures enum value "duplicating"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityDuplicating string = "duplicating"
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityInvention captures enum value "invention"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityInvention string = "invention"
-	// GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityReverseEngineering captures enum value "reverse_engineering"
-	GetIndustrySystemsOKBodyItems0CostIndicesItems0ActivityReverseEngineering string = "reverse_engineering"
-)
-
-// prop value enum
-func (o *GetIndustrySystemsOKBodyItems0CostIndicesItems0) validateActivityEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getIndustrySystemsOKBodyItems0CostIndicesItems0TypeActivityPropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetIndustrySystemsOKBodyItems0CostIndicesItems0) validateActivity(formats strfmt.Registry) error {
-
-	if err := validate.Required("activity", "body", o.Activity); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	// value enum
-	if err := o.validateActivityEnum("activity", "body", *o.Activity); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetIndustrySystemsOKBodyItems0CostIndicesItems0) validateCostIndex(formats strfmt.Registry) error {
-
-	if err := validate.Required("cost_index", "body", o.CostIndex); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetIndustrySystemsOKBodyItems0CostIndicesItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetIndustrySystemsOKBodyItems0CostIndicesItems0) UnmarshalBinary(b []byte) error {
-	var res GetIndustrySystemsOKBodyItems0CostIndicesItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

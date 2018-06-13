@@ -30,11 +30,11 @@ GetAlliances lists all alliances
 List all active player alliances
 
 ---
-Alternate route: `/v1/alliances/`
+Alternate route: `/dev/alliances/`
 
 Alternate route: `/legacy/alliances/`
 
-Alternate route: `/dev/alliances/`
+Alternate route: `/v1/alliances/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -50,7 +50,7 @@ func (a *Client) GetAlliances(params *GetAlliancesParams) (*GetAlliancesOK, erro
 		Method:             "GET",
 		PathPattern:        "/alliances/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAlliancesReader{formats: a.formats},
@@ -70,7 +70,9 @@ GetAlliancesAllianceID gets alliance information
 Public information about an alliance
 
 ---
-Alternate route: `/v2/alliances/{alliance_id}/`
+Alternate route: `/dev/alliances/{alliance_id}/`
+
+Alternate route: `/v3/alliances/{alliance_id}/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -86,7 +88,7 @@ func (a *Client) GetAlliancesAllianceID(params *GetAlliancesAllianceIDParams) (*
 		Method:             "GET",
 		PathPattern:        "/alliances/{alliance_id}/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAlliancesAllianceIDReader{formats: a.formats},
@@ -106,11 +108,11 @@ GetAlliancesAllianceIDCorporations lists alliance s corporations
 List all current member corporations of an alliance
 
 ---
-Alternate route: `/v1/alliances/{alliance_id}/corporations/`
+Alternate route: `/dev/alliances/{alliance_id}/corporations/`
 
 Alternate route: `/legacy/alliances/{alliance_id}/corporations/`
 
-Alternate route: `/dev/alliances/{alliance_id}/corporations/`
+Alternate route: `/v1/alliances/{alliance_id}/corporations/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -126,7 +128,7 @@ func (a *Client) GetAlliancesAllianceIDCorporations(params *GetAlliancesAlliance
 		Method:             "GET",
 		PathPattern:        "/alliances/{alliance_id}/corporations/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAlliancesAllianceIDCorporationsReader{formats: a.formats},
@@ -146,11 +148,11 @@ GetAlliancesAllianceIDIcons gets alliance icon
 Get the icon urls for a alliance
 
 ---
-Alternate route: `/v1/alliances/{alliance_id}/icons/`
+Alternate route: `/dev/alliances/{alliance_id}/icons/`
 
 Alternate route: `/legacy/alliances/{alliance_id}/icons/`
 
-Alternate route: `/dev/alliances/{alliance_id}/icons/`
+Alternate route: `/v1/alliances/{alliance_id}/icons/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -166,7 +168,7 @@ func (a *Client) GetAlliancesAllianceIDIcons(params *GetAlliancesAllianceIDIcons
 		Method:             "GET",
 		PathPattern:        "/alliances/{alliance_id}/icons/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAlliancesAllianceIDIconsReader{formats: a.formats},
@@ -186,9 +188,9 @@ GetAlliancesNames gets alliance names
 Resolve a set of alliance IDs to alliance names
 
 ---
-Alternate route: `/v1/alliances/names/`
+Alternate route: `/dev/alliances/names/`
 
-Alternate route: `/legacy/alliances/names/`
+Alternate route: `/v2/alliances/names/`
 
 ---
 This route is cached for up to 3600 seconds
@@ -204,7 +206,7 @@ func (a *Client) GetAlliancesNames(params *GetAlliancesNamesParams) (*GetAllianc
 		Method:             "GET",
 		PathPattern:        "/alliances/names/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAlliancesNamesReader{formats: a.formats},

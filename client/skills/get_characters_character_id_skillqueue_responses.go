@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDSkillqueueReader is a Reader for the GetCharactersCharacterIDSkillqueue structure.
@@ -35,6 +32,27 @@ func (o *GetCharactersCharacterIDSkillqueueReader) ReadResponse(response runtime
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDSkillqueueNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDSkillqueueBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDSkillqueueUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDSkillqueueForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +60,29 @@ func (o *GetCharactersCharacterIDSkillqueueReader) ReadResponse(response runtime
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDSkillqueueEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDSkillqueueInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDSkillqueueServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDSkillqueueGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +106,9 @@ type GetCharactersCharacterIDSkillqueueOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +116,7 @@ type GetCharactersCharacterIDSkillqueueOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDSkillqueueOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDSkillqueueOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDSkillqueueOK) Error() string {
@@ -86,6 +128,9 @@ func (o *GetCharactersCharacterIDSkillqueueOK) readResponse(response runtime.Cli
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -94,6 +139,109 @@ func (o *GetCharactersCharacterIDSkillqueueOK) readResponse(response runtime.Cli
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSkillqueueNotModified creates a GetCharactersCharacterIDSkillqueueNotModified with default headers values
+func NewGetCharactersCharacterIDSkillqueueNotModified() *GetCharactersCharacterIDSkillqueueNotModified {
+	return &GetCharactersCharacterIDSkillqueueNotModified{}
+}
+
+/*GetCharactersCharacterIDSkillqueueNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDSkillqueueNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDSkillqueueNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skillqueue/][%d] getCharactersCharacterIdSkillqueueNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDSkillqueueNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSkillqueueBadRequest creates a GetCharactersCharacterIDSkillqueueBadRequest with default headers values
+func NewGetCharactersCharacterIDSkillqueueBadRequest() *GetCharactersCharacterIDSkillqueueBadRequest {
+	return &GetCharactersCharacterIDSkillqueueBadRequest{}
+}
+
+/*GetCharactersCharacterIDSkillqueueBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDSkillqueueBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDSkillqueueBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skillqueue/][%d] getCharactersCharacterIdSkillqueueBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSkillqueueBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSkillqueueUnauthorized creates a GetCharactersCharacterIDSkillqueueUnauthorized with default headers values
+func NewGetCharactersCharacterIDSkillqueueUnauthorized() *GetCharactersCharacterIDSkillqueueUnauthorized {
+	return &GetCharactersCharacterIDSkillqueueUnauthorized{}
+}
+
+/*GetCharactersCharacterIDSkillqueueUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDSkillqueueUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDSkillqueueUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skillqueue/][%d] getCharactersCharacterIdSkillqueueUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSkillqueueUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -120,6 +268,35 @@ func (o *GetCharactersCharacterIDSkillqueueForbidden) Error() string {
 func (o *GetCharactersCharacterIDSkillqueueForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDSkillqueueEnhanceYourCalm creates a GetCharactersCharacterIDSkillqueueEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDSkillqueueEnhanceYourCalm() *GetCharactersCharacterIDSkillqueueEnhanceYourCalm {
+	return &GetCharactersCharacterIDSkillqueueEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDSkillqueueEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDSkillqueueEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDSkillqueueEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skillqueue/][%d] getCharactersCharacterIdSkillqueueEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSkillqueueEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -158,150 +335,60 @@ func (o *GetCharactersCharacterIDSkillqueueInternalServerError) readResponse(res
 	return nil
 }
 
-/*GetCharactersCharacterIDSkillqueueOKBodyItems0 get_characters_character_id_skillqueue_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDSkillqueueOKBodyItems0
+// NewGetCharactersCharacterIDSkillqueueServiceUnavailable creates a GetCharactersCharacterIDSkillqueueServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDSkillqueueServiceUnavailable() *GetCharactersCharacterIDSkillqueueServiceUnavailable {
+	return &GetCharactersCharacterIDSkillqueueServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDSkillqueueServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDSkillqueueOKBodyItems0 struct {
-
-	// get_characters_character_id_skillqueue_finish_date
-	//
-	// finish_date string
-	FinishDate strfmt.DateTime `json:"finish_date,omitempty"`
-
-	// get_characters_character_id_skillqueue_finished_level
-	//
-	// finished_level integer
-	// Required: true
-	// Maximum: 5
-	// Minimum: 0
-	FinishedLevel *int32 `json:"finished_level"`
-
-	// get_characters_character_id_skillqueue_level_end_sp
-	//
-	// level_end_sp integer
-	LevelEndSp int32 `json:"level_end_sp,omitempty"`
-
-	// get_characters_character_id_skillqueue_level_start_sp
-	//
-	// Amount of SP that was in the skill when it started training it's current level. Used to calculate % of current level complete.
-	LevelStartSp int32 `json:"level_start_sp,omitempty"`
-
-	// get_characters_character_id_skillqueue_queue_position
-	//
-	// queue_position integer
-	// Required: true
-	QueuePosition *int32 `json:"queue_position"`
-
-	// get_characters_character_id_skillqueue_skill_id
-	//
-	// skill_id integer
-	// Required: true
-	SkillID *int32 `json:"skill_id"`
-
-	// get_characters_character_id_skillqueue_start_date
-	//
-	// start_date string
-	StartDate strfmt.DateTime `json:"start_date,omitempty"`
-
-	// get_characters_character_id_skillqueue_training_start_sp
-	//
-	// training_start_sp integer
-	TrainingStartSp int32 `json:"training_start_sp,omitempty"`
+type GetCharactersCharacterIDSkillqueueServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDSkillqueueOKBodyItems0 finish_date false */
-
-/* polymorph GetCharactersCharacterIDSkillqueueOKBodyItems0 finished_level false */
-
-/* polymorph GetCharactersCharacterIDSkillqueueOKBodyItems0 level_end_sp false */
-
-/* polymorph GetCharactersCharacterIDSkillqueueOKBodyItems0 level_start_sp false */
-
-/* polymorph GetCharactersCharacterIDSkillqueueOKBodyItems0 queue_position false */
-
-/* polymorph GetCharactersCharacterIDSkillqueueOKBodyItems0 skill_id false */
-
-/* polymorph GetCharactersCharacterIDSkillqueueOKBodyItems0 start_date false */
-
-/* polymorph GetCharactersCharacterIDSkillqueueOKBodyItems0 training_start_sp false */
-
-// Validate validates this get characters character ID skillqueue o k body items0
-func (o *GetCharactersCharacterIDSkillqueueOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateFinishedLevel(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateQueuePosition(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSkillID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDSkillqueueServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skillqueue/][%d] getCharactersCharacterIdSkillqueueServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDSkillqueueOKBodyItems0) validateFinishedLevel(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDSkillqueueServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("finished_level", "body", o.FinishedLevel); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	if err := validate.MinimumInt("finished_level", "body", int64(*o.FinishedLevel), 0, false); err != nil {
-		return err
-	}
-
-	if err := validate.MaximumInt("finished_level", "body", int64(*o.FinishedLevel), 5, false); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDSkillqueueOKBodyItems0) validateQueuePosition(formats strfmt.Registry) error {
+// NewGetCharactersCharacterIDSkillqueueGatewayTimeout creates a GetCharactersCharacterIDSkillqueueGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDSkillqueueGatewayTimeout() *GetCharactersCharacterIDSkillqueueGatewayTimeout {
+	return &GetCharactersCharacterIDSkillqueueGatewayTimeout{}
+}
 
-	if err := validate.Required("queue_position", "body", o.QueuePosition); err != nil {
+/*GetCharactersCharacterIDSkillqueueGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCharactersCharacterIDSkillqueueGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCharactersCharacterIDSkillqueueGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/skillqueue/][%d] getCharactersCharacterIdSkillqueueGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDSkillqueueGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDSkillqueueOKBodyItems0) validateSkillID(formats strfmt.Registry) error {
-
-	if err := validate.Required("skill_id", "body", o.SkillID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDSkillqueueOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDSkillqueueOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDSkillqueueOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

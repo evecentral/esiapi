@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCorporationsNpccorpsReader is a Reader for the GetCorporationsNpccorps structure.
@@ -32,8 +32,43 @@ func (o *GetCorporationsNpccorpsReader) ReadResponse(response runtime.ClientResp
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCorporationsNpccorpsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCorporationsNpccorpsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetCorporationsNpccorpsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCorporationsNpccorpsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCorporationsNpccorpsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCorporationsNpccorpsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -57,6 +92,9 @@ type GetCorporationsNpccorpsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,6 +114,9 @@ func (o *GetCorporationsNpccorpsOK) readResponse(response runtime.ClientResponse
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -84,6 +125,109 @@ func (o *GetCorporationsNpccorpsOK) readResponse(response runtime.ClientResponse
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsNpccorpsNotModified creates a GetCorporationsNpccorpsNotModified with default headers values
+func NewGetCorporationsNpccorpsNotModified() *GetCorporationsNpccorpsNotModified {
+	return &GetCorporationsNpccorpsNotModified{}
+}
+
+/*GetCorporationsNpccorpsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCorporationsNpccorpsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCorporationsNpccorpsNotModified) Error() string {
+	return fmt.Sprintf("[GET /corporations/npccorps/][%d] getCorporationsNpccorpsNotModified ", 304)
+}
+
+func (o *GetCorporationsNpccorpsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCorporationsNpccorpsBadRequest creates a GetCorporationsNpccorpsBadRequest with default headers values
+func NewGetCorporationsNpccorpsBadRequest() *GetCorporationsNpccorpsBadRequest {
+	return &GetCorporationsNpccorpsBadRequest{}
+}
+
+/*GetCorporationsNpccorpsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCorporationsNpccorpsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCorporationsNpccorpsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /corporations/npccorps/][%d] getCorporationsNpccorpsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCorporationsNpccorpsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsNpccorpsEnhanceYourCalm creates a GetCorporationsNpccorpsEnhanceYourCalm with default headers values
+func NewGetCorporationsNpccorpsEnhanceYourCalm() *GetCorporationsNpccorpsEnhanceYourCalm {
+	return &GetCorporationsNpccorpsEnhanceYourCalm{}
+}
+
+/*GetCorporationsNpccorpsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCorporationsNpccorpsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCorporationsNpccorpsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /corporations/npccorps/][%d] getCorporationsNpccorpsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCorporationsNpccorpsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,6 +254,64 @@ func (o *GetCorporationsNpccorpsInternalServerError) Error() string {
 func (o *GetCorporationsNpccorpsInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsNpccorpsServiceUnavailable creates a GetCorporationsNpccorpsServiceUnavailable with default headers values
+func NewGetCorporationsNpccorpsServiceUnavailable() *GetCorporationsNpccorpsServiceUnavailable {
+	return &GetCorporationsNpccorpsServiceUnavailable{}
+}
+
+/*GetCorporationsNpccorpsServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type GetCorporationsNpccorpsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *GetCorporationsNpccorpsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /corporations/npccorps/][%d] getCorporationsNpccorpsServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *GetCorporationsNpccorpsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCorporationsNpccorpsGatewayTimeout creates a GetCorporationsNpccorpsGatewayTimeout with default headers values
+func NewGetCorporationsNpccorpsGatewayTimeout() *GetCorporationsNpccorpsGatewayTimeout {
+	return &GetCorporationsNpccorpsGatewayTimeout{}
+}
+
+/*GetCorporationsNpccorpsGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetCorporationsNpccorpsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetCorporationsNpccorpsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /corporations/npccorps/][%d] getCorporationsNpccorpsGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetCorporationsNpccorpsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

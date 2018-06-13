@@ -75,11 +75,6 @@ for the delete characters character id contacts operation typically these are wr
 */
 type DeleteCharactersCharacterIDContactsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -100,11 +95,6 @@ type DeleteCharactersCharacterIDContactsParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -142,17 +132,6 @@ func (o *DeleteCharactersCharacterIDContactsParams) WithHTTPClient(client *http.
 // SetHTTPClient adds the HTTPClient to the delete characters character id contacts params
 func (o *DeleteCharactersCharacterIDContactsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXUserAgent adds the xUserAgent to the delete characters character id contacts params
-func (o *DeleteCharactersCharacterIDContactsParams) WithXUserAgent(xUserAgent *string) *DeleteCharactersCharacterIDContactsParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the delete characters character id contacts params
-func (o *DeleteCharactersCharacterIDContactsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
 }
 
 // WithCharacterID adds the characterID to the delete characters character id contacts params
@@ -199,17 +178,6 @@ func (o *DeleteCharactersCharacterIDContactsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the delete characters character id contacts params
-func (o *DeleteCharactersCharacterIDContactsParams) WithUserAgent(userAgent *string) *DeleteCharactersCharacterIDContactsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the delete characters character id contacts params
-func (o *DeleteCharactersCharacterIDContactsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *DeleteCharactersCharacterIDContactsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -218,21 +186,19 @@ func (o *DeleteCharactersCharacterIDContactsParams) WriteToRequest(r runtime.Cli
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
-
 	// path param character_id
 	if err := r.SetPathParam("character_id", swag.FormatInt32(o.CharacterID)); err != nil {
 		return err
 	}
 
-	if err := r.SetBodyParam(o.ContactIds); err != nil {
+	var valuesContactIds []string
+	for _, v := range o.ContactIds {
+		valuesContactIds = append(valuesContactIds, swag.FormatInt32(v))
+	}
+
+	joinedContactIds := swag.JoinByFormat(valuesContactIds, "")
+	// query array param contact_ids
+	if err := r.SetQueryParam("contact_ids", joinedContactIds...); err != nil {
 		return err
 	}
 
@@ -262,22 +228,6 @@ func (o *DeleteCharactersCharacterIDContactsParams) WriteToRequest(r runtime.Cli
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

@@ -6,18 +6,14 @@ package planetary_interaction
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDPlanetsReader is a Reader for the GetCharactersCharacterIDPlanets structure.
@@ -36,6 +32,27 @@ func (o *GetCharactersCharacterIDPlanetsReader) ReadResponse(response runtime.Cl
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDPlanetsNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDPlanetsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDPlanetsUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDPlanetsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +60,29 @@ func (o *GetCharactersCharacterIDPlanetsReader) ReadResponse(response runtime.Cl
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDPlanetsEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDPlanetsInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDPlanetsServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDPlanetsGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +106,9 @@ type GetCharactersCharacterIDPlanetsOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +116,7 @@ type GetCharactersCharacterIDPlanetsOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDPlanetsOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDPlanetsOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDPlanetsOK) Error() string {
@@ -87,6 +128,9 @@ func (o *GetCharactersCharacterIDPlanetsOK) readResponse(response runtime.Client
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -95,6 +139,109 @@ func (o *GetCharactersCharacterIDPlanetsOK) readResponse(response runtime.Client
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDPlanetsNotModified creates a GetCharactersCharacterIDPlanetsNotModified with default headers values
+func NewGetCharactersCharacterIDPlanetsNotModified() *GetCharactersCharacterIDPlanetsNotModified {
+	return &GetCharactersCharacterIDPlanetsNotModified{}
+}
+
+/*GetCharactersCharacterIDPlanetsNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDPlanetsNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDPlanetsNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/planets/][%d] getCharactersCharacterIdPlanetsNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDPlanetsNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDPlanetsBadRequest creates a GetCharactersCharacterIDPlanetsBadRequest with default headers values
+func NewGetCharactersCharacterIDPlanetsBadRequest() *GetCharactersCharacterIDPlanetsBadRequest {
+	return &GetCharactersCharacterIDPlanetsBadRequest{}
+}
+
+/*GetCharactersCharacterIDPlanetsBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDPlanetsBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDPlanetsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/planets/][%d] getCharactersCharacterIdPlanetsBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDPlanetsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDPlanetsUnauthorized creates a GetCharactersCharacterIDPlanetsUnauthorized with default headers values
+func NewGetCharactersCharacterIDPlanetsUnauthorized() *GetCharactersCharacterIDPlanetsUnauthorized {
+	return &GetCharactersCharacterIDPlanetsUnauthorized{}
+}
+
+/*GetCharactersCharacterIDPlanetsUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDPlanetsUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDPlanetsUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/planets/][%d] getCharactersCharacterIdPlanetsUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDPlanetsUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -121,6 +268,35 @@ func (o *GetCharactersCharacterIDPlanetsForbidden) Error() string {
 func (o *GetCharactersCharacterIDPlanetsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDPlanetsEnhanceYourCalm creates a GetCharactersCharacterIDPlanetsEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDPlanetsEnhanceYourCalm() *GetCharactersCharacterIDPlanetsEnhanceYourCalm {
+	return &GetCharactersCharacterIDPlanetsEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDPlanetsEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDPlanetsEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDPlanetsEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/planets/][%d] getCharactersCharacterIdPlanetsEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDPlanetsEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -159,256 +335,60 @@ func (o *GetCharactersCharacterIDPlanetsInternalServerError) readResponse(respon
 	return nil
 }
 
-/*GetCharactersCharacterIDPlanetsOKBodyItems0 get_characters_character_id_planets_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDPlanetsOKBodyItems0
+// NewGetCharactersCharacterIDPlanetsServiceUnavailable creates a GetCharactersCharacterIDPlanetsServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDPlanetsServiceUnavailable() *GetCharactersCharacterIDPlanetsServiceUnavailable {
+	return &GetCharactersCharacterIDPlanetsServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDPlanetsServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDPlanetsOKBodyItems0 struct {
-
-	// get_characters_character_id_planets_last_update
-	//
-	// last_update string
-	// Required: true
-	LastUpdate *strfmt.DateTime `json:"last_update"`
-
-	// get_characters_character_id_planets_num_pins
-	//
-	// num_pins integer
-	// Required: true
-	// Minimum: 1
-	NumPins *int32 `json:"num_pins"`
-
-	// get_characters_character_id_planets_owner_id
-	//
-	// owner_id integer
-	// Required: true
-	OwnerID *int32 `json:"owner_id"`
-
-	// get_characters_character_id_planets_planet_id
-	//
-	// planet_id integer
-	// Required: true
-	PlanetID *int32 `json:"planet_id"`
-
-	// get_characters_character_id_planets_planet_type
-	//
-	// planet_type string
-	// Required: true
-	PlanetType *string `json:"planet_type"`
-
-	// get_characters_character_id_planets_solar_system_id
-	//
-	// solar_system_id integer
-	// Required: true
-	SolarSystemID *int32 `json:"solar_system_id"`
-
-	// get_characters_character_id_planets_upgrade_level
-	//
-	// upgrade_level integer
-	// Required: true
-	// Maximum: 5
-	// Minimum: 0
-	UpgradeLevel *int32 `json:"upgrade_level"`
+type GetCharactersCharacterIDPlanetsServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDPlanetsOKBodyItems0 last_update false */
-
-/* polymorph GetCharactersCharacterIDPlanetsOKBodyItems0 num_pins false */
-
-/* polymorph GetCharactersCharacterIDPlanetsOKBodyItems0 owner_id false */
-
-/* polymorph GetCharactersCharacterIDPlanetsOKBodyItems0 planet_id false */
-
-/* polymorph GetCharactersCharacterIDPlanetsOKBodyItems0 planet_type false */
-
-/* polymorph GetCharactersCharacterIDPlanetsOKBodyItems0 solar_system_id false */
-
-/* polymorph GetCharactersCharacterIDPlanetsOKBodyItems0 upgrade_level false */
-
-// Validate validates this get characters character ID planets o k body items0
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateLastUpdate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateNumPins(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOwnerID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePlanetID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePlanetType(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateSolarSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateUpgradeLevel(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDPlanetsServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/planets/][%d] getCharactersCharacterIdPlanetsServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) validateLastUpdate(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDPlanetsServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("last_update", "body", o.LastUpdate); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	if err := validate.FormatOf("last_update", "body", "date-time", o.LastUpdate.String(), formats); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) validateNumPins(formats strfmt.Registry) error {
-
-	if err := validate.Required("num_pins", "body", o.NumPins); err != nil {
-		return err
-	}
-
-	if err := validate.MinimumInt("num_pins", "body", int64(*o.NumPins), 1, false); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDPlanetsGatewayTimeout creates a GetCharactersCharacterIDPlanetsGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDPlanetsGatewayTimeout() *GetCharactersCharacterIDPlanetsGatewayTimeout {
+	return &GetCharactersCharacterIDPlanetsGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) validateOwnerID(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDPlanetsGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("owner_id", "body", o.OwnerID); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDPlanetsGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) validatePlanetID(formats strfmt.Registry) error {
-
-	if err := validate.Required("planet_id", "body", o.PlanetID); err != nil {
-		return err
-	}
-
-	return nil
+func (o *GetCharactersCharacterIDPlanetsGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/planets/][%d] getCharactersCharacterIdPlanetsGatewayTimeout  %+v", 504, o.Payload)
 }
 
-var getCharactersCharacterIdPlanetsOKBodyItems0TypePlanetTypePropEnum []interface{}
+func (o *GetCharactersCharacterIDPlanetsGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["temperate","barren","oceanic","ice","gas","lava","storm","plasma"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdPlanetsOKBodyItems0TypePlanetTypePropEnum = append(getCharactersCharacterIdPlanetsOKBodyItems0TypePlanetTypePropEnum, v)
-	}
-}
+	o.Payload = new(models.GatewayTimeout)
 
-const (
-	// GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeTemperate captures enum value "temperate"
-	GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeTemperate string = "temperate"
-	// GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeBarren captures enum value "barren"
-	GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeBarren string = "barren"
-	// GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeOceanic captures enum value "oceanic"
-	GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeOceanic string = "oceanic"
-	// GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeIce captures enum value "ice"
-	GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeIce string = "ice"
-	// GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeGas captures enum value "gas"
-	GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeGas string = "gas"
-	// GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeLava captures enum value "lava"
-	GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeLava string = "lava"
-	// GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeStorm captures enum value "storm"
-	GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypeStorm string = "storm"
-	// GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypePlasma captures enum value "plasma"
-	GetCharactersCharacterIDPlanetsOKBodyItems0PlanetTypePlasma string = "plasma"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) validatePlanetTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdPlanetsOKBodyItems0TypePlanetTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) validatePlanetType(formats strfmt.Registry) error {
-
-	if err := validate.Required("planet_type", "body", o.PlanetType); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	// value enum
-	if err := o.validatePlanetTypeEnum("planet_type", "body", *o.PlanetType); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) validateSolarSystemID(formats strfmt.Registry) error {
-
-	if err := validate.Required("solar_system_id", "body", o.SolarSystemID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) validateUpgradeLevel(formats strfmt.Registry) error {
-
-	if err := validate.Required("upgrade_level", "body", o.UpgradeLevel); err != nil {
-		return err
-	}
-
-	if err := validate.MinimumInt("upgrade_level", "body", int64(*o.UpgradeLevel), 0, false); err != nil {
-		return err
-	}
-
-	if err := validate.MaximumInt("upgrade_level", "body", int64(*o.UpgradeLevel), 5, false); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDPlanetsOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDPlanetsOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -30,9 +30,9 @@ PostUIAutopilotWaypoint sets autopilot waypoint
 Set a solar system as autopilot waypoint
 
 ---
-Alternate route: `/v2/ui/autopilot/waypoint/`
-
 Alternate route: `/dev/ui/autopilot/waypoint/`
+
+Alternate route: `/v2/ui/autopilot/waypoint/`
 
 */
 func (a *Client) PostUIAutopilotWaypoint(params *PostUIAutopilotWaypointParams, authInfo runtime.ClientAuthInfoWriter) (*PostUIAutopilotWaypointNoContent, error) {
@@ -46,7 +46,7 @@ func (a *Client) PostUIAutopilotWaypoint(params *PostUIAutopilotWaypointParams, 
 		Method:             "POST",
 		PathPattern:        "/ui/autopilot/waypoint/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostUIAutopilotWaypointReader{formats: a.formats},
@@ -67,11 +67,11 @@ PostUIOpenwindowContract opens contract window
 Open the contract window inside the client
 
 ---
-Alternate route: `/v1/ui/openwindow/contract/`
+Alternate route: `/dev/ui/openwindow/contract/`
 
 Alternate route: `/legacy/ui/openwindow/contract/`
 
-Alternate route: `/dev/ui/openwindow/contract/`
+Alternate route: `/v1/ui/openwindow/contract/`
 
 */
 func (a *Client) PostUIOpenwindowContract(params *PostUIOpenwindowContractParams, authInfo runtime.ClientAuthInfoWriter) (*PostUIOpenwindowContractNoContent, error) {
@@ -85,7 +85,7 @@ func (a *Client) PostUIOpenwindowContract(params *PostUIOpenwindowContractParams
 		Method:             "POST",
 		PathPattern:        "/ui/openwindow/contract/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostUIOpenwindowContractReader{formats: a.formats},
@@ -106,11 +106,11 @@ PostUIOpenwindowInformation opens information window
 Open the information window for a character, corporation or alliance inside the client
 
 ---
-Alternate route: `/v1/ui/openwindow/information/`
+Alternate route: `/dev/ui/openwindow/information/`
 
 Alternate route: `/legacy/ui/openwindow/information/`
 
-Alternate route: `/dev/ui/openwindow/information/`
+Alternate route: `/v1/ui/openwindow/information/`
 
 */
 func (a *Client) PostUIOpenwindowInformation(params *PostUIOpenwindowInformationParams, authInfo runtime.ClientAuthInfoWriter) (*PostUIOpenwindowInformationNoContent, error) {
@@ -124,7 +124,7 @@ func (a *Client) PostUIOpenwindowInformation(params *PostUIOpenwindowInformation
 		Method:             "POST",
 		PathPattern:        "/ui/openwindow/information/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostUIOpenwindowInformationReader{formats: a.formats},
@@ -145,11 +145,11 @@ PostUIOpenwindowMarketdetails opens market details
 Open the market details window for a specific typeID inside the client
 
 ---
-Alternate route: `/v1/ui/openwindow/marketdetails/`
+Alternate route: `/dev/ui/openwindow/marketdetails/`
 
 Alternate route: `/legacy/ui/openwindow/marketdetails/`
 
-Alternate route: `/dev/ui/openwindow/marketdetails/`
+Alternate route: `/v1/ui/openwindow/marketdetails/`
 
 */
 func (a *Client) PostUIOpenwindowMarketdetails(params *PostUIOpenwindowMarketdetailsParams, authInfo runtime.ClientAuthInfoWriter) (*PostUIOpenwindowMarketdetailsNoContent, error) {
@@ -163,7 +163,7 @@ func (a *Client) PostUIOpenwindowMarketdetails(params *PostUIOpenwindowMarketdet
 		Method:             "POST",
 		PathPattern:        "/ui/openwindow/marketdetails/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostUIOpenwindowMarketdetailsReader{formats: a.formats},
@@ -184,11 +184,11 @@ PostUIOpenwindowNewmail opens new mail window
 Open the New Mail window, according to settings from the request if applicable
 
 ---
-Alternate route: `/v1/ui/openwindow/newmail/`
+Alternate route: `/dev/ui/openwindow/newmail/`
 
 Alternate route: `/legacy/ui/openwindow/newmail/`
 
-Alternate route: `/dev/ui/openwindow/newmail/`
+Alternate route: `/v1/ui/openwindow/newmail/`
 
 */
 func (a *Client) PostUIOpenwindowNewmail(params *PostUIOpenwindowNewmailParams, authInfo runtime.ClientAuthInfoWriter) (*PostUIOpenwindowNewmailNoContent, error) {
@@ -202,7 +202,7 @@ func (a *Client) PostUIOpenwindowNewmail(params *PostUIOpenwindowNewmailParams, 
 		Method:             "POST",
 		PathPattern:        "/ui/openwindow/newmail/",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PostUIOpenwindowNewmailReader{formats: a.formats},

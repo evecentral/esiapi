@@ -75,11 +75,11 @@ for the get characters character id calendar operation typically these are writt
 */
 type GetCharactersCharacterIDCalendarParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*CharacterID
 	  An EVE character ID
 
@@ -100,11 +100,6 @@ type GetCharactersCharacterIDCalendarParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -144,15 +139,15 @@ func (o *GetCharactersCharacterIDCalendarParams) SetHTTPClient(client *http.Clie
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get characters character id calendar params
-func (o *GetCharactersCharacterIDCalendarParams) WithXUserAgent(xUserAgent *string) *GetCharactersCharacterIDCalendarParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get characters character id calendar params
+func (o *GetCharactersCharacterIDCalendarParams) WithIfNoneMatch(ifNoneMatch *string) *GetCharactersCharacterIDCalendarParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get characters character id calendar params
-func (o *GetCharactersCharacterIDCalendarParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get characters character id calendar params
+func (o *GetCharactersCharacterIDCalendarParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithCharacterID adds the characterID to the get characters character id calendar params
@@ -199,17 +194,6 @@ func (o *GetCharactersCharacterIDCalendarParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the get characters character id calendar params
-func (o *GetCharactersCharacterIDCalendarParams) WithUserAgent(userAgent *string) *GetCharactersCharacterIDCalendarParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get characters character id calendar params
-func (o *GetCharactersCharacterIDCalendarParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetCharactersCharacterIDCalendarParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -218,10 +202,10 @@ func (o *GetCharactersCharacterIDCalendarParams) WriteToRequest(r runtime.Client
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -274,22 +258,6 @@ func (o *GetCharactersCharacterIDCalendarParams) WriteToRequest(r runtime.Client
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

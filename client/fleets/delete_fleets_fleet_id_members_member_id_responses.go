@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // DeleteFleetsFleetIDMembersMemberIDReader is a Reader for the DeleteFleetsFleetIDMembersMemberID structure.
@@ -35,6 +32,20 @@ func (o *DeleteFleetsFleetIDMembersMemberIDReader) ReadResponse(response runtime
 		}
 		return result, nil
 
+	case 400:
+		result := NewDeleteFleetsFleetIDMembersMemberIDBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewDeleteFleetsFleetIDMembersMemberIDUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewDeleteFleetsFleetIDMembersMemberIDForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,8 +60,29 @@ func (o *DeleteFleetsFleetIDMembersMemberIDReader) ReadResponse(response runtime
 		}
 		return nil, result
 
+	case 420:
+		result := NewDeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewDeleteFleetsFleetIDMembersMemberIDInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewDeleteFleetsFleetIDMembersMemberIDServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewDeleteFleetsFleetIDMembersMemberIDGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -78,6 +110,64 @@ func (o *DeleteFleetsFleetIDMembersMemberIDNoContent) Error() string {
 }
 
 func (o *DeleteFleetsFleetIDMembersMemberIDNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewDeleteFleetsFleetIDMembersMemberIDBadRequest creates a DeleteFleetsFleetIDMembersMemberIDBadRequest with default headers values
+func NewDeleteFleetsFleetIDMembersMemberIDBadRequest() *DeleteFleetsFleetIDMembersMemberIDBadRequest {
+	return &DeleteFleetsFleetIDMembersMemberIDBadRequest{}
+}
+
+/*DeleteFleetsFleetIDMembersMemberIDBadRequest handles this case with default header values.
+
+Bad request
+*/
+type DeleteFleetsFleetIDMembersMemberIDBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *DeleteFleetsFleetIDMembersMemberIDBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/members/{member_id}/][%d] deleteFleetsFleetIdMembersMemberIdBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *DeleteFleetsFleetIDMembersMemberIDBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteFleetsFleetIDMembersMemberIDUnauthorized creates a DeleteFleetsFleetIDMembersMemberIDUnauthorized with default headers values
+func NewDeleteFleetsFleetIDMembersMemberIDUnauthorized() *DeleteFleetsFleetIDMembersMemberIDUnauthorized {
+	return &DeleteFleetsFleetIDMembersMemberIDUnauthorized{}
+}
+
+/*DeleteFleetsFleetIDMembersMemberIDUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type DeleteFleetsFleetIDMembersMemberIDUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *DeleteFleetsFleetIDMembersMemberIDUnauthorized) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/members/{member_id}/][%d] deleteFleetsFleetIdMembersMemberIdUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *DeleteFleetsFleetIDMembersMemberIDUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -121,7 +211,7 @@ func NewDeleteFleetsFleetIDMembersMemberIDNotFound() *DeleteFleetsFleetIDMembers
 The fleet does not exist or you don't have access to it
 */
 type DeleteFleetsFleetIDMembersMemberIDNotFound struct {
-	Payload DeleteFleetsFleetIDMembersMemberIDNotFoundBody
+	Payload *models.DeleteFleetsFleetIDMembersMemberIDNotFoundBody
 }
 
 func (o *DeleteFleetsFleetIDMembersMemberIDNotFound) Error() string {
@@ -130,8 +220,39 @@ func (o *DeleteFleetsFleetIDMembersMemberIDNotFound) Error() string {
 
 func (o *DeleteFleetsFleetIDMembersMemberIDNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.DeleteFleetsFleetIDMembersMemberIDNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewDeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm creates a DeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm with default headers values
+func NewDeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm() *DeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm {
+	return &DeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm{}
+}
+
+/*DeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type DeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *DeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/members/{member_id}/][%d] deleteFleetsFleetIdMembersMemberIdEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *DeleteFleetsFleetIDMembersMemberIDEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -167,61 +288,60 @@ func (o *DeleteFleetsFleetIDMembersMemberIDInternalServerError) readResponse(res
 	return nil
 }
 
-/*DeleteFleetsFleetIDMembersMemberIDNotFoundBody delete_fleets_fleet_id_members_member_id_not_found
-//
-// Not found
-swagger:model DeleteFleetsFleetIDMembersMemberIDNotFoundBody
+// NewDeleteFleetsFleetIDMembersMemberIDServiceUnavailable creates a DeleteFleetsFleetIDMembersMemberIDServiceUnavailable with default headers values
+func NewDeleteFleetsFleetIDMembersMemberIDServiceUnavailable() *DeleteFleetsFleetIDMembersMemberIDServiceUnavailable {
+	return &DeleteFleetsFleetIDMembersMemberIDServiceUnavailable{}
+}
+
+/*DeleteFleetsFleetIDMembersMemberIDServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type DeleteFleetsFleetIDMembersMemberIDNotFoundBody struct {
-
-	// delete_fleets_fleet_id_members_member_id_404_not_found
-	//
-	// Not found message
-	// Required: true
-	Error *string `json:"error"`
+type DeleteFleetsFleetIDMembersMemberIDServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph DeleteFleetsFleetIDMembersMemberIDNotFoundBody error false */
-
-// Validate validates this delete fleets fleet ID members member ID not found body
-func (o *DeleteFleetsFleetIDMembersMemberIDNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *DeleteFleetsFleetIDMembersMemberIDServiceUnavailable) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/members/{member_id}/][%d] deleteFleetsFleetIdMembersMemberIdServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *DeleteFleetsFleetIDMembersMemberIDNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *DeleteFleetsFleetIDMembersMemberIDServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("deleteFleetsFleetIdMembersMemberIdNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *DeleteFleetsFleetIDMembersMemberIDNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewDeleteFleetsFleetIDMembersMemberIDGatewayTimeout creates a DeleteFleetsFleetIDMembersMemberIDGatewayTimeout with default headers values
+func NewDeleteFleetsFleetIDMembersMemberIDGatewayTimeout() *DeleteFleetsFleetIDMembersMemberIDGatewayTimeout {
+	return &DeleteFleetsFleetIDMembersMemberIDGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *DeleteFleetsFleetIDMembersMemberIDNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res DeleteFleetsFleetIDMembersMemberIDNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*DeleteFleetsFleetIDMembersMemberIDGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type DeleteFleetsFleetIDMembersMemberIDGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *DeleteFleetsFleetIDMembersMemberIDGatewayTimeout) Error() string {
+	return fmt.Sprintf("[DELETE /fleets/{fleet_id}/members/{member_id}/][%d] deleteFleetsFleetIdMembersMemberIdGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *DeleteFleetsFleetIDMembersMemberIDGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

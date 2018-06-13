@@ -6,19 +6,14 @@ package clones
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDClonesReader is a Reader for the GetCharactersCharacterIDClones structure.
@@ -37,6 +32,27 @@ func (o *GetCharactersCharacterIDClonesReader) ReadResponse(response runtime.Cli
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDClonesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDClonesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDClonesUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDClonesForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -44,8 +60,29 @@ func (o *GetCharactersCharacterIDClonesReader) ReadResponse(response runtime.Cli
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDClonesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDClonesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDClonesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDClonesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -69,6 +106,9 @@ type GetCharactersCharacterIDClonesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -76,7 +116,7 @@ type GetCharactersCharacterIDClonesOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDClonesOKBody
+	Payload *models.GetCharactersCharacterIDClonesOKBody
 }
 
 func (o *GetCharactersCharacterIDClonesOK) Error() string {
@@ -88,14 +128,122 @@ func (o *GetCharactersCharacterIDClonesOK) readResponse(response runtime.ClientR
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDClonesOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDClonesNotModified creates a GetCharactersCharacterIDClonesNotModified with default headers values
+func NewGetCharactersCharacterIDClonesNotModified() *GetCharactersCharacterIDClonesNotModified {
+	return &GetCharactersCharacterIDClonesNotModified{}
+}
+
+/*GetCharactersCharacterIDClonesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDClonesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDClonesNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/clones/][%d] getCharactersCharacterIdClonesNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDClonesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDClonesBadRequest creates a GetCharactersCharacterIDClonesBadRequest with default headers values
+func NewGetCharactersCharacterIDClonesBadRequest() *GetCharactersCharacterIDClonesBadRequest {
+	return &GetCharactersCharacterIDClonesBadRequest{}
+}
+
+/*GetCharactersCharacterIDClonesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDClonesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDClonesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/clones/][%d] getCharactersCharacterIdClonesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDClonesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDClonesUnauthorized creates a GetCharactersCharacterIDClonesUnauthorized with default headers values
+func NewGetCharactersCharacterIDClonesUnauthorized() *GetCharactersCharacterIDClonesUnauthorized {
+	return &GetCharactersCharacterIDClonesUnauthorized{}
+}
+
+/*GetCharactersCharacterIDClonesUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDClonesUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDClonesUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/clones/][%d] getCharactersCharacterIdClonesUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDClonesUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,6 +270,35 @@ func (o *GetCharactersCharacterIDClonesForbidden) Error() string {
 func (o *GetCharactersCharacterIDClonesForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDClonesEnhanceYourCalm creates a GetCharactersCharacterIDClonesEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDClonesEnhanceYourCalm() *GetCharactersCharacterIDClonesEnhanceYourCalm {
+	return &GetCharactersCharacterIDClonesEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDClonesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDClonesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDClonesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/clones/][%d] getCharactersCharacterIdClonesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDClonesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -160,364 +337,60 @@ func (o *GetCharactersCharacterIDClonesInternalServerError) readResponse(respons
 	return nil
 }
 
-/*GetCharactersCharacterIDClonesOKBody get_characters_character_id_clones_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDClonesOKBody
+// NewGetCharactersCharacterIDClonesServiceUnavailable creates a GetCharactersCharacterIDClonesServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDClonesServiceUnavailable() *GetCharactersCharacterIDClonesServiceUnavailable {
+	return &GetCharactersCharacterIDClonesServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDClonesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDClonesOKBody struct {
-
-	// home location
-	// Required: true
-	HomeLocation *GetCharactersCharacterIDClonesOKBodyHomeLocation `json:"home_location"`
-
-	// get_characters_character_id_clones_jump_clones
-	//
-	// jump_clones array
-	// Required: true
-	// Max Items: 10
-	JumpClones []*JumpClonesItems0 `json:"jump_clones"`
-
-	// get_characters_character_id_clones_last_jump_date
-	//
-	// last_jump_date string
-	// Required: true
-	LastJumpDate *strfmt.DateTime `json:"last_jump_date"`
+type GetCharactersCharacterIDClonesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDClonesOKBody home_location false */
-
-/* polymorph GetCharactersCharacterIDClonesOKBody jump_clones false */
-
-/* polymorph GetCharactersCharacterIDClonesOKBody last_jump_date false */
-
-// Validate validates this get characters character ID clones o k body
-func (o *GetCharactersCharacterIDClonesOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateHomeLocation(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateJumpClones(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLastJumpDate(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDClonesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/clones/][%d] getCharactersCharacterIdClonesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDClonesOKBody) validateHomeLocation(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDClonesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdClonesOK"+"."+"home_location", "body", o.HomeLocation); err != nil {
-		return err
-	}
+	o.Payload = new(models.ServiceUnavailable)
 
-	if o.HomeLocation != nil {
-
-		if err := o.HomeLocation.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("getCharactersCharacterIdClonesOK" + "." + "home_location")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDClonesOKBody) validateJumpClones(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdClonesOK"+"."+"jump_clones", "body", o.JumpClones); err != nil {
-		return err
-	}
-
-	iJumpClonesSize := int64(len(o.JumpClones))
-
-	if err := validate.MaxItems("getCharactersCharacterIdClonesOK"+"."+"jump_clones", "body", iJumpClonesSize, 10); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.JumpClones); i++ {
-
-		if swag.IsZero(o.JumpClones[i]) { // not required
-			continue
-		}
-
-		if o.JumpClones[i] != nil {
-
-			if err := o.JumpClones[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("getCharactersCharacterIdClonesOK" + "." + "jump_clones" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDClonesOKBody) validateLastJumpDate(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdClonesOK"+"."+"last_jump_date", "body", o.LastJumpDate); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("getCharactersCharacterIdClonesOK"+"."+"last_jump_date", "body", "date-time", o.LastJumpDate.String(), formats); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDClonesOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCharactersCharacterIDClonesGatewayTimeout creates a GetCharactersCharacterIDClonesGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDClonesGatewayTimeout() *GetCharactersCharacterIDClonesGatewayTimeout {
+	return &GetCharactersCharacterIDClonesGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDClonesOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDClonesOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetCharactersCharacterIDClonesGatewayTimeout handles this case with default header values.
 
-/*GetCharactersCharacterIDClonesOKBodyHomeLocation get_characters_character_id_clones_home_location
-//
-// home_location object
-swagger:model GetCharactersCharacterIDClonesOKBodyHomeLocation
+Gateway timeout
 */
-
-type GetCharactersCharacterIDClonesOKBodyHomeLocation struct {
-
-	// get_characters_character_id_clones_location_id
-	//
-	// location_id integer
-	LocationID int64 `json:"location_id,omitempty"`
-
-	// get_characters_character_id_clones_location_type
-	//
-	// location_type string
-	LocationType string `json:"location_type,omitempty"`
+type GetCharactersCharacterIDClonesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetCharactersCharacterIDClonesOKBodyHomeLocation location_id false */
-
-/* polymorph GetCharactersCharacterIDClonesOKBodyHomeLocation location_type false */
-
-// Validate validates this get characters character ID clones o k body home location
-func (o *GetCharactersCharacterIDClonesOKBodyHomeLocation) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateLocationType(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDClonesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/clones/][%d] getCharactersCharacterIdClonesGatewayTimeout  %+v", 504, o.Payload)
 }
 
-var getCharactersCharacterIdClonesOKBodyHomeLocationTypeLocationTypePropEnum []interface{}
+func (o *GetCharactersCharacterIDClonesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["station","structure"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdClonesOKBodyHomeLocationTypeLocationTypePropEnum = append(getCharactersCharacterIdClonesOKBodyHomeLocationTypeLocationTypePropEnum, v)
-	}
-}
+	o.Payload = new(models.GatewayTimeout)
 
-const (
-	// GetCharactersCharacterIDClonesOKBodyHomeLocationLocationTypeStation captures enum value "station"
-	GetCharactersCharacterIDClonesOKBodyHomeLocationLocationTypeStation string = "station"
-	// GetCharactersCharacterIDClonesOKBodyHomeLocationLocationTypeStructure captures enum value "structure"
-	GetCharactersCharacterIDClonesOKBodyHomeLocationLocationTypeStructure string = "structure"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDClonesOKBodyHomeLocation) validateLocationTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdClonesOKBodyHomeLocationTypeLocationTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDClonesOKBodyHomeLocation) validateLocationType(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.LocationType) { // not required
-		return nil
-	}
-
-	// value enum
-	if err := o.validateLocationTypeEnum("getCharactersCharacterIdClonesOK"+"."+"home_location"+"."+"location_type", "body", o.LocationType); err != nil {
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDClonesOKBodyHomeLocation) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDClonesOKBodyHomeLocation) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDClonesOKBodyHomeLocation
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*JumpClonesItems0 get_characters_character_id_clones_jump_clone
-//
-// jump_clone object
-swagger:model JumpClonesItems0
-*/
-
-type JumpClonesItems0 struct {
-
-	// get_characters_character_id_clones_implants
-	//
-	// implants array
-	// Max Items: 11
-	Implants []int32 `json:"implants"`
-
-	// get_characters_character_id_clones_location_id
-	//
-	// location_id integer
-	LocationID int64 `json:"location_id,omitempty"`
-
-	// get_characters_character_id_clones_location_type
-	//
-	// location_type string
-	LocationType string `json:"location_type,omitempty"`
-}
-
-/* polymorph JumpClonesItems0 implants false */
-
-/* polymorph JumpClonesItems0 location_id false */
-
-/* polymorph JumpClonesItems0 location_type false */
-
-// Validate validates this jump clones items0
-func (o *JumpClonesItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateImplants(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLocationType(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *JumpClonesItems0) validateImplants(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.Implants) { // not required
-		return nil
-	}
-
-	iImplantsSize := int64(len(o.Implants))
-
-	if err := validate.MaxItems("implants", "body", iImplantsSize, 11); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var jumpClonesItems0TypeLocationTypePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["station","structure"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		jumpClonesItems0TypeLocationTypePropEnum = append(jumpClonesItems0TypeLocationTypePropEnum, v)
-	}
-}
-
-const (
-	// JumpClonesItems0LocationTypeStation captures enum value "station"
-	JumpClonesItems0LocationTypeStation string = "station"
-	// JumpClonesItems0LocationTypeStructure captures enum value "structure"
-	JumpClonesItems0LocationTypeStructure string = "structure"
-)
-
-// prop value enum
-func (o *JumpClonesItems0) validateLocationTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, jumpClonesItems0TypeLocationTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *JumpClonesItems0) validateLocationType(formats strfmt.Registry) error {
-
-	if swag.IsZero(o.LocationType) { // not required
-		return nil
-	}
-
-	// value enum
-	if err := o.validateLocationTypeEnum("location_type", "body", o.LocationType); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *JumpClonesItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *JumpClonesItems0) UnmarshalBinary(b []byte) error {
-	var res JumpClonesItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -75,11 +75,6 @@ for the post ui openwindow marketdetails operation typically these are written t
 */
 type PostUIOpenwindowMarketdetailsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -95,11 +90,6 @@ type PostUIOpenwindowMarketdetailsParams struct {
 
 	*/
 	TypeID int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -139,17 +129,6 @@ func (o *PostUIOpenwindowMarketdetailsParams) SetHTTPClient(client *http.Client)
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post ui openwindow marketdetails params
-func (o *PostUIOpenwindowMarketdetailsParams) WithXUserAgent(xUserAgent *string) *PostUIOpenwindowMarketdetailsParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post ui openwindow marketdetails params
-func (o *PostUIOpenwindowMarketdetailsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the post ui openwindow marketdetails params
 func (o *PostUIOpenwindowMarketdetailsParams) WithDatasource(datasource *string) *PostUIOpenwindowMarketdetailsParams {
 	o.SetDatasource(datasource)
@@ -183,17 +162,6 @@ func (o *PostUIOpenwindowMarketdetailsParams) SetTypeID(typeID int32) {
 	o.TypeID = typeID
 }
 
-// WithUserAgent adds the userAgent to the post ui openwindow marketdetails params
-func (o *PostUIOpenwindowMarketdetailsParams) WithUserAgent(userAgent *string) *PostUIOpenwindowMarketdetailsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post ui openwindow marketdetails params
-func (o *PostUIOpenwindowMarketdetailsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostUIOpenwindowMarketdetailsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -201,15 +169,6 @@ func (o *PostUIOpenwindowMarketdetailsParams) WriteToRequest(r runtime.ClientReq
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -250,22 +209,6 @@ func (o *PostUIOpenwindowMarketdetailsParams) WriteToRequest(r runtime.ClientReq
 		if err := r.SetQueryParam("type_id", qTypeID); err != nil {
 			return err
 		}
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	if len(res) > 0 {

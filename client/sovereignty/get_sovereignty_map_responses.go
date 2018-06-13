@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetSovereigntyMapReader is a Reader for the GetSovereigntyMap structure.
@@ -35,8 +32,43 @@ func (o *GetSovereigntyMapReader) ReadResponse(response runtime.ClientResponse, 
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetSovereigntyMapNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetSovereigntyMapBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetSovereigntyMapEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetSovereigntyMapInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetSovereigntyMapServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetSovereigntyMapGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetSovereigntyMapOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetSovereigntyMapOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetSovereigntyMapOKBodyItems0
+	Payload []*models.GetSovereigntyMapOKBodyItems
 }
 
 func (o *GetSovereigntyMapOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetSovereigntyMapOK) readResponse(response runtime.ClientResponse, cons
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetSovereigntyMapOK) readResponse(response runtime.ClientResponse, cons
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetSovereigntyMapNotModified creates a GetSovereigntyMapNotModified with default headers values
+func NewGetSovereigntyMapNotModified() *GetSovereigntyMapNotModified {
+	return &GetSovereigntyMapNotModified{}
+}
+
+/*GetSovereigntyMapNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetSovereigntyMapNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetSovereigntyMapNotModified) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/map/][%d] getSovereigntyMapNotModified ", 304)
+}
+
+func (o *GetSovereigntyMapNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetSovereigntyMapBadRequest creates a GetSovereigntyMapBadRequest with default headers values
+func NewGetSovereigntyMapBadRequest() *GetSovereigntyMapBadRequest {
+	return &GetSovereigntyMapBadRequest{}
+}
+
+/*GetSovereigntyMapBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetSovereigntyMapBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetSovereigntyMapBadRequest) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/map/][%d] getSovereigntyMapBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetSovereigntyMapBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetSovereigntyMapEnhanceYourCalm creates a GetSovereigntyMapEnhanceYourCalm with default headers values
+func NewGetSovereigntyMapEnhanceYourCalm() *GetSovereigntyMapEnhanceYourCalm {
+	return &GetSovereigntyMapEnhanceYourCalm{}
+}
+
+/*GetSovereigntyMapEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetSovereigntyMapEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetSovereigntyMapEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/map/][%d] getSovereigntyMapEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetSovereigntyMapEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,82 +263,60 @@ func (o *GetSovereigntyMapInternalServerError) readResponse(response runtime.Cli
 	return nil
 }
 
-/*GetSovereigntyMapOKBodyItems0 get_sovereignty_map_200_ok
-//
-// 200 ok object
-swagger:model GetSovereigntyMapOKBodyItems0
+// NewGetSovereigntyMapServiceUnavailable creates a GetSovereigntyMapServiceUnavailable with default headers values
+func NewGetSovereigntyMapServiceUnavailable() *GetSovereigntyMapServiceUnavailable {
+	return &GetSovereigntyMapServiceUnavailable{}
+}
+
+/*GetSovereigntyMapServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetSovereigntyMapOKBodyItems0 struct {
-
-	// get_sovereignty_map_alliance_id
-	//
-	// alliance_id integer
-	AllianceID int32 `json:"alliance_id,omitempty"`
-
-	// get_sovereignty_map_corporation_id
-	//
-	// corporation_id integer
-	CorporationID int32 `json:"corporation_id,omitempty"`
-
-	// get_sovereignty_map_faction_id
-	//
-	// faction_id integer
-	FactionID int32 `json:"faction_id,omitempty"`
-
-	// get_sovereignty_map_system_id
-	//
-	// system_id integer
-	// Required: true
-	SystemID *int32 `json:"system_id"`
+type GetSovereigntyMapServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetSovereigntyMapOKBodyItems0 alliance_id false */
-
-/* polymorph GetSovereigntyMapOKBodyItems0 corporation_id false */
-
-/* polymorph GetSovereigntyMapOKBodyItems0 faction_id false */
-
-/* polymorph GetSovereigntyMapOKBodyItems0 system_id false */
-
-// Validate validates this get sovereignty map o k body items0
-func (o *GetSovereigntyMapOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateSystemID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetSovereigntyMapServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/map/][%d] getSovereigntyMapServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetSovereigntyMapOKBodyItems0) validateSystemID(formats strfmt.Registry) error {
+func (o *GetSovereigntyMapServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("system_id", "body", o.SystemID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetSovereigntyMapOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetSovereigntyMapGatewayTimeout creates a GetSovereigntyMapGatewayTimeout with default headers values
+func NewGetSovereigntyMapGatewayTimeout() *GetSovereigntyMapGatewayTimeout {
+	return &GetSovereigntyMapGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetSovereigntyMapOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetSovereigntyMapOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*GetSovereigntyMapGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetSovereigntyMapGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetSovereigntyMapGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /sovereignty/map/][%d] getSovereigntyMapGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetSovereigntyMapGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

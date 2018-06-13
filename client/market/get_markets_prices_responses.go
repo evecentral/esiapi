@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetMarketsPricesReader is a Reader for the GetMarketsPrices structure.
@@ -35,8 +32,43 @@ func (o *GetMarketsPricesReader) ReadResponse(response runtime.ClientResponse, c
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetMarketsPricesNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetMarketsPricesBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetMarketsPricesEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetMarketsPricesInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetMarketsPricesServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetMarketsPricesGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -60,6 +92,9 @@ type GetMarketsPricesOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -67,7 +102,7 @@ type GetMarketsPricesOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetMarketsPricesOKBodyItems0
+	Payload []*models.GetMarketsPricesOKBodyItems
 }
 
 func (o *GetMarketsPricesOK) Error() string {
@@ -79,6 +114,9 @@ func (o *GetMarketsPricesOK) readResponse(response runtime.ClientResponse, consu
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -87,6 +125,109 @@ func (o *GetMarketsPricesOK) readResponse(response runtime.ClientResponse, consu
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsPricesNotModified creates a GetMarketsPricesNotModified with default headers values
+func NewGetMarketsPricesNotModified() *GetMarketsPricesNotModified {
+	return &GetMarketsPricesNotModified{}
+}
+
+/*GetMarketsPricesNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetMarketsPricesNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetMarketsPricesNotModified) Error() string {
+	return fmt.Sprintf("[GET /markets/prices/][%d] getMarketsPricesNotModified ", 304)
+}
+
+func (o *GetMarketsPricesNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetMarketsPricesBadRequest creates a GetMarketsPricesBadRequest with default headers values
+func NewGetMarketsPricesBadRequest() *GetMarketsPricesBadRequest {
+	return &GetMarketsPricesBadRequest{}
+}
+
+/*GetMarketsPricesBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetMarketsPricesBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetMarketsPricesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /markets/prices/][%d] getMarketsPricesBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetMarketsPricesBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetMarketsPricesEnhanceYourCalm creates a GetMarketsPricesEnhanceYourCalm with default headers values
+func NewGetMarketsPricesEnhanceYourCalm() *GetMarketsPricesEnhanceYourCalm {
+	return &GetMarketsPricesEnhanceYourCalm{}
+}
+
+/*GetMarketsPricesEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetMarketsPricesEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetMarketsPricesEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /markets/prices/][%d] getMarketsPricesEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetMarketsPricesEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -122,75 +263,60 @@ func (o *GetMarketsPricesInternalServerError) readResponse(response runtime.Clie
 	return nil
 }
 
-/*GetMarketsPricesOKBodyItems0 get_markets_prices_200_ok
-//
-// 200 ok object
-swagger:model GetMarketsPricesOKBodyItems0
+// NewGetMarketsPricesServiceUnavailable creates a GetMarketsPricesServiceUnavailable with default headers values
+func NewGetMarketsPricesServiceUnavailable() *GetMarketsPricesServiceUnavailable {
+	return &GetMarketsPricesServiceUnavailable{}
+}
+
+/*GetMarketsPricesServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetMarketsPricesOKBodyItems0 struct {
-
-	// get_markets_prices_adjusted_price
-	//
-	// adjusted_price number
-	AdjustedPrice float32 `json:"adjusted_price,omitempty"`
-
-	// get_markets_prices_average_price
-	//
-	// average_price number
-	AveragePrice float32 `json:"average_price,omitempty"`
-
-	// get_markets_prices_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetMarketsPricesServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetMarketsPricesOKBodyItems0 adjusted_price false */
-
-/* polymorph GetMarketsPricesOKBodyItems0 average_price false */
-
-/* polymorph GetMarketsPricesOKBodyItems0 type_id false */
-
-// Validate validates this get markets prices o k body items0
-func (o *GetMarketsPricesOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetMarketsPricesServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /markets/prices/][%d] getMarketsPricesServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetMarketsPricesOKBodyItems0) validateTypeID(formats strfmt.Registry) error {
+func (o *GetMarketsPricesServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetMarketsPricesOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetMarketsPricesGatewayTimeout creates a GetMarketsPricesGatewayTimeout with default headers values
+func NewGetMarketsPricesGatewayTimeout() *GetMarketsPricesGatewayTimeout {
+	return &GetMarketsPricesGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetMarketsPricesOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetMarketsPricesOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
+/*GetMarketsPricesGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type GetMarketsPricesGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *GetMarketsPricesGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /markets/prices/][%d] getMarketsPricesGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *GetMarketsPricesGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
 	return nil
 }

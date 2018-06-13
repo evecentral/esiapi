@@ -74,13 +74,8 @@ for the post characters affiliation operation typically these are written to a h
 */
 type PostCharactersAffiliationParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Characters
-	  The character IDs to fetch affiliations for
+	  The character IDs to fetch affiliations for. All characters must exist, or none will be returned.
 
 	*/
 	Characters []int32
@@ -89,11 +84,6 @@ type PostCharactersAffiliationParams struct {
 
 	*/
 	Datasource *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -133,17 +123,6 @@ func (o *PostCharactersAffiliationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post characters affiliation params
-func (o *PostCharactersAffiliationParams) WithXUserAgent(xUserAgent *string) *PostCharactersAffiliationParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post characters affiliation params
-func (o *PostCharactersAffiliationParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithCharacters adds the characters to the post characters affiliation params
 func (o *PostCharactersAffiliationParams) WithCharacters(characters []int32) *PostCharactersAffiliationParams {
 	o.SetCharacters(characters)
@@ -166,17 +145,6 @@ func (o *PostCharactersAffiliationParams) SetDatasource(datasource *string) {
 	o.Datasource = datasource
 }
 
-// WithUserAgent adds the userAgent to the post characters affiliation params
-func (o *PostCharactersAffiliationParams) WithUserAgent(userAgent *string) *PostCharactersAffiliationParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post characters affiliation params
-func (o *PostCharactersAffiliationParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostCharactersAffiliationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -185,17 +153,10 @@ func (o *PostCharactersAffiliationParams) WriteToRequest(r runtime.ClientRequest
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+	if o.Characters != nil {
+		if err := r.SetBodyParam(o.Characters); err != nil {
 			return err
 		}
-
-	}
-
-	if err := r.SetBodyParam(o.Characters); err != nil {
-		return err
 	}
 
 	if o.Datasource != nil {
@@ -208,22 +169,6 @@ func (o *PostCharactersAffiliationParams) WriteToRequest(r runtime.ClientRequest
 		qDatasource := qrDatasource
 		if qDatasource != "" {
 			if err := r.SetQueryParam("datasource", qDatasource); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

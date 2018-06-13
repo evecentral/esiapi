@@ -16,6 +16,8 @@ import (
 	cr "github.com/go-openapi/runtime/client"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/evecentral/esiapi/models"
 )
 
 // NewPostUIOpenwindowNewmailParams creates a new PostUIOpenwindowNewmailParams object
@@ -74,11 +76,6 @@ for the post ui openwindow newmail operation typically these are written to a ht
 */
 type PostUIOpenwindowNewmailParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -88,17 +85,12 @@ type PostUIOpenwindowNewmailParams struct {
 	  The details of mail to create
 
 	*/
-	NewMail PostUIOpenwindowNewmailBody
+	NewMail *models.PostUIOpenwindowNewmailParamsBody
 	/*Token
 	  Access token to use if unable to set a header
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -138,17 +130,6 @@ func (o *PostUIOpenwindowNewmailParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post ui openwindow newmail params
-func (o *PostUIOpenwindowNewmailParams) WithXUserAgent(xUserAgent *string) *PostUIOpenwindowNewmailParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post ui openwindow newmail params
-func (o *PostUIOpenwindowNewmailParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the post ui openwindow newmail params
 func (o *PostUIOpenwindowNewmailParams) WithDatasource(datasource *string) *PostUIOpenwindowNewmailParams {
 	o.SetDatasource(datasource)
@@ -161,13 +142,13 @@ func (o *PostUIOpenwindowNewmailParams) SetDatasource(datasource *string) {
 }
 
 // WithNewMail adds the newMail to the post ui openwindow newmail params
-func (o *PostUIOpenwindowNewmailParams) WithNewMail(newMail PostUIOpenwindowNewmailBody) *PostUIOpenwindowNewmailParams {
+func (o *PostUIOpenwindowNewmailParams) WithNewMail(newMail *models.PostUIOpenwindowNewmailParamsBody) *PostUIOpenwindowNewmailParams {
 	o.SetNewMail(newMail)
 	return o
 }
 
 // SetNewMail adds the newMail to the post ui openwindow newmail params
-func (o *PostUIOpenwindowNewmailParams) SetNewMail(newMail PostUIOpenwindowNewmailBody) {
+func (o *PostUIOpenwindowNewmailParams) SetNewMail(newMail *models.PostUIOpenwindowNewmailParamsBody) {
 	o.NewMail = newMail
 }
 
@@ -182,17 +163,6 @@ func (o *PostUIOpenwindowNewmailParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post ui openwindow newmail params
-func (o *PostUIOpenwindowNewmailParams) WithUserAgent(userAgent *string) *PostUIOpenwindowNewmailParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post ui openwindow newmail params
-func (o *PostUIOpenwindowNewmailParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostUIOpenwindowNewmailParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -200,15 +170,6 @@ func (o *PostUIOpenwindowNewmailParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -226,8 +187,10 @@ func (o *PostUIOpenwindowNewmailParams) WriteToRequest(r runtime.ClientRequest, 
 
 	}
 
-	if err := r.SetBodyParam(o.NewMail); err != nil {
-		return err
+	if o.NewMail != nil {
+		if err := r.SetBodyParam(o.NewMail); err != nil {
+			return err
+		}
 	}
 
 	if o.Token != nil {
@@ -240,22 +203,6 @@ func (o *PostUIOpenwindowNewmailParams) WriteToRequest(r runtime.ClientRequest, 
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

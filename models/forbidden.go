@@ -17,27 +17,21 @@ import (
 //
 // Forbidden model
 // swagger:model forbidden
-
 type Forbidden struct {
 
 	// Forbidden message
 	// Required: true
 	Error *string `json:"error"`
 
-	// Status code received from SSO
+	// status code received from SSO
 	SsoStatus int64 `json:"sso_status,omitempty"`
 }
-
-/* polymorph forbidden error false */
-
-/* polymorph forbidden sso_status false */
 
 // Validate validates this forbidden
 func (m *Forbidden) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateError(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

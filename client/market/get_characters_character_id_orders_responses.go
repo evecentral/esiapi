@@ -6,18 +6,14 @@ package market
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDOrdersReader is a Reader for the GetCharactersCharacterIDOrders structure.
@@ -36,6 +32,27 @@ func (o *GetCharactersCharacterIDOrdersReader) ReadResponse(response runtime.Cli
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDOrdersNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDOrdersBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewGetCharactersCharacterIDOrdersUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewGetCharactersCharacterIDOrdersForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -43,8 +60,29 @@ func (o *GetCharactersCharacterIDOrdersReader) ReadResponse(response runtime.Cli
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDOrdersEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDOrdersInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDOrdersServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDOrdersGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -62,12 +100,15 @@ func NewGetCharactersCharacterIDOrdersOK() *GetCharactersCharacterIDOrdersOK {
 
 /*GetCharactersCharacterIDOrdersOK handles this case with default header values.
 
-Market orders placed by a character
+Open market orders placed by a character
 */
 type GetCharactersCharacterIDOrdersOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -75,7 +116,7 @@ type GetCharactersCharacterIDOrdersOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetCharactersCharacterIDOrdersOKBodyItems0
+	Payload []*models.GetCharactersCharacterIDOrdersOKBodyItems
 }
 
 func (o *GetCharactersCharacterIDOrdersOK) Error() string {
@@ -87,6 +128,9 @@ func (o *GetCharactersCharacterIDOrdersOK) readResponse(response runtime.ClientR
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -95,6 +139,109 @@ func (o *GetCharactersCharacterIDOrdersOK) readResponse(response runtime.ClientR
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDOrdersNotModified creates a GetCharactersCharacterIDOrdersNotModified with default headers values
+func NewGetCharactersCharacterIDOrdersNotModified() *GetCharactersCharacterIDOrdersNotModified {
+	return &GetCharactersCharacterIDOrdersNotModified{}
+}
+
+/*GetCharactersCharacterIDOrdersNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDOrdersNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDOrdersNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/orders/][%d] getCharactersCharacterIdOrdersNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDOrdersNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDOrdersBadRequest creates a GetCharactersCharacterIDOrdersBadRequest with default headers values
+func NewGetCharactersCharacterIDOrdersBadRequest() *GetCharactersCharacterIDOrdersBadRequest {
+	return &GetCharactersCharacterIDOrdersBadRequest{}
+}
+
+/*GetCharactersCharacterIDOrdersBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDOrdersBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDOrdersBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/orders/][%d] getCharactersCharacterIdOrdersBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDOrdersBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDOrdersUnauthorized creates a GetCharactersCharacterIDOrdersUnauthorized with default headers values
+func NewGetCharactersCharacterIDOrdersUnauthorized() *GetCharactersCharacterIDOrdersUnauthorized {
+	return &GetCharactersCharacterIDOrdersUnauthorized{}
+}
+
+/*GetCharactersCharacterIDOrdersUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type GetCharactersCharacterIDOrdersUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *GetCharactersCharacterIDOrdersUnauthorized) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/orders/][%d] getCharactersCharacterIdOrdersUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDOrdersUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -121,6 +268,35 @@ func (o *GetCharactersCharacterIDOrdersForbidden) Error() string {
 func (o *GetCharactersCharacterIDOrdersForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDOrdersEnhanceYourCalm creates a GetCharactersCharacterIDOrdersEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDOrdersEnhanceYourCalm() *GetCharactersCharacterIDOrdersEnhanceYourCalm {
+	return &GetCharactersCharacterIDOrdersEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDOrdersEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDOrdersEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDOrdersEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/orders/][%d] getCharactersCharacterIdOrdersEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDOrdersEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -159,487 +335,60 @@ func (o *GetCharactersCharacterIDOrdersInternalServerError) readResponse(respons
 	return nil
 }
 
-/*GetCharactersCharacterIDOrdersOKBodyItems0 get_characters_character_id_orders_200_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDOrdersOKBodyItems0
+// NewGetCharactersCharacterIDOrdersServiceUnavailable creates a GetCharactersCharacterIDOrdersServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDOrdersServiceUnavailable() *GetCharactersCharacterIDOrdersServiceUnavailable {
+	return &GetCharactersCharacterIDOrdersServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDOrdersServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDOrdersOKBodyItems0 struct {
-
-	// get_characters_character_id_orders_account_id
-	//
-	// Wallet division for the buyer or seller of this order. Always 1000 for characters. Currently 1000 through 1006 for corporations
-	// Required: true
-	AccountID *int32 `json:"account_id"`
-
-	// get_characters_character_id_orders_duration
-	//
-	// Numer of days for which order is valid (starting from the issued date). An order expires at time issued + duration
-	// Required: true
-	Duration *int32 `json:"duration"`
-
-	// get_characters_character_id_orders_escrow
-	//
-	// For buy orders, the amount of ISK in escrow
-	// Required: true
-	Escrow *float32 `json:"escrow"`
-
-	// get_characters_character_id_orders_is_buy_order
-	//
-	// True for a bid (buy) order. False for an offer (sell) order
-	// Required: true
-	IsBuyOrder *bool `json:"is_buy_order"`
-
-	// get_characters_character_id_orders_is_corp
-	//
-	// is_corp boolean
-	// Required: true
-	IsCorp *bool `json:"is_corp"`
-
-	// get_characters_character_id_orders_issued
-	//
-	// Date and time when this order was issued
-	// Required: true
-	Issued *strfmt.DateTime `json:"issued"`
-
-	// get_characters_character_id_orders_location_id
-	//
-	// ID of the location where order was placed
-	// Required: true
-	LocationID *int64 `json:"location_id"`
-
-	// get_characters_character_id_orders_min_volume
-	//
-	// For bids (buy orders), the minimum quantity that will be accepted in a matching offer (sell order)
-	// Required: true
-	MinVolume *int32 `json:"min_volume"`
-
-	// get_characters_character_id_orders_order_id
-	//
-	// Unique order ID
-	// Required: true
-	OrderID *int64 `json:"order_id"`
-
-	// get_characters_character_id_orders_price
-	//
-	// Cost per unit for this order
-	// Required: true
-	Price *float32 `json:"price"`
-
-	// get_characters_character_id_orders_range
-	//
-	// Valid order range, numbers are ranges in jumps
-	// Required: true
-	Range *string `json:"range"`
-
-	// get_characters_character_id_orders_region_id
-	//
-	// ID of the region where order was placed
-	// Required: true
-	RegionID *int32 `json:"region_id"`
-
-	// get_characters_character_id_orders_state
-	//
-	// Current order state
-	// Required: true
-	State *string `json:"state"`
-
-	// get_characters_character_id_orders_type_id
-	//
-	// The type ID of the item transacted in this order
-	// Required: true
-	TypeID *int32 `json:"type_id"`
-
-	// get_characters_character_id_orders_volume_remain
-	//
-	// Quantity of items still required or offered
-	// Required: true
-	VolumeRemain *int32 `json:"volume_remain"`
-
-	// get_characters_character_id_orders_volume_total
-	//
-	// Quantity of items required or offered at time order was placed
-	// Required: true
-	VolumeTotal *int32 `json:"volume_total"`
+type GetCharactersCharacterIDOrdersServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 account_id false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 duration false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 escrow false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 is_buy_order false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 is_corp false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 issued false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 location_id false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 min_volume false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 order_id false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 price false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 range false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 region_id false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 state false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 type_id false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 volume_remain false */
-
-/* polymorph GetCharactersCharacterIDOrdersOKBodyItems0 volume_total false */
-
-// Validate validates this get characters character ID orders o k body items0
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateAccountID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateDuration(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateEscrow(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsBuyOrder(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIsCorp(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateIssued(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLocationID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateMinVolume(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOrderID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePrice(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRange(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRegionID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateState(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVolumeRemain(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateVolumeTotal(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDOrdersServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/orders/][%d] getCharactersCharacterIdOrdersServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateAccountID(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDOrdersServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("account_id", "body", o.AccountID); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateDuration(formats strfmt.Registry) error {
-
-	if err := validate.Required("duration", "body", o.Duration); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetCharactersCharacterIDOrdersGatewayTimeout creates a GetCharactersCharacterIDOrdersGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDOrdersGatewayTimeout() *GetCharactersCharacterIDOrdersGatewayTimeout {
+	return &GetCharactersCharacterIDOrdersGatewayTimeout{}
 }
 
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateEscrow(formats strfmt.Registry) error {
+/*GetCharactersCharacterIDOrdersGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("escrow", "body", o.Escrow); err != nil {
-		return err
-	}
-
-	return nil
+Gateway timeout
+*/
+type GetCharactersCharacterIDOrdersGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateIsBuyOrder(formats strfmt.Registry) error {
-
-	if err := validate.Required("is_buy_order", "body", o.IsBuyOrder); err != nil {
-		return err
-	}
-
-	return nil
+func (o *GetCharactersCharacterIDOrdersGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/orders/][%d] getCharactersCharacterIdOrdersGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateIsCorp(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDOrdersGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("is_corp", "body", o.IsCorp); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateIssued(formats strfmt.Registry) error {
-
-	if err := validate.Required("issued", "body", o.Issued); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("issued", "body", "date-time", o.Issued.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateLocationID(formats strfmt.Registry) error {
-
-	if err := validate.Required("location_id", "body", o.LocationID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateMinVolume(formats strfmt.Registry) error {
-
-	if err := validate.Required("min_volume", "body", o.MinVolume); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateOrderID(formats strfmt.Registry) error {
-
-	if err := validate.Required("order_id", "body", o.OrderID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validatePrice(formats strfmt.Registry) error {
-
-	if err := validate.Required("price", "body", o.Price); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var getCharactersCharacterIdOrdersOKBodyItems0TypeRangePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["station","region","solarsystem","1","2","3","4","5","10","20","30","40"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdOrdersOKBodyItems0TypeRangePropEnum = append(getCharactersCharacterIdOrdersOKBodyItems0TypeRangePropEnum, v)
-	}
-}
-
-const (
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeStation captures enum value "station"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeStation string = "station"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeRegion captures enum value "region"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeRegion string = "region"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeSolarsystem captures enum value "solarsystem"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeSolarsystem string = "solarsystem"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr1 captures enum value "1"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr1 string = "1"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr2 captures enum value "2"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr2 string = "2"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr3 captures enum value "3"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr3 string = "3"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr4 captures enum value "4"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr4 string = "4"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr5 captures enum value "5"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr5 string = "5"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr10 captures enum value "10"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr10 string = "10"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr20 captures enum value "20"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr20 string = "20"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr30 captures enum value "30"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr30 string = "30"
-	// GetCharactersCharacterIDOrdersOKBodyItems0RangeNr40 captures enum value "40"
-	GetCharactersCharacterIDOrdersOKBodyItems0RangeNr40 string = "40"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateRangeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdOrdersOKBodyItems0TypeRangePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateRange(formats strfmt.Registry) error {
-
-	if err := validate.Required("range", "body", o.Range); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateRangeEnum("range", "body", *o.Range); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateRegionID(formats strfmt.Registry) error {
-
-	if err := validate.Required("region_id", "body", o.RegionID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var getCharactersCharacterIdOrdersOKBodyItems0TypeStatePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["open","closed","expired","cancelled","pending","character_deleted"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		getCharactersCharacterIdOrdersOKBodyItems0TypeStatePropEnum = append(getCharactersCharacterIdOrdersOKBodyItems0TypeStatePropEnum, v)
-	}
-}
-
-const (
-	// GetCharactersCharacterIDOrdersOKBodyItems0StateOpen captures enum value "open"
-	GetCharactersCharacterIDOrdersOKBodyItems0StateOpen string = "open"
-	// GetCharactersCharacterIDOrdersOKBodyItems0StateClosed captures enum value "closed"
-	GetCharactersCharacterIDOrdersOKBodyItems0StateClosed string = "closed"
-	// GetCharactersCharacterIDOrdersOKBodyItems0StateExpired captures enum value "expired"
-	GetCharactersCharacterIDOrdersOKBodyItems0StateExpired string = "expired"
-	// GetCharactersCharacterIDOrdersOKBodyItems0StateCancelled captures enum value "cancelled"
-	GetCharactersCharacterIDOrdersOKBodyItems0StateCancelled string = "cancelled"
-	// GetCharactersCharacterIDOrdersOKBodyItems0StatePending captures enum value "pending"
-	GetCharactersCharacterIDOrdersOKBodyItems0StatePending string = "pending"
-	// GetCharactersCharacterIDOrdersOKBodyItems0StateCharacterDeleted captures enum value "character_deleted"
-	GetCharactersCharacterIDOrdersOKBodyItems0StateCharacterDeleted string = "character_deleted"
-)
-
-// prop value enum
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateStateEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCharactersCharacterIdOrdersOKBodyItems0TypeStatePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateState(formats strfmt.Registry) error {
-
-	if err := validate.Required("state", "body", o.State); err != nil {
-		return err
-	}
-
-	// value enum
-	if err := o.validateStateEnum("state", "body", *o.State); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateVolumeRemain(formats strfmt.Registry) error {
-
-	if err := validate.Required("volume_remain", "body", o.VolumeRemain); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) validateVolumeTotal(formats strfmt.Registry) error {
-
-	if err := validate.Required("volume_total", "body", o.VolumeTotal); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDOrdersOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDOrdersOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

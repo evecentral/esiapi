@@ -75,11 +75,6 @@ for the post fleets fleet id wings operation typically these are written to a ht
 */
 type PostFleetsFleetIDWingsParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -95,11 +90,6 @@ type PostFleetsFleetIDWingsParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -139,17 +129,6 @@ func (o *PostFleetsFleetIDWingsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post fleets fleet id wings params
-func (o *PostFleetsFleetIDWingsParams) WithXUserAgent(xUserAgent *string) *PostFleetsFleetIDWingsParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post fleets fleet id wings params
-func (o *PostFleetsFleetIDWingsParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithDatasource adds the datasource to the post fleets fleet id wings params
 func (o *PostFleetsFleetIDWingsParams) WithDatasource(datasource *string) *PostFleetsFleetIDWingsParams {
 	o.SetDatasource(datasource)
@@ -183,17 +162,6 @@ func (o *PostFleetsFleetIDWingsParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post fleets fleet id wings params
-func (o *PostFleetsFleetIDWingsParams) WithUserAgent(userAgent *string) *PostFleetsFleetIDWingsParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post fleets fleet id wings params
-func (o *PostFleetsFleetIDWingsParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostFleetsFleetIDWingsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -201,15 +169,6 @@ func (o *PostFleetsFleetIDWingsParams) WriteToRequest(r runtime.ClientRequest, r
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	if o.Datasource != nil {
 
@@ -242,22 +201,6 @@ func (o *PostFleetsFleetIDWingsParams) WriteToRequest(r runtime.ClientRequest, r
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

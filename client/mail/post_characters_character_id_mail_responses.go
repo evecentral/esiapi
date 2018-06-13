@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostCharactersCharacterIDMailReader is a Reader for the PostCharactersCharacterIDMail structure.
@@ -42,6 +39,13 @@ func (o *PostCharactersCharacterIDMailReader) ReadResponse(response runtime.Clie
 		}
 		return nil, result
 
+	case 401:
+		result := NewPostCharactersCharacterIDMailUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostCharactersCharacterIDMailForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -49,8 +53,36 @@ func (o *PostCharactersCharacterIDMailReader) ReadResponse(response runtime.Clie
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostCharactersCharacterIDMailEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostCharactersCharacterIDMailInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostCharactersCharacterIDMailServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostCharactersCharacterIDMailGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 520:
+		result := NewPostCharactersCharacterIDMail()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -95,10 +127,10 @@ func NewPostCharactersCharacterIDMailBadRequest() *PostCharactersCharacterIDMail
 
 /*PostCharactersCharacterIDMailBadRequest handles this case with default header values.
 
-Only one corporation, alliance, or mailing list can be the recipient of a mail
+Bad request
 */
 type PostCharactersCharacterIDMailBadRequest struct {
-	Payload PostCharactersCharacterIDMailBadRequestBody
+	Payload *models.BadRequest
 }
 
 func (o *PostCharactersCharacterIDMailBadRequest) Error() string {
@@ -107,8 +139,39 @@ func (o *PostCharactersCharacterIDMailBadRequest) Error() string {
 
 func (o *PostCharactersCharacterIDMailBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.BadRequest)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDMailUnauthorized creates a PostCharactersCharacterIDMailUnauthorized with default headers values
+func NewPostCharactersCharacterIDMailUnauthorized() *PostCharactersCharacterIDMailUnauthorized {
+	return &PostCharactersCharacterIDMailUnauthorized{}
+}
+
+/*PostCharactersCharacterIDMailUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostCharactersCharacterIDMailUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostCharactersCharacterIDMailUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/][%d] postCharactersCharacterIdMailUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDMailUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -135,6 +198,35 @@ func (o *PostCharactersCharacterIDMailForbidden) Error() string {
 func (o *PostCharactersCharacterIDMailForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.Forbidden)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDMailEnhanceYourCalm creates a PostCharactersCharacterIDMailEnhanceYourCalm with default headers values
+func NewPostCharactersCharacterIDMailEnhanceYourCalm() *PostCharactersCharacterIDMailEnhanceYourCalm {
+	return &PostCharactersCharacterIDMailEnhanceYourCalm{}
+}
+
+/*PostCharactersCharacterIDMailEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostCharactersCharacterIDMailEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostCharactersCharacterIDMailEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/][%d] postCharactersCharacterIdMailEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDMailEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -173,124 +265,89 @@ func (o *PostCharactersCharacterIDMailInternalServerError) readResponse(response
 	return nil
 }
 
-/*PostCharactersCharacterIDMailBadRequestBody post_characters_character_id_mail_bad_request
-//
-// Bad request
-swagger:model PostCharactersCharacterIDMailBadRequestBody
+// NewPostCharactersCharacterIDMailServiceUnavailable creates a PostCharactersCharacterIDMailServiceUnavailable with default headers values
+func NewPostCharactersCharacterIDMailServiceUnavailable() *PostCharactersCharacterIDMailServiceUnavailable {
+	return &PostCharactersCharacterIDMailServiceUnavailable{}
+}
+
+/*PostCharactersCharacterIDMailServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type PostCharactersCharacterIDMailBadRequestBody struct {
-
-	// post_characters_character_id_mail_400_bad_request
-	//
-	// Bad request message
-	// Required: true
-	Error *string `json:"error"`
+type PostCharactersCharacterIDMailServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph PostCharactersCharacterIDMailBadRequestBody error false */
-
-// Validate validates this post characters character ID mail bad request body
-func (o *PostCharactersCharacterIDMailBadRequestBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *PostCharactersCharacterIDMailServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/][%d] postCharactersCharacterIdMailServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *PostCharactersCharacterIDMailBadRequestBody) validateError(formats strfmt.Registry) error {
+func (o *PostCharactersCharacterIDMailServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("postCharactersCharacterIdMailBadRequest"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *PostCharactersCharacterIDMailBadRequestBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewPostCharactersCharacterIDMailGatewayTimeout creates a PostCharactersCharacterIDMailGatewayTimeout with default headers values
+func NewPostCharactersCharacterIDMailGatewayTimeout() *PostCharactersCharacterIDMailGatewayTimeout {
+	return &PostCharactersCharacterIDMailGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostCharactersCharacterIDMailBadRequestBody) UnmarshalBinary(b []byte) error {
-	var res PostCharactersCharacterIDMailBadRequestBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*PostCharactersCharacterIDMailGatewayTimeout handles this case with default header values.
 
-/*PostCharactersCharacterIDMailBody post_characters_character_id_mail_mail
-//
-// mail schema
-swagger:model PostCharactersCharacterIDMailBody
+Gateway timeout
 */
-
-type PostCharactersCharacterIDMailBody struct {
-
-	// post_characters_character_id_mail_approved_cost
-	//
-	// approved_cost integer
-	// Required: true
-	ApprovedCost *int64 `json:"approved_cost"`
-
-	// post_characters_character_id_mail_body
-	//
-	// body string
-	// Required: true
-	// Max Length: 10000
-	Body *string `json:"body"`
-
-	// post_characters_character_id_mail_recipients
-	//
-	// recipients array
-	// Required: true
-	// Max Items: 50
-	// Min Items: 1
-	Recipients []*RecipientsItems0 `json:"recipients"`
-
-	// post_characters_character_id_mail_subject
-	//
-	// subject string
-	// Required: true
-	// Max Length: 1000
-	Subject *string `json:"subject"`
+type PostCharactersCharacterIDMailGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph PostCharactersCharacterIDMailBody approved_cost false */
-
-/* polymorph PostCharactersCharacterIDMailBody body false */
-
-/* polymorph PostCharactersCharacterIDMailBody recipients false */
-
-/* polymorph PostCharactersCharacterIDMailBody subject false */
-
-// MarshalBinary interface implementation
-func (o *PostCharactersCharacterIDMailBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+func (o *PostCharactersCharacterIDMailGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/][%d] postCharactersCharacterIdMailGatewayTimeout  %+v", 504, o.Payload)
 }
 
-// UnmarshalBinary interface implementation
-func (o *PostCharactersCharacterIDMailBody) UnmarshalBinary(b []byte) error {
-	var res PostCharactersCharacterIDMailBody
-	if err := swag.ReadJSON(b, &res); err != nil {
+func (o *PostCharactersCharacterIDMailGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
-	*o = res
+
+	return nil
+}
+
+// NewPostCharactersCharacterIDMail creates a PostCharactersCharacterIDMail with default headers values
+func NewPostCharactersCharacterIDMail() *PostCharactersCharacterIDMail {
+	return &PostCharactersCharacterIDMail{}
+}
+
+/*PostCharactersCharacterIDMail handles this case with default header values.
+
+Internal error thrown from the EVE server. Most of the time this means you have hit an EVE server rate limit.
+*/
+type PostCharactersCharacterIDMail struct {
+	Payload *models.PostCharactersCharacterIDMailBody
+}
+
+func (o *PostCharactersCharacterIDMail) Error() string {
+	return fmt.Sprintf("[POST /characters/{character_id}/mail/][%d] postCharactersCharacterIdMail  %+v", 520, o.Payload)
+}
+
+func (o *PostCharactersCharacterIDMail) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.PostCharactersCharacterIDMailBody)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
 	return nil
 }

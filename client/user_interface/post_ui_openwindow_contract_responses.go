@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // PostUIOpenwindowContractReader is a Reader for the PostUIOpenwindowContract structure.
@@ -32,6 +32,20 @@ func (o *PostUIOpenwindowContractReader) ReadResponse(response runtime.ClientRes
 		}
 		return result, nil
 
+	case 400:
+		result := NewPostUIOpenwindowContractBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 401:
+		result := NewPostUIOpenwindowContractUnauthorized()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 403:
 		result := NewPostUIOpenwindowContractForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -39,8 +53,29 @@ func (o *PostUIOpenwindowContractReader) ReadResponse(response runtime.ClientRes
 		}
 		return nil, result
 
+	case 420:
+		result := NewPostUIOpenwindowContractEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewPostUIOpenwindowContractInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewPostUIOpenwindowContractServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewPostUIOpenwindowContractGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -68,6 +103,64 @@ func (o *PostUIOpenwindowContractNoContent) Error() string {
 }
 
 func (o *PostUIOpenwindowContractNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewPostUIOpenwindowContractBadRequest creates a PostUIOpenwindowContractBadRequest with default headers values
+func NewPostUIOpenwindowContractBadRequest() *PostUIOpenwindowContractBadRequest {
+	return &PostUIOpenwindowContractBadRequest{}
+}
+
+/*PostUIOpenwindowContractBadRequest handles this case with default header values.
+
+Bad request
+*/
+type PostUIOpenwindowContractBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *PostUIOpenwindowContractBadRequest) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/contract/][%d] postUiOpenwindowContractBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *PostUIOpenwindowContractBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIOpenwindowContractUnauthorized creates a PostUIOpenwindowContractUnauthorized with default headers values
+func NewPostUIOpenwindowContractUnauthorized() *PostUIOpenwindowContractUnauthorized {
+	return &PostUIOpenwindowContractUnauthorized{}
+}
+
+/*PostUIOpenwindowContractUnauthorized handles this case with default header values.
+
+Unauthorized
+*/
+type PostUIOpenwindowContractUnauthorized struct {
+	Payload *models.Unauthorized
+}
+
+func (o *PostUIOpenwindowContractUnauthorized) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/contract/][%d] postUiOpenwindowContractUnauthorized  %+v", 401, o.Payload)
+}
+
+func (o *PostUIOpenwindowContractUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.Unauthorized)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }
@@ -101,6 +194,35 @@ func (o *PostUIOpenwindowContractForbidden) readResponse(response runtime.Client
 	return nil
 }
 
+// NewPostUIOpenwindowContractEnhanceYourCalm creates a PostUIOpenwindowContractEnhanceYourCalm with default headers values
+func NewPostUIOpenwindowContractEnhanceYourCalm() *PostUIOpenwindowContractEnhanceYourCalm {
+	return &PostUIOpenwindowContractEnhanceYourCalm{}
+}
+
+/*PostUIOpenwindowContractEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type PostUIOpenwindowContractEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *PostUIOpenwindowContractEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/contract/][%d] postUiOpenwindowContractEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *PostUIOpenwindowContractEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
 // NewPostUIOpenwindowContractInternalServerError creates a PostUIOpenwindowContractInternalServerError with default headers values
 func NewPostUIOpenwindowContractInternalServerError() *PostUIOpenwindowContractInternalServerError {
 	return &PostUIOpenwindowContractInternalServerError{}
@@ -121,6 +243,64 @@ func (o *PostUIOpenwindowContractInternalServerError) Error() string {
 func (o *PostUIOpenwindowContractInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.InternalServerError)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIOpenwindowContractServiceUnavailable creates a PostUIOpenwindowContractServiceUnavailable with default headers values
+func NewPostUIOpenwindowContractServiceUnavailable() *PostUIOpenwindowContractServiceUnavailable {
+	return &PostUIOpenwindowContractServiceUnavailable{}
+}
+
+/*PostUIOpenwindowContractServiceUnavailable handles this case with default header values.
+
+Service unavailable
+*/
+type PostUIOpenwindowContractServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
+}
+
+func (o *PostUIOpenwindowContractServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/contract/][%d] postUiOpenwindowContractServiceUnavailable  %+v", 503, o.Payload)
+}
+
+func (o *PostUIOpenwindowContractServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewPostUIOpenwindowContractGatewayTimeout creates a PostUIOpenwindowContractGatewayTimeout with default headers values
+func NewPostUIOpenwindowContractGatewayTimeout() *PostUIOpenwindowContractGatewayTimeout {
+	return &PostUIOpenwindowContractGatewayTimeout{}
+}
+
+/*PostUIOpenwindowContractGatewayTimeout handles this case with default header values.
+
+Gateway timeout
+*/
+type PostUIOpenwindowContractGatewayTimeout struct {
+	Payload *models.GatewayTimeout
+}
+
+func (o *PostUIOpenwindowContractGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /ui/openwindow/contract/][%d] postUiOpenwindowContractGatewayTimeout  %+v", 504, o.Payload)
+}
+
+func (o *PostUIOpenwindowContractGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GatewayTimeout)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

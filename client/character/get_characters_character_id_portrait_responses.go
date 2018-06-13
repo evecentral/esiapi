@@ -9,14 +9,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetCharactersCharacterIDPortraitReader is a Reader for the GetCharactersCharacterIDPortrait structure.
@@ -35,6 +32,20 @@ func (o *GetCharactersCharacterIDPortraitReader) ReadResponse(response runtime.C
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetCharactersCharacterIDPortraitNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetCharactersCharacterIDPortraitBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 404:
 		result := NewGetCharactersCharacterIDPortraitNotFound()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -42,8 +53,29 @@ func (o *GetCharactersCharacterIDPortraitReader) ReadResponse(response runtime.C
 		}
 		return nil, result
 
+	case 420:
+		result := NewGetCharactersCharacterIDPortraitEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetCharactersCharacterIDPortraitInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetCharactersCharacterIDPortraitServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetCharactersCharacterIDPortraitGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -67,6 +99,9 @@ type GetCharactersCharacterIDPortraitOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -74,7 +109,7 @@ type GetCharactersCharacterIDPortraitOK struct {
 	 */
 	LastModified string
 
-	Payload GetCharactersCharacterIDPortraitOKBody
+	Payload *models.GetCharactersCharacterIDPortraitOKBody
 }
 
 func (o *GetCharactersCharacterIDPortraitOK) Error() string {
@@ -86,14 +121,93 @@ func (o *GetCharactersCharacterIDPortraitOK) readResponse(response runtime.Clien
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
 	// response header Last-Modified
 	o.LastModified = response.GetHeader("Last-Modified")
 
+	o.Payload = new(models.GetCharactersCharacterIDPortraitOKBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDPortraitNotModified creates a GetCharactersCharacterIDPortraitNotModified with default headers values
+func NewGetCharactersCharacterIDPortraitNotModified() *GetCharactersCharacterIDPortraitNotModified {
+	return &GetCharactersCharacterIDPortraitNotModified{}
+}
+
+/*GetCharactersCharacterIDPortraitNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetCharactersCharacterIDPortraitNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetCharactersCharacterIDPortraitNotModified) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/portrait/][%d] getCharactersCharacterIdPortraitNotModified ", 304)
+}
+
+func (o *GetCharactersCharacterIDPortraitNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDPortraitBadRequest creates a GetCharactersCharacterIDPortraitBadRequest with default headers values
+func NewGetCharactersCharacterIDPortraitBadRequest() *GetCharactersCharacterIDPortraitBadRequest {
+	return &GetCharactersCharacterIDPortraitBadRequest{}
+}
+
+/*GetCharactersCharacterIDPortraitBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetCharactersCharacterIDPortraitBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetCharactersCharacterIDPortraitBadRequest) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/portrait/][%d] getCharactersCharacterIdPortraitBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDPortraitBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -110,7 +224,7 @@ func NewGetCharactersCharacterIDPortraitNotFound() *GetCharactersCharacterIDPort
 No image server for this datasource
 */
 type GetCharactersCharacterIDPortraitNotFound struct {
-	Payload GetCharactersCharacterIDPortraitNotFoundBody
+	Payload *models.GetCharactersCharacterIDPortraitNotFoundBody
 }
 
 func (o *GetCharactersCharacterIDPortraitNotFound) Error() string {
@@ -119,8 +233,39 @@ func (o *GetCharactersCharacterIDPortraitNotFound) Error() string {
 
 func (o *GetCharactersCharacterIDPortraitNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.GetCharactersCharacterIDPortraitNotFoundBody)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetCharactersCharacterIDPortraitEnhanceYourCalm creates a GetCharactersCharacterIDPortraitEnhanceYourCalm with default headers values
+func NewGetCharactersCharacterIDPortraitEnhanceYourCalm() *GetCharactersCharacterIDPortraitEnhanceYourCalm {
+	return &GetCharactersCharacterIDPortraitEnhanceYourCalm{}
+}
+
+/*GetCharactersCharacterIDPortraitEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetCharactersCharacterIDPortraitEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetCharactersCharacterIDPortraitEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/portrait/][%d] getCharactersCharacterIdPortraitEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetCharactersCharacterIDPortraitEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -156,186 +301,60 @@ func (o *GetCharactersCharacterIDPortraitInternalServerError) readResponse(respo
 	return nil
 }
 
-/*GetCharactersCharacterIDPortraitNotFoundBody get_characters_character_id_portrait_not_found
-//
-// No image server for this datasource
-swagger:model GetCharactersCharacterIDPortraitNotFoundBody
+// NewGetCharactersCharacterIDPortraitServiceUnavailable creates a GetCharactersCharacterIDPortraitServiceUnavailable with default headers values
+func NewGetCharactersCharacterIDPortraitServiceUnavailable() *GetCharactersCharacterIDPortraitServiceUnavailable {
+	return &GetCharactersCharacterIDPortraitServiceUnavailable{}
+}
+
+/*GetCharactersCharacterIDPortraitServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetCharactersCharacterIDPortraitNotFoundBody struct {
-
-	// get_characters_character_id_portrait_error
-	//
-	// error message
-	// Required: true
-	Error *string `json:"error"`
+type GetCharactersCharacterIDPortraitServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetCharactersCharacterIDPortraitNotFoundBody error false */
-
-// Validate validates this get characters character ID portrait not found body
-func (o *GetCharactersCharacterIDPortraitNotFoundBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateError(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDPortraitServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/portrait/][%d] getCharactersCharacterIdPortraitServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDPortraitNotFoundBody) validateError(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDPortraitServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdPortraitNotFound"+"."+"error", "body", o.Error); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDPortraitNotFoundBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
+// NewGetCharactersCharacterIDPortraitGatewayTimeout creates a GetCharactersCharacterIDPortraitGatewayTimeout with default headers values
+func NewGetCharactersCharacterIDPortraitGatewayTimeout() *GetCharactersCharacterIDPortraitGatewayTimeout {
+	return &GetCharactersCharacterIDPortraitGatewayTimeout{}
 }
 
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDPortraitNotFoundBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDPortraitNotFoundBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
+/*GetCharactersCharacterIDPortraitGatewayTimeout handles this case with default header values.
 
-/*GetCharactersCharacterIDPortraitOKBody get_characters_character_id_portrait_ok
-//
-// 200 ok object
-swagger:model GetCharactersCharacterIDPortraitOKBody
+Gateway timeout
 */
-
-type GetCharactersCharacterIDPortraitOKBody struct {
-
-	// get_characters_character_id_portrait_px128x128
-	//
-	// px128x128 string
-	// Required: true
-	Px128x128 *string `json:"px128x128"`
-
-	// get_characters_character_id_portrait_px256x256
-	//
-	// px256x256 string
-	// Required: true
-	Px256x256 *string `json:"px256x256"`
-
-	// get_characters_character_id_portrait_px512x512
-	//
-	// px512x512 string
-	// Required: true
-	Px512x512 *string `json:"px512x512"`
-
-	// get_characters_character_id_portrait_px64x64
-	//
-	// px64x64 string
-	// Required: true
-	Px64x64 *string `json:"px64x64"`
+type GetCharactersCharacterIDPortraitGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetCharactersCharacterIDPortraitOKBody px128x128 false */
-
-/* polymorph GetCharactersCharacterIDPortraitOKBody px256x256 false */
-
-/* polymorph GetCharactersCharacterIDPortraitOKBody px512x512 false */
-
-/* polymorph GetCharactersCharacterIDPortraitOKBody px64x64 false */
-
-// Validate validates this get characters character ID portrait o k body
-func (o *GetCharactersCharacterIDPortraitOKBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validatePx128x128(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePx256x256(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePx512x512(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validatePx64x64(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetCharactersCharacterIDPortraitGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /characters/{character_id}/portrait/][%d] getCharactersCharacterIdPortraitGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetCharactersCharacterIDPortraitOKBody) validatePx128x128(formats strfmt.Registry) error {
+func (o *GetCharactersCharacterIDPortraitGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("getCharactersCharacterIdPortraitOK"+"."+"px128x128", "body", o.Px128x128); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetCharactersCharacterIDPortraitOKBody) validatePx256x256(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdPortraitOK"+"."+"px256x256", "body", o.Px256x256); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDPortraitOKBody) validatePx512x512(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdPortraitOK"+"."+"px512x512", "body", o.Px512x512); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetCharactersCharacterIDPortraitOKBody) validatePx64x64(formats strfmt.Registry) error {
-
-	if err := validate.Required("getCharactersCharacterIdPortraitOK"+"."+"px64x64", "body", o.Px64x64); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetCharactersCharacterIDPortraitOKBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetCharactersCharacterIDPortraitOKBody) UnmarshalBinary(b []byte) error {
-	var res GetCharactersCharacterIDPortraitOKBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }

@@ -75,11 +75,6 @@ for the post ui openwindow contract operation typically these are written to a h
 */
 type PostUIOpenwindowContractParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
-
-	*/
-	XUserAgent *string
 	/*ContractID
 	  The contract to open
 
@@ -95,11 +90,6 @@ type PostUIOpenwindowContractParams struct {
 
 	*/
 	Token *string
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -139,17 +129,6 @@ func (o *PostUIOpenwindowContractParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the post ui openwindow contract params
-func (o *PostUIOpenwindowContractParams) WithXUserAgent(xUserAgent *string) *PostUIOpenwindowContractParams {
-	o.SetXUserAgent(xUserAgent)
-	return o
-}
-
-// SetXUserAgent adds the xUserAgent to the post ui openwindow contract params
-func (o *PostUIOpenwindowContractParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
-}
-
 // WithContractID adds the contractID to the post ui openwindow contract params
 func (o *PostUIOpenwindowContractParams) WithContractID(contractID int32) *PostUIOpenwindowContractParams {
 	o.SetContractID(contractID)
@@ -183,17 +162,6 @@ func (o *PostUIOpenwindowContractParams) SetToken(token *string) {
 	o.Token = token
 }
 
-// WithUserAgent adds the userAgent to the post ui openwindow contract params
-func (o *PostUIOpenwindowContractParams) WithUserAgent(userAgent *string) *PostUIOpenwindowContractParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the post ui openwindow contract params
-func (o *PostUIOpenwindowContractParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PostUIOpenwindowContractParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -201,15 +169,6 @@ func (o *PostUIOpenwindowContractParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
-	if o.XUserAgent != nil {
-
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
-			return err
-		}
-
-	}
 
 	// query param contract_id
 	qrContractID := o.ContractID
@@ -246,22 +205,6 @@ func (o *PostUIOpenwindowContractParams) WriteToRequest(r runtime.ClientRequest,
 		qToken := qrToken
 		if qToken != "" {
 			if err := r.SetQueryParam("token", qToken); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
 				return err
 			}
 		}

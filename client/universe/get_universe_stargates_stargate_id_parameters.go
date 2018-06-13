@@ -75,11 +75,11 @@ for the get universe stargates stargate id operation typically these are written
 */
 type GetUniverseStargatesStargateIDParams struct {
 
-	/*XUserAgent
-	  Client identifier, takes precedence over User-Agent
+	/*IfNoneMatch
+	  ETag from a previous request. A 304 will be returned if this matches the current ETag
 
 	*/
-	XUserAgent *string
+	IfNoneMatch *string
 	/*Datasource
 	  The server name you would like data from
 
@@ -90,11 +90,6 @@ type GetUniverseStargatesStargateIDParams struct {
 
 	*/
 	StargateID int32
-	/*UserAgent
-	  Client identifier, takes precedence over headers
-
-	*/
-	UserAgent *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -134,15 +129,15 @@ func (o *GetUniverseStargatesStargateIDParams) SetHTTPClient(client *http.Client
 	o.HTTPClient = client
 }
 
-// WithXUserAgent adds the xUserAgent to the get universe stargates stargate id params
-func (o *GetUniverseStargatesStargateIDParams) WithXUserAgent(xUserAgent *string) *GetUniverseStargatesStargateIDParams {
-	o.SetXUserAgent(xUserAgent)
+// WithIfNoneMatch adds the ifNoneMatch to the get universe stargates stargate id params
+func (o *GetUniverseStargatesStargateIDParams) WithIfNoneMatch(ifNoneMatch *string) *GetUniverseStargatesStargateIDParams {
+	o.SetIfNoneMatch(ifNoneMatch)
 	return o
 }
 
-// SetXUserAgent adds the xUserAgent to the get universe stargates stargate id params
-func (o *GetUniverseStargatesStargateIDParams) SetXUserAgent(xUserAgent *string) {
-	o.XUserAgent = xUserAgent
+// SetIfNoneMatch adds the ifNoneMatch to the get universe stargates stargate id params
+func (o *GetUniverseStargatesStargateIDParams) SetIfNoneMatch(ifNoneMatch *string) {
+	o.IfNoneMatch = ifNoneMatch
 }
 
 // WithDatasource adds the datasource to the get universe stargates stargate id params
@@ -167,17 +162,6 @@ func (o *GetUniverseStargatesStargateIDParams) SetStargateID(stargateID int32) {
 	o.StargateID = stargateID
 }
 
-// WithUserAgent adds the userAgent to the get universe stargates stargate id params
-func (o *GetUniverseStargatesStargateIDParams) WithUserAgent(userAgent *string) *GetUniverseStargatesStargateIDParams {
-	o.SetUserAgent(userAgent)
-	return o
-}
-
-// SetUserAgent adds the userAgent to the get universe stargates stargate id params
-func (o *GetUniverseStargatesStargateIDParams) SetUserAgent(userAgent *string) {
-	o.UserAgent = userAgent
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetUniverseStargatesStargateIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -186,10 +170,10 @@ func (o *GetUniverseStargatesStargateIDParams) WriteToRequest(r runtime.ClientRe
 	}
 	var res []error
 
-	if o.XUserAgent != nil {
+	if o.IfNoneMatch != nil {
 
-		// header param X-User-Agent
-		if err := r.SetHeaderParam("X-User-Agent", *o.XUserAgent); err != nil {
+		// header param If-None-Match
+		if err := r.SetHeaderParam("If-None-Match", *o.IfNoneMatch); err != nil {
 			return err
 		}
 
@@ -214,22 +198,6 @@ func (o *GetUniverseStargatesStargateIDParams) WriteToRequest(r runtime.ClientRe
 	// path param stargate_id
 	if err := r.SetPathParam("stargate_id", swag.FormatInt32(o.StargateID)); err != nil {
 		return err
-	}
-
-	if o.UserAgent != nil {
-
-		// query param user_agent
-		var qrUserAgent string
-		if o.UserAgent != nil {
-			qrUserAgent = *o.UserAgent
-		}
-		qUserAgent := qrUserAgent
-		if qUserAgent != "" {
-			if err := r.SetQueryParam("user_agent", qUserAgent); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	if len(res) > 0 {

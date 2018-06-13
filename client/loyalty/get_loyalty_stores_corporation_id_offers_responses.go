@@ -8,16 +8,12 @@ package loyalty
 import (
 	"fmt"
 	"io"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/evecentral/esiapi/models"
+	models "github.com/evecentral/esiapi/models"
 )
 
 // GetLoyaltyStoresCorporationIDOffersReader is a Reader for the GetLoyaltyStoresCorporationIDOffers structure.
@@ -36,8 +32,50 @@ func (o *GetLoyaltyStoresCorporationIDOffersReader) ReadResponse(response runtim
 		}
 		return result, nil
 
+	case 304:
+		result := NewGetLoyaltyStoresCorporationIDOffersNotModified()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 400:
+		result := NewGetLoyaltyStoresCorporationIDOffersBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 404:
+		result := NewGetLoyaltyStoresCorporationIDOffersNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 420:
+		result := NewGetLoyaltyStoresCorporationIDOffersEnhanceYourCalm()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
 	case 500:
 		result := NewGetLoyaltyStoresCorporationIDOffersInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 503:
+		result := NewGetLoyaltyStoresCorporationIDOffersServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+
+	case 504:
+		result := NewGetLoyaltyStoresCorporationIDOffersGatewayTimeout()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -61,6 +99,9 @@ type GetLoyaltyStoresCorporationIDOffersOK struct {
 	/*The caching mechanism used
 	 */
 	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
 	/*RFC7231 formatted datetime string
 	 */
 	Expires string
@@ -68,7 +109,7 @@ type GetLoyaltyStoresCorporationIDOffersOK struct {
 	 */
 	LastModified string
 
-	Payload []*GetLoyaltyStoresCorporationIDOffersOKBodyItems0
+	Payload []*models.GetLoyaltyStoresCorporationIDOffersOKBodyItems
 }
 
 func (o *GetLoyaltyStoresCorporationIDOffersOK) Error() string {
@@ -80,6 +121,9 @@ func (o *GetLoyaltyStoresCorporationIDOffersOK) readResponse(response runtime.Cl
 	// response header Cache-Control
 	o.CacheControl = response.GetHeader("Cache-Control")
 
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
 	// response header Expires
 	o.Expires = response.GetHeader("Expires")
 
@@ -88,6 +132,138 @@ func (o *GetLoyaltyStoresCorporationIDOffersOK) readResponse(response runtime.Cl
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetLoyaltyStoresCorporationIDOffersNotModified creates a GetLoyaltyStoresCorporationIDOffersNotModified with default headers values
+func NewGetLoyaltyStoresCorporationIDOffersNotModified() *GetLoyaltyStoresCorporationIDOffersNotModified {
+	return &GetLoyaltyStoresCorporationIDOffersNotModified{}
+}
+
+/*GetLoyaltyStoresCorporationIDOffersNotModified handles this case with default header values.
+
+Not modified
+*/
+type GetLoyaltyStoresCorporationIDOffersNotModified struct {
+	/*The caching mechanism used
+	 */
+	CacheControl string
+	/*RFC7232 compliant entity tag
+	 */
+	ETag string
+	/*RFC7231 formatted datetime string
+	 */
+	Expires string
+	/*RFC7231 formatted datetime string
+	 */
+	LastModified string
+}
+
+func (o *GetLoyaltyStoresCorporationIDOffersNotModified) Error() string {
+	return fmt.Sprintf("[GET /loyalty/stores/{corporation_id}/offers/][%d] getLoyaltyStoresCorporationIdOffersNotModified ", 304)
+}
+
+func (o *GetLoyaltyStoresCorporationIDOffersNotModified) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	// response header Cache-Control
+	o.CacheControl = response.GetHeader("Cache-Control")
+
+	// response header ETag
+	o.ETag = response.GetHeader("ETag")
+
+	// response header Expires
+	o.Expires = response.GetHeader("Expires")
+
+	// response header Last-Modified
+	o.LastModified = response.GetHeader("Last-Modified")
+
+	return nil
+}
+
+// NewGetLoyaltyStoresCorporationIDOffersBadRequest creates a GetLoyaltyStoresCorporationIDOffersBadRequest with default headers values
+func NewGetLoyaltyStoresCorporationIDOffersBadRequest() *GetLoyaltyStoresCorporationIDOffersBadRequest {
+	return &GetLoyaltyStoresCorporationIDOffersBadRequest{}
+}
+
+/*GetLoyaltyStoresCorporationIDOffersBadRequest handles this case with default header values.
+
+Bad request
+*/
+type GetLoyaltyStoresCorporationIDOffersBadRequest struct {
+	Payload *models.BadRequest
+}
+
+func (o *GetLoyaltyStoresCorporationIDOffersBadRequest) Error() string {
+	return fmt.Sprintf("[GET /loyalty/stores/{corporation_id}/offers/][%d] getLoyaltyStoresCorporationIdOffersBadRequest  %+v", 400, o.Payload)
+}
+
+func (o *GetLoyaltyStoresCorporationIDOffersBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.BadRequest)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetLoyaltyStoresCorporationIDOffersNotFound creates a GetLoyaltyStoresCorporationIDOffersNotFound with default headers values
+func NewGetLoyaltyStoresCorporationIDOffersNotFound() *GetLoyaltyStoresCorporationIDOffersNotFound {
+	return &GetLoyaltyStoresCorporationIDOffersNotFound{}
+}
+
+/*GetLoyaltyStoresCorporationIDOffersNotFound handles this case with default header values.
+
+No loyalty point store found for the provided corporation
+*/
+type GetLoyaltyStoresCorporationIDOffersNotFound struct {
+	Payload *models.GetLoyaltyStoresCorporationIDOffersNotFoundBody
+}
+
+func (o *GetLoyaltyStoresCorporationIDOffersNotFound) Error() string {
+	return fmt.Sprintf("[GET /loyalty/stores/{corporation_id}/offers/][%d] getLoyaltyStoresCorporationIdOffersNotFound  %+v", 404, o.Payload)
+}
+
+func (o *GetLoyaltyStoresCorporationIDOffersNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.GetLoyaltyStoresCorporationIDOffersNotFoundBody)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
+
+	return nil
+}
+
+// NewGetLoyaltyStoresCorporationIDOffersEnhanceYourCalm creates a GetLoyaltyStoresCorporationIDOffersEnhanceYourCalm with default headers values
+func NewGetLoyaltyStoresCorporationIDOffersEnhanceYourCalm() *GetLoyaltyStoresCorporationIDOffersEnhanceYourCalm {
+	return &GetLoyaltyStoresCorporationIDOffersEnhanceYourCalm{}
+}
+
+/*GetLoyaltyStoresCorporationIDOffersEnhanceYourCalm handles this case with default header values.
+
+Error limited
+*/
+type GetLoyaltyStoresCorporationIDOffersEnhanceYourCalm struct {
+	Payload *models.ErrorLimited
+}
+
+func (o *GetLoyaltyStoresCorporationIDOffersEnhanceYourCalm) Error() string {
+	return fmt.Sprintf("[GET /loyalty/stores/{corporation_id}/offers/][%d] getLoyaltyStoresCorporationIdOffersEnhanceYourCalm  %+v", 420, o.Payload)
+}
+
+func (o *GetLoyaltyStoresCorporationIDOffersEnhanceYourCalm) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(models.ErrorLimited)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
@@ -123,277 +299,60 @@ func (o *GetLoyaltyStoresCorporationIDOffersInternalServerError) readResponse(re
 	return nil
 }
 
-/*GetLoyaltyStoresCorporationIDOffersOKBodyItems0 get_loyalty_stores_corporation_id_offers_200_ok
-//
-// 200 ok object
-swagger:model GetLoyaltyStoresCorporationIDOffersOKBodyItems0
+// NewGetLoyaltyStoresCorporationIDOffersServiceUnavailable creates a GetLoyaltyStoresCorporationIDOffersServiceUnavailable with default headers values
+func NewGetLoyaltyStoresCorporationIDOffersServiceUnavailable() *GetLoyaltyStoresCorporationIDOffersServiceUnavailable {
+	return &GetLoyaltyStoresCorporationIDOffersServiceUnavailable{}
+}
+
+/*GetLoyaltyStoresCorporationIDOffersServiceUnavailable handles this case with default header values.
+
+Service unavailable
 */
-
-type GetLoyaltyStoresCorporationIDOffersOKBodyItems0 struct {
-
-	// get_loyalty_stores_corporation_id_offers_isk_cost
-	//
-	// isk_cost number
-	// Required: true
-	IskCost *int32 `json:"isk_cost"`
-
-	// get_loyalty_stores_corporation_id_offers_lp_cost
-	//
-	// lp_cost integer
-	// Required: true
-	LpCost *int32 `json:"lp_cost"`
-
-	// get_loyalty_stores_corporation_id_offers_offer_id
-	//
-	// offer_id integer
-	// Required: true
-	OfferID *int32 `json:"offer_id"`
-
-	// get_loyalty_stores_corporation_id_offers_quantity
-	//
-	// quantity integer
-	// Required: true
-	Quantity *int32 `json:"quantity"`
-
-	// get_loyalty_stores_corporation_id_offers_required_items
-	//
-	// required_items array
-	// Required: true
-	// Max Items: 100
-	RequiredItems []*GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0 `json:"required_items"`
-
-	// get_loyalty_stores_corporation_id_offers_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetLoyaltyStoresCorporationIDOffersServiceUnavailable struct {
+	Payload *models.ServiceUnavailable
 }
 
-/* polymorph GetLoyaltyStoresCorporationIDOffersOKBodyItems0 isk_cost false */
-
-/* polymorph GetLoyaltyStoresCorporationIDOffersOKBodyItems0 lp_cost false */
-
-/* polymorph GetLoyaltyStoresCorporationIDOffersOKBodyItems0 offer_id false */
-
-/* polymorph GetLoyaltyStoresCorporationIDOffersOKBodyItems0 quantity false */
-
-/* polymorph GetLoyaltyStoresCorporationIDOffersOKBodyItems0 required_items false */
-
-/* polymorph GetLoyaltyStoresCorporationIDOffersOKBodyItems0 type_id false */
-
-// Validate validates this get loyalty stores corporation ID offers o k body items0
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateIskCost(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateLpCost(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateOfferID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateQuantity(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateRequiredItems(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetLoyaltyStoresCorporationIDOffersServiceUnavailable) Error() string {
+	return fmt.Sprintf("[GET /loyalty/stores/{corporation_id}/offers/][%d] getLoyaltyStoresCorporationIdOffersServiceUnavailable  %+v", 503, o.Payload)
 }
 
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) validateIskCost(formats strfmt.Registry) error {
+func (o *GetLoyaltyStoresCorporationIDOffersServiceUnavailable) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("isk_cost", "body", o.IskCost); err != nil {
+	o.Payload = new(models.ServiceUnavailable)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
 	return nil
 }
 
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) validateLpCost(formats strfmt.Registry) error {
-
-	if err := validate.Required("lp_cost", "body", o.LpCost); err != nil {
-		return err
-	}
-
-	return nil
+// NewGetLoyaltyStoresCorporationIDOffersGatewayTimeout creates a GetLoyaltyStoresCorporationIDOffersGatewayTimeout with default headers values
+func NewGetLoyaltyStoresCorporationIDOffersGatewayTimeout() *GetLoyaltyStoresCorporationIDOffersGatewayTimeout {
+	return &GetLoyaltyStoresCorporationIDOffersGatewayTimeout{}
 }
 
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) validateOfferID(formats strfmt.Registry) error {
+/*GetLoyaltyStoresCorporationIDOffersGatewayTimeout handles this case with default header values.
 
-	if err := validate.Required("offer_id", "body", o.OfferID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) validateQuantity(formats strfmt.Registry) error {
-
-	if err := validate.Required("quantity", "body", o.Quantity); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) validateRequiredItems(formats strfmt.Registry) error {
-
-	if err := validate.Required("required_items", "body", o.RequiredItems); err != nil {
-		return err
-	}
-
-	iRequiredItemsSize := int64(len(o.RequiredItems))
-
-	if err := validate.MaxItems("required_items", "body", iRequiredItemsSize, 100); err != nil {
-		return err
-	}
-
-	for i := 0; i < len(o.RequiredItems); i++ {
-
-		if swag.IsZero(o.RequiredItems[i]) { // not required
-			continue
-		}
-
-		if o.RequiredItems[i] != nil {
-
-			if err := o.RequiredItems[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("required_items" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0) UnmarshalBinary(b []byte) error {
-	var res GetLoyaltyStoresCorporationIDOffersOKBodyItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
-}
-
-/*GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0 get_loyalty_stores_corporation_id_offers_required_item
-//
-// required_item object
-swagger:model GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0
+Gateway timeout
 */
-
-type GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0 struct {
-
-	// get_loyalty_stores_corporation_id_offers_quantity
-	//
-	// quantity integer
-	// Required: true
-	Quantity *int32 `json:"quantity"`
-
-	// get_loyalty_stores_corporation_id_offers_type_id
-	//
-	// type_id integer
-	// Required: true
-	TypeID *int32 `json:"type_id"`
+type GetLoyaltyStoresCorporationIDOffersGatewayTimeout struct {
+	Payload *models.GatewayTimeout
 }
 
-/* polymorph GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0 quantity false */
-
-/* polymorph GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0 type_id false */
-
-// Validate validates this get loyalty stores corporation ID offers o k body items0 required items items0
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.validateQuantity(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := o.validateTypeID(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
+func (o *GetLoyaltyStoresCorporationIDOffersGatewayTimeout) Error() string {
+	return fmt.Sprintf("[GET /loyalty/stores/{corporation_id}/offers/][%d] getLoyaltyStoresCorporationIdOffersGatewayTimeout  %+v", 504, o.Payload)
 }
 
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0) validateQuantity(formats strfmt.Registry) error {
+func (o *GetLoyaltyStoresCorporationIDOffersGatewayTimeout) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	if err := validate.Required("quantity", "body", o.Quantity); err != nil {
+	o.Payload = new(models.GatewayTimeout)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
-	return nil
-}
-
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0) validateTypeID(formats strfmt.Registry) error {
-
-	if err := validate.Required("type_id", "body", o.TypeID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0) UnmarshalBinary(b []byte) error {
-	var res GetLoyaltyStoresCorporationIDOffersOKBodyItems0RequiredItemsItems0
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
 	return nil
 }
